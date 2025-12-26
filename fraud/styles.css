@@ -5141,6 +5141,12 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   .page-investment, .page-main, .page-credit, .page-influence .keis-header-contacts{display:flex !important;}
   .page-investment, .page-main, .page-credit, .page-influence .keis-header-phone-text{font-size: 13px; opacity: .92;}
 
+  /* MOBILE: hide social icons (Telegram/WhatsApp) near CTA - keep only phone */
+  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--telegram,
+  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--whats{
+    display: none !important;
+  }
+
   /* на маленьких ширинах чуть компактнее, чтобы не лезло в две строки */
   .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon{width: 26px; height: 26px;}
 }
@@ -6313,4 +6319,363 @@ html body.page-influence .keis-marquee .keis-marquee__track{
   border-color: rgba(255,255,255,.16) !important;
   transform: none !important;
   filter: none !important;
+}
+
+/* ==========================================================
+   UI/UX UNIFICATION & POLISH - Premium Legal Brand Aesthetics
+   ========================================================== */
+
+/* ----- HERO SECTION IMPROVEMENTS ----- */
+
+/* Reduce hero background overlay noise for better readability */
+.hero-investment__bg{
+  background:
+    /* Softer, more elegant vignette */
+    linear-gradient(180deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.28) 50%, rgba(0,0,0,.75) 100%),
+    radial-gradient(1100px 780px at 20% 35%, rgba(0,0,0,.50), transparent 68%),
+    radial-gradient(900px 650px at 80% 30%, rgba(0,0,0,.48), transparent 65%),
+    
+    /* Subtle warm glow without overwhelming */
+    radial-gradient(800px 550px at 15% 20%, rgba(255,138,0,.08), transparent 60%),
+    radial-gradient(750px 500px at 60% 90%, rgba(255,106,0,.06), transparent 66%),
+    
+    /* Refined grain texture */
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,.012) 0,
+      rgba(255,255,255,.012) 2px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0) 7px
+    ),
+    var(--hero-offer, url('/fraud/assets/block/offer.jpeg'));
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Ensure hero content has safe spacing from header */
+.hero-investment__inner{
+  padding-top: clamp(32px, 5vh, 64px);
+}
+
+@media (min-width: 901px){
+  .hero-investment__inner{
+    padding-top: clamp(42px, 6vh, 76px);
+  }
+}
+
+/* Improve headline spacing and readability */
+.hero-investment__title{
+  margin-bottom: clamp(18px, 2.4vw, 28px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-shadow: 
+    0 2px 1px rgba(0,0,0,.35),
+    0 12px 32px rgba(0,0,0,.65),
+    0 24px 58px rgba(0,0,0,.45);
+}
+
+/* Improve subtitle readability */
+.hero-investment__subtitle{
+  line-height: 1.58;
+  font-size: clamp(1.02rem, 1.25vw, 1.16rem);
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 12px rgba(0,0,0,.55);
+}
+
+/* ----- SECTION TRANSITIONS ----- */
+
+/* Smooth gradient transitions between sections */
+.investment-scenarios,
+.trust-parallax,
+.investment-signs,
+.investment-challenges,
+.investment-process,
+.investment-cases,
+.investment-faq{
+  position: relative;
+  transition: background-color 0.4s ease;
+}
+
+/* Add subtle top gradient blend for seamless transitions */
+.investment-scenarios::before,
+.trust-parallax::before,
+.investment-signs::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(60px, 10vh, 120px);
+  background: linear-gradient(180deg, 
+    rgba(5,3,3,1) 0%, 
+    rgba(5,3,3,0.6) 45%, 
+    rgba(5,3,3,0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ----- CARDS & CONTENT BLOCKS ----- */
+
+/* Universal card styling for editorial feel */
+.sign-card,
+.challenge-card,
+.case-card,
+.work-step,
+.trust-mini,
+.hero-benefit-card{
+  /* Soft paper-like depth instead of heavy shadows */
+  box-shadow: 
+    0 2px 8px rgba(0,0,0,.15),
+    0 8px 24px rgba(0,0,0,.25),
+    0 16px 40px rgba(0,0,0,.18);
+  
+  transition: 
+    transform 0.22s cubic-bezier(0.4, 0.0, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.4, 0.0, 0.2, 1),
+    border-color 0.22s ease;
+}
+
+@media (hover: hover){
+  .sign-card:hover,
+  .challenge-card:hover,
+  .case-card:hover,
+  .work-step:hover,
+  .trust-mini:hover{
+    transform: translateY(-3px);
+    box-shadow: 
+      0 4px 12px rgba(0,0,0,.18),
+      0 12px 32px rgba(0,0,0,.28),
+      0 20px 52px rgba(0,0,0,.22);
+  }
+}
+
+/* Signs section: 2×3 grid with background visibility */
+.signs-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: clamp(18px, 2.2vw, 26px);
+  margin-top: clamp(24px, 3vw, 40px);
+}
+
+@media (max-width: 1024px){
+  .signs-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px){
+  .signs-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ensure cards feel integrated with background */
+.sign-card{
+  background: rgba(10, 7, 6, 0.72);
+  backdrop-filter: blur(8px) saturate(110%);
+  -webkit-backdrop-filter: blur(8px) saturate(110%);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+/* ----- TYPOGRAPHY HIERARCHY ----- */
+
+/* Consistent heading hierarchy */
+.k-title,
+.section-header h2,
+h2.trust-panel-title{
+  font-family: "Roboto Slab", serif;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: rgba(244,241,235,.97);
+  text-shadow: 
+    0 2px 1px rgba(0,0,0,.28),
+    0 12px 28px rgba(0,0,0,.52);
+}
+
+.k-subtitle,
+.section-header p{
+  line-height: 1.52;
+  letter-spacing: 0.005em;
+  color: rgba(244,241,235,.82);
+  text-shadow: 0 2px 10px rgba(0,0,0,.42);
+}
+
+/* Body text readability */
+p,
+.challenge-card p,
+.case-text,
+.work-step-text{
+  line-height: 1.62;
+  letter-spacing: 0.008em;
+}
+
+/* ----- FAQ ACCORDION IMPROVEMENTS ----- */
+
+/* Smooth accordion animation */
+.faq-answer{
+  transition: 
+    max-height 0.35s cubic-bezier(0.4, 0.0, 0.2, 1),
+    opacity 0.35s cubic-bezier(0.4, 0.0, 0.2, 1),
+    padding 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.faq-item.is-open .faq-answer{
+  transition: 
+    max-height 0.4s cubic-bezier(0.0, 0.0, 0.2, 1),
+    opacity 0.4s cubic-bezier(0.0, 0.0, 0.2, 1),
+    padding 0.4s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+/* Prevent FAQ background image jump */
+.investment-faq{
+  will-change: auto;
+}
+
+.investment-faq::before{
+  will-change: auto;
+  transform: translateY(0) !important;
+}
+
+/* Premium icon rotation */
+.faq-icon{
+  transition: 
+    transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    filter 0.3s ease;
+}
+
+/* ----- MODAL & FORM IMPROVEMENTS ----- */
+
+/* Premium modal backdrop */
+.keis-modal__overlay{
+  backdrop-filter: blur(12px) saturate(110%);
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+  background: rgba(0, 0, 0, 0.62);
+  transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Modal panel elegant spacing */
+.keis-modal__panel{
+  box-shadow: 
+    0 8px 24px rgba(0,0,0,.35),
+    0 24px 64px rgba(0,0,0,.45),
+    0 48px 96px rgba(0,0,0,.25);
+}
+
+/* Clear input focus states */
+.hero-form input:focus,
+.hero-form textarea:focus{
+  outline: none;
+  border-color: rgba(255,170,90,.75);
+  box-shadow: 
+    0 0 0 3px rgba(255,170,90,.18),
+    0 2px 8px rgba(0,0,0,.25);
+  background: rgba(255,255,255,.98);
+  transition: 
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+/* Input placeholder refinement */
+.hero-form input::placeholder,
+.hero-form textarea::placeholder{
+  color: rgba(18, 12, 10, 0.48);
+  opacity: 1;
+}
+
+/* ----- CTA BUTTON REFINEMENTS ----- */
+
+/* Already handled by existing premium glass buttons above */
+/* Ensure subtle hover animation timing */
+.btn-primary,
+.keis-header-cta,
+.faq-ask-btn,
+.challenges-cta__btn{
+  transition: 
+    transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+    filter 0.2s ease,
+    box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+    border-color 0.2s ease;
+}
+
+/* ----- RESPONSIVE REFINEMENTS ----- */
+
+/* Ensure consistent vertical rhythm on mobile */
+@media (max-width: 900px){
+  .section-header{
+    margin-bottom: clamp(28px, 4vw, 42px);
+  }
+  
+  .hero-investment__inner{
+    padding-top: clamp(24px, 4vh, 38px);
+  }
+  
+  /* Tighter spacing for mobile readability */
+  .hero-investment__title{
+    margin-bottom: clamp(14px, 2.8vw, 22px);
+    line-height: 1.18;
+  }
+  
+  .hero-investment__subtitle{
+    line-height: 1.52;
+  }
+}
+
+/* ----- PERFORMANCE OPTIMIZATIONS ----- */
+
+/* Enable GPU acceleration for smooth animations */
+.faq-icon,
+.scenario-slide,
+.sign-card,
+.challenge-card,
+.case-card,
+.btn-primary,
+.keis-header-cta{
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .keis-marquee__track{
+    animation: none !important;
+  }
+}
+
+/* ----- VISUAL CONSISTENCY ADJUSTMENTS ----- */
+
+/* Ensure all fraud pages use consistent section padding */
+.page-investment section,
+.page-main section,
+.page-credit section,
+.page-influence section{
+  padding-top: clamp(64px, 9vh, 110px);
+  padding-bottom: clamp(64px, 9vh, 110px);
+}
+
+/* Hero is an exception (already has custom padding) */
+.page-investment .hero-investment,
+.page-main .hero-investment,
+.page-credit .hero-investment,
+.page-influence .hero-investment{
+  padding-top: 0;
+}
+
+/* Consistent container max-width */
+.section-container{
+  max-width: min(1320px, calc(100% - clamp(32px, 5vw, 80px)));
+  margin-left: auto;
+  margin-right: auto;
 }
