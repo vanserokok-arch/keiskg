@@ -6451,8 +6451,8 @@ html body.page-influence .keis-marquee .keis-marquee__track{
   }
 }
 
-/* Signs section: 2×3 grid with background visibility */
-.signs-grid{
+/* Signs section: 2×3 grid with background visibility - use more specific selector */
+.investment-signs .signs-grid{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
@@ -6461,13 +6461,13 @@ html body.page-influence .keis-marquee .keis-marquee__track{
 }
 
 @media (max-width: 1024px){
-  .signs-grid{
+  .investment-signs .signs-grid{
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 640px){
-  .signs-grid{
+  .investment-signs .signs-grid{
     grid-template-columns: 1fr;
   }
 }
@@ -6627,7 +6627,20 @@ p,
 
 /* ----- PERFORMANCE OPTIMIZATIONS ----- */
 
-/* Enable GPU acceleration for smooth animations */
+/* Enable GPU acceleration for smooth animations - only on hover/interaction */
+@media (hover: hover){
+  .faq-icon:hover,
+  .scenario-slide:hover,
+  .sign-card:hover,
+  .challenge-card:hover,
+  .case-card:hover,
+  .btn-primary:hover,
+  .keis-header-cta:hover{
+    will-change: transform;
+  }
+}
+
+/* Ensure smooth transforms for animated elements */
 .faq-icon,
 .scenario-slide,
 .sign-card,
@@ -6636,21 +6649,18 @@ p,
 .btn-primary,
 .keis-header-cta{
   transform: translateZ(0);
-  will-change: transform;
 }
 
-/* Reduce motion for accessibility */
+/* Reduce motion for accessibility - target only new animations */
 @media (prefers-reduced-motion: reduce){
-  *,
-  *::before,
-  *::after{
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+  .sign-card,
+  .challenge-card,
+  .case-card,
+  .faq-icon,
+  .faq-answer,
+  .btn-primary,
+  .keis-header-cta{
     transition-duration: 0.01ms !important;
-  }
-  
-  .keis-marquee__track{
-    animation: none !important;
   }
 }
 
