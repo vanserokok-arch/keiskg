@@ -6451,8 +6451,11 @@ html body.page-influence .keis-marquee .keis-marquee__track{
   }
 }
 
-/* Signs section: 2×3 grid with background visibility - use more specific selector */
-.investment-signs .signs-grid{
+/* Signs section: 2×3 grid with background visibility - match existing specificity */
+.page-investment .investment-signs .signs-grid,
+.page-main .investment-signs .signs-grid,
+.page-credit .investment-signs .signs-grid,
+.page-influence .investment-signs .signs-grid{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
@@ -6461,13 +6464,19 @@ html body.page-influence .keis-marquee .keis-marquee__track{
 }
 
 @media (max-width: 1024px){
-  .investment-signs .signs-grid{
+  .page-investment .investment-signs .signs-grid,
+  .page-main .investment-signs .signs-grid,
+  .page-credit .investment-signs .signs-grid,
+  .page-influence .investment-signs .signs-grid{
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 640px){
-  .investment-signs .signs-grid{
+  .page-investment .investment-signs .signs-grid,
+  .page-main .investment-signs .signs-grid,
+  .page-credit .investment-signs .signs-grid,
+  .page-influence .investment-signs .signs-grid{
     grid-template-columns: 1fr;
   }
 }
@@ -6683,8 +6692,11 @@ p,
   padding-top: 0;
 }
 
-/* Consistent container max-width */
-.section-container{
+/* Consistent container max-width for fraud pages only */
+.page-investment .section-container,
+.page-main .section-container,
+.page-credit .section-container,
+.page-influence .section-container{
   max-width: min(1320px, calc(100% - clamp(32px, 5vw, 80px)));
   margin-left: auto;
   margin-right: auto;
