@@ -3964,12 +3964,16 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   z-index:0;
   pointer-events:none;
 
-  /* stylized textured background instead of a photo */
+  /* priznak.png background with gradients overlay */
   background:
     radial-gradient(1000px 520px at 14% 18%, rgba(255,160,80,0.12), transparent 46%),
     radial-gradient(1200px 520px at 86% 30%, rgba(0,0,0,0.50), transparent 60%),
-    linear-gradient(180deg, rgba(10,6,4,0.92), rgba(12,8,6,0.86));
+    linear-gradient(180deg, rgba(10,6,4,0.92), rgba(12,8,6,0.86)),
+    url('/fraud/landing/assets/block/priznak.png');
 
+  background-size: auto, auto, auto, cover;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat;
   opacity: .98;
 }
 
@@ -4004,7 +4008,7 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 .signs-grid{
   display:grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 2.2vw, 22px);
+  gap: clamp(18px, 2.8vw, 32px);
   align-items: stretch;
 }
 
