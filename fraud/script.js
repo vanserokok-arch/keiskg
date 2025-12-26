@@ -388,7 +388,7 @@ function initFaqAccordion() {
     const btn = item.querySelector('.faq-question');
     const panel = item.querySelector('.faq-answer');
     item.classList.remove('is-open');
-    if (panel) panel.hidden = true;
+    // Rely on CSS for show/hide animation
     btn?.setAttribute('aria-expanded', 'false');
   };
 
@@ -397,7 +397,7 @@ function initFaqAccordion() {
     const btn = item.querySelector('.faq-question');
     const panel = item.querySelector('.faq-answer');
     item.classList.add('is-open');
-    if (panel) panel.hidden = false;
+    // Rely on CSS for show/hide animation
     btn?.setAttribute('aria-expanded', 'true');
   };
 
@@ -406,7 +406,7 @@ function initFaqAccordion() {
   items.forEach((item) => {
     const btn = item.querySelector('.faq-question');
     const panel = item.querySelector('.faq-answer');
-    if (panel) panel.hidden = true;
+    // Start closed - CSS will handle visibility
     btn?.setAttribute('aria-expanded', 'false');
 
     btn?.addEventListener('click', (e) => {
