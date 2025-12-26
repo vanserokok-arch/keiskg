@@ -4,7 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordion();
   initFaqParallax();
   initTrustParallax();
+  
+  if (isDev()) {
+    console.log('[fraud/script.js] All initialization functions completed');
+  }
 });
+
+/* ==========================================================
+   HELPER: Check if in development mode
+   ========================================================== */
+function isDev() {
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+}
 
 /* ==========================================================
    HEADER: desktop dropdown + mobile burger
@@ -65,6 +76,7 @@ function initHeader() {
 
   burger?.addEventListener('click', (e) => {
     e.preventDefault();
+    if (!mobileMenu) return;
     mobileMenu.classList.contains('is-open') ? closeMobile() : openMobile();
   });
 
@@ -200,14 +212,20 @@ function initHeader() {
    ========================================================== */
 function initScenariosSlider() {
   const root = document.querySelector('.investment-scenarios');
-  if (!root) return;
+  if (!root) {
+    if (isDev()) console.warn('[initScenariosSlider] .investment-scenarios section not found on this page');
+    return;
+  }
 
   const windowEl = root.querySelector('.scenarios-band-window');
   const track = root.querySelector('.scenarios-band-track');
   const prevBtn = root.querySelector('.scenarios-navbtn--prev');
   const nextBtn = root.querySelector('.scenarios-navbtn--next');
 
-  if (!windowEl || !track) return;
+  if (!windowEl || !track) {
+    if (isDev()) console.warn('[initScenariosSlider] Missing required elements: windowEl or track');
+    return;
+  }
 
   // Keep an immutable template of the original slides.
   const originalTemplates = [...track.children].map((n) => n.cloneNode(true));
@@ -379,7 +397,10 @@ function initScenariosSlider() {
    ========================================================== */
 function initFaqAccordion() {
   const root = document.querySelector('.investment-faq');
-  if (!root) return;
+  if (!root) {
+    if (isDev()) console.warn('[initFaqAccordion] .investment-faq section not found on this page');
+    return;
+  }
 
   const items = Array.from(root.querySelectorAll('.faq-item'));
 
@@ -443,7 +464,10 @@ function initFaqAccordion() {
    ========================================================== */
 function initFaqParallax() {
   const section = document.querySelector('.investment-faq');
-  if (!section) return;
+  if (!section) {
+    if (isDev()) console.warn('[initFaqParallax] .investment-faq section not found on this page');
+    return;
+  }
 
   const update = () => {
     const vh = window.innerHeight;
@@ -467,7 +491,10 @@ function initFaqParallax() {
    ========================================================== */
 function initTrustParallax() {
   const section = document.querySelector('.trust-parallax');
-  if (!section) return;
+  if (!section) {
+    if (isDev()) console.warn('[initTrustParallax] .trust-parallax section not found on this page');
+    return;
+  }
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) {
