@@ -697,13 +697,6 @@
 }
 
 /* === CHALLENGES CTA BUTTON — ultra glass + gold, FAQ style === */
-/* Replaced block for .page-investment .investment-challenges .challenges-cta__btn */
-.page-investment,
-.page-main .investment-challenges .challenges-cta__btn */
-.page-investment,
-.page-credit .investment-challenges .challenges-cta__btn */
-.page-investment,
-.page-influence .investment-challenges .challenges-cta__btn */
 .page-investment .investment-challenges .challenges-cta__btn,
 .page-main .investment-challenges .challenges-cta__btn,
 .page-credit .investment-challenges .challenges-cta__btn,
@@ -2967,9 +2960,9 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   Use body page class to swap only the image URL while preserving
   all gradients, overlays and sizing defined above. Default fallback
   is the original offer.jpeg so nothing breaks if class is missing. */
-.page-main{ --hero-offer: url('/fraud/assets/block/offer5.jpeg'); }
-.page-influence{ --hero-offer: url('/fraud/assets/block/offer3.jpeg'); }
-.page-credit{ --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
+body.page-main { --hero-offer: url('/fraud/assets/block/offer5.jpeg'); }
+body.page-influence { --hero-offer: url('/fraud/assets/block/offer3.jpeg'); }
+body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 /* Desktop: уводим hero-контент левее (как в референсе) */
 @media (min-width:1100px){
   .hero-investment .section-container{
@@ -6469,18 +6462,6 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 /* Phone/icon sizes уже заданы выше через .page-investment .keis-header-icon */
 
 /* Burger icon: keep compact on all sizes */
-.page-investment,
-.page-main .keis-header-icon */
-
-/* Burger icon: keep compact on all sizes */
-.page-investment,
-.page-credit .keis-header-icon */
-
-/* Burger icon: keep compact on all sizes */
-.page-investment,
-.page-influence .keis-header-icon */
-
-/* Burger icon: keep compact on all sizes */
 .page-investment .keis-header-burger-img,
 .page-main .keis-header-burger-img,
 .page-credit .keis-header-burger-img,
@@ -7395,7 +7376,12 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
 }
 
 /* Make sure no ancestor creates a sticky/scroll container effect for the header */
-.page-investment, .page-main, .page-credit, .page-influence{ overflow-x: hidden; }
+body.page-investment,
+body.page-main,
+body.page-credit,
+body.page-influence {
+  overflow-x: hidden;
+}
 
 /* Desktop dropdown: ensure it actually shows when opened */
 .page-investment .keis-header-nav .has-children,
@@ -7458,18 +7444,6 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
 }
 
 /* Header icons: размер уже задан выше через .page-investment .keis-header-icon */
-
-/* Burger: rotate 90° when open */
-.page-investment,
-.page-main .keis-header-icon */
-
-/* Burger: rotate 90° when open */
-.page-investment,
-.page-credit .keis-header-icon */
-
-/* Burger: rotate 90° when open */
-.page-investment,
-.page-influence .keis-header-icon */
 
 /* Burger: rotate 90° when open */
 .page-investment .keis-header-burger-img,
