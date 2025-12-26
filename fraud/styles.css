@@ -938,7 +938,7 @@
 
 .page-investment .investment-faq .faq-item.is-open .faq-answer{
   border-top: 1px solid rgba(255,255,255,.10);
-  max-height: 500px;
+  max-height: 1000px; /* Generous height for any FAQ answer */
   opacity: 1;
   padding: 18px 18px 18px;
 }
