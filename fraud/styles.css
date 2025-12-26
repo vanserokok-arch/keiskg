@@ -7,7 +7,10 @@
    ========================= */
 
 /* FAQ GRID: 12-колоночная сетка, 1–4 FAQ (уже и левее), 5–12 визуал (больше) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-grid {
+.page-investment .investment-faq .faq-grid,
+.page-main .investment-faq .faq-grid,
+.page-credit .investment-faq .faq-grid,
+.page-influence .investment-faq .faq-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: clamp(22px, 3.6vw, 56px);
@@ -19,7 +22,10 @@
 }
 
 /* FAQ: сдвигаем весь блок влево на широких (размеры карточек не трогаем) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq > .section-container{
+.page-investment .investment-faq > .section-container,
+.page-main .investment-faq > .section-container,
+.page-credit .investment-faq > .section-container,
+.page-influence .investment-faq > .section-container {
   max-width: none;
   width: 100%;
   margin-left: 0;
@@ -32,7 +38,10 @@
 
 
 /* Левая колонка: вопросы (колонки 1–4) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-list {
+.page-investment .investment-faq .faq-list,
+.page-main .investment-faq .faq-list,
+.page-credit .investment-faq .faq-list,
+.page-influence .investment-faq .faq-list {
   /* desktop: give questions a real column (1–5) instead of a thin strip */
   grid-column: 1 / 5;
   padding-left: 0;
@@ -42,16 +51,25 @@
 
 /* Desktop 1200–1399px — выравниваем как ≥1400px */
 @media (min-width: 1200px) and (max-width: 1399px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-grid{
+  .page-investment .investment-faq .faq-grid,
+.page-main .investment-faq .faq-grid,
+.page-credit .investment-faq .faq-grid,
+.page-influence .investment-faq .faq-grid {
     gap: clamp(22px, 3.6vw, 56px);
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-list{
+  .page-investment .investment-faq .faq-list,
+.page-main .investment-faq .faq-list,
+.page-credit .investment-faq .faq-list,
+.page-influence .investment-faq .faq-list {
     grid-column: 1 / 6;
     max-width: 640px;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq::before{
+  .page-investment .investment-faq::before,
+.page-main .investment-faq::before,
+.page-credit .investment-faq::before,
+.page-influence .investment-faq::before {
     background-size: contain;
     background-position: 100% 50%;
     background-repeat: no-repeat;
@@ -59,31 +77,46 @@
     filter: none;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask{
+  .page-investment .investment-faq .faq-ask,
+.page-main .investment-faq .faq-ask,
+.page-credit .investment-faq .faq-ask,
+.page-influence .investment-faq .faq-ask {
     justify-content: flex-end;
     padding-right: 28px;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel{
+  .page-investment .investment-faq .faq-ask-panel,
+.page-main .investment-faq .faq-ask-panel,
+.page-credit .investment-faq .faq-ask-panel,
+.page-influence .investment-faq .faq-ask-panel {
     width: min(680px, 100%);
     transform: rotate(-1.6deg);
     transform-origin: 85% 62%;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-subtitle{
+  .page-investment .investment-faq .faq-ask-subtitle,
+.page-main .investment-faq .faq-ask-subtitle,
+.page-credit .investment-faq .faq-ask-subtitle,
+.page-influence .investment-faq .faq-ask-subtitle {
     max-width: 36ch;
   }
 }
 
 /* Tablet override must be AFTER the base .faq-list rule (otherwise base wins) */
 @media (min-width: 901px) and (max-width: 1199px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-list{
+  .page-investment .investment-faq .faq-list,
+.page-main .investment-faq .faq-list,
+.page-credit .investment-faq .faq-list,
+.page-influence .investment-faq .faq-list {
     grid-column: 1 / 6;
     max-width: 720px;
     justify-self: start;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-grid{
+  .page-investment .investment-faq .faq-grid,
+.page-main .investment-faq .faq-grid,
+.page-credit .investment-faq .faq-grid,
+.page-influence .investment-faq .faq-grid {
     gap: clamp(18px, 2.8vw, 36px);
   }
   /* (Removed ::before override here; now overridden after the base rule) */
@@ -91,17 +124,29 @@
 
 /* Правая колонка: визуал (колонки 5–12) */
 /* Визуал убран из сетки — используется как фоновый слой */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside--visual {
+.page-investment .investment-faq .faq-aside--visual,
+.page-main .investment-faq .faq-aside--visual,
+.page-credit .investment-faq .faq-aside--visual,
+.page-influence .investment-faq .faq-aside--visual {
   display: none;
 }
 
 @media (min-width: 1200px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside--visual{ min-height: 660px; }
+  .page-investment .investment-faq .faq-aside--visual,
+.page-main .investment-faq .faq-aside--visual,
+.page-credit .investment-faq .faq-aside--visual,
+.page-influence .investment-faq .faq-aside--visual { min-height: 660px; }
 }
 
 /* Если внутри aside есть реальный <img>, не даём ему «сжимать» визуал */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside--visual img,
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside--visual .faq-visual-image {
+.page-investment .investment-faq .faq-aside--visual img,
+.page-main .investment-faq .faq-aside--visual img,
+.page-credit .investment-faq .faq-aside--visual img,
+.page-influence .investment-faq .faq-aside--visual img,
+.page-investment .investment-faq .faq-aside--visual .faq-visual-image,
+.page-main .investment-faq .faq-aside--visual .faq-visual-image,
+.page-credit .investment-faq .faq-aside--visual .faq-visual-image,
+.page-influence .investment-faq .faq-aside--visual .faq-visual-image {
   width: 100%;
   height: 100%;
   display: block;
@@ -117,7 +162,10 @@
    - мягкий естественный свет как на реф-скрине, но аккуратнее
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq{
+.page-investment .investment-faq,
+.page-main .investment-faq,
+.page-credit .investment-faq,
+.page-influence .investment-faq {
   position: relative;
   overflow: hidden !important;
   min-height: clamp(680px, 46vw, 920px);
@@ -125,7 +173,10 @@
 }
 
 /* Чистая картинка (без обработки), НЕ режем — только вписываем */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq::before{
+.page-investment .investment-faq::before,
+.page-main .investment-faq::before,
+.page-credit .investment-faq::before,
+.page-influence .investment-faq::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -145,7 +196,10 @@
 }
 
 /* Естественный свет/виньетка отдельным слоем (это НЕ цветовая обработка картинки) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq::after{
+.page-investment .investment-faq::after,
+.page-main .investment-faq::after,
+.page-credit .investment-faq::after,
+.page-influence .investment-faq::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -164,12 +218,18 @@
 
 /* FIX: tablet (901–1199px) must override the base ::before rule (base was overriding earlier media rules) */
 @media (min-width: 901px) and (max-width: 1199px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq{
+  .page-investment .investment-faq,
+.page-main .investment-faq,
+.page-credit .investment-faq,
+.page-influence .investment-faq {
     /* give the background enough area to feel “full-bleed” */
     min-height: clamp(640px, 62vw, 860px);
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq::before{
+  .page-investment .investment-faq::before,
+.page-main .investment-faq::before,
+.page-credit .investment-faq::before,
+.page-influence .investment-faq::before {
     background-size: contain;
     background-position: 100% 50%;
     background-repeat: no-repeat;
@@ -177,7 +237,10 @@
     filter: none;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq::after{
+  .page-investment .investment-faq::after,
+.page-main .investment-faq::after,
+.page-credit .investment-faq::after,
+.page-influence .investment-faq::after {
     background:
       radial-gradient(900px 560px at 88% 52%, rgba(255, 196, 128, .24), transparent 62%),
       radial-gradient(1200px 820px at 14% 44%, rgba(0,0,0,.60), transparent 70%),
@@ -186,7 +249,10 @@
 }
 
 /* CTA — всегда внутри границ, внизу справа */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside-cta{
+.page-investment .investment-faq .faq-aside-cta,
+.page-main .investment-faq .faq-aside-cta,
+.page-credit .investment-faq .faq-aside-cta,
+.page-influence .investment-faq .faq-aside-cta {
   position: absolute;
   right: 32px;
   bottom: 32px;
@@ -198,7 +264,10 @@
 }
 
 /* kicker */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside-kicker{
+.page-investment .investment-faq .faq-aside-kicker,
+.page-main .investment-faq .faq-aside-kicker,
+.page-credit .investment-faq .faq-aside-kicker,
+.page-influence .investment-faq .faq-aside-kicker {
   margin: 0;
   font-weight: 800;
   color: rgba(244,241,235,.82);
@@ -207,7 +276,10 @@
 /* FAQ: кнопка "Задай свой вопрос" */
 
 /* FAQ: ultra glass CTA — переливы, призма, дорогие блики */
- .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask{
+ .page-investment .investment-faq .faq-ask,
+.page-main .investment-faq .faq-ask,
+.page-credit .investment-faq .faq-ask,
+.page-influence .investment-faq .faq-ask {
    margin-top: 34px;
    display: flex;
    justify-content: flex-end;
@@ -216,7 +288,10 @@
 
 /* >=901px: CTA must be under the FAQ cards (in normal flow), not floating */
 @media (min-width: 901px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask{
+  .page-investment .investment-faq .faq-ask,
+.page-main .investment-faq .faq-ask,
+.page-credit .investment-faq .faq-ask,
+.page-influence .investment-faq .faq-ask {
     position: static;
     right: auto;
     bottom: auto;
@@ -228,14 +303,20 @@
     grid-column: 1 / -1;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel{
+  .page-investment .investment-faq .faq-ask-panel,
+.page-main .investment-faq .faq-ask-panel,
+.page-credit .investment-faq .faq-ask-panel,
+.page-influence .investment-faq .faq-ask-panel {
     width: min(720px, 100%);
     margin-left: 0;
     transform-origin: 30% 60%;
   }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel{
+.page-investment .investment-faq .faq-ask-panel,
+.page-main .investment-faq .faq-ask-panel,
+.page-credit .investment-faq .faq-ask-panel,
+.page-influence .investment-faq .faq-ask-panel {
   position: relative;
   width: 100%;
   margin-left: auto;
@@ -267,7 +348,10 @@
 }
 
 /* радужная призма по контуру */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel::before{
+.page-investment .investment-faq .faq-ask-panel::before,
+.page-main .investment-faq .faq-ask-panel::before,
+.page-credit .investment-faq .faq-ask-panel::before,
+.page-influence .investment-faq .faq-ask-panel::before {
   content: "";
   position: absolute;
   inset: -1px;
@@ -291,7 +375,10 @@
 }
 
 /* переливы внутри стекла */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel::after{
+.page-investment .investment-faq .faq-ask-panel::after,
+.page-main .investment-faq .faq-ask-panel::after,
+.page-credit .investment-faq .faq-ask-panel::after,
+.page-influence .investment-faq .faq-ask-panel::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -306,17 +393,29 @@
 }
 
 /* тонкий «блик-сканер» (наведением оживает) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel .faq-ask-copy,
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel .faq-ask-btn{
+.page-investment .investment-faq .faq-ask-panel .faq-ask-copy,
+.page-main .investment-faq .faq-ask-panel .faq-ask-copy,
+.page-credit .investment-faq .faq-ask-panel .faq-ask-copy,
+.page-influence .investment-faq .faq-ask-panel .faq-ask-copy,
+.page-investment .investment-faq .faq-ask-panel .faq-ask-btn,
+.page-main .investment-faq .faq-ask-panel .faq-ask-btn,
+.page-credit .investment-faq .faq-ask-panel .faq-ask-btn,
+.page-influence .investment-faq .faq-ask-panel .faq-ask-btn {
   position: relative;
   z-index: 1;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel .faq-ask-copy{
+.page-investment .investment-faq .faq-ask-panel .faq-ask-copy,
+.page-main .investment-faq .faq-ask-panel .faq-ask-copy,
+.page-credit .investment-faq .faq-ask-panel .faq-ask-copy,
+.page-influence .investment-faq .faq-ask-panel .faq-ask-copy {
   padding-left: 2px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-title{
+.page-investment .investment-faq .faq-ask-title,
+.page-main .investment-faq .faq-ask-title,
+.page-credit .investment-faq .faq-ask-title,
+.page-influence .investment-faq .faq-ask-title {
   font-family: "Roboto Slab", serif;
   font-weight: 950;
   font-size: 1.14rem;
@@ -326,7 +425,10 @@
   margin: 0;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-subtitle{
+.page-investment .investment-faq .faq-ask-subtitle,
+.page-main .investment-faq .faq-ask-subtitle,
+.page-credit .investment-faq .faq-ask-subtitle,
+.page-influence .investment-faq .faq-ask-subtitle {
   margin-top: 7px;
   font-size: 0.94rem;
   line-height: 1.36;
@@ -336,7 +438,10 @@
 
 /* кнопка: стекло + тёплое золото, без «кирпича» */
 /* FAQ: новая кнопка "Задай свой вопрос" — стекло, золото, премиум-блик */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn{
+.page-investment .investment-faq .faq-ask-btn,
+.page-main .investment-faq .faq-ask-btn,
+.page-credit .investment-faq .faq-ask-btn,
+.page-influence .investment-faq .faq-ask-btn {
   position: relative;
   height: 56px;
   padding: 0 26px;
@@ -393,7 +498,10 @@
     0 6px 20px rgba(255, 140, 0, 0.25);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn:hover{
+.page-investment .investment-faq .faq-ask-btn:hover,
+.page-main .investment-faq .faq-ask-btn:hover,
+.page-credit .investment-faq .faq-ask-btn:hover,
+.page-influence .investment-faq .faq-ask-btn:hover {
   background-position: 100% 0;
   text-shadow:
     0 1px 2px rgba(255, 255, 255, 0.35),
@@ -401,7 +509,10 @@
 }
 
 /* внутренняя стеклянная глубина */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn::before{
+.page-investment .investment-faq .faq-ask-btn::before,
+.page-main .investment-faq .faq-ask-btn::before,
+.page-credit .investment-faq .faq-ask-btn::before,
+.page-influence .investment-faq .faq-ask-btn::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -427,7 +538,10 @@
 }
 
 /* тонкий премиум-блик */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn::after{
+.page-investment .investment-faq .faq-ask-btn::after,
+.page-main .investment-faq .faq-ask-btn::after,
+.page-credit .investment-faq .faq-ask-btn::after,
+.page-influence .investment-faq .faq-ask-btn::after {
   content:"";
   position:absolute;
   top:-65%;
@@ -445,7 +559,10 @@
   pointer-events:none;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn:hover{
+.page-investment .investment-faq .faq-ask-btn:hover,
+.page-main .investment-faq .faq-ask-btn:hover,
+.page-credit .investment-faq .faq-ask-btn:hover,
+.page-influence .investment-faq .faq-ask-btn:hover {
   filter: brightness(1.12) saturate(1.15);
   transform: translateY(-1px);
   border-color: rgba(255,190,120,.85);
@@ -456,7 +573,10 @@
     inset 0 1px 0 rgba(255,255,255,.65);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn:hover::after{
+.page-investment .investment-faq .faq-ask-btn:hover::after,
+.page-main .investment-faq .faq-ask-btn:hover::after,
+.page-credit .investment-faq .faq-ask-btn:hover::after,
+.page-influence .investment-faq .faq-ask-btn:hover::after {
   opacity:1;
   animation: faqAskBtnSheen 1.1s ease forwards;
 }
@@ -466,7 +586,10 @@
   to{ transform: translateX(320%) rotate(14deg); }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn:active{
+.page-investment .investment-faq .faq-ask-btn:active,
+.page-main .investment-faq .faq-ask-btn:active,
+.page-credit .investment-faq .faq-ask-btn:active,
+.page-influence .investment-faq .faq-ask-btn:active {
   transform: translateY(0);
   filter: brightness(0.98);
 }
@@ -479,9 +602,18 @@
    - Challenges CTA: .challenges-cta__btn ("Получить консультацию")
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta,
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary,
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn{
+.page-investment .keis-header-cta,
+.page-main .keis-header-cta,
+.page-credit .keis-header-cta,
+.page-influence .keis-header-cta,
+.page-investment .hero-investment .btn-primary,
+.page-main .hero-investment .btn-primary,
+.page-credit .hero-investment .btn-primary,
+.page-influence .hero-investment .btn-primary,
+.page-investment .investment-challenges .challenges-cta__btn,
+.page-main .investment-challenges .challenges-cta__btn,
+.page-credit .investment-challenges .challenges-cta__btn,
+.page-influence .investment-challenges .challenges-cta__btn {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -529,7 +661,10 @@
 }
 
 /* sizing: keep each button appropriate */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta{
+.page-investment .keis-header-cta,
+.page-main .keis-header-cta,
+.page-credit .keis-header-cta,
+.page-influence .keis-header-cta {
   height: 44px;
   padding: 0 18px;
   font-size: .92rem;
@@ -538,7 +673,10 @@
 
 /* Mobile: “Записаться” по размеру ближе к номеру телефона */
 @media (max-width: 600px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-cta{
+  .page-investment .keis-header-cta,
+.page-main .keis-header-cta,
+.page-credit .keis-header-cta,
+.page-influence .keis-header-cta {
     height: 34px;
     padding: 0 12px;
     font-size: 0.86rem;
@@ -547,7 +685,10 @@
   }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary{
+.page-investment .hero-investment .btn-primary,
+.page-main .hero-investment .btn-primary,
+.page-credit .hero-investment .btn-primary,
+.page-influence .hero-investment .btn-primary {
   height: 56px;
   padding: 0 22px;
   font-size: 1.02rem;
@@ -556,15 +697,27 @@
 }
 
 /* === CHALLENGES CTA BUTTON — ultra glass + gold, FAQ style === */
-/* Replaced block for .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn */
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn{
+/* Replaced block for .page-investment .investment-challenges .challenges-cta__btn */
+.page-investment,
+.page-main .investment-challenges .challenges-cta__btn */
+.page-investment,
+.page-credit .investment-challenges .challenges-cta__btn */
+.page-investment,
+.page-influence .investment-challenges .challenges-cta__btn */
+.page-investment .investment-challenges .challenges-cta__btn,
+.page-main .investment-challenges .challenges-cta__btn,
+.page-credit .investment-challenges .challenges-cta__btn,
+.page-influence .investment-challenges .challenges-cta__btn {
   margin-top: 12px;
   width: 100%;
   height: 56px;
 }
 
 /* Challenges CTA: gradient text + premium icon (because markup uses spans) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn .faq-ask-btn__text{
+.page-investment .investment-challenges .challenges-cta__btn .faq-ask-btn__text,
+.page-main .investment-challenges .challenges-cta__btn .faq-ask-btn__text,
+.page-credit .investment-challenges .challenges-cta__btn .faq-ask-btn__text,
+.page-influence .investment-challenges .challenges-cta__btn .faq-ask-btn__text {
   color: transparent;
   background-image: linear-gradient(
     135deg,
@@ -586,13 +739,19 @@
     0 14px 40px rgba(0,0,0,.55);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn .faq-ask-btn__icon{
+.page-investment .investment-challenges .challenges-cta__btn .faq-ask-btn__icon,
+.page-main .investment-challenges .challenges-cta__btn .faq-ask-btn__icon,
+.page-credit .investment-challenges .challenges-cta__btn .faq-ask-btn__icon,
+.page-influence .investment-challenges .challenges-cta__btn .faq-ask-btn__icon {
   color: rgba(255,224,190,.92);
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
   transform: translateY(-0.5px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn::before{
+.page-investment .investment-challenges .challenges-cta__btn::before,
+.page-main .investment-challenges .challenges-cta__btn::before,
+.page-credit .investment-challenges .challenges-cta__btn::before,
+.page-influence .investment-challenges .challenges-cta__btn::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -617,7 +776,10 @@
   opacity:.95;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn::after{
+.page-investment .investment-challenges .challenges-cta__btn::after,
+.page-main .investment-challenges .challenges-cta__btn::after,
+.page-credit .investment-challenges .challenges-cta__btn::after,
+.page-influence .investment-challenges .challenges-cta__btn::after {
   content:"";
   position:absolute;
   top:-65%;
@@ -636,7 +798,10 @@
 }
 
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn:hover{
+  .page-investment .investment-challenges .challenges-cta__btn:hover,
+.page-main .investment-challenges .challenges-cta__btn:hover,
+.page-credit .investment-challenges .challenges-cta__btn:hover,
+.page-influence .investment-challenges .challenges-cta__btn:hover {
     filter: brightness(1.14) saturate(1.2);
     transform: translateY(-1px);
     border-color: rgba(255,200,140,.9);
@@ -647,16 +812,28 @@
       inset 0 1px 0 rgba(255,255,255,.65);
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn:hover::after{
+  .page-investment .investment-challenges .challenges-cta__btn:hover::after,
+.page-main .investment-challenges .challenges-cta__btn:hover::after,
+.page-credit .investment-challenges .challenges-cta__btn:hover::after,
+.page-influence .investment-challenges .challenges-cta__btn:hover::after {
     opacity:1;
     animation: keisGlassSheen 1.1s ease forwards;
   }
 }
 
 /* premium rim + prism edge */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta::before,
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn::before{
+.page-investment .keis-header-cta::before,
+.page-main .keis-header-cta::before,
+.page-credit .keis-header-cta::before,
+.page-influence .keis-header-cta::before,
+.page-investment .hero-investment .btn-primary::before,
+.page-main .hero-investment .btn-primary::before,
+.page-credit .hero-investment .btn-primary::before,
+.page-influence .hero-investment .btn-primary::before,
+.page-investment .investment-challenges .challenges-cta__btn::before,
+.page-main .investment-challenges .challenges-cta__btn::before,
+.page-credit .investment-challenges .challenges-cta__btn::before,
+.page-influence .investment-challenges .challenges-cta__btn::before {
   content: "";
   position: absolute;
   inset: -1px;
@@ -679,9 +856,18 @@
 }
 
 /* moving sheen */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta::after,
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary::after,
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn::after{
+.page-investment .keis-header-cta::after,
+.page-main .keis-header-cta::after,
+.page-credit .keis-header-cta::after,
+.page-influence .keis-header-cta::after,
+.page-investment .hero-investment .btn-primary::after,
+.page-main .hero-investment .btn-primary::after,
+.page-credit .hero-investment .btn-primary::after,
+.page-influence .hero-investment .btn-primary::after,
+.page-investment .investment-challenges .challenges-cta__btn::after,
+.page-main .investment-challenges .challenges-cta__btn::after,
+.page-credit .investment-challenges .challenges-cta__btn::after,
+.page-influence .investment-challenges .challenges-cta__btn::after {
   content: "";
   position: absolute;
   top: -65%;
@@ -698,9 +884,18 @@
 }
 
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-cta:hover,
-  .page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary:hover,
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn:hover{
+  .page-investment .keis-header-cta:hover,
+.page-main .keis-header-cta:hover,
+.page-credit .keis-header-cta:hover,
+.page-influence .keis-header-cta:hover,
+  .page-investment .hero-investment .btn-primary:hover,
+.page-main .hero-investment .btn-primary:hover,
+.page-credit .hero-investment .btn-primary:hover,
+.page-influence .hero-investment .btn-primary:hover,
+  .page-investment .investment-challenges .challenges-cta__btn:hover,
+.page-main .investment-challenges .challenges-cta__btn:hover,
+.page-credit .investment-challenges .challenges-cta__btn:hover,
+.page-influence .investment-challenges .challenges-cta__btn:hover {
     filter: brightness(1.12) saturate(1.18);
     transform: translateY(-1px);
     border-color: rgba(255, 200, 140, .92);
@@ -710,9 +905,18 @@
       inset 0 1px 0 rgba(255,255,255,.62);
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-cta:hover::after,
-  .page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary:hover::after,
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn:hover::after{
+  .page-investment .keis-header-cta:hover::after,
+.page-main .keis-header-cta:hover::after,
+.page-credit .keis-header-cta:hover::after,
+.page-influence .keis-header-cta:hover::after,
+  .page-investment .hero-investment .btn-primary:hover::after,
+.page-main .hero-investment .btn-primary:hover::after,
+.page-credit .hero-investment .btn-primary:hover::after,
+.page-influence .hero-investment .btn-primary:hover::after,
+  .page-investment .investment-challenges .challenges-cta__btn:hover::after,
+.page-main .investment-challenges .challenges-cta__btn:hover::after,
+.page-credit .investment-challenges .challenges-cta__btn:hover::after,
+.page-influence .investment-challenges .challenges-cta__btn:hover::after {
     opacity: 1;
     animation: keisGlassSheen 1.1s ease forwards;
   }
@@ -723,22 +927,43 @@
   to{ transform: translateX(320%) rotate(14deg); }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta:active,
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary:active,
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn:active{
+.page-investment .keis-header-cta:active,
+.page-main .keis-header-cta:active,
+.page-credit .keis-header-cta:active,
+.page-influence .keis-header-cta:active,
+.page-investment .hero-investment .btn-primary:active,
+.page-main .hero-investment .btn-primary:active,
+.page-credit .hero-investment .btn-primary:active,
+.page-influence .hero-investment .btn-primary:active,
+.page-investment .investment-challenges .challenges-cta__btn:active,
+.page-main .investment-challenges .challenges-cta__btn:active,
+.page-credit .investment-challenges .challenges-cta__btn:active,
+.page-influence .investment-challenges .challenges-cta__btn:active {
   transform: translateY(0);
   filter: brightness(0.98);
 }
 
 /* Make "Записаться" text a bit more distinctive (without breaking layout) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta{
+.page-investment .keis-header-cta,
+.page-main .keis-header-cta,
+.page-credit .keis-header-cta,
+.page-influence .keis-header-cta {
   letter-spacing: .08em;
 }
 
 /* If any of these buttons contain an inline SVG/icon, make it match */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta svg,
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment .btn-primary svg,
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn svg{
+.page-investment .keis-header-cta svg,
+.page-main .keis-header-cta svg,
+.page-credit .keis-header-cta svg,
+.page-influence .keis-header-cta svg,
+.page-investment .hero-investment .btn-primary svg,
+.page-main .hero-investment .btn-primary svg,
+.page-credit .hero-investment .btn-primary svg,
+.page-influence .hero-investment .btn-primary svg,
+.page-investment .investment-challenges .challenges-cta__btn svg,
+.page-main .investment-challenges .challenges-cta__btn svg,
+.page-credit .investment-challenges .challenges-cta__btn svg,
+.page-influence .investment-challenges .challenges-cta__btn svg {
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
 }
 
@@ -746,22 +971,34 @@
    FAQ cards — ultra glass + prism icon (toggle)
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-list{
+.page-investment .investment-faq .faq-list,
+.page-main .investment-faq .faq-list,
+.page-credit .investment-faq .faq-list,
+.page-influence .investment-faq .faq-list {
   padding-bottom: clamp(28px, 3.2vw, 56px);
 }
 
 /* CTA is not floating anymore (>=901px), so no extra bottom reserve needed */
 @media (min-width: 901px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-list{
+  .page-investment .investment-faq .faq-list,
+.page-main .investment-faq .faq-list,
+.page-credit .investment-faq .faq-list,
+.page-influence .investment-faq .faq-list {
     padding-bottom: clamp(28px, 3.2vw, 56px);
   }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-spacer{
+.page-investment .investment-faq .faq-spacer,
+.page-main .investment-faq .faq-spacer,
+.page-credit .investment-faq .faq-spacer,
+.page-influence .investment-faq .faq-spacer {
   height: clamp(18px, 2.2vw, 34px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item{
+.page-investment .investment-faq .faq-item,
+.page-main .investment-faq .faq-item,
+.page-credit .investment-faq .faq-item,
+.page-influence .investment-faq .faq-item {
   position: relative;
   border-radius: 18px;
   overflow: hidden;
@@ -785,7 +1022,10 @@
   transform: translateZ(0);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item::before{
+.page-investment .investment-faq .faq-item::before,
+.page-main .investment-faq .faq-item::before,
+.page-credit .investment-faq .faq-item::before,
+.page-influence .investment-faq .faq-item::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -808,7 +1048,10 @@
   opacity: .86;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item::after{
+.page-investment .investment-faq .faq-item::after,
+.page-main .investment-faq .faq-item::after,
+.page-credit .investment-faq .faq-item::after,
+.page-influence .investment-faq .faq-item::after {
   content:"";
   position:absolute;
   inset:0;
@@ -823,13 +1066,22 @@
   opacity:.55;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-question,
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-answer{
+.page-investment .investment-faq .faq-question,
+.page-main .investment-faq .faq-question,
+.page-credit .investment-faq .faq-question,
+.page-influence .investment-faq .faq-question,
+.page-investment .investment-faq .faq-answer,
+.page-main .investment-faq .faq-answer,
+.page-credit .investment-faq .faq-answer,
+.page-influence .investment-faq .faq-answer {
   position: relative;
   z-index: 1;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-question{
+.page-investment .investment-faq .faq-question,
+.page-main .investment-faq .faq-question,
+.page-credit .investment-faq .faq-question,
+.page-influence .investment-faq .faq-question {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr auto;
@@ -843,10 +1095,16 @@
 }
 
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item{
+  .page-investment .investment-faq .faq-item,
+.page-main .investment-faq .faq-item,
+.page-credit .investment-faq .faq-item,
+.page-influence .investment-faq .faq-item {
     transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item:hover{
+  .page-investment .investment-faq .faq-item:hover,
+.page-main .investment-faq .faq-item:hover,
+.page-credit .investment-faq .faq-item:hover,
+.page-influence .investment-faq .faq-item:hover {
     transform: translateY(-1px);
     filter: brightness(1.03);
     box-shadow:
@@ -857,7 +1115,10 @@
     }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-icon{
+.page-investment .investment-faq .faq-icon,
+.page-main .investment-faq .faq-icon,
+.page-credit .investment-faq .faq-icon,
+.page-influence .investment-faq .faq-icon {
   width: 40px;
   height: 40px;
   border-radius: 999px;
@@ -882,7 +1143,10 @@
   overflow: hidden;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-icon::before{
+.page-investment .investment-faq .faq-icon::before,
+.page-main .investment-faq .faq-icon::before,
+.page-credit .investment-faq .faq-icon::before,
+.page-influence .investment-faq .faq-icon::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -904,7 +1168,10 @@
   pointer-events:none;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-icon::after{
+.page-investment .investment-faq .faq-icon::after,
+.page-main .investment-faq .faq-icon::after,
+.page-credit .investment-faq .faq-icon::after,
+.page-influence .investment-faq .faq-icon::after {
   content:"";
   width: 16px;
   height: 16px;
@@ -916,17 +1183,26 @@
   opacity: .95;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item.is-open .faq-icon{
+.page-investment .investment-faq .faq-item.is-open .faq-icon,
+.page-main .investment-faq .faq-item.is-open .faq-icon,
+.page-credit .investment-faq .faq-item.is-open .faq-icon,
+.page-influence .investment-faq .faq-item.is-open .faq-icon {
   transform: rotate(-8deg) scale(1.02);
   filter: brightness(1.06);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item.is-open .faq-icon::after{
+.page-investment .investment-faq .faq-item.is-open .faq-icon::after,
+.page-main .investment-faq .faq-item.is-open .faq-icon::after,
+.page-credit .investment-faq .faq-item.is-open .faq-icon::after,
+.page-influence .investment-faq .faq-item.is-open .faq-icon::after {
   background:
     linear-gradient(rgba(17,12,10,.92), rgba(17,12,10,.92)) center/16px 2px no-repeat;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-answer{
+.page-investment .investment-faq .faq-answer,
+.page-main .investment-faq .faq-answer,
+.page-credit .investment-faq .faq-answer,
+.page-influence .investment-faq .faq-answer {
   padding: 0 18px 18px;
   color: rgba(244,241,235,.78);
   line-height: 1.55;
@@ -936,7 +1212,10 @@
   transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item.is-open .faq-answer{
+.page-investment .investment-faq .faq-item.is-open .faq-answer,
+.page-main .investment-faq .faq-item.is-open .faq-answer,
+.page-credit .investment-faq .faq-item.is-open .faq-answer,
+.page-influence .investment-faq .faq-item.is-open .faq-answer {
   border-top: 1px solid rgba(255,255,255,.10);
   max-height: 1000px; /* Generous height for any FAQ answer */
   opacity: 1;
@@ -944,16 +1223,34 @@
 }
 
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-icon{ width: 38px; height: 38px; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-question{ padding: 16px 16px; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-answer{ padding: 0 16px 16px; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item.is-open .faq-answer{ padding: 16px 16px 16px; }
+  .page-investment .investment-faq .faq-icon,
+.page-main .investment-faq .faq-icon,
+.page-credit .investment-faq .faq-icon,
+.page-influence .investment-faq .faq-icon { width: 38px; height: 38px; }
+  .page-investment .investment-faq .faq-question,
+.page-main .investment-faq .faq-question,
+.page-credit .investment-faq .faq-question,
+.page-influence .investment-faq .faq-question { padding: 16px 16px; }
+  .page-investment .investment-faq .faq-answer,
+.page-main .investment-faq .faq-answer,
+.page-credit .investment-faq .faq-answer,
+.page-influence .investment-faq .faq-answer { padding: 0 16px 16px; }
+  .page-investment .investment-faq .faq-item.is-open .faq-answer,
+.page-main .investment-faq .faq-item.is-open .faq-answer,
+.page-credit .investment-faq .faq-item.is-open .faq-answer,
+.page-influence .investment-faq .faq-item.is-open .faq-answer { padding: 16px 16px 16px; }
 }
 
 /* На планшете/мобиле: всё в колонку + фон «тянется» по высоте/ширине секции */
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-grid{ grid-template-columns: 1fr; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-list{
+  .page-investment .investment-faq .faq-grid,
+.page-main .investment-faq .faq-grid,
+.page-credit .investment-faq .faq-grid,
+.page-influence .investment-faq .faq-grid { grid-template-columns: 1fr; }
+  .page-investment .investment-faq .faq-list,
+.page-main .investment-faq .faq-list,
+.page-credit .investment-faq .faq-list,
+.page-influence .investment-faq .faq-list {
     grid-column: auto;
     max-width: 100%;
     width: 100%;
@@ -961,11 +1258,17 @@
   }
 
   /* Фоновый визуал: растягиваем под блок (без обрезания края секции) */
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq{
+  .page-investment .investment-faq,
+.page-main .investment-faq,
+.page-credit .investment-faq,
+.page-influence .investment-faq {
     padding-bottom: 10px; /* небольшой запас под CTA */
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq::before{
+  .page-investment .investment-faq::before,
+.page-main .investment-faq::before,
+.page-credit .investment-faq::before,
+.page-influence .investment-faq::before {
     background-size: contain;
     background-position: 100% 50%;
     background-repeat: no-repeat;
@@ -973,7 +1276,10 @@
     filter: none;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq::after{
+  .page-investment .investment-faq::after,
+.page-main .investment-faq::after,
+.page-credit .investment-faq::after,
+.page-influence .investment-faq::after {
     background:
       radial-gradient(760px 520px at 88% 52%, rgba(255, 196, 128, .22), transparent 62%),
       radial-gradient(1100px 760px at 12% 44%, rgba(0,0,0,.64), transparent 72%),
@@ -981,43 +1287,70 @@
   }
 
   /* Чуть больше «площадь стекла» у карточек и аккуратнее типографика */
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-item{ border-radius: 16px; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-question{
+  .page-investment .investment-faq .faq-item,
+.page-main .investment-faq .faq-item,
+.page-credit .investment-faq .faq-item,
+.page-influence .investment-faq .faq-item { border-radius: 16px; }
+  .page-investment .investment-faq .faq-question,
+.page-main .investment-faq .faq-question,
+.page-credit .investment-faq .faq-question,
+.page-influence .investment-faq .faq-question {
     padding: 15px 14px;
     gap: 12px;
     font-size: 0.98rem;
     line-height: 1.22;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-answer{
+  .page-investment .investment-faq .faq-answer,
+.page-main .investment-faq .faq-answer,
+.page-credit .investment-faq .faq-answer,
+.page-influence .investment-faq .faq-answer {
     padding: 0 14px 14px;
     font-size: 0.96rem;
     line-height: 1.58;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-icon{ width: 38px; height: 38px; }
+  .page-investment .investment-faq .faq-icon,
+.page-main .investment-faq .faq-icon,
+.page-credit .investment-faq .faq-icon,
+.page-influence .investment-faq .faq-icon { width: 38px; height: 38px; }
 
   /* CTA: центрируем и даём максимум ширины на мобиле */
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask{
+  .page-investment .investment-faq .faq-ask,
+.page-main .investment-faq .faq-ask,
+.page-credit .investment-faq .faq-ask,
+.page-influence .investment-faq .faq-ask {
     justify-content: center;
     padding-right: 0;
     margin-top: 26px;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel{
+  .page-investment .investment-faq .faq-ask-panel,
+.page-main .investment-faq .faq-ask-panel,
+.page-credit .investment-faq .faq-ask-panel,
+.page-influence .investment-faq .faq-ask-panel {
     width: 100%;
     max-width: 720px;
     transform: rotate(-1deg);
     transform-origin: 50% 50%;
     border-radius: 20px;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-subtitle{ max-width: 52ch; }
+  .page-investment .investment-faq .faq-ask-subtitle,
+.page-main .investment-faq .faq-ask-subtitle,
+.page-credit .investment-faq .faq-ask-subtitle,
+.page-influence .investment-faq .faq-ask-subtitle { max-width: 52ch; }
 
   /* На очень узких: CTA в колонку, чтобы кнопка не «давила» текст */
   @media (max-width: 520px){
-    .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-panel{
+    .page-investment .investment-faq .faq-ask-panel,
+.page-main .investment-faq .faq-ask-panel,
+.page-credit .investment-faq .faq-ask-panel,
+.page-influence .investment-faq .faq-ask-panel {
       grid-template-columns: 1fr;
       gap: 12px;
       padding: 16px;
     }
-    .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-ask-btn{
+    .page-investment .investment-faq .faq-ask-btn,
+.page-main .investment-faq .faq-ask-btn,
+.page-credit .investment-faq .faq-ask-btn,
+.page-influence .investment-faq .faq-ask-btn {
       width: 100%;
       justify-content: center;
       height: 52px;
@@ -1026,7 +1359,10 @@
 }
 
 /* KEIS: All decorative divider stripes removed. Keep only the .scenarios-trust-bridge glass band between sections. */
-.page-investment, .page-main, .page-credit, .page-influence .investment-find{
+.page-investment .investment-find,
+.page-main .investment-find,
+.page-credit .investment-find,
+.page-influence .investment-find {
   position: relative;
   padding: 110px 0 120px;
   background:
@@ -1036,7 +1372,10 @@
   overflow: hidden;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find::before{
+.page-investment .investment-find::before,
+.page-main .investment-find::before,
+.page-credit .investment-find::before,
+.page-influence .investment-find::before {
   content:"";
   position:absolute;
   inset:0;
@@ -1048,11 +1387,20 @@
   opacity: .9;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find > .section-container{ position:relative; z-index:1; }
+.page-investment .investment-find > .section-container,
+.page-main .investment-find > .section-container,
+.page-credit .investment-find > .section-container,
+.page-influence .investment-find > .section-container { position:relative; z-index:1; }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .section-header{ max-width: 1180px; }
+.page-investment .investment-find .section-header,
+.page-main .investment-find .section-header,
+.page-credit .investment-find .section-header,
+.page-influence .investment-find .section-header { max-width: 1180px; }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-grid{
+.page-investment .investment-find .find-grid,
+.page-main .investment-find .find-grid,
+.page-credit .investment-find .find-grid,
+.page-influence .investment-find .find-grid {
   margin-top: clamp(18px, 2.4vw, 28px);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1061,14 +1409,23 @@
 }
 
 @media (max-width: 980px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .find-grid{
+  .page-investment .investment-find .find-grid,
+.page-main .investment-find .find-grid,
+.page-credit .investment-find .find-grid,
+.page-influence .investment-find .find-grid {
     grid-template-columns: 1fr;
   }
 }
 
 /* Card shell */
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-map,
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-reviews{
+.page-investment .investment-find .find-map,
+.page-main .investment-find .find-map,
+.page-credit .investment-find .find-map,
+.page-influence .investment-find .find-map,
+.page-investment .investment-find .find-reviews,
+.page-main .investment-find .find-reviews,
+.page-credit .investment-find .find-reviews,
+.page-influence .investment-find .find-reviews {
   position: relative;
   border-radius: 20px;
   padding: 18px 18px 16px;
@@ -1087,8 +1444,14 @@
   min-height: 420px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-map::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-reviews::before{
+.page-investment .investment-find .find-map::before,
+.page-main .investment-find .find-map::before,
+.page-credit .investment-find .find-map::before,
+.page-influence .investment-find .find-map::before,
+.page-investment .investment-find .find-reviews::before,
+.page-main .investment-find .find-reviews::before,
+.page-credit .investment-find .find-reviews::before,
+.page-influence .investment-find .find-reviews::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -1105,7 +1468,10 @@
 }
 
 /* Header line inside card */
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-title{
+.page-investment .investment-find .find-title,
+.page-main .investment-find .find-title,
+.page-credit .investment-find .find-title,
+.page-influence .investment-find .find-title {
   margin: 0 0 12px;
   font-family: "Roboto Slab", serif;
   font-weight: 950;
@@ -1117,7 +1483,10 @@
   z-index: 1;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-title::after{
+.page-investment .investment-find .find-title::after,
+.page-main .investment-find .find-title::after,
+.page-credit .investment-find .find-title::after,
+.page-influence .investment-find .find-title::after {
   content:"";
   display:block;
   height:1px;
@@ -1127,8 +1496,14 @@
 }
 
 /* Widget window */
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .map-widget,
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .reviews-widget{
+.page-investment .investment-find .map-widget,
+.page-main .investment-find .map-widget,
+.page-credit .investment-find .map-widget,
+.page-influence .investment-find .map-widget,
+.page-investment .investment-find .reviews-widget,
+.page-main .investment-find .reviews-widget,
+.page-credit .investment-find .reviews-widget,
+.page-influence .investment-find .reviews-widget {
   position: relative;
   z-index: 1;
   border-radius: 16px;
@@ -1143,13 +1518,22 @@
 
 /* Keep same visual height in both columns on desktop */
 @media (min-width: 981px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .map-widget,
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .reviews-widget{
+  .page-investment .investment-find .map-widget,
+.page-main .investment-find .map-widget,
+.page-credit .investment-find .map-widget,
+.page-influence .investment-find .map-widget,
+  .page-investment .investment-find .reviews-widget,
+.page-main .investment-find .reviews-widget,
+.page-credit .investment-find .reviews-widget,
+.page-influence .investment-find .reviews-widget {
     min-height: 360px;
   }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find iframe{
+.page-investment .investment-find iframe,
+.page-main .investment-find iframe,
+.page-credit .investment-find iframe,
+.page-influence .investment-find iframe {
   width: 100%;
   height: 100%;
   min-height: inherit;
@@ -1159,8 +1543,14 @@
 }
 
 /* Subtle overlay for cohesion (reduces raw white from widgets) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .map-widget::after,
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .reviews-widget::after{
+.page-investment .investment-find .map-widget::after,
+.page-main .investment-find .map-widget::after,
+.page-credit .investment-find .map-widget::after,
+.page-influence .investment-find .map-widget::after,
+.page-investment .investment-find .reviews-widget::after,
+.page-main .investment-find .reviews-widget::after,
+.page-credit .investment-find .reviews-widget::after,
+.page-influence .investment-find .reviews-widget::after {
   content:"";
   position:absolute;
   inset:0;
@@ -1174,17 +1564,35 @@
 
 /* Mobile: tighter paddings + taller widgets */
 @media (max-width: 520px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find{ padding: 96px 0 108px; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .find-map,
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .find-reviews{ padding: 16px; border-radius: 18px; min-height: 440px; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .map-widget,
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .reviews-widget{ min-height: 380px; }
+  .page-investment .investment-find,
+.page-main .investment-find,
+.page-credit .investment-find,
+.page-influence .investment-find { padding: 96px 0 108px; }
+  .page-investment .investment-find .find-map,
+.page-main .investment-find .find-map,
+.page-credit .investment-find .find-map,
+.page-influence .investment-find .find-map,
+  .page-investment .investment-find .find-reviews,
+.page-main .investment-find .find-reviews,
+.page-credit .investment-find .find-reviews,
+.page-influence .investment-find .find-reviews { padding: 16px; border-radius: 18px; min-height: 440px; }
+  .page-investment .investment-find .map-widget,
+.page-main .investment-find .map-widget,
+.page-credit .investment-find .map-widget,
+.page-influence .investment-find .map-widget,
+  .page-investment .investment-find .reviews-widget,
+.page-main .investment-find .reviews-widget,
+.page-credit .investment-find .reviews-widget,
+.page-influence .investment-find .reviews-widget { min-height: 380px; }
 }
 
 /* =========================
    CASES (Наши кейсы) — дороже, ровнее, 3x2 на широких
    ========================= */
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases{
+.page-investment .investment-cases,
+.page-main .investment-cases,
+.page-credit .investment-cases,
+.page-influence .investment-cases {
   position: relative;
   padding: 110px 0 130px;
   background:
@@ -1194,23 +1602,35 @@
   overflow: hidden;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .section-header{
+.page-investment .investment-cases .section-header,
+.page-main .investment-cases .section-header,
+.page-credit .investment-cases .section-header,
+.page-influence .investment-cases .section-header {
   max-width: 1180px;
 }
 
 @media (min-width: 1200px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-cases .section-container{
+  .page-investment .investment-cases .section-container,
+.page-main .investment-cases .section-container,
+.page-credit .investment-cases .section-container,
+.page-influence .investment-cases .section-container {
     width: min(1400px, calc(100% - 64px));
   }
 }
 
 @media (min-width: 1500px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-cases .section-container{
+  .page-investment .investment-cases .section-container,
+.page-main .investment-cases .section-container,
+.page-credit .investment-cases .section-container,
+.page-influence .investment-cases .section-container {
     width: min(1480px, calc(100% - 80px));
   }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .cases-grid{
+.page-investment .investment-cases .cases-grid,
+.page-main .investment-cases .cases-grid,
+.page-credit .investment-cases .cases-grid,
+.page-influence .investment-cases .cases-grid {
   margin-top: clamp(22px, 2.6vw, 36px);
   display: grid;
   gap: clamp(14px, 1.6vw, 18px);
@@ -1219,20 +1639,29 @@
 }
 
 @media (min-width: 860px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-cases .cases-grid{
+  .page-investment .investment-cases .cases-grid,
+.page-main .investment-cases .cases-grid,
+.page-credit .investment-cases .cases-grid,
+.page-influence .investment-cases .cases-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1200px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-cases .cases-grid{
+  .page-investment .investment-cases .cases-grid,
+.page-main .investment-cases .cases-grid,
+.page-credit .investment-cases .cases-grid,
+.page-influence .investment-cases .cases-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 в ряд */
     gap: 16px;
     align-items: stretch;
   }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-card{
+.page-investment .investment-cases .case-card,
+.page-main .investment-cases .case-card,
+.page-credit .investment-cases .case-card,
+.page-influence .investment-cases .case-card {
   position: relative;
   border-radius: 14px;
   padding: 22px 24px 22px;
@@ -1253,7 +1682,10 @@
   gap: 10px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-card::before{
+.page-investment .investment-cases .case-card::before,
+.page-main .investment-cases .case-card::before,
+.page-credit .investment-cases .case-card::before,
+.page-influence .investment-cases .case-card::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -1269,7 +1701,10 @@
   opacity:.85;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-card::after{
+.page-investment .investment-cases .case-card::after,
+.page-main .investment-cases .case-card::after,
+.page-credit .investment-cases .case-card::after,
+.page-influence .investment-cases .case-card::after {
   content:"";
   position:absolute;
   inset:0;
@@ -1280,7 +1715,10 @@
   opacity:.65;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-top{
+.page-investment .investment-cases .case-top,
+.page-main .investment-cases .case-top,
+.page-credit .investment-cases .case-top,
+.page-influence .investment-cases .case-top {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
@@ -1288,7 +1726,10 @@
   z-index: 1;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-tag{
+.page-investment .investment-cases .case-tag,
+.page-main .investment-cases .case-tag,
+.page-credit .investment-cases .case-tag,
+.page-influence .investment-cases .case-tag {
   display: inline-flex;
   align-items: center;
   height: 28px;
@@ -1302,12 +1743,18 @@
   box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-tag--muted{
+.page-investment .investment-cases .case-tag--muted,
+.page-main .investment-cases .case-tag--muted,
+.page-credit .investment-cases .case-tag--muted,
+.page-influence .investment-cases .case-tag--muted {
   color: rgba(255,214,170,.90);
   border-color: rgba(255,138,0,.22);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-title{
+.page-investment .investment-cases .case-title,
+.page-main .investment-cases .case-title,
+.page-credit .investment-cases .case-title,
+.page-influence .investment-cases .case-title {
   margin: 12px 0 0;
   font-family: "Roboto Slab", serif;
   font-weight: 950;
@@ -1321,7 +1768,10 @@
   letter-spacing: 0;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-text{
+.page-investment .investment-cases .case-text,
+.page-main .investment-cases .case-text,
+.page-credit .investment-cases .case-text,
+.page-influence .investment-cases .case-text {
   margin: 10px 0 0;
   color: rgba(244,241,235,.78);
   line-height: 1.60;
@@ -1331,19 +1781,28 @@
   max-width: 62ch;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-text strong{
+.page-investment .investment-cases .case-text strong,
+.page-main .investment-cases .case-text strong,
+.page-credit .investment-cases .case-text strong,
+.page-influence .investment-cases .case-text strong {
   color: rgba(255,240,220,.98);
   font-weight: 950;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-text--small{
+.page-investment .investment-cases .case-text--small,
+.page-main .investment-cases .case-text--small,
+.page-credit .investment-cases .case-text--small,
+.page-influence .investment-cases .case-text--small {
   margin-top: 6px;
   font-size: .96rem;
   color: rgba(244,241,235,.70);
 }
 
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-result{
+.page-investment .investment-cases .case-result,
+.page-main .investment-cases .case-result,
+.page-credit .investment-cases .case-result,
+.page-influence .investment-cases .case-result {
   margin-top: 12px;
   border-radius: 14px;
   padding: 12px 12px;
@@ -1357,16 +1816,25 @@
   letter-spacing: .01em;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-result strong{
+.page-investment .investment-cases .case-result strong,
+.page-main .investment-cases .case-result strong,
+.page-credit .investment-cases .case-result strong,
+.page-influence .investment-cases .case-result strong {
   color: rgba(255,240,220,.98);
   font-weight: 950;
 }
 
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-card{
+  .page-investment .investment-cases .case-card,
+.page-main .investment-cases .case-card,
+.page-credit .investment-cases .case-card,
+.page-influence .investment-cases .case-card {
     transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-card:hover{
+  .page-investment .investment-cases .case-card:hover,
+.page-main .investment-cases .case-card:hover,
+.page-credit .investment-cases .case-card:hover,
+.page-influence .investment-cases .case-card:hover {
     transform: translateY(-2px);
     filter: brightness(1.02);
     box-shadow: 0 28px 78px rgba(0,0,0,.75);
@@ -1375,7 +1843,10 @@
 /* =========================
    PROCESS (Как идёт работа) — как на промо-скрине
    ========================= */
-.page-investment, .page-main, .page-credit, .page-influence .investment-process{
+.page-investment .investment-process,
+.page-main .investment-process,
+.page-credit .investment-process,
+.page-influence .investment-process {
   position: relative;
   padding: 92px 0 110px;
   background: radial-gradient(900px 520px at 18% 18%, rgba(255,138,0,.08), transparent 62%),
@@ -1383,11 +1854,17 @@
               linear-gradient(180deg, rgba(5,3,3,1), rgba(20,11,7,1) 55%, rgba(5,3,3,1));
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .section-header{
+.page-investment .investment-process .section-header,
+.page-main .investment-process .section-header,
+.page-credit .investment-process .section-header,
+.page-influence .investment-process .section-header {
   max-width: 1180px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .section-subtitle--pill{
+.page-investment .investment-process .section-subtitle--pill,
+.page-main .investment-process .section-subtitle--pill,
+.page-credit .investment-process .section-subtitle--pill,
+.page-influence .investment-process .section-subtitle--pill {
   display: inline-flex;
   align-items: center;
   margin-top: 12px;
@@ -1403,7 +1880,10 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .process-steps{
+.page-investment .investment-process .process-steps,
+.page-main .investment-process .process-steps,
+.page-credit .investment-process .process-steps,
+.page-influence .investment-process .process-steps {
   margin-top: 26px;
   border-radius: 26px;
   padding: 22px;
@@ -1414,7 +1894,10 @@
   -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step{
+.page-investment .investment-process .work-step,
+.page-main .investment-process .work-step,
+.page-credit .investment-process .work-step,
+.page-influence .investment-process .work-step {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 22px;
@@ -1425,19 +1908,31 @@
   border: 1px solid rgba(255,255,255,.06);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step + .work-step{
+.page-investment .investment-process .work-step + .work-step,
+.page-main .investment-process .work-step + .work-step,
+.page-credit .investment-process .work-step + .work-step,
+.page-influence .investment-process .work-step + .work-step {
   margin-top: 16px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step.is-reverse{
+.page-investment .investment-process .work-step.is-reverse,
+.page-main .investment-process .work-step.is-reverse,
+.page-credit .investment-process .work-step.is-reverse,
+.page-influence .investment-process .work-step.is-reverse {
   grid-template-columns: 1fr 1.1fr;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step.is-reverse .work-step-media{
+.page-investment .investment-process .work-step.is-reverse .work-step-media,
+.page-main .investment-process .work-step.is-reverse .work-step-media,
+.page-credit .investment-process .work-step.is-reverse .work-step-media,
+.page-influence .investment-process .work-step.is-reverse .work-step-media {
   order: 2;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step-media{
+.page-investment .investment-process .work-step-media,
+.page-main .investment-process .work-step-media,
+.page-credit .investment-process .work-step-media,
+.page-influence .investment-process .work-step-media {
   height: 176px;
   border-radius: 14px;
   background-size: cover;
@@ -1447,11 +1942,17 @@
   border: 1px solid rgba(255,255,255,.10);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step-body{
+.page-investment .investment-process .work-step-body,
+.page-main .investment-process .work-step-body,
+.page-credit .investment-process .work-step-body,
+.page-influence .investment-process .work-step-body {
   padding: 6px 6px 6px 2px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step-kicker{
+.page-investment .investment-process .work-step-kicker,
+.page-main .investment-process .work-step-kicker,
+.page-credit .investment-process .work-step-kicker,
+.page-influence .investment-process .work-step-kicker {
   font-size: .78rem;
   font-weight: 850;
   letter-spacing: .08em;
@@ -1460,7 +1961,10 @@
   margin-bottom: 8px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step-title{
+.page-investment .investment-process .work-step-title,
+.page-main .investment-process .work-step-title,
+.page-credit .investment-process .work-step-title,
+.page-influence .investment-process .work-step-title {
   margin: 0;
   font-family: "Roboto Slab", serif;
   font-weight: 900;
@@ -1470,7 +1974,10 @@
   text-shadow: 0 12px 26px rgba(0,0,0,.65);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step-text{
+.page-investment .investment-process .work-step-text,
+.page-main .investment-process .work-step-text,
+.page-credit .investment-process .work-step-text,
+.page-influence .investment-process .work-step-text {
   margin: 10px 0 0;
   color: rgba(244,241,235,.78);
   line-height: 1.52;
@@ -1479,18 +1986,33 @@
 }
 
 @media (max-width: 980px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-process .process-steps{padding: 16px;}
-  .page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step{
+  .page-investment .investment-process .process-steps,
+.page-main .investment-process .process-steps,
+.page-credit .investment-process .process-steps,
+.page-influence .investment-process .process-steps {padding: 16px;}
+  .page-investment .investment-process .work-step,
+.page-main .investment-process .work-step,
+.page-credit .investment-process .work-step,
+.page-influence .investment-process .work-step {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step.is-reverse{
+  .page-investment .investment-process .work-step.is-reverse,
+.page-main .investment-process .work-step.is-reverse,
+.page-credit .investment-process .work-step.is-reverse,
+.page-influence .investment-process .work-step.is-reverse {
     grid-template-columns: 1fr;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step.is-reverse .work-step-media{
+  .page-investment .investment-process .work-step.is-reverse .work-step-media,
+.page-main .investment-process .work-step.is-reverse .work-step-media,
+.page-credit .investment-process .work-step.is-reverse .work-step-media,
+.page-influence .investment-process .work-step.is-reverse .work-step-media {
     order: 0;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-process .work-step-media{
+  .page-investment .investment-process .work-step-media,
+.page-main .investment-process .work-step-media,
+.page-credit .investment-process .work-step-media,
+.page-influence .investment-process .work-step-media {
     height: 190px;
   }
 }
@@ -1498,7 +2020,10 @@
    CHALLENGES (Почему самостоятельно вернуть деньги так сложно?)
    Точно как на промо-скринах: фон people.png + 6 карточек с иконками.
    ========================= */
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges{
+.page-investment .investment-challenges,
+.page-main .investment-challenges,
+.page-credit .investment-challenges,
+.page-influence .investment-challenges {
   position: relative;
   padding: 120px 0 150px;
   background-color: var(--bg0);
@@ -1509,7 +2034,10 @@
   overflow: hidden;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges::before{
+.page-investment .investment-challenges::before,
+.page-main .investment-challenges::before,
+.page-credit .investment-challenges::before,
+.page-influence .investment-challenges::before {
   content:"";
   position:absolute;
   inset:0;
@@ -1521,11 +2049,20 @@
   z-index:0;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges > .section-container{position:relative; z-index:1;}
+.page-investment .investment-challenges > .section-container,
+.page-main .investment-challenges > .section-container,
+.page-credit .investment-challenges > .section-container,
+.page-influence .investment-challenges > .section-container {position:relative; z-index:1;}
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-head{max-width: 1180px;}
+.page-investment .investment-challenges .challenges-head,
+.page-main .investment-challenges .challenges-head,
+.page-credit .investment-challenges .challenges-head,
+.page-influence .investment-challenges .challenges-head {max-width: 1180px;}
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-lead{
+.page-investment .investment-challenges .challenges-lead,
+.page-main .investment-challenges .challenges-lead,
+.page-credit .investment-challenges .challenges-lead,
+.page-influence .investment-challenges .challenges-lead {
   margin-top: 14px;
   max-width: 920px;
   border-radius: 16px;
@@ -1537,14 +2074,20 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-lead p{
+.page-investment .investment-challenges .challenges-lead p,
+.page-main .investment-challenges .challenges-lead p,
+.page-credit .investment-challenges .challenges-lead p,
+.page-influence .investment-challenges .challenges-lead p {
   margin:0;
   color: rgba(244,241,235,.84);
   line-height:1.5;
   font-size: clamp(0.98rem, 1.05vw, 1.08rem);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-grid{
+.page-investment .investment-challenges .challenges-grid,
+.page-main .investment-challenges .challenges-grid,
+.page-credit .investment-challenges .challenges-grid,
+.page-influence .investment-challenges .challenges-grid {
   margin-top: clamp(22px, 2.4vw, 34px);
   display:grid;
   gap: clamp(16px, 1.8vw, 22px);
@@ -1552,26 +2095,38 @@
 }
 
 @media (min-width: 820px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-grid{
+  .page-investment .investment-challenges .challenges-grid,
+.page-main .investment-challenges .challenges-grid,
+.page-credit .investment-challenges .challenges-grid,
+.page-influence .investment-challenges .challenges-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1200px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-grid{
+  .page-investment .investment-challenges .challenges-grid,
+.page-main .investment-challenges .challenges-grid,
+.page-credit .investment-challenges .challenges-grid,
+.page-influence .investment-challenges .challenges-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
   }
 }
 
 /* делаем карточки более вытянутыми и аккуратно резервируем место под крупную иконку */
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card{
+.page-investment .investment-challenges .challenge-card,
+.page-main .investment-challenges .challenge-card,
+.page-credit .investment-challenges .challenge-card,
+.page-influence .investment-challenges .challenge-card {
   position: relative;
   padding: 22px 26px 104px; /* аккуратное место под иконку */
   min-height: 240px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card::after{
+.page-investment .investment-challenges .challenge-card::after,
+.page-main .investment-challenges .challenge-card::after,
+.page-credit .investment-challenges .challenge-card::after,
+.page-influence .investment-challenges .challenge-card::after {
   content:"";
   position:absolute;
   inset:0;
@@ -1582,7 +2137,10 @@
     radial-gradient(520px 260px at 110% 20%, rgba(255,138,0,.10), transparent 66%);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card h3{
+.page-investment .investment-challenges .challenge-card h3,
+.page-main .investment-challenges .challenge-card h3,
+.page-credit .investment-challenges .challenge-card h3,
+.page-influence .investment-challenges .challenge-card h3 {
   margin:0;
   font-family: "Roboto Slab", serif;
   font-weight: 900;
@@ -1593,7 +2151,10 @@
   padding-right: 0;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card p{
+.page-investment .investment-challenges .challenge-card p,
+.page-main .investment-challenges .challenge-card p,
+.page-credit .investment-challenges .challenge-card p,
+.page-influence .investment-challenges .challenge-card p {
   margin: 10px 0 0;
   color: rgba(244,241,235,.78);
   line-height: 1.46;
@@ -1601,7 +2162,10 @@
   padding-right: 0;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-foot{
+.page-investment .investment-challenges .challenge-foot,
+.page-main .investment-challenges .challenge-foot,
+.page-credit .investment-challenges .challenge-foot,
+.page-influence .investment-challenges .challenge-foot {
   margin-top: 14px;
   display:flex;
   align-items:flex-end;
@@ -1609,7 +2173,10 @@
   gap: 12px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-tag{
+.page-investment .investment-challenges .challenge-tag,
+.page-main .investment-challenges .challenge-tag,
+.page-credit .investment-challenges .challenge-tag,
+.page-influence .investment-challenges .challenge-tag {
   display:inline-flex;
   align-items:center;
   padding: 7px 10px;
@@ -1625,7 +2192,10 @@
   margin-left: 120px; /* сдвиг бейджа вправо от иконки */
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-icon{
+.page-investment .investment-challenges .challenge-icon,
+.page-main .investment-challenges .challenge-icon,
+.page-credit .investment-challenges .challenge-icon,
+.page-influence .investment-challenges .challenge-icon {
   position: absolute;
   left: 26px;
   bottom: 2px; /* чуть ниже, ближе к нижней границе карточки */
@@ -1637,7 +2207,10 @@
   transform-origin: center;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-icon img{
+.page-investment .investment-challenges .challenge-icon img,
+.page-main .investment-challenges .challenge-icon img,
+.page-credit .investment-challenges .challenge-icon img,
+.page-influence .investment-challenges .challenge-icon img {
   width: 72px;
   height: 72px;
   object-fit: contain;
@@ -1646,24 +2219,51 @@
 }
 
 @media (min-width: 1200px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card{min-height: 240px; padding: 20px 20px 16px;}
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card p{font-size: 0.98rem;}
+  .page-investment .investment-challenges .challenge-card,
+.page-main .investment-challenges .challenge-card,
+.page-credit .investment-challenges .challenge-card,
+.page-influence .investment-challenges .challenge-card {min-height: 240px; padding: 20px 20px 16px;}
+  .page-investment .investment-challenges .challenge-card p,
+.page-main .investment-challenges .challenge-card p,
+.page-credit .investment-challenges .challenge-card p,
+.page-influence .investment-challenges .challenge-card p {font-size: 0.98rem;}
 }
 
 @media (max-width: 520px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges{padding: 96px 0 120px;}
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card{padding: 16px 16px 14px;}
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card h3,
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-card p{padding-right: 0;}
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenge-tag{font-size: 0.70rem;}
+  .page-investment .investment-challenges,
+.page-main .investment-challenges,
+.page-credit .investment-challenges,
+.page-influence .investment-challenges {padding: 96px 0 120px;}
+  .page-investment .investment-challenges .challenge-card,
+.page-main .investment-challenges .challenge-card,
+.page-credit .investment-challenges .challenge-card,
+.page-influence .investment-challenges .challenge-card {padding: 16px 16px 14px;}
+  .page-investment .investment-challenges .challenge-card h3,
+.page-main .investment-challenges .challenge-card h3,
+.page-credit .investment-challenges .challenge-card h3,
+.page-influence .investment-challenges .challenge-card h3,
+  .page-investment .investment-challenges .challenge-card p,
+.page-main .investment-challenges .challenge-card p,
+.page-credit .investment-challenges .challenge-card p,
+.page-influence .investment-challenges .challenge-card p {padding-right: 0;}
+  .page-investment .investment-challenges .challenge-tag,
+.page-main .investment-challenges .challenge-tag,
+.page-credit .investment-challenges .challenge-tag,
+.page-influence .investment-challenges .challenge-tag {font-size: 0.70rem;}
 }
 
 /* --- CHALLENGES: glass CTA panel under cards --- */
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta{
+.page-investment .investment-challenges .challenges-cta,
+.page-main .investment-challenges .challenges-cta,
+.page-credit .investment-challenges .challenges-cta,
+.page-influence .investment-challenges .challenges-cta {
   margin-top: clamp(42px, 4.2vw, 68px); /* опускаем стеклянный CTA ниже карточек */
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__inner{
+.page-investment .investment-challenges .challenges-cta__inner,
+.page-main .investment-challenges .challenges-cta__inner,
+.page-credit .investment-challenges .challenges-cta__inner,
+.page-influence .investment-challenges .challenges-cta__inner {
   display: grid;
   grid-template-columns: 1.35fr 1fr;
   gap: clamp(16px, 2.2vw, 26px);
@@ -1687,7 +2287,10 @@
   position: relative;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__inner::before{
+.page-investment .investment-challenges .challenges-cta__inner::before,
+.page-main .investment-challenges .challenges-cta__inner::before,
+.page-credit .investment-challenges .challenges-cta__inner::before,
+.page-influence .investment-challenges .challenges-cta__inner::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -1703,7 +2306,10 @@
   opacity:.85;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__title{
+.page-investment .investment-challenges .challenges-cta__title,
+.page-main .investment-challenges .challenges-cta__title,
+.page-credit .investment-challenges .challenges-cta__title,
+.page-influence .investment-challenges .challenges-cta__title {
   margin:0;
   font-family: "Roboto Slab", serif;
   font-weight: 950;
@@ -1713,7 +2319,10 @@
   text-shadow: 0 12px 30px rgba(0,0,0,.65);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__subtitle{
+.page-investment .investment-challenges .challenges-cta__subtitle,
+.page-main .investment-challenges .challenges-cta__subtitle,
+.page-credit .investment-challenges .challenges-cta__subtitle,
+.page-influence .investment-challenges .challenges-cta__subtitle {
   margin: 10px 0 0;
   color: rgba(244,241,235,.80);
   line-height: 1.55;
@@ -1721,7 +2330,10 @@
   max-width: 70ch;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__form{
+.page-investment .investment-challenges .challenges-cta__form,
+.page-main .investment-challenges .challenges-cta__form,
+.page-credit .investment-challenges .challenges-cta__form,
+.page-influence .investment-challenges .challenges-cta__form {
   border-radius: 18px;
   padding: 16px;
   background: rgba(0,0,0,.26);
@@ -1729,24 +2341,36 @@
   box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__fields{
+.page-investment .investment-challenges .challenges-cta__fields,
+.page-main .investment-challenges .challenges-cta__fields,
+.page-credit .investment-challenges .challenges-cta__fields,
+.page-influence .investment-challenges .challenges-cta__fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__field{
+.page-investment .investment-challenges .challenges-cta__field,
+.page-main .investment-challenges .challenges-cta__field,
+.page-credit .investment-challenges .challenges-cta__field,
+.page-influence .investment-challenges .challenges-cta__field {
   display: grid;
   gap: 8px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__field span{
+.page-investment .investment-challenges .challenges-cta__field span,
+.page-main .investment-challenges .challenges-cta__field span,
+.page-credit .investment-challenges .challenges-cta__field span,
+.page-influence .investment-challenges .challenges-cta__field span {
   font-size: .86rem;
   font-weight: 850;
   color: rgba(244,241,235,.72);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__field input{
+.page-investment .investment-challenges .challenges-cta__field input,
+.page-main .investment-challenges .challenges-cta__field input,
+.page-credit .investment-challenges .challenges-cta__field input,
+.page-influence .investment-challenges .challenges-cta__field input {
   width: 100%;
   height: 44px;
   border-radius: 12px;
@@ -1760,27 +2384,42 @@
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__field input:focus{
+.page-investment .investment-challenges .challenges-cta__field input:focus,
+.page-main .investment-challenges .challenges-cta__field input:focus,
+.page-credit .investment-challenges .challenges-cta__field input:focus,
+.page-influence .investment-challenges .challenges-cta__field input:focus {
   border-color: rgba(255,122,24,.78);
   box-shadow: 0 0 0 2px rgba(255,122,24,.55);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn{
+.page-investment .investment-challenges .challenges-cta__btn,
+.page-main .investment-challenges .challenges-cta__btn,
+.page-credit .investment-challenges .challenges-cta__btn,
+.page-influence .investment-challenges .challenges-cta__btn {
   margin-top: 12px;
   width: 100%;
   height: 56px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__btn:hover{
+.page-investment .investment-challenges .challenges-cta__btn:hover,
+.page-main .investment-challenges .challenges-cta__btn:hover,
+.page-credit .investment-challenges .challenges-cta__btn:hover,
+.page-influence .investment-challenges .challenges-cta__btn:hover {
   filter: brightness(1.14) saturate(1.2);
   transform: translateY(-1px);
 }
 
 @media (max-width: 980px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__inner{
+  .page-investment .investment-challenges .challenges-cta__inner,
+.page-main .investment-challenges .challenges-cta__inner,
+.page-credit .investment-challenges .challenges-cta__inner,
+.page-influence .investment-challenges .challenges-cta__inner {
     grid-template-columns: 1fr;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-challenges .challenges-cta__fields{
+  .page-investment .investment-challenges .challenges-cta__fields,
+.page-main .investment-challenges .challenges-cta__fields,
+.page-credit .investment-challenges .challenges-cta__fields,
+.page-influence .investment-challenges .challenges-cta__fields {
     grid-template-columns: 1fr;
   }
 }
@@ -1791,48 +2430,123 @@
    ========================= */
 
 /* Kill any legacy divider elements if they still exist in HTML */
-.page-investment, .page-main, .page-credit, .page-influence .keis-section-divider,
-.page-investment, .page-main, .page-credit, .page-influence .keis-divider,
-.page-investment, .page-main, .page-credit, .page-influence [class*="keis-divider"],
-.page-investment, .page-main, .page-credit, .page-influence .keis-scenarios-seam,
-.page-investment, .page-main, .page-credit, .page-influence [class*="seam"],
-.page-investment, .page-main, .page-credit, .page-influence [class*="divider"]{
+.page-investment .keis-section-divider,
+.page-main .keis-section-divider,
+.page-credit .keis-section-divider,
+.page-influence .keis-section-divider,
+.page-investment .keis-divider,
+.page-main .keis-divider,
+.page-credit .keis-divider,
+.page-influence .keis-divider,
+.page-investment [class*="keis-divider"],
+.page-main [class*="keis-divider"],
+.page-credit [class*="keis-divider"],
+.page-influence [class*="keis-divider"],
+.page-investment .keis-scenarios-seam,
+.page-main .keis-scenarios-seam,
+.page-credit .keis-scenarios-seam,
+.page-influence .keis-scenarios-seam,
+.page-investment [class*="seam"],
+.page-main [class*="seam"],
+.page-credit [class*="seam"],
+.page-influence [class*="seam"],
+.page-investment [class*="divider"],
+.page-main [class*="divider"],
+.page-credit [class*="divider"],
+.page-influence [class*="divider"] {
   display: none !important;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-section-divider::before,
-.page-investment, .page-main, .page-credit, .page-influence .keis-section-divider::after,
-.page-investment, .page-main, .page-credit, .page-influence .keis-divider::before,
-.page-investment, .page-main, .page-credit, .page-influence .keis-divider::after,
-.page-investment, .page-main, .page-credit, .page-influence [class*="keis-divider"]::before,
-.page-investment, .page-main, .page-credit, .page-influence [class*="keis-divider"]::after,
-.page-investment, .page-main, .page-credit, .page-influence .keis-scenarios-seam::before,
-.page-investment, .page-main, .page-credit, .page-influence .keis-scenarios-seam::after,
-.page-investment, .page-main, .page-credit, .page-influence [class*="seam"]::before,
-.page-investment, .page-main, .page-credit, .page-influence [class*="seam"]::after,
-.page-investment, .page-main, .page-credit, .page-influence [class*="divider"]::before,
-.page-investment, .page-main, .page-credit, .page-influence [class*="divider"]::after{
+.page-investment .keis-section-divider::before,
+.page-main .keis-section-divider::before,
+.page-credit .keis-section-divider::before,
+.page-influence .keis-section-divider::before,
+.page-investment .keis-section-divider::after,
+.page-main .keis-section-divider::after,
+.page-credit .keis-section-divider::after,
+.page-influence .keis-section-divider::after,
+.page-investment .keis-divider::before,
+.page-main .keis-divider::before,
+.page-credit .keis-divider::before,
+.page-influence .keis-divider::before,
+.page-investment .keis-divider::after,
+.page-main .keis-divider::after,
+.page-credit .keis-divider::after,
+.page-influence .keis-divider::after,
+.page-investment [class*="keis-divider"]::before,
+.page-main [class*="keis-divider"]::before,
+.page-credit [class*="keis-divider"]::before,
+.page-influence [class*="keis-divider"]::before,
+.page-investment [class*="keis-divider"]::after,
+.page-main [class*="keis-divider"]::after,
+.page-credit [class*="keis-divider"]::after,
+.page-influence [class*="keis-divider"]::after,
+.page-investment .keis-scenarios-seam::before,
+.page-main .keis-scenarios-seam::before,
+.page-credit .keis-scenarios-seam::before,
+.page-influence .keis-scenarios-seam::before,
+.page-investment .keis-scenarios-seam::after,
+.page-main .keis-scenarios-seam::after,
+.page-credit .keis-scenarios-seam::after,
+.page-influence .keis-scenarios-seam::after,
+.page-investment [class*="seam"]::before,
+.page-main [class*="seam"]::before,
+.page-credit [class*="seam"]::before,
+.page-influence [class*="seam"]::before,
+.page-investment [class*="seam"]::after,
+.page-main [class*="seam"]::after,
+.page-credit [class*="seam"]::after,
+.page-influence [class*="seam"]::after,
+.page-investment [class*="divider"]::before,
+.page-main [class*="divider"]::before,
+.page-credit [class*="divider"]::before,
+.page-influence [class*="divider"]::before,
+.page-investment [class*="divider"]::after,
+.page-main [class*="divider"]::after,
+.page-credit [class*="divider"]::after,
+.page-influence [class*="divider"]::after {
   content: none !important;
 }
 
 /* Also disable any pseudo-divider on sections (safety net) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::after,
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax::before,
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax::after{
+.page-investment .investment-scenarios::before,
+.page-main .investment-scenarios::before,
+.page-credit .investment-scenarios::before,
+.page-influence .investment-scenarios::before,
+.page-investment .investment-scenarios::after,
+.page-main .investment-scenarios::after,
+.page-credit .investment-scenarios::after,
+.page-influence .investment-scenarios::after,
+.page-investment .trust-parallax::before,
+.page-main .trust-parallax::before,
+.page-credit .trust-parallax::before,
+.page-influence .trust-parallax::before,
+.page-investment .trust-parallax::after,
+.page-main .trust-parallax::after,
+.page-credit .trust-parallax::after,
+.page-influence .trust-parallax::after {
   content: none !important;
 }
 
 /* Прижимаем стеклянную ленту к низу блока "Реальные истории" (убираем зазор) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios{
+.page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios {
   padding-bottom: 0 !important;
 }
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenarios-band-controls{
+.page-investment .investment-scenarios .scenarios-band-controls,
+.page-main .investment-scenarios .scenarios-band-controls,
+.page-credit .investment-scenarios .scenarios-band-controls,
+.page-influence .investment-scenarios .scenarios-band-controls {
   margin-bottom: 0 !important;
 }
 
 /* Если где-то остался доп. отступ вокруг ленты — обнуляем */
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge{
+.page-investment .scenarios-trust-bridge,
+.page-main .scenarios-trust-bridge,
+.page-credit .scenarios-trust-bridge,
+.page-influence .scenarios-trust-bridge {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
@@ -1999,11 +2713,17 @@ button,input,textarea{font:inherit}
 
 /* До 900px: логотип слева, всё остальное прижато вправо */
 @media (max-width:899px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-inner{
+  .page-investment .keis-header-inner,
+.page-main .keis-header-inner,
+.page-credit .keis-header-inner,
+.page-influence .keis-header-inner {
     justify-content:flex-start;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-center{
+  .page-investment .keis-header-center,
+.page-main .keis-header-center,
+.page-credit .keis-header-center,
+.page-influence .keis-header-center {
     margin-left:auto;
   }
 }
@@ -2190,7 +2910,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 
 /* Оранжевая разделительная полоса между hero и scenarios — ОТКЛЮЧЕНА (мешала верстке).
    Если вернём разделители позже — сделаем отдельным reusable divider, не через ::before у hero. */
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment::before{ content:none; }
+.page-investment .hero-investment::before,
+.page-main .hero-investment::before,
+.page-credit .hero-investment::before,
+.page-influence .hero-investment::before { content:none; }
 
 /* HERO: добавляем высоту и «сцену» на широких экранах */
 @media (min-width: 1100px){
@@ -2928,7 +3651,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
    ========================= */
 
 /* ====== 4-й блок: Признаки обмана ====== */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs{
+.page-investment .investment-signs,
+.page-main .investment-signs,
+.page-credit .investment-signs,
+.page-influence .investment-signs {
   position: relative;
   padding: 120px 0 160px;
   /* removed photographic background image in favor of stylized gradient/texture */
@@ -2962,7 +3688,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 .investment-signs > .section-container{ position:relative; z-index:1; }
 
 @media (min-width: 1100px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .signs-wall{
+  .page-investment .investment-signs .signs-wall,
+.page-main .investment-signs .signs-wall,
+.page-credit .investment-signs .signs-wall,
+.page-influence .investment-signs .signs-wall {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -2972,7 +3701,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 /* ===== SIGNS: карточки «таблички на магнитах» как на референсе ===== */
 
 /* сетка карточек */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .signs-grid{
+.page-investment .investment-signs .signs-grid,
+.page-main .investment-signs .signs-grid,
+.page-credit .investment-signs .signs-grid,
+.page-influence .investment-signs .signs-grid {
   display:grid;
   gap: 22px;
   align-items:start;
@@ -2980,7 +3712,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 
 @media (min-width: 900px){
   /* 3 ровные колонки и ровные отступы — чтобы карточки лежали РАВНОМЕРНО внутри границ доски */
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .signs-grid{
+  .page-investment .investment-signs .signs-grid,
+.page-main .investment-signs .signs-grid,
+.page-credit .investment-signs .signs-grid,
+.page-influence .investment-signs .signs-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(18px, 1.9vw, 26px);
 
@@ -2993,19 +3728,28 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 
 @media (max-width: 899px){
   /* планшет/мобилка — пусть текущая логика ниже по файлу решает, но зафиксируем нормальный ритм */
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .signs-grid{
+  .page-investment .investment-signs .signs-grid,
+.page-main .investment-signs .signs-grid,
+.page-credit .investment-signs .signs-grid,
+.page-influence .investment-signs .signs-grid {
     grid-template-columns: repeat(2, minmax(0,1fr));
   }
 }
 
 @media (max-width: 560px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .signs-grid{
+  .page-investment .investment-signs .signs-grid,
+.page-main .investment-signs .signs-grid,
+.page-credit .investment-signs .signs-grid,
+.page-influence .investment-signs .signs-grid {
     grid-template-columns: 1fr;
   }
 }
 
 /* сама «табличка» */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card{
+.page-investment .investment-signs .sign-card,
+.page-main .investment-signs .sign-card,
+.page-credit .investment-signs .sign-card,
+.page-influence .investment-signs .sign-card {
   position: relative;
   border-radius: 20px;
   padding: 40px 26px 26px;
@@ -3024,7 +3768,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* внутренний световой кант */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card::before{
+.page-investment .investment-signs .sign-card::before,
+.page-main .investment-signs .sign-card::before,
+.page-credit .investment-signs .sign-card::before,
+.page-influence .investment-signs .sign-card::before {
   content:"";
   position:absolute;
   inset:-1px;
@@ -3053,7 +3800,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* мягкий верхний блик внутри карточки */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card::after{
+.page-investment .investment-signs .sign-card::after,
+.page-main .investment-signs .sign-card::after,
+.page-credit .investment-signs .sign-card::after,
+.page-influence .investment-signs .sign-card::after {
   content:"";
   position:absolute;
   left:10%;
@@ -3067,7 +3817,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* номер — спокойный, как маркировка */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-number{
+.page-investment .investment-signs .sign-number,
+.page-main .investment-signs .sign-number,
+.page-credit .investment-signs .sign-number,
+.page-influence .investment-signs .sign-number {
   position:absolute;
   top: 14px;
   left: 14px;
@@ -3078,7 +3831,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* типографика «как на табличке» */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-title{
+.page-investment .investment-signs .sign-title,
+.page-main .investment-signs .sign-title,
+.page-credit .investment-signs .sign-title,
+.page-influence .investment-signs .sign-title {
   margin: 0 0 10px;
   font-family: "Roboto Slab", "Inter", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   font-weight: 900;
@@ -3203,7 +3959,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-text{
+.page-investment .investment-signs .sign-text,
+.page-main .investment-signs .sign-text,
+.page-credit .investment-signs .sign-text,
+.page-influence .investment-signs .sign-text {
   margin: 0;
   font-family: "Roboto Slab", "Inter", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   font-weight: 700;
@@ -3215,21 +3974,33 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 /* пропорции карточек как на референсе */
 @media (min-width: 900px){
   /* одинаковые пропорции — чтобы сетка выглядела ровно */
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card{
+  .page-investment .investment-signs .sign-card,
+.page-main .investment-signs .sign-card,
+.page-credit .investment-signs .sign-card,
+.page-influence .investment-signs .sign-card {
     min-height: 230px;
     padding: 44px 30px 26px;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-title{
+  .page-investment .investment-signs .sign-title,
+.page-main .investment-signs .sign-title,
+.page-credit .investment-signs .sign-title,
+.page-influence .investment-signs .sign-title {
     font-size: clamp(18px, 1.18vw, 26px);
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-text{
+  .page-investment .investment-signs .sign-text,
+.page-main .investment-signs .sign-text,
+.page-credit .investment-signs .sign-text,
+.page-influence .investment-signs .sign-text {
     font-size: clamp(13px, .92vw, 16px);
   }
 }
 
 @media (max-width: 899px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card{
+  .page-investment .investment-signs .sign-card,
+.page-main .investment-signs .sign-card,
+.page-credit .investment-signs .sign-card,
+.page-influence .investment-signs .sign-card {
     padding: 34px 20px 22px;
     border-radius: 18px;
   }
@@ -3291,7 +4062,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* ===== SCENARIOS: фоновое изображение блока "Реальные истории" ===== */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios{
+.page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios {
   position: relative;
   /* нижний отступ привязан к токену зазора под стрелками */
   --scenarios-bottom-gap: 0px;
@@ -3305,7 +4079,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* затемнение поверх фонового изображения */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::before{
+.page-investment .investment-scenarios::before,
+.page-main .investment-scenarios::before,
+.page-credit .investment-scenarios::before,
+.page-influence .investment-scenarios::before {
   content:"";
   position:absolute;
   inset:0;
@@ -3321,7 +4098,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* контент поверх фона */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios > .section-container{
+.page-investment .investment-scenarios > .section-container,
+.page-main .investment-scenarios > .section-container,
+.page-credit .investment-scenarios > .section-container,
+.page-influence .investment-scenarios > .section-container {
   position: relative;
   z-index: 2;
 }
@@ -4324,19 +5104,28 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 /* =========================
    FIND US — карта + отзывы
    ========================= */
-.page-investment, .page-main, .page-credit, .page-influence .investment-find {
+.page-investment .investment-find,
+.page-main .investment-find,
+.page-credit .investment-find,
+.page-influence .investment-find {
   padding: clamp(60px, 6vw, 100px) 0;
   background: rgba(2,2,2, .88);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-grid {
+.page-investment .investment-find .find-grid,
+.page-main .investment-find .find-grid,
+.page-credit .investment-find .find-grid,
+.page-influence .investment-find .find-grid {
   display: grid;
   gap: clamp(22px, 3vw, 44px);
   grid-template-columns: 1fr 1fr;
   align-items: start;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .find-title {
+.page-investment .investment-find .find-title,
+.page-main .investment-find .find-title,
+.page-credit .investment-find .find-title,
+.page-influence .investment-find .find-title {
   font-family: "Roboto Slab", serif;
   font-weight: 900;
   font-size: 1.44rem;
@@ -4344,8 +5133,14 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   margin-bottom: 12px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .map-widget,
-.page-investment, .page-main, .page-credit, .page-influence .investment-find .reviews-widget {
+.page-investment .investment-find .map-widget,
+.page-main .investment-find .map-widget,
+.page-credit .investment-find .map-widget,
+.page-influence .investment-find .map-widget,
+.page-investment .investment-find .reviews-widget,
+.page-main .investment-find .reviews-widget,
+.page-credit .investment-find .reviews-widget,
+.page-influence .investment-find .reviews-widget {
   width: 100%;
   overflow: hidden;
   border-radius: 18px;
@@ -4354,7 +5149,10 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* iframe fills container */
-.page-investment, .page-main, .page-credit, .page-influence .investment-find iframe {
+.page-investment .investment-find iframe,
+.page-main .investment-find iframe,
+.page-credit .investment-find iframe,
+.page-influence .investment-find iframe {
   width: 100%;
   height: 380px;
   border: none;
@@ -4362,10 +5160,16 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 
 /* адаптив: на узких планшетах — колонка */
 @media (max-width: 900px) {
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find .find-grid {
+  .page-investment .investment-find .find-grid,
+.page-main .investment-find .find-grid,
+.page-credit .investment-find .find-grid,
+.page-influence .investment-find .find-grid {
     grid-template-columns: 1fr;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-find iframe {
+  .page-investment .investment-find iframe,
+.page-main .investment-find iframe,
+.page-credit .investment-find iframe,
+.page-influence .investment-find iframe {
     height: 320px;
   }
 }
@@ -4381,21 +5185,36 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    Без ломки сеток и логики. Только оформление + адаптив.
    ========================================================== */
 
-.page-investment, .page-main, .page-credit, .page-influence section{
+.page-investment section,
+.page-main section,
+.page-credit section,
+.page-influence section {
   position: relative;
   overflow: visible;
 }
 
 /* Унифицированные отступы секций */
-.page-investment, .page-main, .page-credit, .page-influence section:not(.hero-investment):not(.investment-scenarios){
+.page-investment section:not(.hero-investment):not(.investment-scenarios),
+.page-main section:not(.hero-investment):not(.investment-scenarios),
+.page-credit section:not(.hero-investment):not(.investment-scenarios),
+.page-influence section:not(.hero-investment):not(.investment-scenarios) {
   padding-top: clamp(56px, 8vw, 96px);
   padding-bottom: clamp(56px, 8vw, 96px);
 }
 
 /* Глобальный soft-glass */
-.page-investment, .page-main, .page-credit, .page-influence .glass,
-.page-investment, .page-main, .page-credit, .page-influence .card,
-.page-investment, .page-main, .page-credit, .page-influence article:not(.scenario-slide){
+.page-investment .glass,
+.page-main .glass,
+.page-credit .glass,
+.page-influence .glass,
+.page-investment .card,
+.page-main .card,
+.page-credit .card,
+.page-influence .card,
+.page-investment article:not(.scenario-slide),
+.page-main article:not(.scenario-slide),
+.page-credit article:not(.scenario-slide),
+.page-influence article:not(.scenario-slide) {
   border-radius: 20px;
   background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
@@ -4415,43 +5234,100 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Заголовки — единый ритм */
-.page-investment, .page-main, .page-credit, .page-influence h1,
-.page-investment, .page-main, .page-credit, .page-influence h2,
-.page-investment, .page-main, .page-credit, .page-influence h3{
+.page-investment h1,
+.page-main h1,
+.page-credit h1,
+.page-influence h1,
+.page-investment h2,
+.page-main h2,
+.page-credit h2,
+.page-influence h2,
+.page-investment h3,
+.page-main h3,
+.page-credit h3,
+.page-influence h3 {
   font-family: "Roboto Slab", serif;
   letter-spacing: .01em;
 }
 
 /* Видео / фоновые секции — чтобы ничего не резалось */
-.page-investment, .page-main, .page-credit, .page-influence video,
-.page-investment, .page-main, .page-credit, .page-influence .parallax,
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios{
+.page-investment video,
+.page-main video,
+.page-credit video,
+.page-influence video,
+.page-investment .parallax,
+.page-main .parallax,
+.page-credit .parallax,
+.page-influence .parallax,
+.page-investment .trust-parallax,
+.page-main .trust-parallax,
+.page-credit .trust-parallax,
+.page-influence .trust-parallax,
+.page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios {
   overflow: visible !important;
 }
 
 /* КАРТОЧКИ ВЕЗДЕ — защита от обрезки */
-.page-investment, .page-main, .page-credit, .page-influence .hero-benefit-card,
-.page-investment, .page-main, .page-credit, .page-influence .trust-card,
-.page-investment, .page-main, .page-credit, .page-influence .sign-card,
-.page-investment, .page-main, .page-credit, .page-influence .timeline-step,
-.page-investment, .page-main, .page-credit, .page-influence .case-card{
+.page-investment .hero-benefit-card,
+.page-main .hero-benefit-card,
+.page-credit .hero-benefit-card,
+.page-influence .hero-benefit-card,
+.page-investment .trust-card,
+.page-main .trust-card,
+.page-credit .trust-card,
+.page-influence .trust-card,
+.page-investment .sign-card,
+.page-main .sign-card,
+.page-credit .sign-card,
+.page-influence .sign-card,
+.page-investment .timeline-step,
+.page-main .timeline-step,
+.page-credit .timeline-step,
+.page-influence .timeline-step,
+.page-investment .case-card,
+.page-main .case-card,
+.page-credit .case-card,
+.page-influence .case-card {
   min-height: unset !important;
   height: auto !important;
 }
 
 /* GRID SAFETY — авто‑адаптация */
-.page-investment, .page-main, .page-credit, .page-influence .hero-benefits-grid,
-.page-investment, .page-main, .page-credit, .page-influence .trust-cards-grid,
-.page-investment, .page-main, .page-credit, .page-influence .signs-grid,
-.page-investment, .page-main, .page-credit, .page-influence .cases-grid{
+.page-investment .hero-benefits-grid,
+.page-main .hero-benefits-grid,
+.page-credit .hero-benefits-grid,
+.page-influence .hero-benefits-grid,
+.page-investment .trust-cards-grid,
+.page-main .trust-cards-grid,
+.page-credit .trust-cards-grid,
+.page-influence .trust-cards-grid,
+.page-investment .signs-grid,
+.page-main .signs-grid,
+.page-credit .signs-grid,
+.page-influence .signs-grid,
+.page-investment .cases-grid,
+.page-main .cases-grid,
+.page-credit .cases-grid,
+.page-influence .cases-grid {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 /* Капсулы (бейджи, подписи) */
-.page-investment, .page-main, .page-credit, .page-influence .badge,
-.page-investment, .page-main, .page-credit, .page-influence .capsule,
-.page-investment, .page-main, .page-credit, .page-influence .tag{
+.page-investment .badge,
+.page-main .badge,
+.page-credit .badge,
+.page-influence .badge,
+.page-investment .capsule,
+.page-main .capsule,
+.page-credit .capsule,
+.page-influence .capsule,
+.page-investment .tag,
+.page-main .tag,
+.page-credit .tag,
+.page-influence .tag {
   display:inline-flex;
   align-items:center;
   padding:8px 14px;
@@ -4462,12 +5338,24 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* CTA — единый стиль */
-.page-investment, .page-main, .page-credit, .page-influence .btn-primary,
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta{
+.page-investment .btn-primary,
+.page-main .btn-primary,
+.page-credit .btn-primary,
+.page-influence .btn-primary,
+.page-investment .keis-header-cta,
+.page-main .keis-header-cta,
+.page-credit .keis-header-cta,
+.page-influence .keis-header-cta {
   transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
 }
-.page-investment, .page-main, .page-credit, .page-influence .btn-primary:hover,
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-cta:hover{
+.page-investment .btn-primary:hover,
+.page-main .btn-primary:hover,
+.page-credit .btn-primary:hover,
+.page-influence .btn-primary:hover,
+.page-investment .keis-header-cta:hover,
+.page-main .keis-header-cta:hover,
+.page-credit .keis-header-cta:hover,
+.page-influence .keis-header-cta:hover {
   transform: translateY(-1px);
   box-shadow: 0 18px 34px rgba(249,115,22,.35);
 }
@@ -4637,14 +5525,23 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* FIX: SCENARIOS bands live ONLY inside the section */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios{
+.page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios {
   position: relative;
   overflow: hidden;
 }
 
 /* base for both bands */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::after{
+.page-investment .investment-scenarios::before,
+.page-main .investment-scenarios::before,
+.page-credit .investment-scenarios::before,
+.page-influence .investment-scenarios::before,
+.page-investment .investment-scenarios::after,
+.page-main .investment-scenarios::after,
+.page-credit .investment-scenarios::after,
+.page-influence .investment-scenarios::after {
   content:"";
   position:absolute;
   left:50%;
@@ -4666,19 +5563,28 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* top band */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::before{
+.page-investment .investment-scenarios::before,
+.page-main .investment-scenarios::before,
+.page-credit .investment-scenarios::before,
+.page-influence .investment-scenarios::before {
   top:0;
   transform: translate3d(-50%, 0, 0) rotate(-2.4deg);
 }
 
 /* bottom band — pressed to the bottom edge */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::after{
+.page-investment .investment-scenarios::after,
+.page-main .investment-scenarios::after,
+.page-credit .investment-scenarios::after,
+.page-influence .investment-scenarios::after {
   bottom:0;
   transform: translate3d(-50%, 0, 0) rotate(-2.4deg);
 }
 
 /* OVERRIDE: remove angled bottom band in SCENARIOS (keep top band intact) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios::after{
+.page-investment .investment-scenarios::after,
+.page-main .investment-scenarios::after,
+.page-credit .investment-scenarios::after,
+.page-influence .investment-scenarios::after {
   /* hide the angled bottom band — use !important to ensure override */
   content: none !important;
   display: none !important;
@@ -4694,12 +5600,30 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 /* LATE OVERRIDE: ensure surge + seam are visible and harmonized as a single
    visual unit placed under the glass bridge. This replaces an earlier 'hide'
    override so we can tune the appearance consistently. */
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider,
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider::before,
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider::after,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam::after {
+.page-investment .keis-surge-divider,
+.page-main .keis-surge-divider,
+.page-credit .keis-surge-divider,
+.page-influence .keis-surge-divider,
+.page-investment .keis-surge-divider::before,
+.page-main .keis-surge-divider::before,
+.page-credit .keis-surge-divider::before,
+.page-influence .keis-surge-divider::before,
+.page-investment .keis-surge-divider::after,
+.page-main .keis-surge-divider::after,
+.page-credit .keis-surge-divider::after,
+.page-influence .keis-surge-divider::after,
+.page-investment .investment-scenarios .keis-divider--scenarios-seam,
+.page-main .investment-scenarios .keis-divider--scenarios-seam,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam,
+.page-investment .investment-scenarios .keis-divider--scenarios-seam::before,
+.page-main .investment-scenarios .keis-divider--scenarios-seam::before,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam::before,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam::before,
+.page-investment .investment-scenarios .keis-divider--scenarios-seam::after,
+.page-main .investment-scenarios .keis-divider--scenarios-seam::after,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam::after,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam::after {
   display: block !important;
   visibility: visible !important;
   pointer-events: none !important;
@@ -4707,7 +5631,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* content above bands */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios > .section-container{
+.page-investment .investment-scenarios > .section-container,
+.page-main .investment-scenarios > .section-container,
+.page-credit .investment-scenarios > .section-container,
+.page-influence .investment-scenarios > .section-container {
   position:relative;
   z-index:2;
 }
@@ -4736,11 +5663,17 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   z-index: 1;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-card .case-title{
+.page-investment .investment-cases .case-card .case-title,
+.page-main .investment-cases .case-card .case-title,
+.page-credit .investment-cases .case-card .case-title,
+.page-influence .investment-cases .case-card .case-title {
   position: relative;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-cases .case-card .case-title::after{
+.page-investment .investment-cases .case-card .case-title::after,
+.page-main .investment-cases .case-card .case-title::after,
+.page-credit .investment-cases .case-card .case-title::after,
+.page-influence .investment-cases .case-card .case-title::after {
   content:"";
   display:block;
   width: 74px;
@@ -4752,24 +5685,39 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Ensure FAQ section overflow is visible for negative margins */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq{
+.page-investment .investment-faq,
+.page-main .investment-faq,
+.page-credit .investment-faq,
+.page-influence .investment-faq {
   overflow: visible;
 }
 /* FAQ ASIDE VISUAL: overflow fix for visual-out-of-bounds, CTA always inside */
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside--visual{
+.page-investment .investment-faq .faq-aside--visual,
+.page-main .investment-faq .faq-aside--visual,
+.page-credit .investment-faq .faq-aside--visual,
+.page-influence .investment-faq .faq-aside--visual {
   overflow: hidden;
 }
 @media (min-width: 1400px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-grid{
+  .page-investment .investment-faq .faq-grid,
+.page-main .investment-faq .faq-grid,
+.page-credit .investment-faq .faq-grid,
+.page-influence .investment-faq .faq-grid {
     grid-template-columns: 38% 1fr;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside--visual{
+  .page-investment .investment-faq .faq-aside--visual,
+.page-main .investment-faq .faq-aside--visual,
+.page-credit .investment-faq .faq-aside--visual,
+.page-influence .investment-faq .faq-aside--visual {
     min-height: 720px;
   }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-aside--visual {
+.page-investment .investment-faq .faq-aside--visual,
+.page-main .investment-faq .faq-aside--visual,
+.page-credit .investment-faq .faq-aside--visual,
+.page-influence .investment-faq .faq-aside--visual {
   mask-image: linear-gradient(
     to left,
     rgba(0,0,0,1) 65%,
@@ -4784,11 +5732,17 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    Сужаем карточки и смещаем влево
    ========================= */
 @media (min-width: 600px) and (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-grid{
+  .page-investment .investment-faq .faq-grid,
+.page-main .investment-faq .faq-grid,
+.page-credit .investment-faq .faq-grid,
+.page-influence .investment-faq .faq-grid {
     grid-template-columns: 1fr;
   }
 
-  .page-investment, .page-main, .page-credit, .page-influence .investment-faq .faq-list{
+  .page-investment .investment-faq .faq-list,
+.page-main .investment-faq .faq-list,
+.page-credit .investment-faq .faq-list,
+.page-influence .investment-faq .faq-list {
     max-width: 520px;        /* карточки уже */
     width: 100%;
     margin-left: 0;          /* прижимаем влево */
@@ -4799,7 +5753,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 
 
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-faq::before{
+.page-investment .investment-faq::before,
+.page-main .investment-faq::before,
+.page-credit .investment-faq::before,
+.page-influence .investment-faq::before {
   mix-blend-mode: normal;
 }
 
@@ -4864,72 +5821,111 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    HEADER FIXES (Investment)
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header{
+.page-investment .keis-header,
+.page-main .keis-header,
+.page-credit .keis-header,
+.page-influence .keis-header {
   position: sticky;
   top: 0;
   z-index: 9999;
 }
 
 /* make header layout breathe: nav closer to contacts, but with a clear gap */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-inner{
+.page-investment .keis-header-inner,
+.page-main .keis-header-inner,
+.page-credit .keis-header-inner,
+.page-influence .keis-header-inner {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
 /* Bigger logo, minimal top/bottom breathing room */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-logo{
+.page-investment .keis-header-logo,
+.page-main .keis-header-logo,
+.page-credit .keis-header-logo,
+.page-influence .keis-header-logo {
   display: inline-flex;
   align-items: center;
   padding: 0;
   line-height: 0;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-logo img{
+.page-investment .keis-header-logo img,
+.page-main .keis-header-logo img,
+.page-credit .keis-header-logo img,
+.page-influence .keis-header-logo img {
   display: block;
   height: 44px; /* larger than before */
   width: auto;
 }
 
 @media (min-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-logo img{ height: 52px; }
+  .page-investment .keis-header-logo img,
+.page-main .keis-header-logo img,
+.page-credit .keis-header-logo img,
+.page-influence .keis-header-logo img { height: 52px; }
 }
 
 /* Move the nav to the right, closer to the contacts cluster */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav{
+.page-investment .keis-header-nav,
+.page-main .keis-header-nav,
+.page-credit .keis-header-nav,
+.page-influence .keis-header-nav {
   margin-left: auto;
   margin-right: 34px; /* bigger air before phone/icons */
 }
 
 /* Keep right cluster tight */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-center{
+.page-investment .keis-header-center,
+.page-main .keis-header-center,
+.page-credit .keis-header-center,
+.page-influence .keis-header-center {
   display: inline-flex;
   align-items: center;
   gap: 14px;
 }
 
 /* Icons: базовый размер для investment-лендинга на планшетах/десктопах */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-icon{
+.page-investment .keis-header-icon,
+.page-main .keis-header-icon,
+.page-credit .keis-header-icon,
+.page-influence .keis-header-icon {
   width: 32px;
   height: 32px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--telegram,
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--whats{
+.page-investment .keis-header-icon--telegram,
+.page-main .keis-header-icon--telegram,
+.page-credit .keis-header-icon--telegram,
+.page-influence .keis-header-icon--telegram,
+.page-investment .keis-header-icon--whats,
+.page-main .keis-header-icon--whats,
+.page-credit .keis-header-icon--whats,
+.page-influence .keis-header-icon--whats {
   transition: transform .16s ease, filter .16s ease;
   transform-origin: 50% 50%;
 }
 
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--telegram:hover,
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--whats:hover{
+  .page-investment .keis-header-icon--telegram:hover,
+.page-main .keis-header-icon--telegram:hover,
+.page-credit .keis-header-icon--telegram:hover,
+.page-influence .keis-header-icon--telegram:hover,
+  .page-investment .keis-header-icon--whats:hover,
+.page-main .keis-header-icon--whats:hover,
+.page-credit .keis-header-icon--whats:hover,
+.page-influence .keis-header-icon--whats:hover {
     transform: scale(1.12);
     filter: brightness(1.08);
   }
 }
 
 /* Chevron next to Directions (desktop + mobile) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-nav-chevron{
+.page-investment .keis-nav-chevron,
+.page-main .keis-nav-chevron,
+.page-credit .keis-nav-chevron,
+.page-influence .keis-nav-chevron {
   width: 14px;
   height: 14px;
   margin-left: 8px;
@@ -4938,32 +5934,50 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   opacity: .9;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav .has-children.is-open > a .keis-nav-chevron{
+.page-investment .keis-header-nav .has-children.is-open > a .keis-nav-chevron,
+.page-main .keis-header-nav .has-children.is-open > a .keis-nav-chevron,
+.page-credit .keis-header-nav .has-children.is-open > a .keis-nav-chevron,
+.page-influence .keis-header-nav .has-children.is-open > a .keis-nav-chevron {
   transform: rotate(180deg);
 }
 
 /* mobile submenu open state rotates chevron */
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron{
+.page-investment .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron,
+.page-main .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron,
+.page-credit .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron,
+.page-influence .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron {
   transform: rotate(180deg);
 }
 
 /* Burger rotates by 90deg when menu is open */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-burger{
+.page-investment .keis-header-burger,
+.page-main .keis-header-burger,
+.page-credit .keis-header-burger,
+.page-influence .keis-header-burger {
   transition: transform .16s ease;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-burger.is-open{
+.page-investment .keis-header-burger.is-open,
+.page-main .keis-header-burger.is-open,
+.page-credit .keis-header-burger.is-open,
+.page-influence .keis-header-burger.is-open {
   transform: rotate(90deg);
 }
 
 /* Mobile menu should end nicely under the header, not full height */
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu{
+.page-investment .keis-mobile-menu,
+.page-main .keis-mobile-menu,
+.page-credit .keis-mobile-menu,
+.page-influence .keis-mobile-menu {
   position: fixed;
   inset: 0;
   z-index: 9998;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu-panel{
+.page-investment .keis-mobile-menu-panel,
+.page-main .keis-mobile-menu-panel,
+.page-credit .keis-mobile-menu-panel,
+.page-influence .keis-mobile-menu-panel {
   max-height: calc(100vh - 92px);
   overflow: auto;
   margin-top: 92px;
@@ -4972,7 +5986,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 @media (max-width: 520px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu-panel{
+  .page-investment .keis-mobile-menu-panel,
+.page-main .keis-mobile-menu-panel,
+.page-credit .keis-mobile-menu-panel,
+.page-influence .keis-mobile-menu-panel {
     max-height: calc(100vh - 78px);
     margin-top: 78px;
   }
@@ -4992,7 +6009,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    - мобайл-меню справа НЕ на всю высоту: заканчивается после "О нас"
    ========================================================== */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header{
+.page-investment .keis-header,
+.page-main .keis-header,
+.page-credit .keis-header,
+.page-influence .keis-header {
   position: sticky;
   top: 0;
   z-index: 5000;
@@ -5006,8 +6026,14 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 
 
 /* Logo: bigger with minimal vertical gaps */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-logo{display:flex; align-items:center;}
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-logo img{
+.page-investment .keis-header-logo,
+.page-main .keis-header-logo,
+.page-credit .keis-header-logo,
+.page-influence .keis-header-logo {display:flex; align-items:center;}
+.page-investment .keis-header-logo img,
+.page-main .keis-header-logo img,
+.page-credit .keis-header-logo img,
+.page-influence .keis-header-logo img {
   height: 46px;
   width: auto;
   display: block;
@@ -5015,8 +6041,14 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Desktop nav */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav{display:block; overflow: visible;}
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-list{
+.page-investment .keis-header-nav,
+.page-main .keis-header-nav,
+.page-credit .keis-header-nav,
+.page-influence .keis-header-nav {display:block; overflow: visible;}
+.page-investment .keis-header-nav-list,
+.page-main .keis-header-nav-list,
+.page-credit .keis-header-nav-list,
+.page-influence .keis-header-nav-list {
   display:flex;
   align-items:center;
   gap: 18px;
@@ -5025,7 +6057,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   padding: 0;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-list a{
+.page-investment .keis-header-nav-list a,
+.page-main .keis-header-nav-list a,
+.page-credit .keis-header-nav-list a,
+.page-influence .keis-header-nav-list a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -5033,7 +6068,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Chevron */
-.page-investment, .page-main, .page-credit, .page-influence .keis-nav-chevron{
+.page-investment .keis-nav-chevron,
+.page-main .keis-nav-chevron,
+.page-credit .keis-nav-chevron,
+.page-influence .keis-nav-chevron {
   width: 14px;
   height: 14px;
   display: inline-block;
@@ -5041,14 +6079,23 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   transform: translateY(1px);
   transition: transform .22s ease, opacity .22s ease;
 }
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav .has-children.is-open .keis-nav-chevron{
+.page-investment .keis-header-nav .has-children.is-open .keis-nav-chevron,
+.page-main .keis-header-nav .has-children.is-open .keis-nav-chevron,
+.page-credit .keis-header-nav .has-children.is-open .keis-nav-chevron,
+.page-influence .keis-header-nav .has-children.is-open .keis-nav-chevron {
   transform: translateY(1px) rotate(180deg);
   opacity: 1;
 }
 
 /* Dropdown */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav .has-children{position:relative;}
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-dropdown{
+.page-investment .keis-header-nav .has-children,
+.page-main .keis-header-nav .has-children,
+.page-credit .keis-header-nav .has-children,
+.page-influence .keis-header-nav .has-children {position:relative;}
+.page-investment .keis-header-nav-dropdown,
+.page-main .keis-header-nav-dropdown,
+.page-credit .keis-header-nav-dropdown,
+.page-influence .keis-header-nav-dropdown {
   position: absolute;
   top: calc(100% + 10px);
   left: 0;
@@ -5063,31 +6110,52 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   display: none;
   z-index: 9999;
 }
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown{display:block;}
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-dropdown li{list-style:none;}
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-dropdown a{
+.page-investment .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
+.page-main .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
+.page-credit .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
+.page-influence .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown {display:block;}
+.page-investment .keis-header-nav-dropdown li,
+.page-main .keis-header-nav-dropdown li,
+.page-credit .keis-header-nav-dropdown li,
+.page-influence .keis-header-nav-dropdown li {list-style:none;}
+.page-investment .keis-header-nav-dropdown a,
+.page-main .keis-header-nav-dropdown a,
+.page-credit .keis-header-nav-dropdown a,
+.page-influence .keis-header-nav-dropdown a {
   display:flex;
   width:100%;
   padding: 10px 10px;
   border-radius: 12px;
 }
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-dropdown a:hover{
+  .page-investment .keis-header-nav-dropdown a:hover,
+.page-main .keis-header-nav-dropdown a:hover,
+.page-credit .keis-header-nav-dropdown a:hover,
+.page-influence .keis-header-nav-dropdown a:hover {
     background: rgba(255,138,0,.10);
   }
 }
 
 /* Right side cluster: move nav towards contacts but keep visible gap */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-center{
+.page-investment .keis-header-center,
+.page-main .keis-header-center,
+.page-credit .keis-header-center,
+.page-influence .keis-header-center {
   margin-left: auto;
   display:flex;
   align-items:center;
   gap: 14px;
 }
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav{margin-right: 26px;}
+.page-investment .keis-header-nav,
+.page-main .keis-header-nav,
+.page-credit .keis-header-nav,
+.page-influence .keis-header-nav {margin-right: 26px;}
 
 /* Contacts visible by default (we'll tune on breakpoints) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-contacts{
+.page-investment .keis-header-contacts,
+.page-main .keis-header-contacts,
+.page-credit .keis-header-contacts,
+.page-influence .keis-header-contacts {
   display:flex;
   align-items:center;
   gap: 10px;
@@ -5095,7 +6163,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Icons: базовый размер для investment-лендинга на планшетах/десктопах */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-icon{
+.page-investment .keis-header-icon,
+.page-main .keis-header-icon,
+.page-credit .keis-header-icon,
+.page-influence .keis-header-icon {
   width: 32px;
   height: 32px;
   object-fit: contain;
@@ -5104,18 +6175,30 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--telegram:hover,
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--whats:hover{
+  .page-investment .keis-header-icon--telegram:hover,
+.page-main .keis-header-icon--telegram:hover,
+.page-credit .keis-header-icon--telegram:hover,
+.page-influence .keis-header-icon--telegram:hover,
+  .page-investment .keis-header-icon--whats:hover,
+.page-main .keis-header-icon--whats:hover,
+.page-credit .keis-header-icon--whats:hover,
+.page-influence .keis-header-icon--whats:hover {
     transform: scale(1.08);
     opacity: 1;
   }
 }
 
 /* Burger rotate 90° when open */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-burger-img{
+.page-investment .keis-header-burger-img,
+.page-main .keis-header-burger-img,
+.page-credit .keis-header-burger-img,
+.page-influence .keis-header-burger-img {
   transition: transform .22s ease;
 }
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-burger.is-open .keis-header-burger-img{
+.page-investment .keis-header-burger.is-open .keis-header-burger-img,
+.page-main .keis-header-burger.is-open .keis-header-burger-img,
+.page-credit .keis-header-burger.is-open .keis-header-burger-img,
+.page-influence .keis-header-burger.is-open .keis-header-burger-img {
   transform: rotate(90deg);
 }
 
@@ -5125,37 +6208,73 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 
 /* Desktop: no burger */
 @media (min-width: 901px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-burger{display:none !important;}
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-nav{display:block !important;}
+  .page-investment .keis-header-burger,
+.page-main .keis-header-burger,
+.page-credit .keis-header-burger,
+.page-influence .keis-header-burger {display:none !important;}
+  .page-investment .keis-header-nav,
+.page-main .keis-header-nav,
+.page-credit .keis-header-nav,
+.page-influence .keis-header-nav {display:block !important;}
 }
 
 /* Tablet + Mobile: show phone+icons in header left of CTA, hide desktop nav, show burger */
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-nav{display:none !important;}
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-burger{display:inline-flex !important;}
+  .page-investment .keis-header-nav,
+.page-main .keis-header-nav,
+.page-credit .keis-header-nav,
+.page-influence .keis-header-nav {display:none !important;}
+  .page-investment .keis-header-burger,
+.page-main .keis-header-burger,
+.page-credit .keis-header-burger,
+.page-influence .keis-header-burger {display:inline-flex !important;}
 
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-inner{padding: 8px 14px;}
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-logo img{height: 44px;}
+  .page-investment .keis-header-inner,
+.page-main .keis-header-inner,
+.page-credit .keis-header-inner,
+.page-influence .keis-header-inner {padding: 8px 14px;}
+  .page-investment .keis-header-logo img,
+.page-main .keis-header-logo img,
+.page-credit .keis-header-logo img,
+.page-influence .keis-header-logo img {height: 44px;}
 
   /* keep contacts visible left of CTA */
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-contacts{display:flex !important;}
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-phone-text{font-size: 13px; opacity: .92;}
+  .page-investment .keis-header-contacts,
+.page-main .keis-header-contacts,
+.page-credit .keis-header-contacts,
+.page-influence .keis-header-contacts {display:flex !important;}
+  .page-investment .keis-header-phone-text,
+.page-main .keis-header-phone-text,
+.page-credit .keis-header-phone-text,
+.page-influence .keis-header-phone-text {font-size: 13px; opacity: .92;}
 
   /* MOBILE: hide social icons (Telegram/WhatsApp) near CTA - keep only phone */
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--telegram,
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon--whats{
+  .page-investment .keis-header-icon--telegram,
+.page-main .keis-header-icon--telegram,
+.page-credit .keis-header-icon--telegram,
+.page-influence .keis-header-icon--telegram,
+  .page-investment .keis-header-icon--whats,
+.page-main .keis-header-icon--whats,
+.page-credit .keis-header-icon--whats,
+.page-influence .keis-header-icon--whats {
     display: none !important;
   }
 
   /* на маленьких ширинах чуть компактнее, чтобы не лезло в две строки */
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon{width: 26px; height: 26px;}
+  .page-investment .keis-header-icon,
+.page-main .keis-header-icon,
+.page-credit .keis-header-icon,
+.page-influence .keis-header-icon {width: 26px; height: 26px;}
 }
 
 /* =====================
    Mobile menu (right drawer)
    ===================== */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu{
+.page-investment .keis-mobile-menu,
+.page-main .keis-mobile-menu,
+.page-credit .keis-mobile-menu,
+.page-influence .keis-mobile-menu {
   position: fixed;
   inset: 0;
   z-index: 6000;
@@ -5163,9 +6282,15 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   justify-content: flex-end;
   align-items: flex-start;
 }
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu.is-open{display:flex;}
+.page-investment .keis-mobile-menu.is-open,
+.page-main .keis-mobile-menu.is-open,
+.page-credit .keis-mobile-menu.is-open,
+.page-influence .keis-mobile-menu.is-open {display:flex;}
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu-overlay{
+.page-investment .keis-mobile-menu-overlay,
+.page-main .keis-mobile-menu-overlay,
+.page-credit .keis-mobile-menu-overlay,
+.page-influence .keis-mobile-menu-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,.45);
@@ -5173,7 +6298,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   backdrop-filter: blur(10px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu-panel{
+.page-investment .keis-mobile-menu-panel,
+.page-main .keis-mobile-menu-panel,
+.page-credit .keis-mobile-menu-panel,
+.page-influence .keis-mobile-menu-panel {
   position: relative;
   width: min(360px, 92vw);
   margin-top: 74px; /* end under the header */
@@ -5188,12 +6316,18 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Mobile submenu chevron rotation */
-.page-investment, .page-main, .page-credit, .page-influence .mobile-has-submenu.submenu-open .keis-nav-chevron{
+.page-investment .mobile-has-submenu.submenu-open .keis-nav-chevron,
+.page-main .mobile-has-submenu.submenu-open .keis-nav-chevron,
+.page-credit .mobile-has-submenu.submenu-open .keis-nav-chevron,
+.page-influence .mobile-has-submenu.submenu-open .keis-nav-chevron {
   transform: translateY(1px) rotate(180deg);
 }
 
 /* Ensure the list ends visually right after "О нас" (no forced 100% height anywhere) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu-list{
+.page-investment .keis-mobile-menu-list,
+.page-main .keis-mobile-menu-list,
+.page-credit .keis-mobile-menu-list,
+.page-influence .keis-mobile-menu-list {
   margin: 0;
   padding: 0;
   list-style: none; 
@@ -5203,20 +6337,29 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    SCENARIOS → TRUST seam (overlay, does NOT affect layout)
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios{
+.page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios {
   position: relative;
   overflow: visible; /* allow overlap onto the next section */
   z-index: 1;
 }
 
 /* keep TRUST behind the seam */
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax{
+.page-investment .trust-parallax,
+.page-main .trust-parallax,
+.page-credit .trust-parallax,
+.page-influence .trust-parallax {
   position: relative;
   z-index: 0;
 }
 
 /* Divider instance that closes the seam between SCENARIOS (block 2) and TRUST (block 3) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam{
+.page-investment .investment-scenarios .keis-divider--scenarios-seam,
+.page-main .investment-scenarios .keis-divider--scenarios-seam,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam {
   position: absolute;
   left: 0;
   right: 0;
@@ -5229,14 +6372,20 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Make the seam read as an angled, softer shard that blends with the surge */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before{
+.page-investment .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before,
+.page-main .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before {
   top: 52%;
   height: 50px;
   transform: translate3d(0,-50%,0) rotate(-6deg);
   opacity: .88;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after{
+.page-investment .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after,
+.page-main .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after {
   top: 66%;
   height: 36px;
   transform: translate3d(0,-50%,0) rotate(-8deg);
@@ -5244,13 +6393,22 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam{
+  .page-investment .investment-scenarios .keis-divider--scenarios-seam,
+.page-main .investment-scenarios .keis-divider--scenarios-seam,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam {
     /* мобильная высота уменьшена пропорционально */
     height: 72px;
     bottom: -1px;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before{ height: 44px; }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after{ height: 30px; }
+  .page-investment .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before,
+.page-main .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::before { height: 44px; }
+  .page-investment .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after,
+.page-main .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after,
+.page-credit .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after,
+.page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after { height: 30px; }
 }
 
 /* =========================
@@ -5260,24 +6418,36 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    - Normalize icon sizes across breakpoints
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-inner{
+.page-investment .keis-header-inner,
+.page-main .keis-header-inner,
+.page-credit .keis-header-inner,
+.page-influence .keis-header-inner {
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
 /* Push nav + contacts/CTA/burger to the right edge */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav{
+.page-investment .keis-header-nav,
+.page-main .keis-header-nav,
+.page-credit .keis-header-nav,
+.page-influence .keis-header-nav {
   margin-left: auto;
 }
 
 /* Make the nav items align to the right (not centered) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-list{
+.page-investment .keis-header-nav-list,
+.page-main .keis-header-nav-list,
+.page-credit .keis-header-nav-list,
+.page-influence .keis-header-nav-list {
   justify-content: flex-end;
 }
 
 /* Keep the right cluster tight to the right edge */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-center{
+.page-investment .keis-header-center,
+.page-main .keis-header-center,
+.page-credit .keis-header-center,
+.page-influence .keis-header-center {
   margin-left: 16px;
   display: flex;
   align-items: center;
@@ -5286,17 +6456,35 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Normalize icons: prevent accidental upscaling on some widths */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-contacts{
+.page-investment .keis-header-contacts,
+.page-main .keis-header-contacts,
+.page-credit .keis-header-contacts,
+.page-influence .keis-header-contacts {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   flex: 0 0 auto;
 }
 
-/* Phone/icon sizes уже заданы выше через .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon */
+/* Phone/icon sizes уже заданы выше через .page-investment .keis-header-icon */
 
 /* Burger icon: keep compact on all sizes */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-burger-img{
+.page-investment,
+.page-main .keis-header-icon */
+
+/* Burger icon: keep compact on all sizes */
+.page-investment,
+.page-credit .keis-header-icon */
+
+/* Burger icon: keep compact on all sizes */
+.page-investment,
+.page-influence .keis-header-icon */
+
+/* Burger icon: keep compact on all sizes */
+.page-investment .keis-header-burger-img,
+.page-main .keis-header-burger-img,
+.page-credit .keis-header-burger-img,
+.page-influence .keis-header-burger-img {
   width: clamp(18px, 2.0vw, 22px);
   height: clamp(18px, 2.0vw, 22px);
   object-fit: contain;
@@ -5305,20 +6493,35 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 
 /* Slightly tighter spacing on narrow widths so header doesn't feel "blown up" */
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-center{ gap: 10px; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-contacts{ gap: 8px; }
+  .page-investment .keis-header-center,
+.page-main .keis-header-center,
+.page-credit .keis-header-center,
+.page-influence .keis-header-center { gap: 10px; }
+  .page-investment .keis-header-contacts,
+.page-main .keis-header-contacts,
+.page-credit .keis-header-contacts,
+.page-influence .keis-header-contacts { gap: 8px; }
 }
 
 @media (max-width: 520px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-center{ gap: 8px; margin-left: 10px; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-header-contacts{ gap: 7px; }
+  .page-investment .keis-header-center,
+.page-main .keis-header-center,
+.page-credit .keis-header-center,
+.page-influence .keis-header-center { gap: 8px; margin-left: 10px; }
+  .page-investment .keis-header-contacts,
+.page-main .keis-header-contacts,
+.page-credit .keis-header-contacts,
+.page-influence .keis-header-contacts { gap: 7px; }
 }
 
 /* =========================
    HEADER — ABSOLUTE FIX
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header{
+.page-investment .keis-header,
+.page-main .keis-header,
+.page-credit .keis-header,
+.page-influence .keis-header {
   position: sticky;
   top: 0;
   z-index: 10000;
@@ -5328,16 +6531,34 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* ниже шапки — ВСЁ всегда ниже */
-.page-investment, .page-main, .page-credit, .page-influence section,
-.page-investment, .page-main, .page-credit, .page-influence .hero-investment,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios,
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax{
+.page-investment section,
+.page-main section,
+.page-credit section,
+.page-influence section,
+.page-investment .hero-investment,
+.page-main .hero-investment,
+.page-credit .hero-investment,
+.page-influence .hero-investment,
+.page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios,
+.page-investment .trust-parallax,
+.page-main .trust-parallax,
+.page-credit .trust-parallax,
+.page-influence .trust-parallax {
   position: relative;
   z-index: 1;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-divider,
-.page-investment, .page-main, .page-credit, .page-influence .keis-scenarios-seam{
+.page-investment .keis-divider,
+.page-main .keis-divider,
+.page-credit .keis-divider,
+.page-influence .keis-divider,
+.page-investment .keis-scenarios-seam,
+.page-main .keis-scenarios-seam,
+.page-credit .keis-scenarios-seam,
+.page-influence .keis-scenarios-seam {
   position: relative;
   z-index: 2 !important;
 }
@@ -5350,7 +6571,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    - яркий фирменный акцент, но «дорого»
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee{
+.page-investment .keis-marquee,
+.page-main .keis-marquee,
+.page-credit .keis-marquee,
+.page-influence .keis-marquee {
   position: relative;
   z-index: 20;
   width: 100%;
@@ -5368,7 +6592,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   overflow: hidden;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__inner{
+.page-investment .keis-marquee__inner,
+.page-main .keis-marquee__inner,
+.page-credit .keis-marquee__inner,
+.page-influence .keis-marquee__inner {
   display: flex;
   align-items: center;
   gap: 0;
@@ -5378,7 +6605,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* тонкие «волоски» как у стекла (без дыма/шума) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee::before{
+.page-investment .keis-marquee::before,
+.page-main .keis-marquee::before,
+.page-credit .keis-marquee::before,
+.page-influence .keis-marquee::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -5389,7 +6619,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   opacity: .55;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__track{
+.page-investment .keis-marquee__track,
+.page-main .keis-marquee__track,
+.page-credit .keis-marquee__track,
+.page-influence .keis-marquee__track {
   display: inline-flex;
   align-items: center;
   gap: 18px;
@@ -5397,7 +6630,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   animation: keisMarqueeScroll 26s linear infinite;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__item{
+.page-investment .keis-marquee__item,
+.page-main .keis-marquee__item,
+.page-credit .keis-marquee__item,
+.page-influence .keis-marquee__item {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 800;
   letter-spacing: .02em;
@@ -5408,7 +6644,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   text-shadow: 0 1px 0 rgba(255,255,255,.22);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__sep{
+.page-investment .keis-marquee__sep,
+.page-main .keis-marquee__sep,
+.page-credit .keis-marquee__sep,
+.page-influence .keis-marquee__sep {
   font-weight: 900;
   font-size: 14px;
   opacity: .75;
@@ -5424,21 +6663,48 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 
 /* Responsive tuning */
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__inner{ padding: 9px 0; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__item{ font-size: 13px; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__sep{ font-size: 13px; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__track{ animation-duration: 22s; }
+  .page-investment .keis-marquee__inner,
+.page-main .keis-marquee__inner,
+.page-credit .keis-marquee__inner,
+.page-influence .keis-marquee__inner { padding: 9px 0; }
+  .page-investment .keis-marquee__item,
+.page-main .keis-marquee__item,
+.page-credit .keis-marquee__item,
+.page-influence .keis-marquee__item { font-size: 13px; }
+  .page-investment .keis-marquee__sep,
+.page-main .keis-marquee__sep,
+.page-credit .keis-marquee__sep,
+.page-influence .keis-marquee__sep { font-size: 13px; }
+  .page-investment .keis-marquee__track,
+.page-main .keis-marquee__track,
+.page-credit .keis-marquee__track,
+.page-influence .keis-marquee__track { animation-duration: 22s; }
 }
 
 @media (max-width: 520px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__inner{ padding: 8px 0; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__track{ gap: 14px; padding-right: 34px; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__item{ font-size: 12.5px; }
+  .page-investment .keis-marquee__inner,
+.page-main .keis-marquee__inner,
+.page-credit .keis-marquee__inner,
+.page-influence .keis-marquee__inner { padding: 8px 0; }
+  .page-investment .keis-marquee__track,
+.page-main .keis-marquee__track,
+.page-credit .keis-marquee__track,
+.page-influence .keis-marquee__track { gap: 14px; padding-right: 34px; }
+  .page-investment .keis-marquee__item,
+.page-main .keis-marquee__item,
+.page-credit .keis-marquee__item,
+.page-influence .keis-marquee__item { font-size: 12.5px; }
 }
 
 @media (prefers-reduced-motion: reduce){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__track{ animation: none; }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__inner{ justify-content: center; }
+  .page-investment .keis-marquee__track,
+.page-main .keis-marquee__track,
+.page-credit .keis-marquee__track,
+.page-influence .keis-marquee__track { animation: none; }
+  .page-investment .keis-marquee__inner,
+.page-main .keis-marquee__inner,
+.page-credit .keis-marquee__inner,
+.page-influence .keis-marquee__inner { justify-content: center; }
 }
 
 /* ==========================================================
@@ -5447,7 +6713,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    as a mid-layer between bands and the glass bridge.
    ========================================================== */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider{
+.page-investment .keis-surge-divider,
+.page-main .keis-surge-divider,
+.page-credit .keis-surge-divider,
+.page-influence .keis-surge-divider {
   position: relative;
   z-index: 3;                 /* above decorative bands, below the glass bridge */
   width: 100%;
@@ -5458,8 +6727,14 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   overflow: visible;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider::before,
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider::after{
+.page-investment .keis-surge-divider::before,
+.page-main .keis-surge-divider::before,
+.page-credit .keis-surge-divider::before,
+.page-influence .keis-surge-divider::before,
+.page-investment .keis-surge-divider::after,
+.page-main .keis-surge-divider::after,
+.page-credit .keis-surge-divider::after,
+.page-influence .keis-surge-divider::after {
   content: "";
   position: absolute;
   left: -10%;
@@ -5469,7 +6744,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Main warm cut */
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider::before{
+.page-investment .keis-surge-divider::before,
+.page-main .keis-surge-divider::before,
+.page-credit .keis-surge-divider::before,
+.page-influence .keis-surge-divider::before {
   top: 36%;
   transform: translate3d(0,-50%,0) rotate(-6deg);
   background: linear-gradient(90deg,
@@ -5485,7 +6763,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* Subtle highlight */
-.page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider::after{
+.page-investment .keis-surge-divider::after,
+.page-main .keis-surge-divider::after,
+.page-credit .keis-surge-divider::after,
+.page-influence .keis-surge-divider::after {
   top: 68%;
   transform: translate3d(0,-50%,0) rotate(-8.5deg);
   background: linear-gradient(90deg,
@@ -5499,7 +6780,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 @media (max-width: 768px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-surge-divider{
+  .page-investment .keis-surge-divider,
+.page-main .keis-surge-divider,
+.page-credit .keis-surge-divider,
+.page-influence .keis-surge-divider {
     height: 86px;
     margin-top: 18px;
     margin-bottom: -42px;
@@ -5511,7 +6795,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    На всю ширину экрана (100vw), даже внутри .section-container
    ========================================================== */
 
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge{
+.page-investment .scenarios-trust-bridge,
+.page-main .scenarios-trust-bridge,
+.page-credit .scenarios-trust-bridge,
+.page-influence .scenarios-trust-bridge {
   position: relative;
   /* подняли над seam и рядом стоящими divider'ами */
   z-index: 20;
@@ -5528,7 +6815,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* стеклянная лента */
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge::before{
+.page-investment .scenarios-trust-bridge::before,
+.page-main .scenarios-trust-bridge::before,
+.page-credit .scenarios-trust-bridge::before,
+.page-influence .scenarios-trust-bridge::before {
   content: "";
   position: absolute;
   left: -4vw;
@@ -5567,7 +6857,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 /* блик */
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge::after{
+.page-investment .scenarios-trust-bridge::after,
+.page-main .scenarios-trust-bridge::after,
+.page-credit .scenarios-trust-bridge::after,
+.page-influence .scenarios-trust-bridge::after {
   content: "";
   position: absolute;
   left: -6vw;
@@ -5587,7 +6880,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   opacity: .80;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge__inner{
+.page-investment .scenarios-trust-bridge__inner,
+.page-main .scenarios-trust-bridge__inner,
+.page-credit .scenarios-trust-bridge__inner,
+.page-influence .scenarios-trust-bridge__inner {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -5595,7 +6891,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   padding: 0 clamp(22px, 3.5vw, 72px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge__text{
+.page-investment .scenarios-trust-bridge__text,
+.page-main .scenarios-trust-bridge__text,
+.page-credit .scenarios-trust-bridge__text,
+.page-influence .scenarios-trust-bridge__text {
   margin: 0;
   text-align: center;
 
@@ -5612,7 +6911,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   padding-left: 32px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge__text::before{
+.page-investment .scenarios-trust-bridge__text::before,
+.page-main .scenarios-trust-bridge__text::before,
+.page-credit .scenarios-trust-bridge__text::before,
+.page-influence .scenarios-trust-bridge__text::before {
   content: "“";
   position: absolute;
   left: 0;
@@ -5626,20 +6928,35 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge{ padding: 22px 0; }
-  .page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge::before,
-  .page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge::after{
+  .page-investment .scenarios-trust-bridge,
+.page-main .scenarios-trust-bridge,
+.page-credit .scenarios-trust-bridge,
+.page-influence .scenarios-trust-bridge { padding: 22px 0; }
+  .page-investment .scenarios-trust-bridge::before,
+.page-main .scenarios-trust-bridge::before,
+.page-credit .scenarios-trust-bridge::before,
+.page-influence .scenarios-trust-bridge::before,
+  .page-investment .scenarios-trust-bridge::after,
+.page-main .scenarios-trust-bridge::after,
+.page-credit .scenarios-trust-bridge::after,
+.page-influence .scenarios-trust-bridge::after {
     height: 104px;
     /* для мобильных немного меньше смещение вниз чтобы не нарушать верстку */
     top: calc(50% + 8px);
     transform: translate3d(0,-50%,0) rotate(-.8deg);
   }
-  .page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge__text{
+  .page-investment .scenarios-trust-bridge__text,
+.page-main .scenarios-trust-bridge__text,
+.page-credit .scenarios-trust-bridge__text,
+.page-influence .scenarios-trust-bridge__text {
     font-size: 16px;
     line-height: 1.35;
     padding-left: 26px;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge__text::before{
+  .page-investment .scenarios-trust-bridge__text::before,
+.page-main .scenarios-trust-bridge__text::before,
+.page-credit .scenarios-trust-bridge__text::before,
+.page-influence .scenarios-trust-bridge__text::before {
     font-size: 34px;
     top: -4px;
   }
@@ -5650,18 +6967,27 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    Причина пропажи: в CSS попал мусор `...`, из-за этого правило ломалось.
    ========================================================== */
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide{
+.page-investment .investment-scenarios .scenario-slide,
+.page-main .investment-scenarios .scenario-slide,
+.page-credit .investment-scenarios .scenario-slide,
+.page-influence .investment-scenarios .scenario-slide {
   position: relative;
 }
 
 /* Поднимаем текст над всеми декоративными слоями */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide-body{
+.page-investment .investment-scenarios .scenario-slide-body,
+.page-main .investment-scenarios .scenario-slide-body,
+.page-credit .investment-scenarios .scenario-slide-body,
+.page-influence .investment-scenarios .scenario-slide-body {
   position: relative;
   z-index: 4;
 }
 
 /* Внутренний контур (виден всегда, усиливается на hover) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide::before{
+.page-investment .investment-scenarios .scenario-slide::before,
+.page-main .investment-scenarios .scenario-slide::before,
+.page-credit .investment-scenarios .scenario-slide::before,
+.page-influence .investment-scenarios .scenario-slide::before {
   content: "";
   position: absolute;
   inset: 10px;
@@ -5683,7 +7009,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide:hover::before{
+  .page-investment .investment-scenarios .scenario-slide:hover::before,
+.page-main .investment-scenarios .scenario-slide:hover::before,
+.page-credit .investment-scenarios .scenario-slide:hover::before,
+.page-influence .investment-scenarios .scenario-slide:hover::before {
     border-color: rgba(255, 170, 50, .96);
     box-shadow:
       inset 0 0 0 1px rgba(255, 230, 170, .55),
@@ -5695,7 +7024,10 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
 }
 
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide::before{
+  .page-investment .investment-scenarios .scenario-slide::before,
+.page-main .investment-scenarios .scenario-slide::before,
+.page-credit .investment-scenarios .scenario-slide::before,
+.page-influence .investment-scenarios .scenario-slide::before {
     inset: 8px;
     border-radius: 16px;
   }
@@ -5712,7 +7044,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
   overflow-x: clip;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header{
+.page-investment .keis-header,
+.page-main .keis-header,
+.page-credit .keis-header,
+.page-influence .keis-header {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -5723,7 +7058,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
 }
 
 /* чтобы дропдаун “Направления” был поверх всего */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-dropdown{
+.page-investment .keis-header-nav-dropdown,
+.page-main .keis-header-nav-dropdown,
+.page-credit .keis-header-nav-dropdown,
+.page-influence .keis-header-nav-dropdown {
   z-index: 100000 !important;
 }
 
@@ -5739,7 +7077,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
    - бесшовная бегущая строка, пауза при hover
    ========================= */
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee{
+.page-investment .keis-marquee,
+.page-main .keis-marquee,
+.page-credit .keis-marquee,
+.page-influence .keis-marquee {
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -5769,7 +7110,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
 }
 
 /* мягкая «сцепка» с фоном HERO/SCENARIOS (без дыма) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee::before{
+.page-investment .keis-marquee::before,
+.page-main .keis-marquee::before,
+.page-credit .keis-marquee::before,
+.page-influence .keis-marquee::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -5783,14 +7127,20 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
   opacity: .75;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__inner{
+.page-investment .keis-marquee__inner,
+.page-main .keis-marquee__inner,
+.page-credit .keis-marquee__inner,
+.page-influence .keis-marquee__inner {
   width: 100%;
   display: flex;
   align-items: center;
   white-space: nowrap;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__track{
+.page-investment .keis-marquee__track,
+.page-main .keis-marquee__track,
+.page-credit .keis-marquee__track,
+.page-influence .keis-marquee__track {
   display: inline-flex;
   align-items: center;
   gap: 14px;
@@ -5803,10 +7153,16 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
 
 /* пауза при наведении/фокусе */
 @media (hover:hover){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee:hover .keis-marquee__track{ animation-play-state: paused; }
+  .page-investment .keis-marquee:hover .keis-marquee__track,
+.page-main .keis-marquee:hover .keis-marquee__track,
+.page-credit .keis-marquee:hover .keis-marquee__track,
+.page-influence .keis-marquee:hover .keis-marquee__track { animation-play-state: paused; }
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__item{
+.page-investment .keis-marquee__item,
+.page-main .keis-marquee__item,
+.page-credit .keis-marquee__item,
+.page-influence .keis-marquee__item {
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 800;
   font-size: clamp(12px, 1.08vw, 15px);
@@ -5820,7 +7176,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
     0 10px 18px rgba(0,0,0,.10);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-marquee__sep{
+.page-investment .keis-marquee__sep,
+.page-main .keis-marquee__sep,
+.page-credit .keis-marquee__sep,
+.page-influence .keis-marquee__sep {
   font-weight: 900;
   font-size: clamp(12px, 1.1vw, 16px);
   line-height: 1;
@@ -5835,15 +7194,24 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
 
 /* Reduce motion accessibility */
 @media (prefers-reduced-motion: reduce){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__track{ animation: none; }
+  .page-investment .keis-marquee__track,
+.page-main .keis-marquee__track,
+.page-credit .keis-marquee__track,
+.page-influence .keis-marquee__track { animation: none; }
 }
 
 /* Mobile: чуть компактнее, чтобы лента не «давила» */
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee{
+  .page-investment .keis-marquee,
+.page-main .keis-marquee,
+.page-credit .keis-marquee,
+.page-influence .keis-marquee {
     height: clamp(34px, 4.2vw, 44px);
   }
-  .page-investment, .page-main, .page-credit, .page-influence .keis-marquee__track{
+  .page-investment .keis-marquee__track,
+.page-main .keis-marquee__track,
+.page-credit .keis-marquee__track,
+.page-influence .keis-marquee__track {
     animation-duration: 22s;
   }
 }
@@ -5855,41 +7223,62 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
    ========================================================== */
 
 /* 1) Section: remove "excess" height and add controlled bottom padding */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios{
+.page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios {
   /* keep the same look, but prevent the section from being taller than needed */
   min-height: 0;
   padding-bottom: clamp(22px, 3vw, 46px);
 }
 
 /* Make sure internal container doesn't add unexpected extra space */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .section-container{
+.page-investment .investment-scenarios .section-container,
+.page-main .investment-scenarios .section-container,
+.page-credit .investment-scenarios .section-container,
+.page-influence .investment-scenarios .section-container {
   padding-bottom: 0;
 }
 
 /* 2) Controls: ensure a visible gap below the arrow buttons */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenarios-band-controls{
+.page-investment .investment-scenarios .scenarios-band-controls,
+.page-main .investment-scenarios .scenarios-band-controls,
+.page-credit .investment-scenarios .scenarios-band-controls,
+.page-influence .investment-scenarios .scenarios-band-controls {
   /* works whether the controls are static or absolutely positioned */
   margin-top: clamp(14px, 2vw, 22px);
   margin-bottom: clamp(18px, 2.6vw, 34px);
 }
 
 /* If controls are positioned with bottom, force a safe inset */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenarios-band-controls{
+.page-investment .investment-scenarios .scenarios-band-controls,
+.page-main .investment-scenarios .scenarios-band-controls,
+.page-credit .investment-scenarios .scenarios-band-controls,
+.page-influence .investment-scenarios .scenarios-band-controls {
   bottom: auto;
 }
 
 /* Add a tiny bottom breathing room even on small screens */
 @media (max-width: 900px){
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios{
+  .page-investment .investment-scenarios,
+.page-main .investment-scenarios,
+.page-credit .investment-scenarios,
+.page-influence .investment-scenarios {
     padding-bottom: 20px;
   }
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenarios-band-controls{
+  .page-investment .investment-scenarios .scenarios-band-controls,
+.page-main .investment-scenarios .scenarios-band-controls,
+.page-credit .investment-scenarios .scenarios-band-controls,
+.page-influence .investment-scenarios .scenarios-band-controls {
     margin-bottom: 22px;
   }
 }
 
 /* 3) Bridge: full-width premium glass strip that "melts" into TRUST */
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge{
+.page-investment .scenarios-trust-bridge,
+.page-main .scenarios-trust-bridge,
+.page-credit .scenarios-trust-bridge,
+.page-influence .scenarios-trust-bridge {
   position: relative;
   /* синхронизируем стек поверх остальных декоративных элементов */
   z-index: 20;
@@ -5929,13 +7318,19 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
 }
 
 /* inner: allow full width text without looking "stuck" */
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge__inner{
+.page-investment .scenarios-trust-bridge__inner,
+.page-main .scenarios-trust-bridge__inner,
+.page-credit .scenarios-trust-bridge__inner,
+.page-influence .scenarios-trust-bridge__inner {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 clamp(18px, 3vw, 64px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge__text{
+.page-investment .scenarios-trust-bridge__text,
+.page-main .scenarios-trust-bridge__text,
+.page-credit .scenarios-trust-bridge__text,
+.page-influence .scenarios-trust-bridge__text {
   margin: 0;
   text-align: center;
   font-family: "Roboto Slab", serif;
@@ -5950,7 +7345,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
 }
 
 /* 4) Seam killer: fade bridge into TRUST so no joint line is visible */
-.page-investment, .page-main, .page-credit, .page-influence .scenarios-trust-bridge::after{
+.page-investment .scenarios-trust-bridge::after,
+.page-main .scenarios-trust-bridge::after,
+.page-credit .scenarios-trust-bridge::after,
+.page-influence .scenarios-trust-bridge::after {
   content: "";
   position: absolute;
   left: 0;
@@ -5967,7 +7365,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence {
 }
 
 /* Pull TRUST up slightly under the bridge and add top padding back */
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax{
+.page-investment .trust-parallax,
+.page-main .trust-parallax,
+.page-credit .trust-parallax,
+.page-influence .trust-parallax {
   margin-top: calc(-1 * clamp(22px, 3vw, 44px));
   padding-top: clamp(22px, 3vw, 44px);
   position: relative;
@@ -5981,7 +7382,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
   padding-top: var(--keis-header-h, 84px);
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header{
+.page-investment .keis-header,
+.page-main .keis-header,
+.page-credit .keis-header,
+.page-influence .keis-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -5994,11 +7398,17 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
 .page-investment, .page-main, .page-credit, .page-influence{ overflow-x: hidden; }
 
 /* Desktop dropdown: ensure it actually shows when opened */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav .has-children{
+.page-investment .keis-header-nav .has-children,
+.page-main .keis-header-nav .has-children,
+.page-credit .keis-header-nav .has-children,
+.page-influence .keis-header-nav .has-children {
   position: relative;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav-dropdown{
+.page-investment .keis-header-nav-dropdown,
+.page-main .keis-header-nav-dropdown,
+.page-credit .keis-header-nav-dropdown,
+.page-influence .keis-header-nav-dropdown {
   display: none;
   position: absolute;
   top: calc(100% + 10px);
@@ -6007,17 +7417,26 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
   z-index: 10000;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown{
+.page-investment .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
+.page-main .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
+.page-credit .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
+.page-influence .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown {
   display: block;
 }
 
 /* Chevron icon for “Направления” (desktop) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav a[data-submenu-trigger]{
+.page-investment .keis-header-nav a[data-submenu-trigger],
+.page-main .keis-header-nav a[data-submenu-trigger],
+.page-credit .keis-header-nav a[data-submenu-trigger],
+.page-influence .keis-header-nav a[data-submenu-trigger] {
   position: relative;
   padding-right: 22px;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav a[data-submenu-trigger]::after{
+.page-investment .keis-header-nav a[data-submenu-trigger]::after,
+.page-main .keis-header-nav a[data-submenu-trigger]::after,
+.page-credit .keis-header-nav a[data-submenu-trigger]::after,
+.page-influence .keis-header-nav a[data-submenu-trigger]::after {
   content: "";
   position: absolute;
   right: 2px;
@@ -6030,28 +7449,55 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
   transition: transform .18s ease, opacity .18s ease;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-nav .has-children.is-open > a[data-submenu-trigger]::after{
+.page-investment .keis-header-nav .has-children.is-open > a[data-submenu-trigger]::after,
+.page-main .keis-header-nav .has-children.is-open > a[data-submenu-trigger]::after,
+.page-credit .keis-header-nav .has-children.is-open > a[data-submenu-trigger]::after,
+.page-influence .keis-header-nav .has-children.is-open > a[data-submenu-trigger]::after {
   transform: translateY(-50%) rotate(180deg);
   opacity: 1;
 }
 
-/* Header icons: размер уже задан выше через .page-investment, .page-main, .page-credit, .page-influence .keis-header-icon */
+/* Header icons: размер уже задан выше через .page-investment .keis-header-icon */
 
 /* Burger: rotate 90° when open */
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-burger-img{
+.page-investment,
+.page-main .keis-header-icon */
+
+/* Burger: rotate 90° when open */
+.page-investment,
+.page-credit .keis-header-icon */
+
+/* Burger: rotate 90° when open */
+.page-investment,
+.page-influence .keis-header-icon */
+
+/* Burger: rotate 90° when open */
+.page-investment .keis-header-burger-img,
+.page-main .keis-header-burger-img,
+.page-credit .keis-header-burger-img,
+.page-influence .keis-header-burger-img {
   transition: transform .18s ease;
 }
-.page-investment, .page-main, .page-credit, .page-influence .keis-header-burger.is-open .keis-header-burger-img{
+.page-investment .keis-header-burger.is-open .keis-header-burger-img,
+.page-main .keis-header-burger.is-open .keis-header-burger-img,
+.page-credit .keis-header-burger.is-open .keis-header-burger-img,
+.page-influence .keis-header-burger.is-open .keis-header-burger-img {
   transform: rotate(90deg);
 }
 
 /* Mobile menu: hide the “Закрыть” button (menu closes by burger or outside click) */
-.page-investment, .page-main, .page-credit, .page-influence .keis-mobile-menu-close{
+.page-investment .keis-mobile-menu-close,
+.page-main .keis-mobile-menu-close,
+.page-credit .keis-mobile-menu-close,
+.page-influence .keis-mobile-menu-close {
   display: none !important;
 }
 
 /* divider должен быть выше любых фоновых parallax-слоёв */
-.page-investment, .page-main, .page-credit, .page-influence .keis-divider{
+.page-investment .keis-divider,
+.page-main .keis-divider,
+.page-credit .keis-divider,
+.page-influence .keis-divider {
   position: relative;
   z-index: 60;
   isolation: isolate;
@@ -6059,13 +7505,19 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
 }
 
 /* 3-й блок: изолируем слои и отправляем фон назад */
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax{
+.page-investment .trust-parallax,
+.page-main .trust-parallax,
+.page-credit .trust-parallax,
+.page-influence .trust-parallax {
   position: relative;
   z-index: 0;
   isolation: isolate; /* критично: negative z-index не вылезает наружу */
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .trust-parallax-bg{
+.page-investment .trust-parallax-bg,
+.page-main .trust-parallax-bg,
+.page-credit .trust-parallax-bg,
+.page-influence .trust-parallax-bg {
   position: absolute;
   inset: 0;
   z-index: -1;          /* фон ВСЕГДА позади разделителя */
@@ -6081,12 +7533,18 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
    This is appended late in the file to reliably override earlier definitions
    and ensure a consistent look across duplicated rules.
 -------------------------------------------------- */
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card{
+.page-investment .investment-signs .sign-card,
+.page-main .investment-signs .sign-card,
+.page-credit .investment-signs .sign-card,
+.page-influence .investment-signs .sign-card {
   border-radius: 0 !important;
   overflow: visible !important;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card::before{
+.page-investment .investment-signs .sign-card::before,
+.page-main .investment-signs .sign-card::before,
+.page-credit .investment-signs .sign-card::before,
+.page-influence .investment-signs .sign-card::before {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;
@@ -6101,7 +7559,10 @@ body.page-investment, body.page-main, body.page-credit, body.page-influence{
   z-index: 6 !important;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card::after{
+.page-investment .investment-signs .sign-card::after,
+.page-main .investment-signs .sign-card::after,
+.page-credit .investment-signs .sign-card::after,
+.page-influence .investment-signs .sign-card::after {
   /* keep a subtle top highlight but avoid additional rounding */
   border-radius: 0 !important;
   left: 0 !important;
@@ -6163,16 +7624,31 @@ html body.page-influence .keis-marquee .keis-marquee__track{
    ========================================= */
 
 /* УБИВАЕМ ВСЕ псевдо-рамки карточек */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-card::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-card::after,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-card *::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-card *::after{
+.page-investment .investment-scenarios .scenario-card::before,
+.page-main .investment-scenarios .scenario-card::before,
+.page-credit .investment-scenarios .scenario-card::before,
+.page-influence .investment-scenarios .scenario-card::before,
+.page-investment .investment-scenarios .scenario-card::after,
+.page-main .investment-scenarios .scenario-card::after,
+.page-credit .investment-scenarios .scenario-card::after,
+.page-influence .investment-scenarios .scenario-card::after,
+.page-investment .investment-scenarios .scenario-card *::before,
+.page-main .investment-scenarios .scenario-card *::before,
+.page-credit .investment-scenarios .scenario-card *::before,
+.page-influence .investment-scenarios .scenario-card *::before,
+.page-investment .investment-scenarios .scenario-card *::after,
+.page-main .investment-scenarios .scenario-card *::after,
+.page-credit .investment-scenarios .scenario-card *::after,
+.page-influence .investment-scenarios .scenario-card *::after {
   content: none !important;
   display: none !important;
 }
 
 /* Сама карточка — без рамок и скруглений */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-card{
+.page-investment .investment-scenarios .scenario-card,
+.page-main .investment-scenarios .scenario-card,
+.page-credit .investment-scenarios .scenario-card,
+.page-influence .investment-scenarios .scenario-card {
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -6181,7 +7657,10 @@ html body.page-influence .keis-marquee .keis-marquee__track{
 
 /* === FIX: убрать оранжевый периметр внутри карточек второго блока (scenarios) === */
 .investment-scenarios .scenario-slide::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide::before{
+.page-investment .investment-scenarios .scenario-slide::before,
+.page-main .investment-scenarios .scenario-slide::before,
+.page-credit .investment-scenarios .scenario-slide::before,
+.page-influence .investment-scenarios .scenario-slide::before {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;          /* = размеру карточки */
@@ -6199,7 +7678,10 @@ html body.page-influence .keis-marquee .keis-marquee__track{
 /* если где-то hover снова подсвечивает оранжевым — тоже гасим */
 @media (hover:hover){
   .investment-scenarios .scenario-slide:hover::before,
-  .page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide:hover::before{
+  .page-investment .investment-scenarios .scenario-slide:hover::before,
+.page-main .investment-scenarios .scenario-slide:hover::before,
+.page-credit .investment-scenarios .scenario-slide:hover::before,
+.page-influence .investment-scenarios .scenario-slide:hover::before {
     border: 0 !important;
     box-shadow: none !important;
     filter: none !important;
@@ -6270,7 +7752,10 @@ html body.page-influence .keis-marquee .keis-marquee__track{
    - keep typography readable
    ========================================================== */
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide{
+.page-investment .investment-scenarios .scenario-slide,
+.page-main .investment-scenarios .scenario-slide,
+.page-credit .investment-scenarios .scenario-slide,
+.page-influence .investment-scenarios .scenario-slide {
   border-radius: 0 !important;
   overflow: hidden;
   /* cleaner premium card base */
@@ -6282,40 +7767,73 @@ html body.page-influence .keis-marquee .keis-marquee__track{
 }
 
 /* remove any decorative inner orange frame made by pseudo elements */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide::after,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide-body::before,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide-body::after{
+.page-investment .investment-scenarios .scenario-slide::before,
+.page-main .investment-scenarios .scenario-slide::before,
+.page-credit .investment-scenarios .scenario-slide::before,
+.page-influence .investment-scenarios .scenario-slide::before,
+.page-investment .investment-scenarios .scenario-slide::after,
+.page-main .investment-scenarios .scenario-slide::after,
+.page-credit .investment-scenarios .scenario-slide::after,
+.page-influence .investment-scenarios .scenario-slide::after,
+.page-investment .investment-scenarios .scenario-slide-body::before,
+.page-main .investment-scenarios .scenario-slide-body::before,
+.page-credit .investment-scenarios .scenario-slide-body::before,
+.page-influence .investment-scenarios .scenario-slide-body::before,
+.page-investment .investment-scenarios .scenario-slide-body::after,
+.page-main .investment-scenarios .scenario-slide-body::after,
+.page-credit .investment-scenarios .scenario-slide-body::after,
+.page-influence .investment-scenarios .scenario-slide-body::after {
   content: none !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 
 /* if the orange frame is made by an element inside the slide (common pattern) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide .scenario-slide-border,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide .scenario-slide-frame,
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide .scenario-slide-outline{
+.page-investment .investment-scenarios .scenario-slide .scenario-slide-border,
+.page-main .investment-scenarios .scenario-slide .scenario-slide-border,
+.page-credit .investment-scenarios .scenario-slide .scenario-slide-border,
+.page-influence .investment-scenarios .scenario-slide .scenario-slide-border,
+.page-investment .investment-scenarios .scenario-slide .scenario-slide-frame,
+.page-main .investment-scenarios .scenario-slide .scenario-slide-frame,
+.page-credit .investment-scenarios .scenario-slide .scenario-slide-frame,
+.page-influence .investment-scenarios .scenario-slide .scenario-slide-frame,
+.page-investment .investment-scenarios .scenario-slide .scenario-slide-outline,
+.page-main .investment-scenarios .scenario-slide .scenario-slide-outline,
+.page-credit .investment-scenarios .scenario-slide .scenario-slide-outline,
+.page-influence .investment-scenarios .scenario-slide .scenario-slide-outline {
   display: none !important;
 }
 
 /* ensure content padding looks like a normal readable card */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide-body{
+.page-investment .investment-scenarios .scenario-slide-body,
+.page-main .investment-scenarios .scenario-slide-body,
+.page-credit .investment-scenarios .scenario-slide-body,
+.page-influence .investment-scenarios .scenario-slide-body {
   padding: 18px 18px 16px !important;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide-title{
+.page-investment .investment-scenarios .scenario-slide-title,
+.page-main .investment-scenarios .scenario-slide-title,
+.page-credit .investment-scenarios .scenario-slide-title,
+.page-influence .investment-scenarios .scenario-slide-title {
   margin: 0 0 8px 0 !important;
   line-height: 1.15 !important;
 }
 
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide-text{
+.page-investment .investment-scenarios .scenario-slide-text,
+.page-main .investment-scenarios .scenario-slide-text,
+.page-credit .investment-scenarios .scenario-slide-text,
+.page-influence .investment-scenarios .scenario-slide-text {
   margin: 0 !important;
   line-height: 1.45 !important;
   color: rgba(244,241,235,.78) !important;
 }
 
 /* keep hover clean (no glowing orange rectangle) */
-.page-investment, .page-main, .page-credit, .page-influence .investment-scenarios .scenario-slide:hover{
+.page-investment .investment-scenarios .scenario-slide:hover,
+.page-main .investment-scenarios .scenario-slide:hover,
+.page-credit .investment-scenarios .scenario-slide:hover,
+.page-influence .investment-scenarios .scenario-slide:hover {
   border-color: rgba(255,255,255,.16) !important;
   transform: none !important;
   filter: none !important;
