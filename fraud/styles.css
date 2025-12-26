@@ -5700,7 +5700,7 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
    ========================================================== */
 :root { --keis-header-h: 86px; }
 
-body.page-investment, .page-main, .page-credit, .page-influence {
+body.page-investment, body.page-main, body.page-credit, body.page-influence {
   padding-top: var(--keis-header-h);
   scroll-padding-top: calc(var(--keis-header-h) + 12px);
   overflow-x: clip;
@@ -5971,7 +5971,7 @@ body.page-investment, .page-main, .page-credit, .page-influence {
    HEADER FIX: never disappears on scroll (fixed header)
    ========================================================== */
 
-body.page-investment, .page-main, .page-credit, .page-influence{
+body.page-investment, body.page-main, body.page-credit, body.page-influence{
   padding-top: var(--keis-header-h, 84px);
 }
 
@@ -6107,7 +6107,10 @@ body.page-investment, .page-main, .page-credit, .page-influence{
 
 /* EXTRA FORCE: use a very-specific selector to beat other rules or late-included files.
    This also helps in DevTools to see the applied rule source quickly. */
-html body.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card::before{
+html body.page-investment .investment-signs .sign-card::before,
+html body.page-main .investment-signs .sign-card::before,
+html body.page-credit .investment-signs .sign-card::before,
+html body.page-influence .investment-signs .sign-card::before{
   content: "" !important;
   display: block !important;
   position: absolute !important;
@@ -6122,16 +6125,28 @@ html body.page-investment, .page-main, .page-credit, .page-influence .investment
   z-index: 999 !important; /* ensure visibility above card content */
 }
 
-html body.page-investment, .page-main, .page-credit, .page-influence .investment-signs .sign-card{
+html body.page-investment .investment-signs .sign-card,
+html body.page-main .investment-signs .sign-card,
+html body.page-credit .investment-signs .sign-card,
+html body.page-influence .investment-signs .sign-card{
   border-radius: 0 !important;
 }
 
 /* Keep marquee animation always running even on hover/focus. Some earlier
    rules pause the track via :hover { animation-play-state: paused } — we
    override late to ensure continuous loop regardless of pointer. */
-html body.page-investment, .page-main, .page-credit, .page-influence .keis-marquee:hover .keis-marquee__track,
-html body.page-investment, .page-main, .page-credit, .page-influence .keis-marquee:focus .keis-marquee__track,
-html body.page-investment, .page-main, .page-credit, .page-influence .keis-marquee .keis-marquee__track{
+html body.page-investment .keis-marquee:hover .keis-marquee__track,
+html body.page-main .keis-marquee:hover .keis-marquee__track,
+html body.page-credit .keis-marquee:hover .keis-marquee__track,
+html body.page-influence .keis-marquee:hover .keis-marquee__track,
+html body.page-investment .keis-marquee:focus .keis-marquee__track,
+html body.page-main .keis-marquee:focus .keis-marquee__track,
+html body.page-credit .keis-marquee:focus .keis-marquee__track,
+html body.page-influence .keis-marquee:focus .keis-marquee__track,
+html body.page-investment .keis-marquee .keis-marquee__track,
+html body.page-main .keis-marquee .keis-marquee__track,
+html body.page-credit .keis-marquee .keis-marquee__track,
+html body.page-influence .keis-marquee .keis-marquee__track{
   -webkit-animation-play-state: running !important;
   animation-play-state: running !important;
 }
