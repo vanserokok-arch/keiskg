@@ -1880,6 +1880,41 @@ button,input,textarea{font:inherit}
   font-size:clamp(1.02rem, 1.2vw, 1.12rem);
   line-height:1.45;
 }
+
+/* =========================
+   UNIFIED HEADING SYSTEM
+   Reusable premium heading styles for all blocks
+   ========================= */
+.k-title {
+  font-family: "Roboto Slab", serif;
+  font-weight: 900;
+  font-size: clamp(2.0rem, 3.2vw, 2.8rem);
+  line-height: 1.05;
+  margin: 0;
+  color: rgba(244,241,235,.96);
+}
+
+.k-title__mark {
+  position: relative;
+  display: inline;
+  background: linear-gradient(135deg, 
+    rgba(255,170,90,.22) 0%, 
+    rgba(255,138,0,.28) 100%);
+  padding: 0 8px;
+  border-radius: 4px;
+  box-shadow: 
+    inset 0 -2px 0 rgba(255,138,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.k-subtitle {
+  margin: 10px 0 0;
+  color: rgba(244,241,235,.78);
+  font-size: clamp(1.02rem, 1.2vw, 1.12rem);
+  line-height: 1.45;
+  max-width: 72ch;
+}
+
 @media (max-width:520px){
   .section-container{width:min(1280px, calc(100% - 28px))}
 }
@@ -2057,6 +2092,65 @@ button,input,textarea{font:inherit}
 .mobile-submenu-toggle:hover{background:rgba(255,255,255,.06); color:#fff}
 .mobile-submenu{display:none; margin:6px 0 0 12px; padding-left:12px; border-left:1px solid rgba(255,255,255,.12)}
 .mobile-has-submenu.submenu-open .mobile-submenu{display:block}
+
+/* Mobile menu contacts section */
+.keis-mobile-menu-contacts{
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.keis-mobile-menu-phone{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+.keis-mobile-menu-phone-icon{
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  opacity: .9;
+}
+.keis-mobile-menu-phone-text{
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(244,241,235,.95);
+  text-decoration: none;
+}
+.keis-mobile-menu-phone-text:hover{
+  color: rgba(255,200,140,.98);
+}
+
+/* Mobile menu social icons */
+.keis-mobile-menu-social{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px 0;
+}
+.keis-mobile-menu-social__link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  transition: all .2s ease;
+}
+.keis-mobile-menu-social__link:hover{
+  background: rgba(255,138,0,.14);
+  border-color: rgba(255,138,0,.35);
+  transform: scale(1.05);
+}
+.keis-mobile-menu-social__icon{
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
 @media (min-width:1100px){.keis-mobile-menu{display:none}}
 body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 
@@ -3870,12 +3964,16 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   z-index:0;
   pointer-events:none;
 
-  /* stylized textured background instead of a photo */
+  /* priznak.png background with gradients overlay */
   background:
     radial-gradient(1000px 520px at 14% 18%, rgba(255,160,80,0.12), transparent 46%),
     radial-gradient(1200px 520px at 86% 30%, rgba(0,0,0,0.50), transparent 60%),
-    linear-gradient(180deg, rgba(10,6,4,0.92), rgba(12,8,6,0.86));
+    linear-gradient(180deg, rgba(10,6,4,0.92), rgba(12,8,6,0.86)),
+    url('/fraud/landing/assets/block/priznak.png');
 
+  background-size: auto, auto, auto, cover;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat;
   opacity: .98;
 }
 
@@ -3910,7 +4008,7 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 .signs-grid{
   display:grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 2.2vw, 22px);
+  gap: clamp(18px, 2.8vw, 32px);
   align-items: stretch;
 }
 
