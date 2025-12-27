@@ -70,7 +70,7 @@ body.page-influence .investment-faq .faq-list {
 body.page-main .investment-faq::before,
 body.page-credit .investment-faq::before,
 body.page-influence .investment-faq::before {
-    background-size: contain;
+  background-size: clamp(520px, 52vw, 980px) auto;
     background-position: 100% 50%;
     background-repeat: no-repeat;
     opacity: 1;
@@ -185,7 +185,7 @@ body.page-influence .investment-faq::before {
   background-image: url('/fraud/assets/block/great_K.png');
   background-repeat: no-repeat;
   background-position: 100% 50%;
-  background-size: contain;
+  background-size: clamp(520px, 52vw, 980px) auto;
   /* Removed parallax transform to prevent jumping */
   transform: none;
   will-change: auto;
@@ -233,7 +233,7 @@ body.page-influence .investment-faq {
 body.page-main .investment-faq::before,
 body.page-credit .investment-faq::before,
 body.page-influence .investment-faq::before {
-    background-size: contain;
+    background-size: clamp(520px, 52vw, 980px) auto;
     background-position: 100% 50%;
     background-repeat: no-repeat;
     opacity: 1;
@@ -1325,7 +1325,7 @@ body.page-influence .investment-faq {
 body.page-main .investment-faq::before,
 body.page-credit .investment-faq::before,
 body.page-influence .investment-faq::before {
-    background-size: contain;
+    background-size: clamp(520px, 52vw, 980px) auto;
     background-position: 100% 50%;
     background-repeat: no-repeat;
     opacity: 1;
@@ -5901,7 +5901,7 @@ body.page-influence .keis-header-cta:hover {
 
   /* Slightly more compact hero paddings, like mobile */
   .hero-investment{
-    padding: calc(var(--header-h) - 28px) 0 30px;
+    padding: calc(var(--keis-header-h) - 28px) 0 30px;
   }
 
   /* Make badges / benefits behave like on mobile sizes */
@@ -8936,5 +8936,42 @@ img:not([loading="lazy"]) {
   .keis-divider--glass-ribbon::after {
     transform: translate(-50%, -50%) rotate(0deg);
   }
+}
+
+/* =========================
+   Anchor offsets for sticky header
+   ========================= */
+html{
+  scroll-padding-top: calc(var(--keis-header-h, 88px) + 14px);
+}
+
+/* чтобы прыжки по якорям садились ниже sticky header */
+body.page-main section[id],
+body.page-investment section[id],
+body.page-influence section[id],
+body.page-credit section[id],
+body.page-main footer[id],
+body.page-investment footer[id],
+body.page-influence footer[id],
+body.page-credit footer[id]{
+  scroll-margin-top: calc(var(--keis-header-h, 88px) + 14px);
+}
+
+/* =========================
+   Anchor offsets for sticky header
+   ========================= */
+html{
+  scroll-padding-top: calc(var(--keis-header-h, 88px) + 14px);
+}
+
+body.page-main section[id],
+body.page-investment section[id],
+body.page-influence section[id],
+body.page-credit section[id],
+body.page-main footer[id],
+body.page-investment footer[id],
+body.page-influence footer[id],
+body.page-credit footer[id]{
+  scroll-margin-top: calc(var(--keis-header-h, 88px) + 14px);
 }
 
