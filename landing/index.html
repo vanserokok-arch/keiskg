@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <title>Возврат денег пострадавшим от мошенников — юридическая помощь | КЕЙС</title>
+  <meta name="description" content="Юридическая помощь при мошенничестве: переводы под давлением, фейковые брокеры, кредиты. Анализ ситуации, защита прав и сопровождение до результата.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вернём ваши деньги от мошенников | КЕЙС</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body class="page-main" id="top">
+
+  <!-- HEADER -->
+  <header class="keis-header" role="banner">
+    <div class="keis-header-inner">
+      <a href="./index.html" class="keis-header-logo" aria-label="Кейс — на главную">
+        <img src="../assets/head/head_logo.png" alt="Кейс — юридическая компания" />
+      </a>
+
+      <nav class="keis-header-nav" aria-label="Главная навигация">
+        <ul class="keis-header-nav-list">
+
+          <li class="has-children">
+            <a href="#" data-submenu-trigger="directions" aria-haspopup="true" aria-expanded="false">Направления</a>
+            <ul class="keis-header-nav-dropdown">
+              <li><a href="./investment.html">Инвестиционное мошенничество</a></li>
+              <li><a href="./influence.html">Перевод под влиянием</a></li>
+              <li><a href="./credit.html">Взлом и оформление кредита</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#cases">Практика</a></li>
+          <li><a href="#find-us">Где мы</a></li>
+          <li><a href="#about-us">О нас</a></li>
+        </ul>
+      </nav>
+
+      <div class="keis-header-center">
+        <div class="keis-header-contacts" aria-hidden="false">
+          <img src="../assets/icons/phonee.png" alt="Телефон" class="keis-header-icon keis-header-icon--phone">
+          <a href="tel:+79048085909" class="keis-header-phone-text">8&nbsp;904&nbsp;808-59-09</a>
+          <img src="../assets/icons/telegramm.png" alt="Telegram" class="keis-header-icon keis-header-icon--telegram">
+          <img src="../assets/icons/whats.png" alt="WhatsApp" class="keis-header-icon keis-header-icon--whats">
+        </div>
+
+        <a href="#" class="keis-header-cta" data-open-contact-modal>Записаться</a>
+
+        <button type="button" class="keis-header-burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
+          <img src="../assets/icons/align.png" alt="" class="keis-header-burger-img">
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div id="mobileMenu" class="keis-mobile-menu" aria-hidden="true">
+    <div id="mobileMenuOverlay" class="keis-mobile-menu-overlay" aria-hidden="true"></div>
+
+    <nav class="keis-mobile-menu-panel" role="navigation" aria-label="Мобильное меню">
+      <button id="mobileMenuClose" class="keis-mobile-menu-close" aria-label="Закрыть меню">Закрыть</button>
+
+      <ul class="keis-mobile-menu-list">
+
+        <li class="mobile-has-submenu">
+          <button class="mobile-submenu-toggle" aria-expanded="false">Направления</button>
+          <ul class="mobile-submenu" aria-hidden="true">
+            <li><a href="./investment.html">Инвестиционное мошенничество</a></li>
+            <li><a href="./influence.html">Перевод под влиянием</a></li>
+            <li><a href="./credit.html">Взлом и оформление кредита</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#cases">Практика</a></li>
+        <li><a href="#find-us">Где мы</a></li>
+        <li><a href="#about-us">О нас</a></li>
+      </ul>
+
+      <div class="keis-mobile-menu-social" aria-label="Мессенджеры">
+        <a class="keis-mobile-menu-social__link" href="#bottom-cta" aria-label="Telegram">
+          <img src="../assets/icons/telegramm.png" alt="" class="keis-mobile-menu-social__icon">
+        </a>
+        <a class="keis-mobile-menu-social__link" href="#bottom-cta" aria-label="WhatsApp">
+          <img src="../assets/icons/whats.png" alt="" class="keis-mobile-menu-social__icon">
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- HERO / OFFER -->
+  <section class="hero-investment" id="hero">
+    <div class="hero-investment__bg"></div>
+
+    <div class="section-container hero-investment__inner">
+      <div class="hero-investment__grid">
+        <div class="hero-investment__content">
+          <div class="hero-investment__badges">
+            <span class="hero-investment__badge" id="inv">Финансовое мошенничество</span>
+            <span class="hero-investment__badge hero-investment__badge--accent">Возврат средств</span>
+          </div>
+
+          <h1 class="hero-investment__title">
+            Возвращаем деньги пострадавшим от <span class="hero-title-mark">любых схем мошенничества</span>
+          </h1>
+
+          <p class="hero-investment__subtitle">
+            Работаем по всем ключевым направлениям: инвестиционные схемы и фейковые брокеры, переводы под влиянием,
+            взломы и кредиты, а также другие виды обмана. Разбираем цепочку платежей, фиксируем доказательства
+            и запускаем возврат в правильной последовательности.
+          </p>
+        </div>
+
+        <aside class="hero-investment__form">
+          <div class="hero-form-card">
+            <h3 class="hero-form-title">
+              <span class="hero-marker">Юрист свяжется с вами в течение 5 минут</span>
+            </h3>
+            <p class="hero-form-subtitle">
+              Чтобы спасти деньги, важна точность — оценим перспективы и дадим план действий
+            </p>
+            <div class="hero-form-divider" aria-hidden="true"></div>
+
+            <form class="hero-form" action="#contact" method="POST">
+              <div class="hero-form-row">
+                <div class="hero-form-group">
+                  <label for="hero-name">Ваше имя</label>
+                  <input type="text" id="hero-name" name="name" placeholder="Как к вам обращаться" required>
+                </div>
+
+                <div class="hero-form-group">
+                  <label for="hero-phone">Телефон</label>
+                  <input type="tel" id="hero-phone" name="phone" inputmode="numeric" placeholder="+7 ___-___-__-__" maxlength="16" required>
+                </div>
+              </div>
+
+              <div class="hero-form-group">
+                <label for="hero-case">Кратко о ситуации</label>
+                <textarea id="hero-case" name="message" rows="4" placeholder="Опишите, что произошло и на каком этапе сейчас ситуация" required></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary">Получить консультацию</button>
+
+              <p class="hero-form-disclaimer">
+                Отправляя форму, вы соглашаетесь с политикой конфиденциальности и обработкой персональных данных.
+              </p>
+            </form>
+          </div>
+        </aside>
+
+        <!-- BENEFITS (4 cards) — НЕ МЕНЯЕМ -->
+        <div class="hero-benefits">
+          <div class="hero-benefits-grid hero-benefits-grid--intro">
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>30+ лет опыта мы защищаем ваши законные права и интересы</strong>
+            </article>
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>Работаем по договору — оплата всегда только за честный результат</strong>
+            </article>
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>Юрист на связи всегда — ответит на вопросы в выходные дни и вечером</strong>
+            </article>
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>200 млн+ взыскано нашим клиентам в досудебном и судебном порядке</strong>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="keis-divider keis-divider--shards keis-divider--scenarios-bottom" aria-hidden="true"></div>
+  </section>
+
+  <!-- MARQUEE (обновлённый текст под общую страницу) -->
+  <div class="keis-marquee" role="region" aria-label="Ключевые преимущества">
+    <div class="keis-marquee__inner" aria-hidden="true">
+      <div class="keis-marquee__track">
+        <span class="keis-marquee__item">Берём в работу любые схемы мошенничества: инвестиции, взломы, переводы под влиянием</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Быстрая оценка перспектив и план действий в день обращения</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Фиксируем доказательства так, чтобы их принимали банки, полиция и суд</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Работаем по цепочке: банк → получатели → эквайер → суд → исполнение</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Юрист на связи и сопровождение до фактического возврата</span>
+        <span class="keis-marquee__sep">•</span>
+      </div>
+      <div class="keis-marquee__track" aria-hidden="true">
+        <span class="keis-marquee__item">Берём в работу любые схемы мошенничества: инвестиции, взломы, переводы под влиянием</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Быстрая оценка перспектив и план действий в день обращения</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Фиксируем доказательства так, чтобы их принимали банки, полиция и суд</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Работаем по цепочке: банк → получатели → эквайер → суд → исполнение</span>
+        <span class="keis-marquee__sep">•</span>
+        <span class="keis-marquee__item">Юрист на связи и сопровождение до фактического возврата</span>
+        <span class="keis-marquee__sep">•</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIOS -> "Самые частые проблемы" (4 кликабельные карточки) -->
+  <section class="investment-scenarios" id="scenarios">
+    <div class="section-container">
+      <div class="scenarios-head">
+        <span class="scenarios-kicker">САМЫЕ ЧАСТЫЕ ПРОБЛЕМЫ</span>
+        <span class="scenarios-subpill">Нажмите на карточку и перейдите в нужное направление</span>
+      </div>
+
+      <div class="scenarios-band">
+        <div class="scenarios-tilt">
+          <div class="scenarios-band-window">
+            <div class="scenarios-band-rotator">
+              <div class="scenarios-band-track">
+
+                <a class="scenario-slide scenario-slide--angle-1" href="./investment.html" aria-label="Перейти: Инвестиционное мошенничество">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Инвестиционное мошенничество</h3>
+                    <p class="scenario-slide-text">Фейковые брокеры, «платформы», пирамиды, требования доплат и невозможность вывода средств.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-2" href="./influence.html" aria-label="Перейти: Перевод под влиянием">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Перевод под влиянием</h3>
+                    <p class="scenario-slide-text">Звонки «службы безопасности», давление, легенды про «безопасный счёт», переводы “сам сделал”.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-3" href="./credit.html" aria-label="Перейти: Взлом и оформление кредита">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Взлом и оформление кредита</h3>
+                    <p class="scenario-slide-text">Компрометация аккаунтов, SIM-swap, оформление займов/кредитов, быстрый вывод по цепочке.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-4" href="#contactModal" data-open-contact-modal aria-label="Направление будет позже: Мошенничество под предлогом услуг или продажи товаров">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Услуги / продажа товаров</h3>
+                    <p class="scenario-slide-text">Предоплата и исчезновение продавца/исполнителя, подмена реквизитов, “доставка” и фейковые сделки.</p>
+                  </div>
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenarios-band-controls scenarios-band-controls--center">
+        <button class="scenarios-navbtn scenarios-navbtn--prev" type="button" aria-label="Назад">
+          <span class="scenarios-navbtn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.5 5.5L8 12l6.5 6.5" stroke="rgba(255,255,255,0.92)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+
+        <button class="scenarios-navbtn scenarios-navbtn--next" type="button" aria-label="Вперёд">
+          <span class="scenarios-navbtn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.5 5.5L16 12l-6.5 6.5" stroke="rgba(255,255,255,0.92)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="scenarios-trust-bridge" aria-hidden="true">
+      <div class="scenarios-trust-bridge__inner">
+        <p class="scenarios-trust-bridge__text">
+          Мы собираем доказательства и запускаем возврат так, чтобы у банков и судов не осталось “формального повода” для отказа
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST (обновлённые тексты 6 карточек) -->
+  <section class="trust-parallax" id="trust">
+    <div class="trust-parallax-bg" aria-hidden="true"></div>
+
+    <div class="section-container trust-parallax-inner">
+      <div class="trust-panel" role="group" aria-label="Почему нам доверяют">
+        <div class="trust-panel-head">
+          <h2 class="trust-panel-title">Почему нам доверяют</h2>
+          <p class="trust-panel-subtitle">Мы не “пишем жалобы”. Мы строим результат: доказательства, стратегия, давление по правилам и доведение до возврата.</p>
+        </div>
+
+        <div class="trust-mini-grid" role="list">
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Системная работа по схеме</h3>
+            <p class="trust-mini-text">Действуем по этапам: фиксация → банк/получатели → претензии → иск → исполнение.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Доказательства, которые “заходят”</h3>
+            <p class="trust-mini-text">Оформляем материалы так, чтобы их принимали службы безопасности банков, полиция и суд.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Понимание банковских регламентов</h3>
+            <p class="trust-mini-text">Знаем, как банк проверяет спорные операции и какие формулировки реально запускают процесс.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Упор на реальных получателей</h3>
+            <p class="trust-mini-text">Не “боремся с воздухом”: ищем точки возврата по цепочке переводов и ответственным лицам.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Скорость в критические сроки</h3>
+            <p class="trust-mini-text">Чем быстрее — тем выше шанс остановить рассыпание средств. Берёмся оперативно.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">До фактического возврата</h3>
+            <p class="trust-mini-text">Не закрываем дело “отпиской”: доводим до взыскания и реального результата.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNS -> "Признаки мошенничества" (карточки кликабельные на направления) -->
+  <section class="investment-signs" id="signs">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Признаки мошенничества</h2>
+        <p class="section-subtitle">Выберите, что похоже на вашу ситуацию — откроется нужное направление</p>
+      </div>
+
+      <div class="signs-layout">
+        <div class="signs-wall">
+          <div class="signs-grid">
+
+            <a class="sign-card" href="./investment.html" aria-label="Перейти: Инвестиционное мошенничество">
+              <div class="sign-number">01</div>
+              <h3 class="sign-title">Не дают вывести прибыль</h3>
+              <p class="sign-text">Требуют “налоги/страховку/комиссию”, затягивают вывод, затем блокируют кабинет.</p>
+            </a>
+
+            <a class="sign-card" href="./influence.html" aria-label="Перейти: Перевод под влиянием">
+              <div class="sign-number">02</div>
+              <h3 class="sign-title">Давление по телефону</h3>
+              <p class="sign-text">“Банк/полиция/ФСБ”, срочность, угрозы, запрет рассказывать близким.</p>
+            </a>
+
+            <a class="sign-card" href="./credit.html" aria-label="Перейти: Взлом и оформление кредита">
+              <div class="sign-number">03</div>
+              <h3 class="sign-title">Кредит появился “сам”</h3>
+              <p class="sign-text">Оформление займов, смена SIM, входы в приложения, списания без вашего участия.</p>
+            </a>
+
+            <a class="sign-card" href="#contactModal" data-open-contact-modal aria-label="Направление будет позже: Услуги/товары">
+              <div class="sign-number">04</div>
+              <h3 class="sign-title">Предоплата и исчезновение</h3>
+              <p class="sign-text">Фейковый продавец/исполнитель, подмена реквизитов, “доставка” не приходит.</p>
+            </a>
+
+            <a class="sign-card" href="./investment.html" aria-label="Перейти: Инвестиционное мошенничество">
+              <div class="sign-number">05</div>
+              <h3 class="sign-title">Обещают сверхдоход</h3>
+              <p class="sign-text">“Гарантия”, “инсайды”, “сигналы”, “регулирование”, а договора и юрлица нет.</p>
+            </a>
+
+            <a class="sign-card" href="./influence.html" aria-label="Перейти: Перевод под влиянием">
+              <div class="sign-number">06</div>
+              <h3 class="sign-title">Переводы “на физлиц”</h3>
+              <p class="sign-text">Просят отправлять по СБП/карте “менеджеру/кассе/курьеру/агенту”.</p>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="signs-figure" id="investment-figure"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="keis-divider keis-divider--shards" aria-hidden="true"></div>
+
+  <!-- CHALLENGES (переписаны под главную страницу) -->
+  <section class="investment-challenges" id="why-hard">
+    <div class="section-container">
+      <div class="challenges-head">
+        <h2 class="section-title">Почему самостоятельно вернуть деньги так сложно?</h2>
+        <div class="challenges-lead">
+          <p>
+            В мошенничестве всё решают сроки, доказательства и правильная последовательность действий.
+            Ошибка на старте часто “закрывает” возврат: банк и суд получают удобную формальную причину отказать.
+          </p>
+        </div>
+      </div>
+
+      <div class="challenges-grid" role="list">
+        <article class="challenge-card" role="listitem">
+          <h3>Люди теряют время на “переписки”</h3>
+          <p>Мошенники тянут и выжигают сроки. Пока вы ждёте “вывод” или “проверку”, деньги уходят дальше по цепочке.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">СРОКИ УХОДЯТ — ШАНСЫ ПАДАЮТ</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="../assets/icons/s1.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Нет понятной “дорожной карты”</h3>
+          <p>Куда писать в банк, кому и что требовать, какие формулировки важны — без этого обращения превращаются в отписки.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">ЖАЛОБЫ НЕ ЗАПУСКАЮТ ПРОЦЕСС</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="../assets/icons/s2.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Сложно собрать доказательства правильно</h3>
+          <p>Скрины, чеки, переписки, записи звонков — важно оформить так, чтобы это было юридически значимо, а не “эмоции”.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">ДОКАЗАТЕЛЬСТВА ДОЛЖНЫ “РАБОТАТЬ”</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="../assets/icons/s3.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Банк опирается на “добровольность”</h3>
+          <p>Если вы подтвердили операцию, банк часто пытается закрыть вопрос. Нужна грамотная позиция: воздействие, обман, цепочка.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">БАНКУ НУЖНО ЛОМАТЬ ЛОГИКУ ОТКАЗА</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="../assets/icons/s4.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Получатели и “хвосты” скрыты</h3>
+          <p>Кто конечный получатель, куда ушли деньги, есть ли эквайер/платёжная система — без запросов и стратегии это не раскрывается.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">ЦЕПОЧКА ПЛАТЕЖЕЙ НЕВИДИМА</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="../assets/icons/s5.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Путают “полицию” и “возврат”</h3>
+          <p>Заявление важно, но само по себе деньги редко возвращает. Нужны параллельные юридические действия к банкам и получателям.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">НУЖНА КОМБИНАЦИЯ ДЕЙСТВИЙ</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="../assets/icons/s6.png" alt=""></span>
+          </div>
+        </article>
+      </div>
+
+      <div class="challenges-cta" id="challenges-cta">
+        <div class="challenges-cta__inner">
+          <div class="challenges-cta__text">
+            <h3 class="challenges-cta__title">Мы подключаемся, когда ситуация кажется безвыходной</h3>
+            <p class="challenges-cta__subtitle">
+              Собираем доказательства, формируем позицию, запускаем банки и выходим на получателей — в нужной очередности.
+              Так прекращается “конвейер отказов” и появляется реальный шанс вернуть деньги.
+            </p>
+          </div>
+
+          <form class="challenges-cta__form" action="#contact" method="POST">
+            <div class="challenges-cta__fields">
+              <label class="challenges-cta__field">
+                <span>Ваше имя</span>
+                <input type="text" name="name" placeholder="Введите имя" required>
+              </label>
+
+              <label class="challenges-cta__field">
+                <span>Телефон</span>
+                <input type="tel" name="phone" inputmode="numeric" placeholder="Введите телефон" required>
+              </label>
+            </div>
+
+            <button type="submit" class="challenges-cta__btn faq-ask-btn">
+              <span class="faq-ask-btn__text">Получить консультацию</span>
+              <span class="faq-ask-btn__icon" aria-hidden="true">→</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS (НЕ МЕНЯЕМ) -->
+  <section class="investment-process" id="process">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Как идёт работа</h2>
+        <p class="section-subtitle section-subtitle--pill">Три основных этапа возврата средств</p>
+      </div>
+
+      <div class="process-steps">
+        <article class="work-step">
+          <div class="work-step-media" style="background-image:url('../assets/block/topspaces.png');" aria-hidden="true"></div>
+          <div class="work-step-body">
+            <div class="work-step-kicker">01 шаг</div>
+            <h3 class="work-step-title">Разбор ситуации и документов</h3>
+            <p class="work-step-text">
+              Анализируем переписки, платёжные документы, скриншоты. Ищем юридическое лицо, следы транзакций и связи с банками-эквайерами. Оцениваем перспективы дела и составляем первый план действий.
+            </p>
+          </div>
+        </article>
+
+        <article class="work-step is-reverse">
+          <div class="work-step-media" style="background-image:url('../assets/block/mediumspaces.png');" aria-hidden="true"></div>
+          <div class="work-step-body">
+            <div class="work-step-kicker">02 шаг</div>
+            <h3 class="work-step-title">Стратегия и план</h3>
+            <p class="work-step-text">
+              Формируем юридическую стратегию: претензии мошенникам, запросы в банки, обращения в правоохранительные органы и регуляторов. Продумываем несколько сценариев развития дела и точки возврата средств.
+            </p>
+          </div>
+        </article>
+
+        <article class="work-step">
+          <div class="work-step-media" style="background-image:url('../assets/block/downspaces.png');" aria-hidden="true"></div>
+          <div class="work-step-body">
+            <div class="work-step-kicker">03 шаг</div>
+            <h3 class="work-step-title">Реализация и сопровождение</h3>
+            <p class="work-step-text">
+              Подаём иски к банкам-эквайерам, платёжным системам или физлицам-получателям. Представляем ваши интересы в суде. Добиваемся решения о взыскании и ведём исполнительное производство до фактического возврата денег.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES (НЕ МЕНЯЕМ) -->
+  <section class="investment-cases" id="cases">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Наши кейсы</h2>
+        <p class="section-subtitle">Показываем по-честному: что случилось, что сделали и какой результат получили</p>
+      </div>
+
+      <div class="cases-grid">
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Инвестиции</span>
+            <span class="case-tag case-tag--muted">Псевдоброкер</span>
+          </div>
+          <h3 class="case-title">Обещали высокий доход — деньги вывести не дали</h3>
+          <p class="case-text">Предлог: «пополнение для увеличения доходности и подтверждения личности». Переводы: на карты физлиц и через онлайн-банк. Сумма: <strong>2 300 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: собрали переписку/чеки, направили претензии, подготовили иск и взыскали через суд и приставов.</p>
+          <div class="case-result">Вернули: <strong>1 600 000 ₽</strong> (суд + исполнительное производство)</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">CFD</span>
+            <span class="case-tag case-tag--muted">Ввод/вывод</span>
+          </div>
+          <h3 class="case-title">Потребовали «налог» за вывод денег</h3>
+          <p class="case-text">Предлог: «оплатите налог/комиссию, иначе вывод не пройдёт». Переводы: на карту физлица по реквизитам менеджера. Сумма: <strong>890 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: зафиксировали переписку и реквизиты, подали претензии в банк, затем иск — добились взыскания.</p>
+          <div class="case-result">Вернули: <strong>890 000 ₽</strong> (взыскание через суд)</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Стартап</span>
+            <span class="case-tag case-tag--muted">Пирамида</span>
+          </div>
+          <h3 class="case-title">Вложился в «проект» — выплаты прекратились</h3>
+          <p class="case-text">Предлог: «вклад в перспективный проект, ежемесячные выплаты». Переводы: по номеру карты и СБП на физлиц. Сумма: <strong>1 500 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: собрали доказательства схемы, направили претензии и добились возврата по соглашению и частичному взысканию.</p>
+          <div class="case-result">Вернули: <strong>950 000 ₽</strong> (претензии + соглашение)</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Крипто</span>
+            <span class="case-tag case-tag--muted">Обменник</span>
+          </div>
+          <h3 class="case-title">Показывали прибыль, но деньги не отдавали</h3>
+          <p class="case-text">Предлог: «нужна комиссия/страховка для вывода». Переводы: на карты физлиц и на обмен через крипто-кошелёк. Сумма: <strong>650 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: установили цепочку переводов, направили требования, подготовили иск к получателям и добились возврата.</p>
+          <div class="case-result">Вернули: <strong>650 000 ₽</strong> + компенсация расходов</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Форекс</span>
+            <span class="case-tag case-tag--muted">«Налоги»</span>
+          </div>
+          <h3 class="case-title">Уговаривали пополнять счёт, а потом заблокировали</h3>
+          <p class="case-text">Предлог: «ещё одно пополнение — и сможете вывести с прибылью». Переводы: серия переводов на карты физлиц. Сумма: <strong>1 100 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: оформили юридическую позицию, направили претензии, добились добровольного возврата части суммы и закрепили обязательства.</p>
+          <div class="case-result">Вернули: <strong>700 000 ₽</strong> (претензии + переговоры)</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">ПАММ-счета</span>
+            <span class="case-tag case-tag--muted">Гарантии</span>
+          </div>
+          <h3 class="case-title">Пообещали управлять деньгами, договор не дали</h3>
+          <p class="case-text">Предлог: «мы управляем вашими деньгами, доход гарантирован». Переводы: на карту физлица и по реквизитам на счёт. Сумма: <strong>780 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: собрали доказательства, подали иск, взыскали сумму полностью через суд.</p>
+          <div class="case-result">Вернули: <strong>780 000 ₽</strong> (суд)</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ (НЕ МЕНЯЕМ) -->
+  <section class="investment-faq" id="faq">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Частые вопросы</h2>
+        <p class="section-subtitle">Коротко и по делу — без воды</p>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-list">
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Можно ли вернуть деньги, если нет договора?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Да. Отсутствие договора не лишает права на возврат. В делах о мошенничестве ключевыми являются фактические обстоятельства: переводы, переписка, записи разговоров, реквизиты получателей. Мы выстраиваем правовую позицию на основании доказательств, а не формального наличия договора.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Что делать в первую очередь, если понял(а), что меня обманули?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Немедленно прекратить переводы и зафиксировать все доказательства: чеки, скриншоты, переписки, номера телефонов и аккаунты. Чем быстрее зафиксирована ситуация и направлены юридически корректные обращения, тем выше шанс заблокировать цепочку и вернуть средства.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Сколько времени занимает возврат средств?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Сроки зависят от сложности схемы и количества участников. Досудебные процедуры могут занять от нескольких недель, судебные — от нескольких месяцев. Мы всегда начинаем с быстрых шагов, которые дают шанс вернуть деньги без затяжного процесса.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Какие доказательства лучше всего помогают?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Наиболее ценны платёжные документы, переписки с «менеджерами», записи звонков, данные сайтов и приложений, а также подтверждения давления и введения в заблуждение. Даже фрагментарные доказательства при правильной подаче работают в комплексе.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Если я сам подтверждал(а) переводы — это всё равно мошенничество?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Да. Подтверждение перевода не означает добровольное согласие, если решение было принято под давлением, обманом или с использованием ложной информации. Это распространённая позиция банков, но она успешно оспаривается при правильной юридической аргументации.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Можно ли оспорить кредит, оформленный под влиянием мошенников?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Да. Если кредит был оформлен под воздействием обмана или социальной инженерии, его можно оспорить и признать обязательства недействительными либо взыскать ущерб. Важно доказать причинно-следственную связь между действиями мошенников и оформлением кредита.
+            </div>
+          </div>
+
+          <div class="faq-spacer" aria-hidden="true"></div>
+          <div class="faq-ask">
+            <div class="faq-ask-panel" role="group" aria-label="Задать вопрос">
+              <div class="faq-ask-copy">
+                <div class="faq-ask-title">Не нашли нужного ответа?</div>
+              </div>
+              <button type="button" class="faq-ask-btn" data-open-contact-modal>
+                <span class="faq-ask-btn__text">Задать вопрос</span>
+                <span class="faq-ask-btn__icon" aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP + REVIEWS (НЕ МЕНЯЕМ) -->
+  <section class="investment-find" id="find-us">
+    <div class="section-container">
+      <div class="find-grid">
+
+        <div class="find-map">
+          <h3 class="find-title">Офис на карте</h3>
+          <div class="map-widget">
+            <iframe
+              src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=64216225429"
+              frameborder="0"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="find-reviews">
+          <h3 class="find-title">Отзывы о нас</h3>
+          <div class="reviews-widget">
+            <iframe
+              src="https://yandex.ru/maps-reviews-widget/64216225429?comments"
+              frameborder="0"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MOTIVATING PHRASE TRANSITION -->
+  <div class="keis-motivating-bridge" aria-hidden="true">
+    <div class="keis-motivating-bridge__inner">
+      <p class="keis-motivating-bridge__text">
+        Мы берёмся за дела, где другие опускают руки
+      </p>
+    </div>
+  </div>
+
+  <!-- FOOTER (НЕ МЕНЯЕМ ТЕКСТ; добавлены только id-якоря) -->
+  <footer class="investment-footer" id="about-us">
+    <div id="bottom-cta" aria-hidden="true"></div>
+
+    <div class="section-container investment-footer__inner">
+      <div class="investment-footer__col investment-footer__col--about">
+        <p class="investment-footer__lead">
+          Мы работаем с делами о финансовом мошенничестве и спорных переводах ежедневно. Наша команда юристов и
+          аналитиков выстраивает доказательственную базу так, чтобы банки, платёжные системы и суды слышали аргументы
+          клиента, а не шаблонные отписки.
+        </p>
+        <p class="investment-footer__lead">
+          Репутация для нас важнее любой рекламной кампании, поэтому мы честно оцениваем перспективы дела,
+          объясняем риски простым языком и сопровождаем клиента до результата, а не до формального закрытия обращения.
+        </p>
+      </div>
+
+      <div class="investment-footer__col investment-footer__col--legal">
+        <h3 class="investment-footer__heading">Общество с ограниченной ответственностью «Креатор Групп»</h3>
+        <h3 class="investment-footer__heading">ИНН 7839122570</h3>
+        <dl class="investment-footer__dl"></dl>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CONTACT MODAL -->
+  <div class="keis-modal" id="contactModal" aria-hidden="true">
+    <div class="keis-modal__overlay" data-close-contact-modal aria-hidden="true"></div>
+
+    <div class="keis-modal__panel" role="dialog" aria-modal="true" aria-label="Форма обратной связи">
+      <button type="button" class="keis-modal__close" data-close-contact-modal aria-label="Закрыть">×</button>
+
+      <div class="keis-modal__head">
+        <h3 class="keis-modal__title">Запись на консультацию</h3>
+        <p class="keis-modal__subtitle">Юрист свяжется с вами в течение 5 минут и даст план действий.</p>
+      </div>
+
+      <div class="hero-form-divider" aria-hidden="true"></div>
+
+      <form class="hero-form hero-form--modal" action="#contact" method="POST">
+        <div class="hero-form-row">
+          <div class="hero-form-group">
+            <label for="modal-name">Ваше имя</label>
+            <input type="text" id="modal-name" name="name" placeholder="Как к вам обращаться" required>
+          </div>
+
+          <div class="hero-form-group">
+            <label for="modal-phone">Телефон</label>
+            <input type="tel" id="modal-phone" name="phone" inputmode="numeric" placeholder="+7 ___-___-__-__" maxlength="16" required>
+          </div>
+        </div>
+
+        <div class="hero-form-group">
+          <label for="modal-case">Кратко о ситуации</label>
+          <textarea id="modal-case" name="message" rows="4" placeholder="Опишите, что произошло и на каком этапе сейчас ситуация" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Получить консультацию</button>
+
+        <p class="hero-form-disclaimer">
+          Отправляя форму, вы соглашаетесь с политикой конфиденциальности и обработкой персональных данных.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script src="./script.js" defer></script>
+
+</body>
+</html>
