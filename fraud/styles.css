@@ -1582,16 +1582,18 @@ body.page-influence .investment-find .reviews-widget { min-height: 380px; }
 /* =========================
    CASES (Наши кейсы) — дороже, ровнее, 3x2 на широких
    ========================= */
+/* PART 6: Cases Block - Lighter design, focus on key numbers */
 body.page-investment .investment-cases,
 body.page-main .investment-cases,
 body.page-credit .investment-cases,
 body.page-influence .investment-cases {
   position: relative;
   padding: 110px 0 130px;
+  /* Lighter, less intense background */
   background:
-    radial-gradient(900px 560px at 14% 18%, rgba(255,138,0,.08), transparent 62%),
-    radial-gradient(980px 560px at 92% 78%, rgba(255,138,0,.06), transparent 62%),
-    linear-gradient(180deg, rgba(5,3,3,1), rgba(18,10,6,1) 55%, rgba(5,3,3,1));
+    radial-gradient(900px 560px at 14% 18%, rgba(255,138,0,.04), transparent 62%),
+    radial-gradient(980px 560px at 92% 78%, rgba(255,138,0,.03), transparent 62%),
+    linear-gradient(180deg, rgba(5,3,3,1), rgba(12,8,6,1) 55%, rgba(5,3,3,1));
   overflow: hidden;
 }
 
@@ -1651,30 +1653,45 @@ body.page-influence .investment-cases .cases-grid {
   }
 }
 
+/* Lighter, cleaner cards with reduced contrast */
 body.page-investment .investment-cases .case-card,
 body.page-main .investment-cases .case-card,
 body.page-credit .investment-cases .case-card,
 body.page-influence .investment-cases .case-card {
   position: relative;
-  border-radius: 14px;
-  padding: 22px 24px 22px;
+  border-radius: 16px;
+  padding: 24px 26px 24px;
+  /* Much lighter background for cleaner look */
   background:
-    radial-gradient(120% 140% at 18% 0%, rgba(255,138,0,.14), transparent 58%),
-    radial-gradient(120% 140% at 110% 20%, rgba(255,106,0,.10), transparent 62%),
-    linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
-    rgba(10,6,4,.56);
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 26px 72px rgba(0,0,0,.70);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+    radial-gradient(120% 140% at 18% 0%, rgba(255,138,0,.06), transparent 58%),
+    linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+    rgba(10,6,4,.35);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 
+    0 12px 32px rgba(0,0,0,.45),
+    0 4px 12px rgba(0,0,0,.25);
+  backdrop-filter: blur(8px) saturate(110%);
+  -webkit-backdrop-filter: blur(8px) saturate(110%);
   overflow: hidden;
   display: grid;
   grid-template-rows: auto auto auto 1fr;
   min-height: 260px;
   transform: translateZ(0);
   gap: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+body.page-investment .investment-cases .case-card:hover,
+body.page-main .investment-cases .case-card:hover,
+body.page-credit .investment-cases .case-card:hover,
+body.page-influence .investment-cases .case-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 16px 40px rgba(0,0,0,.5),
+    0 6px 16px rgba(0,0,0,.3);
+}
+
+/* Subtle border glow - less intense */
 body.page-investment .investment-cases .case-card::before,
 body.page-main .investment-cases .case-card::before,
 body.page-credit .investment-cases .case-card::before,
@@ -1684,16 +1701,17 @@ body.page-influence .investment-cases .case-card::before {
   inset:-1px;
   border-radius:inherit;
   padding:1px;
-  background: linear-gradient(135deg, rgba(255,138,0,.34), rgba(255,255,255,.10), rgba(255,106,0,.22));
+  background: linear-gradient(135deg, rgba(255,138,0,.18), rgba(255,255,255,.06), rgba(255,106,0,.12));
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events:none;
-  opacity:.85;
+  opacity:.6;
 }
 
+/* Lighter internal highlights */
 body.page-investment .investment-cases .case-card::after,
 body.page-main .investment-cases .case-card::after,
 body.page-credit .investment-cases .case-card::after,
@@ -1703,9 +1721,9 @@ body.page-influence .investment-cases .case-card::after {
   inset:0;
   pointer-events:none;
   background:
-    radial-gradient(520px 260px at 16% 18%, rgba(255,255,255,.06), transparent 62%),
-    radial-gradient(520px 260px at 110% 30%, rgba(255,138,0,.10), transparent 66%);
-  opacity:.65;
+    radial-gradient(520px 260px at 16% 18%, rgba(255,255,255,.03), transparent 62%),
+    radial-gradient(520px 260px at 110% 30%, rgba(255,138,0,.04), transparent 66%);
+  opacity:.5;
 }
 
 body.page-investment .investment-cases .case-top,
@@ -2077,13 +2095,14 @@ body.page-influence .investment-challenges .challenges-lead p {
   font-size: clamp(0.98rem, 1.05vw, 1.08rem);
 }
 
+/* PART 5: "Why It's Difficult" Block - Reduced density, more breathing space */
 body.page-investment .investment-challenges .challenges-grid,
 body.page-main .investment-challenges .challenges-grid,
 body.page-credit .investment-challenges .challenges-grid,
 body.page-influence .investment-challenges .challenges-grid {
-  margin-top: clamp(22px, 2.4vw, 34px);
+  margin-top: clamp(32px, 3.4vw, 48px);
   display:grid;
-  gap: clamp(16px, 1.8vw, 22px);
+  gap: clamp(24px, 2.6vw, 36px);
   grid-template-columns: 1fr;
 }
 
@@ -2093,6 +2112,7 @@ body.page-main .investment-challenges .challenges-grid,
 body.page-credit .investment-challenges .challenges-grid,
 body.page-influence .investment-challenges .challenges-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(22px, 2.4vw, 32px);
   }
 }
 
@@ -2102,18 +2122,35 @@ body.page-main .investment-challenges .challenges-grid,
 body.page-credit .investment-challenges .challenges-grid,
 body.page-influence .investment-challenges .challenges-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: clamp(24px, 2.2vw, 28px);
   }
 }
 
-/* делаем карточки более вытянутыми и аккуратно резервируем место под крупную иконку */
+/* Lighter cards with more breathing space */
 body.page-investment .investment-challenges .challenge-card,
 body.page-main .investment-challenges .challenge-card,
 body.page-credit .investment-challenges .challenge-card,
 body.page-influence .investment-challenges .challenge-card {
   position: relative;
-  padding: 22px 26px 104px; /* аккуратное место под иконку */
-  min-height: 240px;
+  padding: 28px 30px 110px;
+  min-height: 260px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 
+    0 8px 24px rgba(0,0,0,.35),
+    0 2px 8px rgba(0,0,0,.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.page-investment .investment-challenges .challenge-card:hover,
+body.page-main .investment-challenges .challenge-card:hover,
+body.page-credit .investment-challenges .challenge-card:hover,
+body.page-influence .investment-challenges .challenge-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 32px rgba(0,0,0,.4),
+    0 4px 12px rgba(0,0,0,.3);
 }
 
 body.page-investment .investment-challenges .challenge-card::after,
@@ -2124,10 +2161,11 @@ body.page-influence .investment-challenges .challenge-card::after {
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.60;
+  opacity:.45;
+  border-radius: inherit;
   background:
-    radial-gradient(420px 240px at 12% 12%, rgba(255,138,0,.12), transparent 62%),
-    radial-gradient(520px 260px at 110% 20%, rgba(255,138,0,.10), transparent 66%);
+    radial-gradient(420px 240px at 12% 12%, rgba(255,138,0,.08), transparent 62%),
+    radial-gradient(520px 260px at 110% 20%, rgba(255,138,0,.06), transparent 66%);
 }
 
 body.page-investment .investment-challenges .challenge-card h3,
@@ -2136,11 +2174,11 @@ body.page-credit .investment-challenges .challenge-card h3,
 body.page-influence .investment-challenges .challenge-card h3 {
   margin:0;
   font-family: "Roboto Slab", serif;
-  font-weight: 900;
-  font-size: clamp(1.08rem, 1.12vw, 1.34rem);
-  line-height: 1.12;
-  color: rgba(244,241,235,.96);
-  text-shadow: 0 12px 26px rgba(0,0,0,.65);
+  font-weight: 800;
+  font-size: clamp(1.12rem, 1.18vw, 1.4rem);
+  line-height: 1.18;
+  color: rgba(244,241,235,.94);
+  text-shadow: 0 4px 12px rgba(0,0,0,.45);
   padding-right: 0;
 }
 
@@ -2148,10 +2186,10 @@ body.page-investment .investment-challenges .challenge-card p,
 body.page-main .investment-challenges .challenge-card p,
 body.page-credit .investment-challenges .challenge-card p,
 body.page-influence .investment-challenges .challenge-card p {
-  margin: 10px 0 0;
-  color: rgba(244,241,235,.78);
-  line-height: 1.46;
-  font-size: 0.96rem;
+  margin: 14px 0 0;
+  color: rgba(244,241,235,.76);
+  line-height: 1.52;
+  font-size: 0.98rem;
   padding-right: 0;
 }
 
@@ -3750,26 +3788,37 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
    ========================= */
 
 /* ====== 4-й блок: Признаки обмана ====== */
+/* PART 4: Background Image Block with Paper Tear/Newspaper Effect */
 body.page-investment .investment-signs,
 body.page-main .investment-signs,
 body.page-credit .investment-signs,
 body.page-influence .investment-signs {
   position: relative;
   padding: 120px 0 160px;
-  /* removed photographic background image in favor of stylized gradient/texture */
-  background-color: #0b0604; /* deep warm dark */
-  /* gentle layered orange texture for cinematic feel */
+  /* Enhanced contrast background with paper texture */
+  background-color: #0b0604;
   background-image:
-    linear-gradient(180deg, rgba(255,140,40,0.06) 0%, rgba(0,0,0,0) 30%),
-    linear-gradient(135deg, rgba(255,120,40,0.03) 10%, rgba(0,0,0,0) 10%),
-    linear-gradient(315deg, rgba(255,90,0,0.02) 10%, rgba(0,0,0,0) 10%);
-  background-blend-mode: overlay, screen, overlay;
+    /* Darker vignette for better contrast */
+    radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%),
+    /* Paper texture effect */
+    linear-gradient(180deg, rgba(255,140,40,0.08) 0%, rgba(0,0,0,0) 30%),
+    linear-gradient(135deg, rgba(255,120,40,0.05) 10%, rgba(0,0,0,0) 10%),
+    linear-gradient(315deg, rgba(255,90,0,0.04) 10%, rgba(0,0,0,0) 10%),
+    /* Subtle grain for newspaper feel */
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.015) 0px,
+      rgba(255,255,255,0.015) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  background-blend-mode: overlay, overlay, screen, overlay, overlay;
   min-height: 640px;
   overflow: hidden;
-  box-shadow: inset 0 80px 220px rgba(255,110,20,0.02);
+  box-shadow: inset 0 80px 220px rgba(255,110,20,0.03);
 }
 
-/* subtle warm glow + vignette to keep focus on cards */
+/* Enhanced warm glow + vignette with stronger contrast */
 .investment-signs::before{
   content: "";
   position: absolute;
@@ -3777,10 +3826,10 @@ body.page-influence .investment-signs {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(1200px 680px at 12% 18%, rgba(255,138,0,0.10), transparent 42%),
-    radial-gradient(1200px 760px at 86% 68%, rgba(0,0,0,0.48), transparent 62%),
-    linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 46%, rgba(0,0,0,0.68) 100%);
-  opacity: 0.98;
+    radial-gradient(1200px 680px at 12% 18%, rgba(255,138,0,0.14), transparent 42%),
+    radial-gradient(1200px 760px at 86% 68%, rgba(0,0,0,0.62), transparent 62%),
+    linear-gradient(180deg, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.22) 46%, rgba(0,0,0,0.78) 100%);
+  opacity: 1;
 }
 
 /* удерживаем карточки в пределах «полезной площади» доски на широких экранах */
@@ -3844,29 +3893,97 @@ body.page-influence .investment-signs .signs-grid {
   }
 }
 
-/* сама «табличка» */
+/* Cards styled as newspaper clippings with torn paper effect */
 body.page-investment .investment-signs .sign-card,
 body.page-main .investment-signs .sign-card,
 body.page-credit .investment-signs .sign-card,
 body.page-influence .investment-signs .sign-card {
   position: relative;
-  border-radius: 20px;
+  border-radius: 3px; /* minimal rounding for paper feel */
   padding: 40px 26px 26px;
-  color: #1a0f06; /* darker text for orange cards */
+  color: #1a0f06;
   overflow: hidden;
 
-  /* Orange-first visual for signs: warmer, premium, high-contrast */
-  background: linear-gradient(180deg, rgba(255,170,90,0.12), rgba(255,110,30,0.04));
-  border: 1px solid rgba(255,140,0,0.28);
+  /* Newspaper clipping: aged paper with slight yellowing */
+  background: 
+    linear-gradient(180deg, rgba(255,250,240,0.98), rgba(250,245,235,0.96)),
+    linear-gradient(135deg, rgba(255,220,180,0.3) 0%, transparent 40%);
+  
+  /* Torn paper edge effect via border */
+  border: none;
+  
+  /* Paper-like shadow - as if pinned to wall */
   box-shadow:
-    0 28px 84px rgba(44,12,0,0.56),
-    0 8px 30px rgba(255,120,20,0.08) inset;
+    0 2px 4px rgba(0,0,0,0.15),
+    0 8px 16px rgba(0,0,0,0.25),
+    0 16px 32px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.8);
 
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  
+  /* Slight rotation for natural pinned look */
+  transform: rotate(var(--card-rotate, 0deg));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* внутренний световой кант */
+/* Individual card rotations for natural newspaper clipping feel */
+body.page-investment .investment-signs .sign-card:nth-child(1),
+body.page-main .investment-signs .sign-card:nth-child(1),
+body.page-credit .investment-signs .sign-card:nth-child(1),
+body.page-influence .investment-signs .sign-card:nth-child(1) {
+  --card-rotate: -1.2deg;
+}
+
+body.page-investment .investment-signs .sign-card:nth-child(2),
+body.page-main .investment-signs .sign-card:nth-child(2),
+body.page-credit .investment-signs .sign-card:nth-child(2),
+body.page-influence .investment-signs .sign-card:nth-child(2) {
+  --card-rotate: 0.8deg;
+}
+
+body.page-investment .investment-signs .sign-card:nth-child(3),
+body.page-main .investment-signs .sign-card:nth-child(3),
+body.page-credit .investment-signs .sign-card:nth-child(3),
+body.page-influence .investment-signs .sign-card:nth-child(3) {
+  --card-rotate: -0.6deg;
+}
+
+body.page-investment .investment-signs .sign-card:nth-child(4),
+body.page-main .investment-signs .sign-card:nth-child(4),
+body.page-credit .investment-signs .sign-card:nth-child(4),
+body.page-influence .investment-signs .sign-card:nth-child(4) {
+  --card-rotate: 1.1deg;
+}
+
+body.page-investment .investment-signs .sign-card:nth-child(5),
+body.page-main .investment-signs .sign-card:nth-child(5),
+body.page-credit .investment-signs .sign-card:nth-child(5),
+body.page-influence .investment-signs .sign-card:nth-child(5) {
+  --card-rotate: -0.9deg;
+}
+
+body.page-investment .investment-signs .sign-card:nth-child(6),
+body.page-main .investment-signs .sign-card:nth-child(6),
+body.page-credit .investment-signs .sign-card:nth-child(6),
+body.page-influence .investment-signs .sign-card:nth-child(6) {
+  --card-rotate: 0.7deg;
+}
+
+/* Hover effect - subtle lift like picking up paper */
+body.page-investment .investment-signs .sign-card:hover,
+body.page-main .investment-signs .sign-card:hover,
+body.page-credit .investment-signs .sign-card:hover,
+body.page-influence .investment-signs .sign-card:hover {
+  transform: rotate(var(--card-rotate, 0deg)) translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.2),
+    0 12px 24px rgba(0,0,0,0.3),
+    0 24px 48px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+/* Torn paper edge effect using pseudo-element */
 body.page-investment .investment-signs .sign-card::before,
 body.page-main .investment-signs .sign-card::before,
 body.page-credit .investment-signs .sign-card::before,
@@ -3875,47 +3992,35 @@ body.page-influence .investment-signs .sign-card::before {
   position:absolute;
   inset:-1px;
   border-radius:inherit;
-  padding:1px;
-  /* warm orange rim to emphasize premium look */
-  background: conic-gradient(
-    from 210deg,
-    rgba(255,160,80,0.95),
-    rgba(255,220,140,0.28),
-    rgba(255,120,30,0.88),
-    rgba(255,220,140,0.28),
-    rgba(255,160,80,0.95)
-  );
-  /* provide both webkit and standard mask for better compatibility */
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity:.95;
+  /* Subtle torn edge shadow */
+  box-shadow: 
+    inset 0 0 0 1px rgba(180,140,100,0.3),
+    inset 2px 2px 4px rgba(0,0,0,0.08);
   pointer-events:none;
+  opacity: 1;
+  background: transparent;
+  -webkit-mask: none;
+  mask: none;
 }
 
-/* мягкий верхний блик внутри карточки */
+/* Paper texture top highlight - subtle aging effect */
 body.page-investment .investment-signs .sign-card::after,
 body.page-main .investment-signs .sign-card::after,
 body.page-credit .investment-signs .sign-card::after,
 body.page-influence .investment-signs .sign-card::after {
   content:"";
   position:absolute;
-  left:10%;
-  right:10%;
-  top:4px;
-  height:42%;
-  border-radius:999px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.32), rgba(255,255,255,0));
-  opacity:.75;
+  left:0;
+  right:0;
+  top:0;
+  height:50%;
+  border-radius:inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+  opacity:.6;
   pointer-events:none;
 }
 
-/* номер — спокойный, как маркировка */
+/* Number - newsprint style marking */
 body.page-investment .investment-signs .sign-number,
 body.page-main .investment-signs .sign-number,
 body.page-credit .investment-signs .sign-number,
@@ -3923,13 +4028,14 @@ body.page-influence .investment-signs .sign-number {
   position:absolute;
   top: 14px;
   left: 14px;
-  font-weight: 800;
-  letter-spacing: .06em;
-  font-size: 12px;
-  color: rgba(255,255,255,.62);
+  font-weight: 900;
+  letter-spacing: .08em;
+  font-size: 11px;
+  color: rgba(180,80,20,0.85);
+  text-shadow: 0 1px 2px rgba(255,255,255,0.5);
 }
 
-/* типографика «как на табличке» */
+/* Typography like newspaper headline */
 body.page-investment .investment-signs .sign-title,
 body.page-main .investment-signs .sign-title,
 body.page-credit .investment-signs .sign-title,
@@ -3939,7 +4045,20 @@ body.page-influence .investment-signs .sign-title {
   font-weight: 900;
   font-size: clamp(18px, 1.35vw, 28px);
   line-height: 1.06;
-  text-shadow: 0 2px 10px rgba(0,0,0,.25);
+  color: #1a0f06;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+}
+
+body.page-investment .investment-signs .sign-text,
+body.page-main .investment-signs .sign-text,
+body.page-credit .investment-signs .sign-text,
+body.page-influence .investment-signs .sign-text {
+  margin: 0;
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.4;
+  color: rgba(26,15,6,0.85);
+  font-weight: 500;
+}
 
 /* ==========================================================
    FOOTER (investment) — строгий премиальный блок
