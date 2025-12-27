@@ -162,17 +162,19 @@ body.page-influence .investment-faq .faq-aside--visual .faq-visual-image {
    - мягкий естественный свет как на реф-скрине, но аккуратнее
    ========================= */
 
+/* PART 7: FAQ Section - Fix background jumping and stabilize height */
 body.page-investment .investment-faq,
 body.page-main .investment-faq,
 body.page-credit .investment-faq,
 body.page-influence .investment-faq {
   position: relative;
   overflow: hidden !important;
-  min-height: clamp(680px, 46vw, 920px);
+  /* Fixed min-height ensures stable background positioning */
+  min-height: clamp(720px, 50vw, 980px);
   background: rgba(5,3,3,1);
 }
 
-/* Чистая картинка (без обработки), НЕ режем — только вписываем */
+/* Background fixed and stable - no parallax shifts */
 body.page-investment .investment-faq::before,
 body.page-main .investment-faq::before,
 body.page-credit .investment-faq::before,
@@ -183,10 +185,11 @@ body.page-influence .investment-faq::before {
   background-image: url('/fraud/assets/block/great_K.png');
   background-repeat: no-repeat;
   background-position: 100% 50%;
-  background-size: contain; /* показываем картинку целиком — без обрезания */
-  transform: translateY(var(--faq-parallax-y, 0px));
-  will-change: transform;
-  transition: transform 0.1s ease-out;
+  background-size: contain;
+  /* Removed parallax transform to prevent jumping */
+  transform: none;
+  will-change: auto;
+  transition: none;
 
   opacity: 1;
   filter: none;
@@ -595,7 +598,7 @@ body.page-influence .investment-faq .faq-ask-btn:active {
 }
 
 /* =========================
-   PREMIUM GLASS BUTTONS — reuse FAQ CTA vibe
+   PART 10: PREMIUM GLASS BUTTONS — Enhanced depth and volume
    Applies to:
    - Header button: .keis-header-cta ("Записаться")
    - Hero form primary: .btn-primary ("Получить консультацию")
@@ -623,20 +626,24 @@ body.page-influence .investment-challenges .challenges-cta__btn {
   border-radius: 18px;
   border: 1px solid rgba(255, 170, 90, .62);
 
-  /* glass + orange glow */
+  /* Enhanced glass + orange glow with more depth */
   background:
-    linear-gradient(180deg, rgba(255, 190, 120, .46), rgba(255, 120, 0, .24)),
-    radial-gradient(140% 220% at 18% 0%, rgba(255,255,255,.34), transparent 58%),
-    rgba(18, 9, 5, .52);
+    linear-gradient(180deg, rgba(255, 200, 130, .50), rgba(255, 110, 0, .28)),
+    radial-gradient(140% 220% at 18% 0%, rgba(255,255,255,.38), transparent 58%),
+    radial-gradient(120% 180% at 82% 100%, rgba(255,138,0,.15), transparent 60%),
+    rgba(18, 9, 5, .55);
 
+  /* Layered soft shadows for premium volume effect */
   box-shadow:
-    0 26px 90px rgba(255, 120, 0, .28),
-    0 12px 28px rgba(0,0,0,.58),
-    inset 0 1px 0 rgba(255,255,255,.52),
-    inset 0 -1px 0 rgba(120, 60, 0, .34);
+    0 2px 4px rgba(255, 140, 0, .15),
+    0 8px 16px rgba(255, 120, 0, .25),
+    0 16px 32px rgba(255, 100, 0, .20),
+    0 24px 56px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    inset 0 -1px 0 rgba(120, 60, 0, .38);
 
-  backdrop-filter: blur(20px) saturate(185%);
-  -webkit-backdrop-filter: blur(20px) saturate(185%);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
 
   color: rgba(255, 244, 232, .96);
   text-decoration: none;
@@ -646,16 +653,18 @@ body.page-influence .investment-challenges .challenges-cta__btn {
   text-transform: uppercase;
 
   text-shadow:
-    0 1px 0 rgba(255,255,255,.20),
-    0 10px 26px rgba(255, 120, 0, .22),
-    0 14px 40px rgba(0,0,0,.55);
+    0 1px 0 rgba(255,255,255,.22),
+    0 2px 4px rgba(255, 140, 0, .15),
+    0 8px 20px rgba(255, 120, 0, .25),
+    0 12px 32px rgba(0,0,0,.45);
 
   transform: translateZ(0);
+  /* Smoother transitions for premium feel */
   transition:
-    transform .18s ease,
-    filter .18s ease,
-    box-shadow .18s ease,
-    border-color .18s ease;
+    transform .22s cubic-bezier(0.4, 0, 0.2, 1),
+    filter .22s ease,
+    box-shadow .22s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color .22s ease;
 
   overflow: hidden;
 }
@@ -1192,17 +1201,21 @@ body.page-influence .investment-faq .faq-item.is-open .faq-icon::after {
     linear-gradient(rgba(17,12,10,.92), rgba(17,12,10,.92)) center/16px 2px no-repeat;
 }
 
+/* Smooth, controlled FAQ answer expansion */
 body.page-investment .investment-faq .faq-answer,
 body.page-main .investment-faq .faq-answer,
 body.page-credit .investment-faq .faq-answer,
 body.page-influence .investment-faq .faq-answer {
-  padding: 0 18px 18px;
+  padding: 0 18px 0;
   color: rgba(244,241,235,.78);
   line-height: 1.55;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+  /* Smoother transitions for premium feel */
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s ease-out 0.1s, 
+              padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body.page-investment .investment-faq .faq-item.is-open .faq-answer,
@@ -1210,7 +1223,7 @@ body.page-main .investment-faq .faq-item.is-open .faq-answer,
 body.page-credit .investment-faq .faq-item.is-open .faq-answer,
 body.page-influence .investment-faq .faq-item.is-open .faq-answer {
   border-top: 1px solid rgba(255,255,255,.10);
-  max-height: 1000px; /* Generous height for any FAQ answer */
+  max-height: 1200px;
   opacity: 1;
   padding: 18px 18px 18px;
 }
@@ -2639,34 +2652,45 @@ button,input,textarea{font:inherit}
    UNIFIED HEADING SYSTEM
    Reusable premium heading styles for all blocks
    ========================= */
+/* PART 11: Global Typography & Visual Consistency - Premium Legal Product Feel */
 .k-title {
   font-family: "Roboto Slab", serif;
   font-weight: 900;
   font-size: clamp(2.0rem, 3.2vw, 2.8rem);
-  line-height: 1.05;
+  line-height: 1.08;
   margin: 0;
-  color: rgba(244,241,235,.96);
+  color: rgba(244,241,235,.98);
+  /* Enhanced text rendering for premium feel */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
 }
 
 .k-title__mark {
   position: relative;
   display: inline;
   background: linear-gradient(135deg, 
-    rgba(255,170,90,.22) 0%, 
-    rgba(255,138,0,.28) 100%);
-  padding: 0 8px;
-  border-radius: 4px;
+    rgba(255,180,100,.26) 0%, 
+    rgba(255,138,0,.32) 100%);
+  padding: 2px 10px;
+  border-radius: 5px;
   box-shadow: 
-    inset 0 -2px 0 rgba(255,138,0,.45),
-    inset 0 1px 0 rgba(255,255,255,.08);
+    inset 0 -2px 0 rgba(255,138,0,.50),
+    inset 0 1px 0 rgba(255,255,255,.10),
+    0 2px 8px rgba(255,138,0,.15);
 }
 
 .k-subtitle {
-  margin: 10px 0 0;
-  color: rgba(244,241,235,.78);
-  font-size: clamp(1.02rem, 1.2vw, 1.12rem);
-  line-height: 1.45;
+  margin: 12px 0 0;
+  color: rgba(244,241,235,.80);
+  font-size: clamp(1.04rem, 1.22vw, 1.16rem);
+  line-height: 1.5;
   max-width: 72ch;
+  /* Enhanced text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (max-width:520px){
@@ -8418,3 +8442,84 @@ body.page-influence .section-container{
   margin-left: auto;
   margin-right: auto;
 }
+/* =====================================================
+   PART 11: Additional Global Rules for Premium Feel
+   ===================================================== */
+
+/* Smooth scroll behavior for all anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium text rendering for all text elements */
+body.page-investment,
+body.page-main,
+body.page-credit,
+body.page-influence {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+/* Ensure consistent link hover transitions */
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Premium focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(255, 138, 0, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove harsh default outlines */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Ensure images load smoothly */
+img {
+  transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"] {
+  opacity: 0;
+}
+
+img.loaded,
+img:not([loading="lazy"]) {
+  opacity: 1;
+}
+
+/* Premium selection color */
+::selection {
+  background: rgba(255, 138, 0, 0.25);
+  color: rgba(255, 244, 232, 0.98);
+}
+
+::-moz-selection {
+  background: rgba(255, 138, 0, 0.25);
+  color: rgba(255, 244, 232, 0.98);
+}
+
+/* Smooth card transitions for all interactive elements */
+.sign-card,
+.challenge-card,
+.case-card,
+.faq-item {
+  transition: 
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease;
+}
+
+/* END OF PART 11 */
+
