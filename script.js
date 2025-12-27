@@ -439,12 +439,18 @@ function initFaqAccordion() {
 }
 
 /* ==========================================================
-   FAQ PARALLAX
+   FAQ PARALLAX - DISABLED to prevent background jumping
+   Требование: При открытии/закрытии вопросов фон НЕ должен двигаться
    ========================================================== */
 function initFaqParallax() {
   const section = document.querySelector('.investment-faq');
   if (!section) return;
 
+  // DISABLED: Set parallax to 0 to prevent background movement
+  section.style.setProperty('--faq-parallax-y', '0px');
+  
+  // Comment out the scroll listener to prevent any movement
+  /* 
   const update = () => {
     const vh = window.innerHeight;
     const anchorPxFromTop = 260;
@@ -460,6 +466,7 @@ function initFaqParallax() {
   window.addEventListener('scroll', () => requestAnimationFrame(update));
   window.addEventListener('resize', update);
   update();
+  */
 }
 
 /* ==========================================================

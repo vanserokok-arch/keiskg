@@ -1177,7 +1177,7 @@
    ========================= */
 .page-investment .investment-cases{
   position: relative;
-  padding: 110px 0 130px;
+  padding: clamp(90px, 11vw, 120px) 0 clamp(100px, 12vw, 140px);
   background:
     radial-gradient(900px 560px at 14% 18%, rgba(255,138,0,.08), transparent 62%),
     radial-gradient(980px 560px at 92% 78%, rgba(255,138,0,.06), transparent 62%),
@@ -1204,7 +1204,7 @@
 .page-investment .investment-cases .cases-grid{
   margin-top: clamp(22px, 2.6vw, 36px);
   display: grid;
-  gap: clamp(14px, 1.6vw, 18px);
+  gap: clamp(18px, 2.2vw, 28px);
   grid-template-columns: 1fr;
   align-items: stretch;
 }
@@ -2090,16 +2090,22 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 .page-investment .hero-investment::before{ content:none; }
 
 /* HERO: добавляем высоту и «сцену» на широких экранах */
+/* FIX: весь первый экран должен быть виден целиком БЕЗ прокрутки (включая marquee) */
 @media (min-width: 1100px){
   .hero-investment{
-    /* чтобы первый экран выглядел «толще» и не обрывался */
-    min-height: min(860px, calc(100vh - 8px));
+    /* вычитаем высоту шапки + высоту marquee (~48px) */
+    min-height: calc(100vh - var(--keis-header-h, 86px) - 52px);
+    max-height: calc(100vh - var(--keis-header-h, 86px) - 52px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 
 @media (min-width: 1400px){
   .hero-investment{
-    min-height: min(920px, calc(100vh - 8px));
+    min-height: calc(100vh - var(--keis-header-h, 86px) - 52px);
+    max-height: calc(100vh - var(--keis-header-h, 86px) - 52px);
   }
 }
 .hero-investment__bg{
@@ -2824,184 +2830,336 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
    - без обрезков и «подглядываний» соседних карточек
    ========================= */
 
-/* ====== 4-й блок: Признаки обмана ====== */
+/* ==========================================================
+   ПРИЗНАКИ ОБМАНА — Document Fragments (Paper Cards)
+   Требования:
+   - Карточки как фрагменты документов/вырезки из досье
+   - 2 ряда по 3 карточки
+   - Лёгкая тень, контраст, "воздух"
+   - Эффект: карточки лежат ПОВЕРХ фона
+   ========================================================== */
+
 .page-investment .investment-signs{
   position: relative;
-  padding: 120px 0 160px;
-  /* removed photographic background image in favor of stylized gradient/texture */
-  background-color: #0b0604; /* deep warm dark */
-  /* gentle layered orange texture for cinematic feel */
-  background-image:
-    linear-gradient(180deg, rgba(255,140,40,0.06) 0%, rgba(0,0,0,0) 30%),
-    linear-gradient(135deg, rgba(255,120,40,0.03) 10%, rgba(0,0,0,0) 10%),
-    linear-gradient(315deg, rgba(255,90,0,0.02) 10%, rgba(0,0,0,0) 10%);
-  background-blend-mode: overlay, screen, overlay;
-  min-height: 640px;
+  padding: clamp(90px, 12vw, 140px) 0 clamp(110px, 14vw, 170px);
+  
+  /* Читаемый тёмный фон с тёплым оттенком */
+  background:
+    radial-gradient(1000px 600px at 16% 20%, rgba(255,138,0,0.08), transparent 50%),
+    radial-gradient(1200px 700px at 84% 75%, rgba(255,106,0,0.05), transparent 52%),
+    linear-gradient(180deg, rgba(8,5,4,1), rgba(14,9,6,1) 50%, rgba(8,5,4,1));
+  
   overflow: hidden;
-  box-shadow: inset 0 80px 220px rgba(255,110,20,0.02);
+  min-height: 680px;
 }
 
-/* subtle warm glow + vignette to keep focus on cards */
-.investment-signs::before{
+/* Лёгкое затемнение углов для фокусировки на карточках */
+.page-investment .investment-signs::before{
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
+  
   background:
-    radial-gradient(1200px 680px at 12% 18%, rgba(255,138,0,0.10), transparent 42%),
-    radial-gradient(1200px 760px at 86% 68%, rgba(0,0,0,0.48), transparent 62%),
-    linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 46%, rgba(0,0,0,0.68) 100%);
-  opacity: 0.98;
+    radial-gradient(1200px 680px at 12% 15%, rgba(0,0,0,0.32), transparent 48%),
+    radial-gradient(1200px 720px at 88% 80%, rgba(0,0,0,0.38), transparent 52%),
+    linear-gradient(180deg, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.32) 100%);
+  
+  opacity: 0.92;
 }
 
-/* удерживаем карточки в пределах «полезной площади» доски на широких экранах */
-.investment-signs > .section-container{ position:relative; z-index:1; }
-
-@media (min-width: 1100px){
-  .page-investment .investment-signs .signs-wall{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+.page-investment .investment-signs > .section-container{
+  position: relative;
+  z-index: 1;
 }
 
-/* ===== SIGNS: карточки «таблички на магнитах» как на референсе ===== */
-
-/* сетка карточек */
+/* Сетка карточек: 3x2 на десктопе */
 .page-investment .investment-signs .signs-grid{
-  display:grid;
-  gap: 22px;
-  align-items:start;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.2vw, 28px);
+  margin-top: clamp(24px, 3vw, 42px);
+  align-items: start;
 }
 
-@media (min-width: 900px){
-  /* 3 ровные колонки и ровные отступы — чтобы карточки лежали РАВНОМЕРНО внутри границ доски */
+@media (max-width: 1024px){
   .page-investment .investment-signs .signs-grid{
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(18px, 1.9vw, 26px);
-
-    /* фиксируем «поле доски»: держим контент внутри */
-    max-width: min(1040px, 92%);
-    margin: clamp(18px, 2.2vw, 36px) auto 0;
-    padding: clamp(14px, 1.6vw, 22px) clamp(18px, 2.2vw, 34px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 22px);
   }
 }
 
-@media (max-width: 899px){
-  /* планшет/мобилка — пусть текущая логика ниже по файлу решает, но зафиксируем нормальный ритм */
-  .page-investment .investment-signs .signs-grid{
-    grid-template-columns: repeat(2, minmax(0,1fr));
-  }
-}
-
-@media (max-width: 560px){
+@media (max-width: 640px){
   .page-investment .investment-signs .signs-grid{
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .page-investment .investment-signs{
+    padding: 70px 0 90px;
+    min-height: auto;
   }
 }
 
-/* сама «табличка» */
+/* Карточка как лист бумаги/документ */
 .page-investment .investment-signs .sign-card{
   position: relative;
-  border-radius: 20px;
-  padding: 40px 26px 26px;
-  color: #1a0f06; /* darker text for orange cards */
-  overflow: hidden;
-
-  /* Orange-first visual for signs: warmer, premium, high-contrast */
-  background: linear-gradient(180deg, rgba(255,170,90,0.12), rgba(255,110,30,0.04));
-  border: 1px solid rgba(255,140,0,0.28);
+  display: block;
+  text-decoration: none;
+  
+  /* БЕЗ скруглений - прямоугольная карточка как лист бумаги */
+  border-radius: 0 !important;
+  
+  padding: clamp(20px, 2.4vw, 32px) clamp(18px, 2.2vw, 28px) clamp(18px, 2vw, 26px);
+  
+  /* Эффект бумаги: светлый фон с текстурой */
+  background:
+    linear-gradient(135deg, rgba(255,252,248,0.96) 0%, rgba(248,244,238,0.94) 100%),
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.02));
+  
+  /* Тонкая грань как у бумаги */
+  border: 1px solid rgba(220,210,195,0.45);
+  border-top-color: rgba(255,255,255,0.65);
+  border-left-color: rgba(240,235,225,0.55);
+  
+  /* Тени как у листа, лежащего на столе */
   box-shadow:
-    0 28px 84px rgba(44,12,0,0.56),
-    0 8px 30px rgba(255,120,20,0.08) inset;
-
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
+    0 2px 4px rgba(0,0,0,0.08),
+    0 8px 16px rgba(0,0,0,0.12),
+    0 20px 40px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.85),
+    inset 0 -1px 0 rgba(0,0,0,0.04);
+  
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+  transform: translateZ(0);
+  
+  /* Лёгкая текстура бумаги */
+  background-blend-mode: overlay, normal;
 }
 
-/* внутренний световой кант */
-.page-investment .investment-signs .sign-card::before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  border-radius:inherit;
-  padding:1px;
-  /* warm orange rim to emphasize premium look */
-  background: conic-gradient(
-    from 210deg,
-    rgba(255,160,80,0.95),
-    rgba(255,220,140,0.28),
-    rgba(255,120,30,0.88),
-    rgba(255,220,140,0.28),
-    rgba(255,160,80,0.95)
-  );
-  /* provide both webkit and standard mask for better compatibility */
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity:.95;
-  pointer-events:none;
-}
-
-/* мягкий верхний блик внутри карточки */
+/* Убираем все лишние псевдо-элементы с оранжевыми рамками */
+.page-investment .investment-signs .sign-card::before,
 .page-investment .investment-signs .sign-card::after{
-  content:"";
-  position:absolute;
-  left:10%;
-  right:10%;
-  top:4px;
-  height:42%;
-  border-radius:999px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.32), rgba(255,255,255,0));
-  opacity:.75;
-  pointer-events:none;
+  content: none !important;
+  display: none !important;
 }
 
-/* номер — спокойный, как маркировка */
+/* Hover: карточка "приподнимается" */
+@media (hover: hover){
+  .page-investment .investment-signs .sign-card:hover{
+    transform: translateY(-3px) translateZ(0);
+    filter: brightness(1.02);
+    box-shadow:
+      0 4px 8px rgba(0,0,0,0.10),
+      0 12px 24px rgba(0,0,0,0.15),
+      0 28px 56px rgba(0,0,0,0.20),
+      inset 0 1px 0 rgba(255,255,255,0.90);
+  }
+}
+
+/* Номер документа */
 .page-investment .investment-signs .sign-number{
-  position:absolute;
-  top: 14px;
-  left: 14px;
-  font-weight: 800;
-  letter-spacing: .06em;
-  font-size: 12px;
-  color: rgba(255,255,255,.62);
+  position: absolute;
+  top: clamp(10px, 1.2vw, 14px);
+  right: clamp(10px, 1.2vw, 14px);
+  
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(11px, 0.9vw, 13px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  
+  color: rgba(140,110,80,0.55);
+  text-shadow: 0 0.5px 0 rgba(255,255,255,0.8);
 }
 
-/* типографика «как на табличке» */
+/* Заголовок карточки */
 .page-investment .investment-signs .sign-title{
-  margin: 0 0 10px;
-  font-family: "Roboto Slab", "Inter", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  font-weight: 900;
-  font-size: clamp(18px, 1.35vw, 28px);
-  line-height: 1.06;
-  text-shadow: 0 2px 10px rgba(0,0,0,.25);
+  margin: clamp(6px, 0.8vw, 10px) 0 clamp(8px, 1vw, 12px);
+  
+  font-family: "Roboto Slab", serif;
+  font-weight: 700;
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  
+  color: rgba(32,24,18,0.96);
+  text-shadow: 0 0.5px 0 rgba(255,255,255,0.4);
+  
+  text-wrap: balance;
+}
 
-/* ==========================================================
+/* Текст карточки */
+.page-investment .investment-signs .sign-text{
+  margin: 0;
+  
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.48;
+  letter-spacing: -0.005em;
+  
+  color: rgba(52,42,32,0.82);
+  text-shadow: 0 0.5px 0 rgba(255,255,255,0.3);
+}
+
+/* =========================
+   MOTIVATING BRIDGE (Map → Footer transition)
+   Мотивирующая фраза между картой и футером
+   ========================= */
+
+.keis-motivating-bridge{
+  position: relative;
+  width: 100%;
+  padding: clamp(42px, 5.5vw, 68px) 0;
+  
+  /* Плавный переход от тёмного фона карты к футеру */
+  background:
+    radial-gradient(900px 420px at 18% 50%, rgba(255,138,0,0.10), transparent 58%),
+    radial-gradient(1100px 520px at 82% 50%, rgba(255,138,0,0.08), transparent 62%),
+    linear-gradient(180deg, rgba(18,10,6,1), rgba(10,6,4,1) 50%, rgba(5,3,3,1));
+  
+  overflow: hidden;
+}
+
+.keis-motivating-bridge::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  
+  /* Акцентное свечение */
+  background:
+    radial-gradient(820px 180px at 50% 50%, rgba(255,138,0,0.16), transparent 68%),
+    linear-gradient(180deg, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.28) 100%);
+  
+  opacity: 0.85;
+}
+
+.keis-motivating-bridge__inner{
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4vw, 64px);
+}
+
+.keis-motivating-bridge__text{
+  margin: 0;
+  text-align: center;
+  
+  font-family: "Roboto Slab", serif;
+  font-weight: 900;
+  font-size: clamp(22px, 2.2vw, 34px);
+  line-height: 1.22;
+  letter-spacing: 0.01em;
+  
+  color: rgba(244,241,235,0.96);
+  text-shadow:
+    0 2px 0 rgba(255,138,0,0.15),
+    0 18px 44px rgba(0,0,0,0.75);
+  
+  /* Лёгкий золотистый акцент */
+  background: linear-gradient(
+    135deg,
+    rgba(244,241,235,0.96) 0%,
+    rgba(255,230,200,0.98) 35%,
+    rgba(244,241,235,0.96) 70%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  position: relative;
+  padding: clamp(16px, 2vw, 24px) 0;
+}
+
+/* Декоративные кавычки */
+.keis-motivating-bridge__text::before{
+  content: "«";
+  position: absolute;
+  left: -0.4em;
+  top: -0.1em;
+  font-size: 1.4em;
+  color: rgba(255,180,120,0.45);
+  -webkit-text-fill-color: rgba(255,180,120,0.45);
+}
+
+.keis-motivating-bridge__text::after{
+  content: "»";
+  position: absolute;
+  right: -0.4em;
+  bottom: 0.1em;
+  font-size: 1.4em;
+  color: rgba(255,180,120,0.45);
+  -webkit-text-fill-color: rgba(255,180,120,0.45);
+}
+
+@media (max-width: 768px){
+  .keis-motivating-bridge{
+    padding: clamp(32px, 4.5vw, 48px) 0;
+  }
+  
+  .keis-motivating-bridge__text{
+    font-size: clamp(18px, 4.5vw, 26px);
+    line-height: 1.28;
+  }
+  
+  .keis-motivating-bridge__text::before,
+  .keis-motivating-bridge__text::after{
+    font-size: 1.2em;
+  }
+}
+
+/* =========================
    FOOTER (investment) — строгий премиальный блок
-   ========================================================== */
+   FIX: Сделать визуально сильным, с вертикальной линией и акцентами
+   ========================= */
 
 .investment-footer{
   position: relative;
-  padding: 48px 0 32px;
+  padding: clamp(56px, 7vw, 72px) 0 clamp(36px, 4.5vw, 48px);
   background:
-    radial-gradient(120% 160% at 0% 0%, rgba(255,180,120,0.14), transparent 60%),
-    radial-gradient(140% 180% at 100% 0%, rgba(0,210,180,0.14), transparent 62%),
+    radial-gradient(120% 160% at 0% 0%, rgba(255,180,120,0.12), transparent 60%),
+    radial-gradient(140% 180% at 100% 0%, rgba(0,210,180,0.12), transparent 62%),
     linear-gradient(180deg, #050309, #07030d 40%, #020107 100%);
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .investment-footer__inner{
   display: grid;
   grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
-  gap: 40px;
+  gap: clamp(48px, 6vw, 72px);
   align-items: flex-start;
+  position: relative;
+}
+
+/* Вертикальная линия-разделитель между колонками */
+.investment-footer__inner::before{
+  content: "";
+  position: absolute;
+  left: calc(2.1fr / (2.1fr + 1.4fr) * 100% - 24px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,138,0,0.00) 0%,
+    rgba(255,138,0,0.32) 12%,
+    rgba(255,255,255,0.18) 50%,
+    rgba(255,138,0,0.32) 88%,
+    rgba(255,138,0,0.00) 100%
+  );
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+@media (min-width: 901px){
+  .investment-footer__inner::before{
+    left: calc((2.1 / (2.1 + 1.4)) * 100% - clamp(24px, 3vw, 36px));
+  }
 }
 
 .investment-footer__col{
@@ -3096,39 +3254,6 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-  }
-}
-}
-
-.page-investment .investment-signs .sign-text{
-  margin: 0;
-  font-family: "Roboto Slab", "Inter", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  font-weight: 700;
-  font-size: clamp(13px, .95vw, 16px);
-  line-height: 1.25;
-  color: rgba(255,255,255,.84);
-}
-
-/* пропорции карточек как на референсе */
-@media (min-width: 900px){
-  /* одинаковые пропорции — чтобы сетка выглядела ровно */
-  .page-investment .investment-signs .sign-card{
-    min-height: 230px;
-    padding: 44px 30px 26px;
-  }
-
-  .page-investment .investment-signs .sign-title{
-    font-size: clamp(18px, 1.18vw, 26px);
-  }
-  .page-investment .investment-signs .sign-text{
-    font-size: clamp(13px, .92vw, 16px);
-  }
-}
-
-@media (max-width: 899px){
-  .page-investment .investment-signs .sign-card{
-    padding: 34px 20px 22px;
-    border-radius: 18px;
   }
 }
 
@@ -3552,15 +3677,15 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
    ========================= */
 /* 3-й блок (TRUST) — растягиваем по высоте */
 .trust-parallax{
-  padding: 120px 0 140px;
-  min-height: clamp(720px, 58vw, 980px);
+  padding: clamp(90px, 11vw, 130px) 0 clamp(100px, 12vw, 150px);
+  min-height: clamp(620px, 52vw, 860px);
   overflow: visible; /* если было hidden — оно “подрезает” ощущение высоты */
 }
 
 @media (min-width: 1200px){
   .trust-parallax{
-    padding: 140px 0 180px;
-    min-height: clamp(820px, 52vw, 1080px);
+    padding: clamp(110px, 13vw, 150px) 0 clamp(130px, 15vw, 180px);
+    min-height: clamp(720px, 48vw, 920px);
   }
 }
 
@@ -3572,13 +3697,13 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   background:
     linear-gradient(
       180deg,
-      rgba(0,0,0,.18) 0%,
-      rgba(0,0,0,.08) 45%,
-      rgba(0,0,0,.28) 100%
+      rgba(0,0,0,.14) 0%,
+      rgba(0,0,0,.04) 45%,
+      rgba(0,0,0,.20) 100%
     ),
     /* дальше существующие radial + url(...) */
-    radial-gradient(1200px 820px at 22% 42%, rgba(0,0,0,.60), transparent 62%),
-    radial-gradient(1200px 940px at 86% 52%, rgba(0,0,0,.52), transparent 64%),
+    radial-gradient(1200px 820px at 22% 42%, rgba(0,0,0,.48), transparent 62%),
+    radial-gradient(1200px 940px at 86% 52%, rgba(0,0,0,.42), transparent 64%),
     url('./landing/assets/block/team.png');
 
   background-size:cover;
@@ -3737,8 +3862,8 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 .trust-mini-grid{
   display:grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap:16px;
-  margin-top: 18px;
+  gap: clamp(20px, 2.4vw, 32px);
+  margin-top: clamp(24px, 3vw, 42px);
   flex: 1 1 auto;
 }
 
@@ -5022,6 +5147,51 @@ footer{padding:56px 0 40px; border-top:1px solid rgba(255,255,255,.06)}
   .page-investment .keis-header-nav{display:block !important;}
 }
 
+/* FIX: 901–999px adaptive header — пропорциональное уменьшение элементов */
+@media (min-width: 901px) and (max-width: 999px){
+  .page-investment .keis-header-inner{
+    padding: 8px clamp(12px, 1.8vw, 16px);
+    gap: clamp(8px, 1.2vw, 12px);
+  }
+  
+  .page-investment .keis-header-logo img{
+    height: clamp(38px, 4.2vw, 44px);
+  }
+  
+  .page-investment .keis-header-nav-list{
+    gap: clamp(12px, 1.5vw, 16px);
+  }
+  
+  .page-investment .keis-header-nav-list a{
+    font-size: clamp(13px, 1.4vw, 15px);
+  }
+  
+  .page-investment .keis-header-contacts{
+    gap: clamp(6px, 0.9vw, 8px);
+  }
+  
+  .page-investment .keis-header-icon{
+    width: clamp(24px, 2.8vw, 30px);
+    height: clamp(24px, 2.8vw, 30px);
+  }
+  
+  .page-investment .keis-header-phone-text{
+    font-size: clamp(12px, 1.3vw, 14px);
+  }
+  
+  .page-investment .keis-header-cta{
+    height: clamp(36px, 4vw, 42px);
+    padding: 0 clamp(12px, 1.6vw, 16px);
+    font-size: clamp(12px, 1.3vw, 14px);
+    white-space: nowrap;
+  }
+  
+  .page-investment .keis-header-center{
+    gap: clamp(8px, 1.2vw, 12px);
+    margin-left: clamp(10px, 1.5vw, 14px);
+  }
+}
+
 /* Tablet + Mobile: show phone+icons in header left of CTA, hide desktop nav, show burger */
 @media (max-width: 900px){
   .page-investment .keis-header-nav{display:none !important;}
@@ -6191,4 +6361,241 @@ html body.page-investment .keis-marquee .keis-marquee__track{
   border-color: rgba(255,255,255,.16) !important;
   transform: none !important;
   filter: none !important;
+}
+/* ==========================================================
+   PREMIUM CONTACT MODAL
+   Требование: Дорогой вид формы, визуальный фокус, приятная тень
+   Аккуратные инпуты, современная кнопка
+   ========================================================== */
+
+.keis-modal{
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(16px, 3vw, 32px);
+}
+
+.keis-modal.is-open{
+  display: flex;
+}
+
+.keis-modal__overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  animation: keisModalOverlayFadeIn 0.22s ease forwards;
+}
+
+@keyframes keisModalOverlayFadeIn{
+  from{ opacity: 0; }
+  to{ opacity: 1; }
+}
+
+.keis-modal__panel{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow: auto;
+  
+  padding: clamp(28px, 4vw, 42px) clamp(24px, 3.5vw, 38px) clamp(24px, 3.5vw, 36px);
+  border-radius: 24px;
+  
+  /* Premium glass background */
+  background:
+    radial-gradient(120% 140% at 12% 8%, rgba(255,138,0,0.16), transparent 58%),
+    radial-gradient(120% 140% at 88% 12%, rgba(255,106,0,0.12), transparent 62%),
+    linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04)),
+    rgba(14,10,8,0.92);
+  
+  border: 1px solid rgba(255,255,255,0.14);
+  
+  box-shadow:
+    0 42px 140px rgba(0,0,0,0.85),
+    0 24px 72px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    inset 0 -1px 0 rgba(0,0,0,0.32);
+  
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  
+  animation: keisModalPanelSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: center center;
+}
+
+@keyframes keisModalPanelSlideIn{
+  from{
+    opacity: 0;
+    transform: translateY(32px) scale(0.94);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Prism rim */
+.keis-modal__panel::before{
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    conic-gradient(from 210deg,
+      rgba(255,160,80,0.75),
+      rgba(255,220,140,0.32),
+      rgba(255,120,30,0.68),
+      rgba(255,255,255,0.28),
+      rgba(255,160,80,0.75));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.92;
+}
+
+/* Inner specular highlights */
+.keis-modal__panel::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(520px 280px at 16% 14%, rgba(255,255,255,0.12), transparent 62%),
+    radial-gradient(520px 280px at 110% 24%, rgba(255,138,0,0.10), transparent 66%),
+    linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.10) 44%, rgba(255,255,255,0) 72%);
+  opacity: 0.75;
+}
+
+.keis-modal__close{
+  position: absolute;
+  top: clamp(14px, 2vw, 18px);
+  right: clamp(14px, 2vw, 18px);
+  
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)),
+    rgba(0,0,0,0.28);
+  
+  border: 1px solid rgba(255,255,255,0.16);
+  
+  box-shadow:
+    0 12px 28px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+  
+  color: rgba(244,241,235,0.88);
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1;
+  
+  cursor: pointer;
+  transition: transform 0.16s ease, filter 0.16s ease, background 0.16s ease;
+  z-index: 2;
+}
+
+@media (hover: hover){
+  .keis-modal__close:hover{
+    transform: scale(1.08);
+    filter: brightness(1.15);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06)),
+      rgba(0,0,0,0.32);
+  }
+}
+
+.keis-modal__close:active{
+  transform: scale(0.96);
+}
+
+.keis-modal__head{
+  margin-bottom: clamp(18px, 2.5vw, 26px);
+  position: relative;
+  z-index: 1;
+}
+
+.keis-modal__title{
+  margin: 0 0 clamp(8px, 1.2vw, 12px);
+  
+  font-family: "Roboto Slab", serif;
+  font-weight: 900;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+  
+  color: rgba(244,241,235,0.98);
+  text-shadow: 0 14px 34px rgba(0,0,0,0.70);
+}
+
+.keis-modal__subtitle{
+  margin: 0;
+  
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.48;
+  
+  color: rgba(244,241,235,0.78);
+  max-width: 52ch;
+}
+
+/* Modal uses the same .hero-form styles already defined */
+.keis-modal .hero-form{
+  position: relative;
+  z-index: 1;
+}
+
+/* Make modal form inputs slightly more compact */
+.keis-modal .hero-form-group label{
+  font-size: clamp(13px, 1vw, 15px);
+  margin-bottom: 6px;
+}
+
+.keis-modal .hero-form-group input,
+.keis-modal .hero-form-group textarea{
+  font-size: clamp(14px, 1.05vw, 16px);
+}
+
+.keis-modal .hero-form-disclaimer{
+  font-size: clamp(12px, 0.95vw, 13px);
+  line-height: 1.52;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px){
+  .keis-modal{
+    padding: 12px;
+  }
+  
+  .keis-modal__panel{
+    border-radius: 20px;
+    max-height: 92vh;
+  }
+  
+  .keis-modal__close{
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
+  }
+}
+
+/* Body scroll lock when modal is open */
+body.modal-open{
+  overflow: hidden;
 }
