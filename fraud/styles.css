@@ -1213,9 +1213,10 @@ body.page-influence .investment-faq .faq-answer {
   overflow: hidden;
   opacity: 0;
   /* Smoother transitions for premium feel */
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              opacity 0.3s ease-out 0.1s, 
-              padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+    opacity 0.3s ease-out 0.1s, 
+    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body.page-investment .investment-faq .faq-item.is-open .faq-answer,
@@ -3106,13 +3107,13 @@ body.page-influence .hero-investment::before { content:none; }
 @media (min-width: 1100px){
   .hero-investment{
     /* чтобы первый экран выглядел «толще» и не обрывался, но marquee должна быть видна */
-    min-height: min(800px, calc(100vh - 72px));
+    min-height: min(800px, calc(100vh - var(--keis-header-h, 86px)));
   }
 }
 
 @media (min-width: 1400px){
   .hero-investment{
-    min-height: min(860px, calc(100vh - 72px));
+    min-height: min(860px, calc(100vh - var(--keis-header-h, 86px)));
   }
 }
 .hero-investment__bg{
@@ -3854,13 +3855,13 @@ body.page-influence .investment-signs {
     linear-gradient(180deg, rgba(255,140,40,0.08) 0%, rgba(0,0,0,0) 30%),
     linear-gradient(135deg, rgba(255,120,40,0.05) 10%, rgba(0,0,0,0) 10%),
     linear-gradient(315deg, rgba(255,90,0,0.04) 10%, rgba(0,0,0,0) 10%),
-    /* Subtle grain for newspaper feel */
+    /* Subtle grain for newspaper feel - larger pattern for better performance */
     repeating-linear-gradient(
       90deg,
-      rgba(255,255,255,0.015) 0px,
-      rgba(255,255,255,0.015) 1px,
-      transparent 1px,
-      transparent 2px
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 2px,
+      transparent 2px,
+      transparent 4px
     );
   background-blend-mode: overlay, overlay, screen, overlay, overlay;
   min-height: 640px;
