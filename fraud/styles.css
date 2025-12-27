@@ -1365,19 +1365,25 @@ body.page-influence .investment-faq .faq-ask-btn {
 }
 
 /* KEIS: All decorative divider stripes removed. Keep only the .scenarios-trust-bridge glass band between sections. */
+/* PART 9: Transition to Map/Reviews - Expressive divider and smooth transition */
 body.page-investment .investment-find,
 body.page-main .investment-find,
 body.page-credit .investment-find,
 body.page-influence .investment-find {
   position: relative;
-  padding: 110px 0 120px;
+  padding: clamp(100px, 14vh, 130px) 0 clamp(110px, 15vh, 140px);
   background:
-    radial-gradient(980px 540px at 18% 22%, rgba(255,138,0,.07), transparent 62%),
-    radial-gradient(980px 540px at 86% 68%, rgba(255,138,0,.05), transparent 62%),
-    linear-gradient(180deg, rgba(5,3,3,1), rgba(18,10,6,1) 55%, rgba(5,3,3,1));
+    /* Warmer, more inviting gradients for map section */
+    radial-gradient(980px 540px at 18% 22%, rgba(255,138,0,.10), transparent 62%),
+    radial-gradient(980px 540px at 86% 68%, rgba(255,138,0,.08), transparent 62%),
+    linear-gradient(180deg, rgba(8,5,5,1), rgba(20,12,8,1) 55%, rgba(8,5,5,1));
   overflow: hidden;
+  /* Subtle top border for transition */
+  border-top: 1px solid rgba(255,138,0,.12);
+  box-shadow: inset 0 1px 0 rgba(255,138,0,.08);
 }
 
+/* Enhanced atmospheric overlay */
 body.page-investment .investment-find::before,
 body.page-main .investment-find::before,
 body.page-credit .investment-find::before,
@@ -1387,10 +1393,10 @@ body.page-influence .investment-find::before {
   inset:0;
   pointer-events:none;
   background:
-    radial-gradient(1200px 520px at 12% 10%, rgba(0,0,0,.55), transparent 62%),
-    radial-gradient(980px 520px at 92% 30%, rgba(0,0,0,.52), transparent 62%),
-    linear-gradient(180deg, rgba(0,0,0,.44) 0%, rgba(0,0,0,.22) 45%, rgba(0,0,0,.62) 100%);
-  opacity: .9;
+    radial-gradient(1200px 520px at 12% 10%, rgba(0,0,0,.48), transparent 62%),
+    radial-gradient(980px 520px at 92% 30%, rgba(0,0,0,.45), transparent 62%),
+    linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,.18) 45%, rgba(0,0,0,.55) 100%);
+  opacity: .85;
 }
 
 body.page-investment .investment-find > .section-container,
@@ -1398,10 +1404,30 @@ body.page-main .investment-find > .section-container,
 body.page-credit .investment-find > .section-container,
 body.page-influence .investment-find > .section-container { position:relative; z-index:1; }
 
+/* Enhanced section header with subtle invitation */
 body.page-investment .investment-find .section-header,
 body.page-main .investment-find .section-header,
 body.page-credit .investment-find .section-header,
-body.page-influence .investment-find .section-header { max-width: 1180px; }
+body.page-influence .investment-find .section-header { 
+  max-width: 1180px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Add subtle accent line under subtitle */
+body.page-investment .investment-find .k-subtitle::after,
+body.page-main .investment-find .k-subtitle::after,
+body.page-credit .investment-find .k-subtitle::after,
+body.page-influence .investment-find .k-subtitle::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 2px;
+  margin: 20px auto 0;
+  background: linear-gradient(90deg, transparent, rgba(255,138,0,.6), transparent);
+  border-radius: 2px;
+}
 
 body.page-investment .investment-find .find-grid,
 body.page-main .investment-find .find-grid,
@@ -4088,20 +4114,25 @@ body.page-influence .investment-signs .sign-text {
    FOOTER (investment) — строгий премиальный блок
    ========================================================== */
 
+/* PART 8: Text Block (Footer/About) - Premium Architectural Styling */
 .investment-footer{
   position: relative;
-  padding: 48px 0 32px;
+  padding: clamp(56px, 8vh, 82px) 0 clamp(40px, 6vh, 56px);
   background:
-    radial-gradient(120% 160% at 0% 0%, rgba(255,180,120,0.14), transparent 60%),
-    radial-gradient(140% 180% at 100% 0%, rgba(0,210,180,0.14), transparent 62%),
-    linear-gradient(180deg, #050309, #07030d 40%, #020107 100%);
-  border-top: 1px solid rgba(255,255,255,0.06);
+    /* Enhanced premium gradients */
+    radial-gradient(120% 160% at 0% 0%, rgba(255,180,120,0.16), transparent 60%),
+    radial-gradient(140% 180% at 100% 0%, rgba(0,210,180,0.16), transparent 62%),
+    radial-gradient(200% 200% at 50% 100%, rgba(255,138,0,0.08), transparent 70%),
+    linear-gradient(180deg, #050309, #08040e 40%, #020107 100%);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  /* Add subtle top shadow for depth */
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
 }
 
 .investment-footer__inner{
   display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
-  gap: 40px;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.3fr);
+  gap: clamp(48px, 6vw, 72px);
   align-items: flex-start;
 }
 
@@ -4109,27 +4140,38 @@ body.page-influence .investment-signs .sign-text {
   min-width: 0;
 }
 
+/* Premium text styling with architectural feel */
 .investment-footer__lead{
-  margin: 0 0 16px;
-  color: rgba(244,241,235,0.86);
+  margin: 0 0 clamp(18px, 2.4vw, 24px);
+  color: rgba(244,241,235,0.88);
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
+  font-size: clamp(0.98rem, 1.08vw, 1.08rem);
+  line-height: 1.75;
+  letter-spacing: 0.012em;
+  max-width: 68ch;
+  /* Premium text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "kern" 1, "liga" 1;
+  /* Architectural grid alignment */
+  text-align: left;
 }
 
 .investment-footer__lead:last-child{
   margin-bottom: 0;
 }
 
+/* Stronger headings with visual weight */
 .investment-footer__heading{
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-family: "Roboto Slab", serif;
-  font-weight: 800;
-  font-size: 1.02rem;
-  letter-spacing: 0.06em;
+  font-weight: 850;
+  font-size: clamp(1.04rem, 1.12vw, 1.12rem);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(244,241,235,0.9);
+  color: rgba(244,241,235,0.94);
+  /* Add subtle text shadow for depth */
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
 }
 
 .investment-footer__dl{
