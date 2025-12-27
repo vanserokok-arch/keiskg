@@ -129,7 +129,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url('./assets/block/great_K.png');
+  background-image: url('../assets/block/great_K.png');
   background-repeat: no-repeat;
   background-position: 100% 50%;
   background-size: contain; /* показываем картинку целиком — без обрезания */
@@ -1493,7 +1493,7 @@
   position: relative;
   padding: 120px 0 150px;
   background-color: var(--bg0);
-  background-image: url('./assets/block/people.png');
+  background-image: url('../assets/block/people.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
@@ -2135,7 +2135,7 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
       rgba(0,0,0,0) 7px
     ),
 
-  var(--hero-offer, url('./assets/block/offer.jpeg'));
+  var(--hero-offer, url('../assets/block/offer.jpeg'));
 
   background-size: cover;
   background-position: center;
@@ -2147,9 +2147,9 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   Use body page class to swap only the image URL while preserving
   all gradients, overlays and sizing defined above. Default fallback
   is the original offer.jpeg so nothing breaks if class is missing. */
-.page-main{ --hero-offer: url('./assets/block/offer5.jpeg'); }
-.page-influence{ --hero-offer: url('./assets/block/offer3.jpeg'); }
-.page-credit{ --hero-offer: url('./assets/block/offer2.jpeg'); }
+.page-main{ --hero-offer: url('../assets/block/offer5.jpeg'); }
+.page-influence{ --hero-offer: url('../assets/block/offer3.jpeg'); }
+.page-credit{ --hero-offer: url('../assets/block/offer2.jpeg'); }
 /* Desktop: уводим hero-контент левее (как в референсе) */
 @media (min-width:1100px){
   .hero-investment .section-container{
@@ -3319,7 +3319,7 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   --scenarios-bottom-gap: 0px;
   padding: 88px 0 0;
   background-color: var(--bg0);
-  background-image: url('./assets/block/kazan4.png');
+  background-image: url('../assets/block/kazan4.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
@@ -3577,12 +3577,12 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 }
 
 /* Фоновые картинки для историй (оставляем) */
-.scenario-slide--angle-1 .scenario-slide-media{ background-image:url('./assets/scenarios/sc_1.png'); }
-.scenario-slide--angle-2 .scenario-slide-media{ background-image:url('./assets/scenarios/sc_4.png'); }
-.scenario-slide--angle-3 .scenario-slide-media{ background-image:url('./assets/scenarios/sc_3.png'); }
-.scenario-slide--angle-4 .scenario-slide-media{ background-image:url('./assets/scenarios/sc_2.png'); }
-.scenario-slide--angle-5 .scenario-slide-media{ background-image:url('./assets/scenarios/sc_5.png'); }
-.scenario-slide--angle-6 .scenario-slide-media{ background-image:url('./assets/scenarios/sc_6.png'); }
+.scenario-slide--angle-1 .scenario-slide-media{ background-image:url('../assets/scenarios/sc_1.png'); }
+.scenario-slide--angle-2 .scenario-slide-media{ background-image:url('../assets/scenarios/sc_4.png'); }
+.scenario-slide--angle-3 .scenario-slide-media{ background-image:url('../assets/scenarios/sc_3.png'); }
+.scenario-slide--angle-4 .scenario-slide-media{ background-image:url('../assets/scenarios/sc_2.png'); }
+.scenario-slide--angle-5 .scenario-slide-media{ background-image:url('../assets/scenarios/sc_5.png'); }
+.scenario-slide--angle-6 .scenario-slide-media{ background-image:url('../assets/scenarios/sc_6.png'); }
 
 /* навигация карусели — под карточками, стеклянные кнопки */
 .scenarios-band-controls{
@@ -3704,7 +3704,7 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
     /* дальше существующие radial + url(...) */
     radial-gradient(1200px 820px at 22% 42%, rgba(0,0,0,.48), transparent 62%),
     radial-gradient(1200px 940px at 86% 52%, rgba(0,0,0,.42), transparent 64%),
-    url('./assets/block/team.png');
+    url('../assets/block/team.png');
 
   background-size:cover;
   background-position:center 12%;
@@ -6082,7 +6082,7 @@ body.page-investment{
   width: 14px;
   height: 14px;
   transform: translateY(-50%) rotate(0deg);
-  background: url('./assets/icons/down-chevron.png') center/contain no-repeat;
+  background: url('../assets/icons/down-chevron.png') center/contain no-repeat;
   opacity: .9;
   transition: transform .18s ease, opacity .18s ease;
 }
