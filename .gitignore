@@ -15,3 +15,5 @@ yarn-error.log*
 # OS trash
 .Trashes
 *.backup
+
+/_trash/
