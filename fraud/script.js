@@ -4,11 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordion();
   initFaqParallax();
   initTrustParallax();
-  
+  initTelegramLeads();
+  initFormsUX();
+
   if (isDev()) {
     console.log('[fraud/script.js] All initialization functions completed');
   }
 });
+
 
 /* ==========================================================
    HELPER: Check if in development mode
@@ -17,6 +20,126 @@ function isDev() {
   return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 }
 
+/* ==========================================================
+   FORMS UX: placeholder typing + subtle CTA pulse + pressed state
+   ========================================================== */
+function initFormsUX() {
+  const forms = document.querySelectorAll('form.hero-form');
+  if (!forms.length) return;
+
+  const mapPhrases = {
+    name: [
+      'Иван Петров',
+      'Евгений, добрый день',
+      'Как к вам обращаться?'
+    ],
+    phone: [
+      '+7 900 123-45-67',
+      '+7 ___ ___-__-__',
+      'Укажите номер для связи'
+    ],
+    message: [
+      'Кратко: перевёл деньги, вывести не дают…',
+      'Опишите, что произошло и когда',
+      'Какая сумма и куда переводили?'
+    ],
+    question: [
+      'Опишите, что произошло и когда',
+      'Какая сумма и куда переводили?',
+      'Что отвечает банк/получатель?'
+    ],
+    text: [
+      'Кратко опишите ситуацию',
+      'Что произошло?',
+      'Какие есть доказательства?'
+    ]
+  };
+
+  const startTyping = (el, phrases) => {
+    if (!el || !phrases?.length) return;
+
+    let phraseIdx = 0;
+    let typingTimer = null;
+
+    const canAnimate = () =>
+      document.activeElement !== el &&
+      (el.value || '').trim() === '';
+
+    const setPh = (s) => {
+      if (!canAnimate()) return;
+      el.setAttribute('placeholder', s);
+    };
+
+    const typeOnce = (phrase) => {
+      if (!canAnimate()) return;
+
+      let i = 0;
+      setPh('');
+      el.classList.add('is-typing');
+
+      if (typingTimer) clearInterval(typingTimer);
+      typingTimer = setInterval(() => {
+        if (!canAnimate()) {
+          clearInterval(typingTimer);
+          typingTimer = null;
+          el.classList.remove('is-typing');
+          return;
+        }
+
+        i += 1;
+        setPh(phrase.slice(0, i));
+
+        if (i >= phrase.length) {
+          clearInterval(typingTimer);
+          typingTimer = null;
+          setTimeout(() => {
+            if (canAnimate()) el.classList.remove('is-typing');
+          }, 600);
+        }
+      }, 42);
+    };
+
+    const tick = () => {
+      if (!canAnimate()) return;
+      const phrase = phrases[phraseIdx % phrases.length];
+      phraseIdx += 1;
+      typeOnce(phrase);
+    };
+
+    // старт + каждые 3 секунды
+    tick();
+    const intervalId = setInterval(tick, 3000);
+
+    el.addEventListener('focus', () => el.classList.remove('is-typing'));
+    el.addEventListener('input', () => {
+      if ((el.value || '').trim() !== '') el.classList.remove('is-typing');
+    });
+
+    // если нужно будет отписаться — можно хранить intervalId, но сейчас не требуется
+  };
+
+  forms.forEach((form) => {
+    form.querySelectorAll('input, textarea').forEach((el) => {
+      const n = (el.getAttribute('name') || '').trim();
+      if (!n || !mapPhrases[n]) return;
+      startTyping(el, mapPhrases[n]);
+    });
+
+    const submitBtn = form.querySelector('button[type="submit"], .btn-primary');
+    if (submitBtn) {
+      submitBtn.classList.add('keis-cta-pulse');
+
+      submitBtn.addEventListener('pointerdown', () => {
+        submitBtn.classList.add('is-pressed');
+      });
+
+      const clear = () => submitBtn.classList.remove('is-pressed');
+      submitBtn.addEventListener('pointerup', clear);
+      submitBtn.addEventListener('pointercancel', clear);
+      submitBtn.addEventListener('mouseleave', clear);
+    }
+  });
+}
 /* ==========================================================
    HEADER: desktop dropdown + mobile burger
    ========================================================== */
@@ -219,18 +342,40 @@ function initScenariosSlider() {
 
   const windowEl = root.querySelector('.scenarios-band-window');
   const track = root.querySelector('.scenarios-band-track');
-  const prevBtn = root.querySelector('.scenarios-navbtn--prev');
-  const nextBtn = root.querySelector('.scenarios-navbtn--next');
+  const prevBtn = root.querySelector('.scenarios-navbtn--prev') || document.querySelector('.investment-scenarios .scenarios-navbtn--prev');
+  const nextBtn = root.querySelector('.scenarios-navbtn--next') || document.querySelector('.investment-scenarios .scenarios-navbtn--next');
 
   if (!windowEl || !track) {
     if (isDev()) console.warn('[initScenariosSlider] Missing required elements: windowEl or track');
     return;
   }
 
-  // Keep an immutable template of the original slides.
-  const originalTemplates = [...track.children].map((n) => n.cloneNode(true));
-  const totalSlides = originalTemplates.length;
-  if (totalSlides < 2) return;
+// Keep an immutable template of the original slides.
+// IMPORTANT: backgrounds are currently assigned via CSS rules that can break
+// when we clone/reorder slides for an infinite carousel. So we snapshot the
+// real slide media backgrounds once and re-apply them to every clone.
+const originalNodes = [...track.children];
+const originalTemplates = originalNodes.map((n) => n.cloneNode(true));
+const totalSlides = originalTemplates.length;
+if (totalSlides < 2) return;
+
+const templateBgs = originalNodes.map((slide) => {
+  const media = slide.querySelector?.('.scenario-slide-media');
+  if (!media) return '';
+  const bg = getComputedStyle(media).backgroundImage;
+  return bg && bg !== 'none' ? bg : '';
+});
+
+const applyBgByRealIndex = (slideEl, realIdx) => {
+  if (!slideEl) return;
+  const media = slideEl.querySelector?.('.scenario-slide-media');
+  if (!media) return;
+  const bg = templateBgs[realIdx];
+  if (!bg) return;
+  media.style.backgroundImage = bg;
+};
+
+const mod = (n, m) => ((n % m) + m) % m;
 
   let currentIndex = 0;
 
@@ -264,18 +409,20 @@ function initScenariosSlider() {
   };
 
   const setTranslate = (index) => {
-    track.style.transition = '';
+    // smooth animation for autoplay + arrow clicks
+    track.style.transition = 'transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1)';
     const x = Math.round(-index * step);
     track.style.transform = `translate3d(${x}px,0,0)`;
     isAnimating = true;
   };
-
+  
   const setTranslateNoAnim = (index) => {
+    // instant jump (for build + loop normalize)
     track.style.transition = 'none';
     const x = Math.round(-index * step);
     track.style.transform = `translate3d(${x}px,0,0)`;
     track.offsetHeight; // force reflow
-    track.style.transition = '';
+    track.style.transition = 'transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1)';
   };
 
   const build = () => {
@@ -301,11 +448,23 @@ function initScenariosSlider() {
       isJumping = true;
       currentIndex = firstReal;
       setTranslateNoAnim(currentIndex);
+      // Re-apply backgrounds after an instant jump (Safari/Chrome can drop paints on transformed parents)
+      slidesAll = [...track.children];
+      slidesAll.forEach((slideEl, idxAll) => {
+        const realIdx = mod(idxAll - cloneCount, totalSlides);
+        applyBgByRealIndex(slideEl, realIdx);
+      });
       isJumping = false;
     } else if (currentIndex < firstReal) {
       isJumping = true;
       currentIndex = lastReal;
       setTranslateNoAnim(currentIndex);
+      // Re-apply backgrounds after an instant jump (Safari/Chrome can drop paints on transformed parents)
+      slidesAll = [...track.children];
+      slidesAll.forEach((slideEl, idxAll) => {
+        const realIdx = mod(idxAll - cloneCount, totalSlides);
+        applyBgByRealIndex(slideEl, realIdx);
+      });
       isJumping = false;
     }
   };
@@ -342,6 +501,11 @@ function initScenariosSlider() {
     if (isAnimating) return;
     currentIndex -= 1;
     setTranslate(currentIndex);
+    slidesAll.forEach((slideEl, idxAll) => {
+      const realIdx = mod(idxAll - cloneCount, totalSlides);
+      applyBgByRealIndex(slideEl, realIdx);
+    });
+    isPaused = false;
     startAutoplay();
   });
 
@@ -525,4 +689,131 @@ function initTrustParallax() {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   update();
+}
+
+/* ==========================================================
+   TELEGRAM LEADS (send forms to /fraud/api/telegram.php)
+   - Works for contact modal form and hero form.
+   - No layout changes; only JS submit interception.
+   ========================================================== */
+function initTelegramLeads() {
+  // Endpoint relative to site root. For local dev and Timeweb it should work as-is.
+  const ENDPOINT = '/fraud/api/telegram.php';
+
+  const forms = new Set();
+
+  // 1) Contact modal form
+  const contactModal = document.getElementById('contactModal');
+  const contactForm = contactModal?.querySelector('form');
+  if (contactForm) forms.add(contactForm);
+
+  // 2) Hero / page forms (best-effort selectors)
+  document
+    .querySelectorAll('form.hero-form, form.keis-form, form[data-tg-lead], .hero-form form')
+    .forEach((f) => forms.add(f));
+
+  if (!forms.size) {
+    if (isDev()) console.warn('[initTelegramLeads] No forms found for Telegram submit hook');
+    return;
+  }
+
+  const toFormData = (form) => {
+    const fd = new FormData(form);
+
+    // Common field normalization (don't break existing names)
+    const getAny = (...keys) => {
+      for (const k of keys) {
+        const v = fd.get(k);
+        if (typeof v === 'string' && v.trim()) return v.trim();
+      }
+      return '';
+    };
+
+    if (!fd.get('name')) fd.set('name', getAny('fullname', 'your_name', 'username'));
+    if (!fd.get('phone')) fd.set('phone', getAny('tel', 'phone_number'));
+    if (!fd.get('message')) fd.set('message', getAny('question', 'text', 'comment', 'situation'));
+
+    // Helpful meta
+    if (!fd.get('page')) fd.set('page', window.location.href);
+
+    // Honeypot (must stay empty)
+    if (!fd.get('website')) fd.set('website', '');
+
+    return fd;
+  };
+
+  const setBtnState = (btn, state) => {
+    if (!btn) return;
+    if (!btn.dataset._origText) btn.dataset._origText = btn.textContent || '';
+
+    if (state === 'loading') {
+      btn.disabled = true;
+      btn.textContent = 'Отправляем…';
+    } else if (state === 'success') {
+      btn.disabled = true;
+      btn.textContent = 'Отправлено';
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = btn.dataset._origText;
+      }, 1800);
+    } else {
+      btn.disabled = false;
+      btn.textContent = btn.dataset._origText;
+    }
+  };
+
+  forms.forEach((form) => {
+    // Avoid double binding
+    if (form.dataset.tgBound === '1') return;
+    form.dataset.tgBound = '1';
+
+    form.addEventListener('submit', async (e) => {
+      // Let browser validation run
+      if (typeof form.checkValidity === 'function' && !form.checkValidity()) return;
+
+      e.preventDefault();
+
+      const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+      setBtnState(submitBtn, 'loading');
+
+      try {
+        const fd = toFormData(form);
+
+        // prefer explicit form action if present (safer for subpath deployments)
+        const endpoint = form.getAttribute('action') || ENDPOINT;
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: fd,
+        });
+
+        const json = await res.json().catch(() => ({}));
+
+        if (!res.ok || !json.ok) {
+          if (isDev()) console.error('[initTelegramLeads] send failed', res.status, json);
+          setBtnState(submitBtn, 'idle');
+          return;
+        }
+
+        setBtnState(submitBtn, 'success');
+        // keep UX: clear only message fields (do not nuke phone/name if user reopens)
+        ['message', 'question', 'text', 'comment', 'situation'].forEach((k) => {
+          const el = form.querySelector(`[name="${k}"]`);
+          if (el && 'value' in el) el.value = '';
+        });
+
+        // If contact modal is open, close it after success
+        const modal = document.getElementById('contactModal');
+        if (modal?.classList.contains('is-open')) {
+          setTimeout(() => {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+          }, 650);
+        }
+      } catch (err) {
+        if (isDev()) console.error('[initTelegramLeads] exception', err);
+        setBtnState(submitBtn, 'idle');
+      }
+    });
+  });
 }
