@@ -25,7 +25,10 @@ body.page-influence .investment-faq .faq-aside--visual {
        center the block. Avoid 100vw (which may cause overflow when scrollbars
        or transforms are present). Keep box-sizing so padding is included in
        the declared width. */
-    width: clamp(1224px, 94vw, 1800px);
+   /* Expanded visual width to approximately 80% of the viewport to
+     increase presence while keeping a reasonable minimum/maximum. This
+     replaces the earlier 94vw value to meet design request (≈80% width). */
+   width: clamp(900px, 80vw, 1600px);
     max-width: none;
     box-sizing: border-box;
     margin-left: auto;
@@ -372,7 +375,7 @@ body.page-influence .hero-investment .btn-primary {
   padding: 0 22px;
   font-size: 1.02rem;
   width: 100%; /* in form it should be full width */
-  border-radius: 0; /* ЗАДАЧА 2: rectangular */
+  border-radius: 12px; /* unify CTA corner radius */
 }
 
 /* === CHALLENGES CTA BUTTON — ultra glass + gold, FAQ style === */
@@ -552,10 +555,11 @@ body.page-influence .investment-challenges .challenges-cta__btn::after {
   left: -85%;
   width: 82%;
   height: 240%;
+  /* warm, low-contrast sheen to match the premium orange palette */
   background: linear-gradient(115deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,.92) 48%,
-    rgba(255,255,255,0) 76%);
+    rgba(255,230,190,0) 0%,
+    rgba(255,200,120,0.22) 48%,
+    rgba(255,230,190,0) 76%);
   transform: rotate(14deg);
   opacity: 0;
   pointer-events: none;
@@ -578,7 +582,7 @@ body.page-influence .investment-challenges .challenges-cta__btn:hover {
     transform: translateY(-1px);
     border-color: rgba(255, 200, 140, .92);
     box-shadow:
-      0 34px 120px rgba(255,120,0,.45),
+      0 28px 96px rgba(255,120,0,.32),
       0 16px 34px rgba(0,0,0,.58),
       inset 0 1px 0 rgba(255,255,255,.62);
   }
@@ -595,14 +599,15 @@ body.page-influence .hero-investment .btn-primary:hover::after,
 body.page-main .investment-challenges .challenges-cta__btn:hover::after,
 body.page-credit .investment-challenges .challenges-cta__btn:hover::after,
 body.page-influence .investment-challenges .challenges-cta__btn:hover::after {
-    opacity: 1;
-    animation: keisGlassSheen 1.1s ease forwards;
+    opacity: .7;
+    /* slower, warmer, subtler sheen to look premium rather than loud */
+    animation: keisGlassSheen 1.6s ease forwards;
   }
 }
 
 @keyframes keisGlassSheen{
   from{ transform: translateX(0) rotate(14deg); }
-  to{ transform: translateX(320%) rotate(14deg); }
+  to{ transform: translateX(220%) rotate(14deg); }
 }
 
 body.page-investment .keis-header-cta:active,
@@ -2502,18 +2507,118 @@ button,input,textarea{font:inherit}
   letter-spacing: -0.01em;
 }
 
-.k-title__mark {
+/* =========================
+   UNIFIED MARK STYLES - PREMIUM ELEGANT
+   Элегантные маркеры в премиальном стиле (Apple/Stripe)
+   ========================= */
+.k-title__mark,
+.hero-title-mark {
   position: relative;
   display: inline;
+  /* Мягкий градиент текста - элегантно и дорого */
   background: linear-gradient(135deg, 
-    rgba(255,180,100,.26) 0%, 
-    rgba(255,138,0,.32) 100%);
-  padding: 2px 10px;
-  border-radius: 5px;
+    rgba(255, 200, 140, 0.95) 0%, 
+    rgba(255, 170, 90, 0.98) 35%,
+    rgba(255, 138, 0, 1) 65%,
+    rgba(255, 180, 110, 0.96) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  z-index: 1;
+  /* Легкое свечение текста - очень сдержанное */
+  filter: drop-shadow(0 1px 2px rgba(255, 138, 0, 0.3));
+}
+
+/* Элегантная градиентная линия подчеркивания */
+.k-title__mark::after,
+.hero-title-mark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, 
+    rgba(255, 138, 0, 0) 0%,
+    rgba(255, 180, 100, 0.6) 20%,
+    rgba(255, 138, 0, 0.85) 50%,
+    rgba(255, 180, 100, 0.6) 80%,
+    rgba(255, 138, 0, 0) 100%);
+  z-index: -1;
+  /* Мягкое свечение подчеркивания */
   box-shadow: 
-    inset 0 -2px 0 rgba(255,138,0,.50),
-    inset 0 1px 0 rgba(255,255,255,.10),
-    0 2px 8px rgba(255,138,0,.15);
+    0 2px 8px rgba(255, 138, 0, 0.4),
+    0 0 12px rgba(255, 154, 60, 0.25);
+  opacity: 0.9;
+}
+
+/* Дополнительный тонкий акцент сверху для глубины */
+.k-title__mark::before,
+.hero-title-mark::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    rgba(255, 200, 140, 0.4) 50%,
+    transparent 100%);
+  z-index: -1;
+  opacity: 0.6;
+}
+
+/* Премиальный эффект при наведении - очень сдержанный */
+@media (hover: hover) {
+  .k-title__mark:hover,
+  .hero-title-mark:hover {
+    filter: drop-shadow(0 2px 4px rgba(255, 138, 0, 0.4)) 
+            brightness(1.05);
+  }
+  
+  .k-title__mark:hover::after,
+  .hero-title-mark:hover::after {
+    height: 4px;
+    opacity: 1;
+    box-shadow: 
+      0 3px 12px rgba(255, 138, 0, 0.5),
+      0 0 16px rgba(255, 154, 60, 0.35);
+    background: linear-gradient(90deg, 
+      rgba(255, 138, 0, 0) 0%,
+      rgba(255, 180, 100, 0.75) 20%,
+      rgba(255, 138, 0, 1) 50%,
+      rgba(255, 180, 100, 0.75) 80%,
+      rgba(255, 138, 0, 0) 100%);
+  }
+  
+  .k-title__mark:hover::before,
+  .hero-title-mark:hover::before {
+    opacity: 0.8;
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .k-title__mark::after,
+  .hero-title-mark::after {
+    height: 2.5px;
+    bottom: -1.5px;
+    box-shadow: 
+      0 1px 6px rgba(255, 138, 0, 0.35),
+      0 0 10px rgba(255, 154, 60, 0.2);
+  }
+  
+  @media (hover: hover) {
+    .k-title__mark:hover::after,
+    .hero-title-mark:hover::after {
+      height: 3px;
+    }
+  }
 }
 
 .k-subtitle {
@@ -2966,12 +3071,19 @@ body.page-influence .hero-investment::before { content:none; }
 body.page-main { --hero-offer: url('/fraud/assets/block/offer5.jpeg'); }
 body.page-influence { --hero-offer: url('/fraud/assets/block/offer3.jpeg'); }
 body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
-/* Desktop: уводим hero-контент левее (как в референсе) */
+/* Desktop: контент прижат к левому краю */
 @media (min-width:1100px){
   .hero-investment .section-container{
     width:min(1400px, calc(100% - 64px));
-    margin-left:auto;
+    margin-left:32px;
     margin-right:auto;
+    padding-left:0;
+  }
+}
+
+@media (min-width:900px) and (max-width:1099px){
+  .hero-investment .section-container{
+    padding-left:0;
   }
 }
 
@@ -2992,7 +3104,14 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   padding-bottom: clamp(10px, 1.2vw, 18px);
 }
 
-.hero-investment__content{grid-area:content}
+.hero-investment__content{
+  grid-area:content;
+  /* Контент прижимаем к левой границе */
+  justify-self: start;
+  max-width: 100%;
+  text-align: left;
+}
+
 .hero-investment__form{grid-area:form}
 
 @media (min-width:900px) and (max-width:1199px){
@@ -3014,14 +3133,28 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 }
 .hero-benefits{grid-area:benefits}
 
-/* 1200px+ — ДВЕ КОЛОНКИ (контент + форма) */
+/* 1200px+ — ДВЕ КОЛОНКИ (контент слева + форма справа) */
 @media (min-width:900px){
   .hero-investment__grid{
-    grid-template-columns:minmax(0,1fr) 640px;
-    column-gap: clamp(24px, 3.2vw, 46px);
+    grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);
+    column-gap: clamp(32px, 4vw, 56px);
     grid-template-areas:
       "content form"
       "benefits form";
+    align-items:start;
+    /* Раздвигаем элементы из центра */
+    justify-items:start;
+  }
+  
+  /* Контент прижимаем к левому краю */
+  .hero-investment__content{
+    padding-left:0;
+    padding-right:0;
+  }
+  
+  /* Форму прижимаем к правому краю */
+  .hero-investment__form{
+    justify-self:end;
   }
 }
 /* до 1199px — СТЕК */
@@ -3049,20 +3182,25 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   }
 }
 
+/* =========================
+   PREMIUM BADGES / CAPSULES
+   Элегантные капсулы в премиальном стиле
+   ========================= */
 .hero-investment__badges{
   display:flex;
-  gap:10px;
+  gap:12px;
   flex-wrap:wrap;
-  margin:0 0 10px;
+  margin:0 0 24px;
   align-items:center;
-  filter: drop-shadow(0 10px 22px rgba(0,0,0,.55));
+  justify-content:flex-start;
 }
+
 .hero-investment__badge{
-  height:36px;
-  padding:0 16px;
-  border-radius:999px;
-  font-weight:900;
-  font-size:.92rem;
+  height:42px;
+  padding:0 20px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:0.9rem;
   line-height:1;
   margin:0;
   position:relative;
@@ -3070,39 +3208,115 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   align-items:center;
   justify-content:center;
   white-space:nowrap;
-  max-width:none;
-
+  letter-spacing:0.02em;
+  
+  /* Премиальный стеклянный фон */
   background:
-    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03)),
-    rgba(10,6,4,.58);
-  border:1px solid rgba(255,255,255,.10);
+    linear-gradient(135deg, 
+      rgba(255,255,255,0.12) 0%, 
+      rgba(255,255,255,0.06) 50%,
+      rgba(255,255,255,0.08) 100%),
+    rgba(14,9,6,0.68);
+  border:1px solid rgba(255,255,255,0.14);
   box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.04),
-    0 16px 42px rgba(0,0,0,.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+    0 8px 24px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  color: rgba(244,241,235,0.95);
+  transition: all 0.25s ease;
 }
 
+/* Элегантный блик сверху */
+.hero-investment__badge::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:50%;
+  border-radius:12px 12px 50% 50%;
+  background: linear-gradient(180deg, 
+    rgba(255,255,255,0.2) 0%, 
+    rgba(255,255,255,0.05) 60%,
+    transparent 100%);
+  pointer-events:none;
+  opacity:0.7;
+}
+
+/* Тонкая градиентная обводка */
 .hero-investment__badge::after{
   content:"";
   position:absolute;
-  top:7px;
-  left:10px;
-  width:56%;
-  height:34%;
-  border-radius:999px;
-  background: linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,0));
-  opacity:.55;
-  pointer-events:none;
+  inset:-1px;
+  border-radius:13px;
+  padding:1px;
+  background: linear-gradient(135deg, 
+    rgba(255,255,255,0.2) 0%,
+    rgba(255,255,255,0.05) 50%,
+    rgba(255,255,255,0.15) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index:-1;
+  opacity:0.6;
 }
+
+/* Акцентная капсула - оранжевая */
 .hero-investment__badge--accent{
-  color:#14110f;
-  background: linear-gradient(120deg, var(--orange2), var(--orange));
-  border-color: rgba(0,0,0,.55);
+  color:#0d0a08;
+  background: linear-gradient(135deg, 
+    rgba(255,180,100,0.95) 0%, 
+    rgba(255,154,60,1) 35%,
+    rgba(255,138,0,1) 65%,
+    rgba(255,170,80,0.98) 100%);
+  border:1px solid rgba(255,200,120,0.4);
   box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.10),
-    0 18px 46px rgba(0,0,0,.78),
-    0 0 26px rgba(255,122,24,.16);
+    0 12px 32px rgba(0,0,0,0.75),
+    0 0 24px rgba(255,138,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
+  font-weight:900;
+}
+
+.hero-investment__badge--accent::before{
+  background: linear-gradient(180deg, 
+    rgba(255,255,255,0.4) 0%, 
+    rgba(255,255,255,0.15) 50%,
+    transparent 100%);
+  opacity:0.8;
+}
+
+.hero-investment__badge--accent::after{
+  background: linear-gradient(135deg, 
+    rgba(255,220,160,0.6) 0%,
+    rgba(255,180,100,0.4) 50%,
+    rgba(255,200,120,0.5) 100%);
+  opacity:0.8;
+}
+
+/* Эффект при наведении */
+@media (hover: hover) {
+  .hero-investment__badge:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 32px rgba(0,0,0,0.75),
+      inset 0 1px 0 rgba(255,255,255,0.16),
+      inset 0 -1px 0 rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.18);
+  }
+  
+  .hero-investment__badge--accent:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.8),
+      0 0 32px rgba(255,138,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.35),
+      inset 0 -1px 0 rgba(0,0,0,0.2);
+    filter: brightness(1.08);
+  }
 }
 
 .hero-investment__title{
@@ -3114,6 +3328,11 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   letter-spacing:-0.02em;
   text-shadow:0 14px 44px rgba(0,0,0,.92);
   position:relative;
+  text-align:left;
+  max-width:100%;
+  /* Прижимаем к левой границе */
+  margin-left:0;
+  margin-right:auto;
 }
 .hero-investment__title::before{
   content:"";
@@ -3159,12 +3378,16 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 }
 
 .hero-investment__subtitle{
-  margin:16px 0 0;
-  max-width:66ch;
+  margin:20px 0 0;
+  max-width:64ch;
   color:rgba(244,241,235,.84);
   font-size:clamp(1.02rem, 1.25vw, 1.16rem);
   line-height:1.58;
   text-shadow:0 10px 30px rgba(0,0,0,.86);
+  text-align:left;
+  /* Прижимаем к левой границе */
+  margin-left:0;
+  margin-right:auto;
 }
 
 /* Form */
@@ -3335,7 +3558,9 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   width:100%;
   height:1px;
   margin:16px 0 18px;
-  border-radius:999px;
+  border-radius:6px;
+  position:relative;
+  z-index:2;
   background:
     linear-gradient(90deg,
       rgba(255,138,0,0) 0%,
@@ -3344,9 +3569,10 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
       rgba(255,138,0,.65) 82%,
       rgba(255,138,0,0) 100%);
   box-shadow:
-    0 0 18px rgba(255,122,24,.22),
-    0 1px 0 rgba(255,255,255,.06);
-  opacity:.95;
+    0 8px 32px rgba(0,0,0,0.6),
+    0 1px 0 rgba(255,255,255,0.06),
+    0 0 28px rgba(255,122,24,0.14) inset;
+  opacity:1;
 }
 .hero-form-row{
   display:grid;
@@ -3381,10 +3607,41 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 }
 .hero-form-group input::placeholder,
 .hero-form-group textarea::placeholder{
-  color: rgba(244,241,235,.55);
+  color: #ffffff;
   font-size: 0.95rem;
-  line-height: 1.25;
+  line-height: 1.18;
+  font-weight: 700;
 }
+
+/* When typing animation runs, make placeholder text more legible and branded */
+/* When typing animation runs, use the same color as the original placeholders
+   so typed placeholder visually matches native placeholder color. Also keep
+   weight and opacity consistent. */
+.hero-form-group input.is-typing::placeholder,
+.hero-form-group textarea.is-typing::placeholder{
+  color: #ffffff; /* match .hero-form-group input::placeholder */
+  opacity: 1;
+}
+
+/* subtle caret effect for typing state (white caret to match placeholder) */
+.hero-form-group input.is-typing,
+.hero-form-group textarea.is-typing{
+  position: relative;
+}
+.hero-form-group input.is-typing::after,
+.hero-form-group textarea.is-typing::after{
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 1.1em;
+  background: rgba(255,255,255,0.95);
+  opacity: .92;
+  animation: keisTypingCaret 1s steps(2,start) infinite;
+}
+@keyframes keisTypingCaret{ 50% { opacity: 0; } }
 
 /* ↓ Мобилки: уменьшаем плейсхолдер, чтобы не обрезался */
 @media (max-width: 768px){
@@ -3406,6 +3663,189 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 .hero-form-group input:focus,.hero-form-group textarea:focus{
   border-color: rgba(255,122,24,.78);
   box-shadow:0 0 0 2px rgba(255,122,24,.55);
+}
+
+/* Form-level placeholder fading: when form has class placeholders-fading placeholders become transparent */
+.hero-form.placeholders-fading .hero-form-group input::placeholder,
+.hero-form.placeholders-fading .hero-form-group textarea::placeholder,
+.hero-form.placeholders-fading .hero-form-group input.is-typing::placeholder,
+.hero-form.placeholders-fading .hero-form-group textarea.is-typing::placeholder{
+  color: transparent !important;
+  transition: color .28s ease;
+}
+
+/* Ensure input text (user typed) is bold and white for contrast */
+.hero-form-group input,
+.hero-form-group textarea{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Generic form styles: apply the same premium, bold-white input and
+   placeholder UX to any form that opts into the Keis form system.
+   Backwards-compatible with existing `.hero-form` markup. */
+.keis-form .keis-form-group input::placeholder,
+.keis-form .keis-form-group textarea::placeholder,
+form.keis-form input::placeholder,
+form.keis-form textarea::placeholder,
+.keis-form-group input::placeholder,
+.keis-form-group textarea::placeholder {
+  color: #ffffff;
+  font-size: 0.95rem;
+  line-height: 1.18;
+  font-weight: 700;
+}
+
+.keis-form .keis-form-group input.is-typing::placeholder,
+.keis-form .keis-form-group textarea.is-typing::placeholder,
+form.keis-form input.is-typing::placeholder,
+form.keis-form textarea.is-typing::placeholder,
+.keis-form-group input.is-typing::placeholder,
+.keis-form-group textarea.is-typing::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* caret visual for generic forms */
+.keis-form .keis-form-group input.is-typing,
+.keis-form .keis-form-group textarea.is-typing,
+form.keis-form input.is-typing,
+form.keis-form textarea.is-typing,
+.keis-form-group input.is-typing,
+.keis-form-group textarea.is-typing{
+  position: relative;
+}
+.keis-form .keis-form-group input.is-typing::after,
+.keis-form .keis-form-group textarea.is-typing::after,
+form.keis-form input.is-typing::after,
+form.keis-form textarea.is-typing::after,
+.keis-form-group input.is-typing::after,
+.keis-form-group textarea.is-typing::after{
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 1.1em;
+  background: rgba(255,255,255,0.95);
+  opacity: .92;
+  animation: keisTypingCaret 1s steps(2,start) infinite;
+}
+
+/* Form-level placeholder fading: generic selector (keeps existing hero-form behavior) */
+.placeholders-fading .keis-form-group input::placeholder,
+.placeholders-fading .keis-form-group textarea::placeholder,
+.placeholders-fading .keis-form-group input.is-typing::placeholder,
+.placeholders-fading .keis-form-group textarea.is-typing::placeholder,
+.hero-form.placeholders-fading .hero-form-group input::placeholder,
+.hero-form.placeholders-fading .hero-form-group textarea::placeholder{
+  color: transparent !important;
+  transition: color .28s ease;
+}
+
+/* Ensure input text (user typed) is bold and white for any Keis form */
+.keis-form .keis-form-group input,
+.keis-form .keis-form-group textarea,
+form.keis-form input,
+form.keis-form textarea{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Fallback: apply key input/placeholder styles to any form that is not
+   explicitly opted-out via `data-no-ux` or `data-keis-ux="off"`. This
+   ensures forms without the new classes still receive the premium style
+   unless they opt out. */
+form:not([data-no-ux]):not([data-keis-ux='off']) input::placeholder,
+form:not([data-no-ux]):not([data-keis-ux='off']) textarea::placeholder{
+  color: #ffffff;
+  font-weight: 700;
+  opacity: 1;
+}
+form:not([data-no-ux]):not([data-keis-ux='off']) input,
+form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* TYPING caret visual previously added — keep caret inside input correctly */
+.hero-form-group input.is-typing::after,
+.hero-form-group textarea.is-typing::after{
+  right: 14px;
+}
+
+/* Hero subtitle styling: tighter leading and subtle weight */
+.hero-form-subtitle{
+  line-height: 1.18;
+  font-weight: 600;
+  color: rgba(255,255,255,0.94);
+}
+
+/* Make the thin divider look even more premium */
+.hero-form-divider{
+  height:1px;
+  margin:12px 0 18px;
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.06) 20%,
+      rgba(255,200,120,0.85) 50%,
+      rgba(255,255,255,0.06) 80%,
+      rgba(255,255,255,0) 100%);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.06);
+  opacity: 0.98;
+}
+
+/* Glassy premium button for hero form, header CTA and modal */
+.hero-form .btn-primary,
+.keis-header-cta,
+.hero-form--modal .btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 22px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  color: #fff;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.56),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  transition: transform .16s ease, box-shadow .18s ease, filter .12s ease;
+}
+
+@media (hover:hover){
+  .hero-form .btn-primary:hover,
+  .keis-header-cta:hover,
+  .hero-form--modal .btn-primary:hover{
+    transform: translateY(-3px);
+    filter: brightness(1.12) saturate(1.06);
+    box-shadow:
+      0 46px 140px rgba(0,0,0,0.62),
+      0 20px 44px rgba(255,120,0,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .hero-form .btn-primary:active,
+  .keis-header-cta:active,
+  .hero-form--modal .btn-primary:active{ transform: translateY(0); }
+}
+
+/* make header CTA look glassy too */
+.keis-header-cta{
+  padding: 10px 16px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  box-shadow: 0 18px 46px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 /* Центрирование основной кнопки формы для всех разрешений */
@@ -3445,6 +3885,192 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   line-height: 1.35;
 }
 
+/* ====================================================================
+   Glass button system: reusable premium glassy CTA used across fraud pages
+   - .keis-btn--glass: base class (can be applied in markup)
+   - later rules force .btn-primary and other CTAs to use this visual
+   - Subtle conic rim via ::before, warm sheen via ::after (low intensity)
+   ==================================================================== */
+.keis-btn--glass,
+.btn-primary,
+.keis-header-cta,
+.faq-ask-btn,
+.challenges-cta__btn{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 22px;
+  height: 56px;
+  border-radius: 12px;
+  color: #fff !important;
+  font-weight: 800;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  background-color: rgba(30,16,10,0.46); /* dark glass base */
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 18px 60px rgba(6,4,3,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease, filter .14s ease;
+}
+
+/* Subtle pulse to draw attention to primary CTAs managed by JS */
+.keis-cta-pulse{
+  animation: keisCtaPulse 2200ms cubic-bezier(.2,.9,.2,1) infinite;
+}
+@keyframes keisCtaPulse{
+  0%{ transform: translateY(0) scale(1); }
+  50%{ transform: translateY(-1px) scale(1.005); }
+  100%{ transform: translateY(0) scale(1); }
+}
+
+/* Pressed state applied on pointerdown to give tactile feedback */
+.is-pressed{
+  transform: translateY(0) scale(.986) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.48) !important; inset: 0 2px 8px rgba(0,0,0,.28) !important;
+  transition: transform .08s ease, box-shadow .12s ease !important;
+}
+
+.keis-btn--glass::before,
+.btn-primary::before,
+.keis-header-cta::before,
+.faq-ask-btn::before,
+.challenges-cta__btn::before{
+  /* subtle warm rim/prism */
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from 220deg, rgba(255,200,110,0.12), rgba(255,138,0,0.18), rgba(255,255,255,0.06));
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: .85;
+}
+
+.keis-btn--glass::after,
+.btn-primary::after,
+.keis-header-cta::after,
+.faq-ask-btn::after,
+.challenges-cta__btn::after{
+  /* warm, low-contrast sheen */
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 70%;
+  height: 220%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 48%, rgba(255,255,255,0) 76%);
+  transform: rotate(18deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .42s ease, transform 1.6s cubic-bezier(.2,.8,.2,1);
+}
+
+@media (hover:hover){
+  .keis-btn--glass:hover,
+  .btn-primary:hover,
+  .keis-header-cta:hover,
+  .faq-ask-btn:hover,
+  .challenges-cta__btn:hover{
+    transform: translateY(-4px);
+    filter: brightness(1.06) saturate(1.08);
+    box-shadow: 0 36px 110px rgba(6,4,3,0.62), 0 10px 30px rgba(255,122,24,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .keis-btn--glass:hover::after,
+  .btn-primary:hover::after,
+  .keis-header-cta:hover::after,
+  .faq-ask-btn:hover::after,
+  .challenges-cta__btn:hover::after{
+    opacity: .42;
+    transform: translateX(220%) rotate(18deg);
+  }
+}
+
+.keis-btn--glass:focus,
+.btn-primary:focus,
+.keis-header-cta:focus,
+.faq-ask-btn:focus,
+.challenges-cta__btn:focus{
+  outline: none;
+  box-shadow: 0 6px 28px rgba(255,122,24,0.18), 0 0 0 3px rgba(255,122,24,0.08);
+}
+
+/* Ensure hero form button keeps centered width but uses glass visuals */
+.hero-form .btn-primary{ color: #fff !important; background: transparent; border: none; width: 88%; max-width:420px; display:block; margin: 0 auto; }
+
+/* ====================================================================
+   Sheen variants for quick visual A/B:
+   - variant-1: subtle, warm (default tuned)
+   - variant-2: stronger, warmer rim + slightly faster sheen
+   - variant-3: minimal rim, cool subtle sheen (reserved for conservative look)
+   Apply by adding class to <body>, e.g. <body class="keis-sheen--variant-2">
+   These rules only adjust ::after and box-shadow intensity.
+   ==================================================================== */
+.keis-sheen--variant-1 .keis-btn--glass::after,
+.keis-sheen--variant-1 .btn-primary::after{
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 48%, rgba(255,255,255,0) 76%);
+  opacity: 0;
+  transition: opacity .42s ease, transform 1.6s cubic-bezier(.2,.8,.2,1);
+}
+.keis-sheen--variant-1 .keis-btn--glass,
+.keis-sheen--variant-1 .btn-primary{ box-shadow: 0 18px 60px rgba(6,4,3,0.6), inset 0 1px 0 rgba(255,255,255,0.05); }
+
+.keis-sheen--variant-2 .keis-btn--glass::after,
+.keis-sheen--variant-2 .btn-primary::after{
+  background: linear-gradient(120deg, rgba(255,230,200,0) 0%, rgba(255,240,210,0.28) 48%, rgba(255,230,200,0) 76%);
+  opacity: 0;
+  transition: opacity .36s ease, transform 1.2s cubic-bezier(.22,.9,.16,1);
+}
+.keis-sheen--variant-2 .keis-btn--glass,
+.keis-sheen--variant-2 .btn-primary{ box-shadow: 0 28px 90px rgba(6,4,3,0.66), 0 12px 34px rgba(255,122,24,0.14), inset 0 1px 0 rgba(255,255,255,0.06); }
+
+.keis-sheen--variant-3 .keis-btn--glass::after,
+.keis-sheen--variant-3 .btn-primary::after{
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 48%, rgba(255,255,255,0) 76%);
+  opacity: 0;
+  transition: opacity .52s ease, transform 1.9s cubic-bezier(.18,.82,.25,1);
+}
+.keis-sheen--variant-3 .keis-btn--glass,
+.keis-sheen--variant-3 .btn-primary{ box-shadow: 0 14px 40px rgba(6,4,3,0.52), inset 0 1px 0 rgba(255,255,255,0.04); }
+
+/* Variant 4: Lux gold — stronger warm gradient, pronounced rim and subtle inner glow */
+.keis-sheen--variant-4 .keis-btn--glass::after,
+.keis-sheen--variant-4 .btn-primary::after{
+  background: linear-gradient(120deg, rgba(255,240,210,0) 0%, rgba(255,235,190,0.34) 48%, rgba(255,240,210,0) 76%);
+  opacity: 0;
+  transition: opacity .34s ease, transform 1.1s cubic-bezier(.25,.9,.2,1);
+}
+.keis-sheen--variant-4 .keis-btn--glass,
+.keis-sheen--variant-4 .btn-primary{
+  box-shadow: 0 40px 140px rgba(6,4,3,0.7), 0 14px 48px rgba(255,150,40,0.18), inset 0 1px 0 rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(255,245,230,0.06), rgba(255,235,200,0.02));
+  border: 1px solid rgba(255,200,120,0.14);
+  color: #0b0706 !important;
+}
+
+/* Variant 5: Cool glass — bluish, lower warmth, modern minimal */
+.keis-sheen--variant-5 .keis-btn--glass::after,
+.keis-sheen--variant-5 .btn-primary::after{
+  background: linear-gradient(120deg, rgba(220,240,255,0) 0%, rgba(200,230,255,0.22) 48%, rgba(220,240,255,0) 76%);
+  opacity: 0;
+  transition: opacity .5s ease, transform 1.8s cubic-bezier(.18,.84,.2,1);
+}
+.keis-sheen--variant-5 .keis-btn--glass,
+.keis-sheen--variant-5 .btn-primary{
+  box-shadow: 0 18px 60px rgba(6,12,18,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(220,235,255,0.04), rgba(200,220,255,0.02));
+  border: 1px solid rgba(180,210,255,0.06);
+  color: #fff !important;
+}
+
+
+
 /* Capsule */
 .capsule-head{
   display:inline-flex;
@@ -3464,139 +4090,269 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 
 /* Benefits (4 cards) — стабильная 2x2 сетка под подзаголовком */
 .hero-benefits{
-  margin-top: clamp(18px, 2.2vw, 34px); /* прямо под подзаголовком */
+  margin-top: clamp(24px, 3vw, 42px); /* прямо под подзаголовком */
   padding-bottom:0;
   overflow:visible;
+  /* Прижимаем к левой границе */
+  justify-self:start;
+  width:100%;
+  max-width:100%;
 }
-
 
 .hero-investment .hero-benefits-grid.hero-benefits-grid--intro{
   display:grid !important;
-  gap:clamp(12px, 1.6vw, 18px);
+  gap:clamp(16px, 2vw, 22px);
   grid-template-columns:repeat(2, minmax(0, 1fr)) !important; /* всегда 2х2 */
   grid-auto-rows: 1fr; /* одинаковая высота в ряду */
   align-items:stretch;
   justify-items:stretch;
+  width:100%;
 }
 
-/* Mobile/tablet: сохраняем 2x2 и делаем карточки более «вертикальными» */
+/* Mobile/tablet: сохраняем 2x2, карточки прижаты к левому краю */
 @media (max-width:720px){
-  .hero-benefits{ width:90%; margin-left:auto; margin-right:auto; }
+  .hero-benefits{ 
+    width:100%; 
+    margin-left:0; 
+    margin-right:auto;
+    justify-self:start;
+  }
 
   .hero-investment .hero-benefits-grid.hero-benefits-grid--intro{
     grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    gap:12px;
+    gap:14px;
   }
 
   .hero-benefit-card.hero-benefit-card--intro{
-    min-height: 176px;
-    padding: 18px 16px 20px;
-    border-radius: 20px;
+    min-height: 160px;
+    padding: 20px 18px 22px;
+    border-radius: 18px;
   }
 
   .hero-investment .hero-benefit-card.hero-benefit-card--intro strong{
-    font-size: 0.94rem;
-    line-height: 1.35;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 }
 
 @media (max-width:420px){
-  .hero-benefits{ width:92%; }
+  .hero-benefits{ 
+    width:100%; 
+    margin-left:0;
+    margin-right:auto;
+  }
 
   .hero-benefit-card.hero-benefit-card--intro{
-    min-height: 188px;
-    padding: 18px 14px 20px; 
+    min-height: 170px;
+    padding: 18px 16px 20px; 
   }
 
   .hero-investment .hero-benefit-card.hero-benefit-card--intro strong{
-    font-size: 0.90rem;
-    line-height: 1.32;
+    font-size: 0.92rem;
+    line-height: 1.38;
   }
 }
 
-/* Benefits cards — clean premium glass (scoped to hero to avoid conflicts) */
-/* Updated glassy premium benefit card for intro block */
+/* =========================
+   PREMIUM BENEFIT CARDS
+   Интересные премиальные карточки с акцентами
+   ========================= */
 .hero-benefit-card.hero-benefit-card--intro{
   position:relative;
-  border-radius:22px;
-  padding:22px 22px 24px;
-  min-height:128px;
+  border-radius:20px;
+  padding:24px 22px 26px;
+  min-height:140px;
   display:flex;
   align-items:flex-start;
   overflow:hidden;
   width:100%;
   min-width:0;
 
-  /* стеклянный фон с подсветкой слева сверху */
+  /* Премиальный стеклянный фон с градиентными акцентами */
   background:
+    /* Яркий акцент слева-сверху (каждая карточка уникальна) */
     radial-gradient(
-      140% 160% at 0% 0%,
-      rgba(255,180,120,0.22),
-      rgba(255,180,120,0.10) 28%,
-      rgba(255,180,120,0.04) 45%,
-      transparent 65%
+      ellipse 180% 200% at -20% -10%,
+      rgba(255,180,120,0.28),
+      rgba(255,180,120,0.12) 35%,
+      rgba(255,180,120,0.04) 55%,
+      transparent 75%
     ),
+    /* Мягкий градиент сверху */
     linear-gradient(
       180deg,
-      rgba(255,255,255,0.14),
-      rgba(255,255,255,0.04)
+      rgba(255,255,255,0.16) 0%,
+      rgba(255,255,255,0.08) 40%,
+      rgba(255,255,255,0.02) 100%
     ),
-    rgba(14,9,6,0.62);
+    /* Базовый темный фон */
+    rgba(12,8,5,0.72);
 
-  border:1px solid rgba(255,255,255,0.18);
-
+  border:1px solid rgba(255,255,255,0.2);
   box-shadow:
-    0 18px 44px rgba(0,0,0,0.65),
-    inset 0 1px 0 rgba(255,255,255,0.20),
-    inset 0 -1px 0 rgba(0,0,0,0.25);
+    0 20px 48px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.24),
+    inset 0 -1px 0 rgba(0,0,0,0.3),
+    inset -1px 0 0 rgba(255,180,120,0.1);
 
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Уникальные акценты для каждой карточки */
+.hero-benefit-card.hero-benefit-card--intro:nth-child(1) {
+  background:
+    radial-gradient(
+      ellipse 180% 200% at -20% -10%,
+      rgba(255,180,120,0.32),
+      rgba(255,180,120,0.14) 35%,
+      transparent 65%
+    ),
+    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
+    rgba(12,8,5,0.72);
+  border-left:2px solid rgba(255,180,120,0.3);
+}
 
-/* Новый highlight layer to усилить «дорогой» эффект */
+.hero-benefit-card.hero-benefit-card--intro:nth-child(2) {
+  background:
+    radial-gradient(
+      ellipse 160% 180% at 120% -15%,
+      rgba(255,154,60,0.28),
+      rgba(255,154,60,0.12) 35%,
+      transparent 65%
+    ),
+    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
+    rgba(12,8,5,0.72);
+  border-top:2px solid rgba(255,154,60,0.3);
+}
+
+.hero-benefit-card.hero-benefit-card--intro:nth-child(3) {
+  background:
+    radial-gradient(
+      ellipse 140% 190% at -15% 110%,
+      rgba(255,138,0,0.26),
+      rgba(255,138,0,0.10) 35%,
+      transparent 65%
+    ),
+    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
+    rgba(12,8,5,0.72);
+  border-right:2px solid rgba(255,138,0,0.3);
+}
+
+.hero-benefit-card.hero-benefit-card--intro:nth-child(4) {
+  background:
+    radial-gradient(
+      ellipse 170% 200% at 110% 110%,
+      rgba(255,200,140,0.30),
+      rgba(255,200,140,0.12) 35%,
+      transparent 65%
+    ),
+    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
+    rgba(12,8,5,0.72);
+  border-bottom:2px solid rgba(255,200,140,0.3);
+}
+
+/* Премиальный блик сверху */
+.hero-benefit-card.hero-benefit-card--intro::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:60%;
+  border-radius:20px 20px 60% 60%;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0.08) 40%,
+    transparent 80%
+  );
+  pointer-events:none;
+  opacity:0.6;
+  z-index:1;
+}
+
+/* Дополнительный градиентный слой для глубины */
 .hero-benefit-card.hero-benefit-card--intro::after{
   content:"";
   position:absolute;
   inset:0;
   border-radius:inherit;
   pointer-events:none;
-
   background:
     linear-gradient(
       135deg,
-      rgba(255,255,255,0.18),
-      rgba(255,255,255,0.06) 28%,
-      transparent 55%
+      rgba(255,255,255,0.12) 0%,
+      transparent 40%,
+      rgba(255,180,120,0.05) 100%
     );
+  z-index:1;
 }
 
 .hero-investment .hero-benefit-card.hero-benefit-card--intro strong{
   display:block;
-  font-size:1.02rem;
-  line-height:1.45;
+  font-size:1.04rem;
+  line-height:1.5;
   letter-spacing:-0.01em;
-  color:rgba(244,241,235,.96);
+  color:rgba(244,241,235,.98);
   font-weight:800;
-  text-shadow:0 10px 24px rgba(0,0,0,.75);
+  text-shadow:0 8px 20px rgba(0,0,0,.8);
   overflow-wrap:anywhere;
   word-break:break-word;
   hyphens:auto;
+  position:relative;
+  z-index:2;
 }
 
+/* Премиальные эффекты при наведении */
 @media (hover:hover) and (pointer:fine){
-  .hero-investment .hero-benefit-card.hero-benefit-card--intro{
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, filter .18s ease;
-  }
   .hero-investment .hero-benefit-card.hero-benefit-card--intro:hover{
-    transform: translateY(-3px);
-    filter: saturate(1.06);
-    border-color: rgba(255,255,255,.18);
+    transform: translateY(-4px) scale(1.01);
+    filter: brightness(1.08) saturate(1.1);
+    border-color: rgba(255,255,255,0.28);
     box-shadow:
-      0 28px 78px rgba(0,0,0,.82),
-      0 0 22px rgba(255,122,24,.10),
-      inset 0 1px 0 rgba(255,255,255,.06);
+      0 32px 88px rgba(0,0,0,0.85),
+      0 0 32px rgba(255,138,0,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.3),
+      inset 0 -1px 0 rgba(0,0,0,0.4);
+  }
+  
+  /* Усиливаем акценты при наведении */
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(1):hover {
+    border-left-color: rgba(255,180,120,0.5);
+    box-shadow:
+      0 32px 88px rgba(0,0,0,0.85),
+      0 0 32px rgba(255,180,120,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(2):hover {
+    border-top-color: rgba(255,154,60,0.5);
+    box-shadow:
+      0 32px 88px rgba(0,0,0,0.85),
+      0 0 32px rgba(255,154,60,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(3):hover {
+    border-right-color: rgba(255,138,0,0.5);
+    box-shadow:
+      0 32px 88px rgba(0,0,0,0.85),
+      0 0 32px rgba(255,138,0,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(4):hover {
+    border-bottom-color: rgba(255,200,140,0.5);
+    box-shadow:
+      0 32px 88px rgba(0,0,0,0.85),
+      0 0 32px rgba(255,200,140,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  
+  .hero-benefit-card.hero-benefit-card--intro:hover::before {
+    opacity:0.8;
   }
 }
 
@@ -7476,7 +8232,8 @@ body.modal-open {
   box-shadow: 
     0 0 0 3px rgba(255,170,90,.18),
     0 2px 8px rgba(0,0,0,.25);
-  background: rgba(255,255,255,.98);
+  /* keep background dark on focus so white text remains readable */
+  background: rgba(20,16,15,0.98);
   transition: 
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -7486,24 +8243,132 @@ body.modal-open {
 /* Input placeholder refinement */
 .hero-form input::placeholder,
 .hero-form textarea::placeholder{
-  color: rgba(18, 12, 10, 0.48);
+  color: rgba(255,255,255,0.78);
   opacity: 1;
 }
 
 /* ----- CTA BUTTON REFINEMENTS ----- */
 
-/* Already handled by existing premium glass buttons above */
-/* Ensure subtle hover animation timing */
+/* Unified premium button appearance for all CTA locations (override duplicates) */
 .btn-primary,
 .keis-header-cta,
 .faq-ask-btn,
 .challenges-cta__btn{
+  color: #ffffff !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 28px 66px rgba(0,0,0,0.6), 0 10px 30px rgba(255,120,24,0.14), inset 0 1px 0 rgba(255,255,255,0.04);
+  border-radius: 12px;
   transition: 
-    transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-    filter 0.2s ease,
-    box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
-    border-color 0.2s ease;
+    transform 0.18s cubic-bezier(0.4, 0.0, 0.2, 1),
+    filter 0.18s ease,
+    box-shadow 0.18s cubic-bezier(0.4, 0.0, 0.2, 1),
+    border-color 0.18s ease;
 }
+
+@media (hover:hover){
+  .btn-primary:hover,
+  .keis-header-cta:hover,
+  .faq-ask-btn:hover,
+  .challenges-cta__btn:hover{
+    transform: translateY(-3px);
+    filter: brightness(1.08) saturate(1.06);
+    box-shadow: 0 48px 120px rgba(0,0,0,0.68), 0 16px 40px rgba(255,140,40,0.18), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .btn-primary:active,
+  .keis-header-cta:active,
+  .faq-ask-btn:active{ transform: translateY(0); }
+}
+
+/* Ensure hero form primary keeps its layout but uses premium color */
+.hero-form .btn-primary{ color:#fff !important; }
+
+/* ==================================================
+   Strong overrides for fraud pages to avoid conflicts
+   This block is intentionally specific and placed late
+   in the file to ensure it wins over earlier rules.
+   ================================================== */
+body.page-investment .btn-primary,
+body.page-main .btn-primary,
+body.page-credit .btn-primary,
+body.page-influence .btn-primary,
+.btn-primary {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  box-shadow: 0 28px 66px rgba(0,0,0,0.6), 0 10px 30px rgba(255,120,24,0.12) !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  transition: transform .18s ease, box-shadow .18s ease, filter .14s ease !important;
+}
+
+/* ensure the hero-form keep centered block sizing but adopt visual overrides */
+body.page-investment .hero-form .btn-primary,
+body.page-main .hero-form .btn-primary,
+body.page-credit .hero-form .btn-primary,
+body.page-influence .hero-form .btn-primary{
+  width: 88%;
+  max-width: 420px;
+  height: 52px;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 12px;
+  border-radius: 12px !important;
+}
+
+/* Header CTA and other CTAs must follow the same premium look */
+.keis-header-cta,
+.faq-ask-btn,
+.challenges-cta__btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  height: 44px;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+
+/* FAQ ask button specifics */
+.investment-faq .faq-ask-btn{
+  padding: 12px 18px;
+  height: auto;
+  min-height: 48px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+@media (hover:hover){
+  .btn-primary:hover,
+  .keis-header-cta:hover,
+  .faq-ask-btn:hover,
+  .challenges-cta__btn:hover{
+    transform: translateY(-3px) !important;
+    filter: brightness(1.08) saturate(1.06) !important;
+    box-shadow: 0 48px 120px rgba(0,0,0,0.68), 0 16px 40px rgba(255,140,40,0.18) !important;
+  }
+}
+
+/* Ensure input focus does not become white (avoid white-on-white) anywhere in fraud pages */
+body.page-investment .hero-form input:focus,
+body.page-main .hero-form input:focus,
+body.page-credit .hero-form input:focus,
+body.page-influence .hero-form input:focus,
+body.page-investment .hero-form textarea:focus,
+body.page-main .hero-form textarea:focus,
+body.page-credit .hero-form textarea:focus,
+body.page-influence .hero-form textarea:focus{
+  background: rgba(20,16,15,0.98) !important;
+  color: #ffffff !important;
+  border-color: rgba(255,170,90,.85) !important;
+  box-shadow: 0 0 0 3px rgba(255,170,90,.14) !important;
+}
+
 
 /* ----- RESPONSIVE REFINEMENTS ----- */
 

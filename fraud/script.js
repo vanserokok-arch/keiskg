@@ -24,106 +24,150 @@ function isDev() {
    FORMS UX: placeholder typing + subtle CTA pulse + pressed state
    ========================================================== */
 function initFormsUX() {
-  const forms = document.querySelectorAll('form.hero-form');
+  // Apply to all forms on the page but only operate on forms that contain
+  // the expected fields. This lets the UX reach forms that are not branded
+  // as `hero-form` while avoiding unrelated forms.
+  const forms = document.querySelectorAll('form');
   if (!forms.length) return;
-
-  const mapPhrases = {
-    name: [
-      'Иван Петров',
-      'Евгений, добрый день',
-      'Как к вам обращаться?'
-    ],
-    phone: [
-      '+7 900 123-45-67',
-      '+7 ___ ___-__-__',
-      'Укажите номер для связи'
-    ],
-    message: [
-      'Кратко: перевёл деньги, вывести не дают…',
-      'Опишите, что произошло и когда',
-      'Какая сумма и куда переводили?'
-    ],
-    question: [
-      'Опишите, что произошло и когда',
-      'Какая сумма и куда переводили?',
-      'Что отвечает банк/получатель?'
-    ],
-    text: [
-      'Кратко опишите ситуацию',
-      'Что произошло?',
-      'Какие есть доказательства?'
-    ]
+  // nicer sequential typing hints across name -> phone -> message
+  const initialPlaceholders = {
+    name: 'Как вас зовут',
+    phone: '+7 (___) ___-__-__',
+    message: 'Кратко опишите ваш вопрос'
   };
 
-  const startTyping = (el, phrases) => {
-    if (!el || !phrases?.length) return;
+  const samplesByPage = {
+    'page-investment': {
+      name: 'Иванов Иван Иванович',
+      phone: '+7 (987) 654-32-10',
+      message: 'Моё вложение в проект оказалось мошенничеством, помогите вернуть средства.'
+    },
+    'page-influence': {
+      name: 'Петрова Мария',
+      phone: '+7 (912) 345-67-89',
+      message: 'Меня убедили перевести деньги под давлением, нужны рекомендации и возврат.'
+    },
+    'page-credit': {
+      name: 'Сидоров Алексей',
+      phone: '+7 (900) 111-22-33',
+      message: 'Кто-то оформил кредит на моё имя после взлома, нужна помощь с оспариванием.'
+    },
+    'page-main': {
+      name: 'Иван Петров',
+      phone: '+7 (901) 234-56-78',
+      message: 'Меня обманули мошенники — опишите, как вернуть деньги и какие шаги предпринять.'
+    }
+  };
 
-    let phraseIdx = 0;
-    let typingTimer = null;
+  const getPageSample = () => {
+    const body = document.body;
+    for (const cls of ['page-investment','page-influence','page-credit','page-main']) {
+      if (body.classList.contains(cls)) return samplesByPage[cls];
+    }
+    // fallback by pathname
+    const path = window.location.pathname;
+    if (path.includes('/investment')) return samplesByPage['page-investment'];
+    if (path.includes('/influence')) return samplesByPage['page-influence'];
+    if (path.includes('/credit')) return samplesByPage['page-credit'];
+    return samplesByPage['page-main'];
+  };
 
-    const canAnimate = () =>
-      document.activeElement !== el &&
-      (el.value || '').trim() === '';
+  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
-    const setPh = (s) => {
-      if (!canAnimate()) return;
-      el.setAttribute('placeholder', s);
-    };
-
-    const typeOnce = (phrase) => {
-      if (!canAnimate()) return;
-
-      let i = 0;
-      setPh('');
-      el.classList.add('is-typing');
-
-      if (typingTimer) clearInterval(typingTimer);
-      typingTimer = setInterval(() => {
-        if (!canAnimate()) {
-          clearInterval(typingTimer);
-          typingTimer = null;
-          el.classList.remove('is-typing');
-          return;
-        }
-
-        i += 1;
-        setPh(phrase.slice(0, i));
-
-        if (i >= phrase.length) {
-          clearInterval(typingTimer);
-          typingTimer = null;
-          setTimeout(() => {
-            if (canAnimate()) el.classList.remove('is-typing');
-          }, 600);
-        }
-      }, 42);
-    };
-
-    const tick = () => {
-      if (!canAnimate()) return;
-      const phrase = phrases[phraseIdx % phrases.length];
-      phraseIdx += 1;
-      typeOnce(phrase);
-    };
-
-    // старт + каждые 3 секунды
-    tick();
-    const intervalId = setInterval(tick, 3000);
-
-    el.addEventListener('focus', () => el.classList.remove('is-typing'));
-    el.addEventListener('input', () => {
-      if ((el.value || '').trim() !== '') el.classList.remove('is-typing');
-    });
-
-    // если нужно будет отписаться — можно хранить intervalId, но сейчас не требуется
+  const typeText = async (el, text, speed = 60) => {
+    if (!el) return;
+    // if user focused or filled, abort
+    if (document.activeElement === el || (el.value || '').trim() !== '') return;
+    el.classList.add('is-typing');
+    // we'll type into the placeholder for visual effect
+    el.setAttribute('placeholder', '');
+    for (let i = 0; i < text.length; i++) {
+      if (document.activeElement === el || (el.value || '').trim() !== '') break;
+      el.setAttribute('placeholder', text.slice(0, i + 1));
+      await sleep(speed);
+    }
+    await sleep(400);
+    el.classList.remove('is-typing');
   };
 
   forms.forEach((form) => {
-    form.querySelectorAll('input, textarea').forEach((el) => {
-      const n = (el.getAttribute('name') || '').trim();
-      if (!n || !mapPhrases[n]) return;
-      startTyping(el, mapPhrases[n]);
+    const nameEl = form.querySelector('input[name="name"], input[name="fullname"], input[name="your_name"]');
+    const phoneEl = form.querySelector('input[name="phone"], input[name="tel"], input[name="phone_number"]');
+    const msgEl = form.querySelector('textarea[name="message"], textarea[name="question"], textarea[name="text"], textarea[name="comment"], textarea[name="situation"], input[name="message"]');
+
+  // skip forms explicitly opted-out
+  if (form.hasAttribute('data-no-ux') || form.dataset.keisUx === 'off') return;
+
+  // set initial placeholders only if empty
+    if (nameEl && !(nameEl.getAttribute('placeholder') || '').trim()) nameEl.setAttribute('placeholder', initialPlaceholders.name);
+    if (phoneEl && !(phoneEl.getAttribute('placeholder') || '').trim()) phoneEl.setAttribute('placeholder', initialPlaceholders.phone);
+    if (msgEl && !(msgEl.getAttribute('placeholder') || '').trim()) msgEl.setAttribute('placeholder', initialPlaceholders.message);
+
+    const samples = getPageSample();
+
+    let stop = false;
+
+    const resetPlaceholders = () => {
+      if (nameEl) nameEl.setAttribute('placeholder', initialPlaceholders.name);
+      if (phoneEl) phoneEl.setAttribute('placeholder', initialPlaceholders.phone);
+      if (msgEl) msgEl.setAttribute('placeholder', initialPlaceholders.message);
+    };
+    const runCycle = async () => {
+      while (!stop) {
+        // initial idle so native placeholders remain visible
+        await sleep(900);
+        if (stop) break;
+
+        // if user interacted, delay and continue
+        if ((nameEl && (document.activeElement === nameEl || (nameEl.value || '').trim() !== '')) ||
+            (phoneEl && (document.activeElement === phoneEl || (phoneEl.value || '').trim() !== '')) ||
+            (msgEl && (document.activeElement === msgEl || (msgEl.value || '').trim() !== '')) ) {
+          await sleep(1000);
+          continue;
+        }
+
+        // begin synchronized fade: hide native placeholders (CSS handles transition)
+        form.classList.add('placeholders-fading');
+        await sleep(180);
+
+        // prepare typed placeholders
+        if (nameEl) nameEl.setAttribute('placeholder', '');
+        if (phoneEl) phoneEl.setAttribute('placeholder', '');
+        if (msgEl) msgEl.setAttribute('placeholder', '');
+
+        // name -> phone -> message
+        if (nameEl) await typeText(nameEl, samples.name, 46);
+        await sleep(320);
+        if (phoneEl) await typeText(phoneEl, samples.phone, 32);
+        await sleep(300);
+        if (msgEl) await typeText(msgEl, samples.message, 20);
+
+        // linger on final typed values
+        await sleep(640);
+
+        // fade typed placeholders and restore initial set
+        form.classList.add('placeholders-fading');
+        await sleep(220);
+        resetPlaceholders();
+        form.classList.remove('placeholders-fading');
+
+        // short random pause to feel natural before next run
+        await sleep(900 + Math.floor(Math.random() * 600));
+      }
+    };
+
+    // pause cycle while user focuses or types
+    [nameEl, phoneEl, msgEl].forEach((el) => {
+      if (!el) return;
+      el.addEventListener('focus', () => { stop = true; el.classList.remove('is-typing'); });
+      el.addEventListener('input', () => { stop = true; el.classList.remove('is-typing'); });
+      el.addEventListener('blur', () => { stop = false; // restart cycle after small delay
+        setTimeout(() => { if (!stop) runCycle(); }, 700);
+      });
     });
+
+    // start cycle
+    runCycle();
 
     const submitBtn = form.querySelector('button[type="submit"], .btn-primary');
     if (submitBtn) {

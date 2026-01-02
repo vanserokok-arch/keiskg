@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/fraud/styles.css" />
+  <!--#include virtual="/fraud/partials/metrika.html" -->
 </head>
 
 <body class="page-investment" id="top">
@@ -41,12 +42,15 @@
         </ul>
       </nav>
 
-      <div class="keis-header-center">
-        <div class="keis-header-contacts" aria-hidden="false">
-          <img src="/fraud/assets/icons/phonee.png" alt="Телефон" class="keis-header-icon keis-header-icon--phone">
-          <a href="tel:+79048085909" class="keis-header-phone-text">8&nbsp;904&nbsp;808-59-09</a>
-          <img src="/fraud/assets/icons/telegramm.png" alt="Telegram" class="keis-header-icon keis-header-icon--telegram">
-          <img src="/fraud/assets/icons/whats.png" alt="WhatsApp" class="keis-header-icon keis-header-icon--whats">
+        <div class="keis-header-center">
+          <div class="keis-header-contacts" aria-hidden="false">
+            <img src="/fraud/assets/icons/phonee.png" alt="Телефон" class="keis-header-icon keis-header-icon--phone">
+            <a href="tel:+79048085909" class="keis-header-phone-text">8&nbsp;904&nbsp;808-59-09</a>
+
+            <a href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
+              <img src="/fraud/assets/icons/telegramm.png" alt="Telegram" class="keis-header-icon keis-header-icon--telegram">
+            </a>
+          </div>
         </div>
 
         <a href="#" class="keis-header-cta" data-open-contact-modal>Записаться</a>
@@ -81,20 +85,18 @@
         <li><a href="#about">О нас</a></li>
       </ul>
 
-      <div class="keis-mobile-menu-contacts" aria-label="Контакты">
-        <div class="keis-mobile-menu-phone">
-          <img src="/fraud/assets/icons/phonee.png" alt="Телефон" class="keis-mobile-menu-phone-icon">
-          <a href="tel:+79048085909" class="keis-mobile-menu-phone-text">8 904 808-59-09</a>
-        </div>
-      </div>
+      <div class="keis-mobile-menu-actions" aria-label="Контакты">
+        <a class="keis-mm-row keis-mm-row--phone" href="tel:+79048085909">
+          <img src="/fraud/assets/icons/phonee.png" alt="Телефон" class="keis-mm-icon">
+          <span class="keis-mm-text">8 904 808-59-09</span>
+        </a>
 
-      <div class="keis-mobile-menu-social" aria-label="Мессенджеры">
-        <a class="keis-mobile-menu-social__link" href="https://t.me/yourtelegram" aria-label="Telegram" target="_blank" rel="noopener noreferrer">
-          <img src="/fraud/assets/icons/telegramm.png" alt="" class="keis-mobile-menu-social__icon">
+        <a class="keis-mm-row keis-mm-row--tg" href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
+          <img src="/fraud/assets/icons/telegramm.png" alt="Telegram" class="keis-mm-icon">
+          <span class="keis-mm-text keis-mm-text--accent">написать в Telegram</span>
         </a>
-        <a class="keis-mobile-menu-social__link" href="https://wa.me/79048085909" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
-          <img src="/fraud/assets/icons/whats.png" alt="" class="keis-mobile-menu-social__icon">
-        </a>
+
+        <div class="keis-mm-divider" aria-hidden="true"></div>
       </div>
     </nav>
   </div>
@@ -131,7 +133,7 @@
             </p>
             <div class="hero-form-divider" aria-hidden="true"></div>
 
-            <form class="hero-form" action="/fraud/#contact" method="POST">
+            <form class="hero-form" action="/fraud/api/telegram.php" method="POST">
               <div class="hero-form-row">
                 <div class="hero-form-group">
                   <label for="hero-name">Ваше имя</label>
@@ -213,7 +215,7 @@
   </div>
 
   <!-- SCENARIOS -->
-  <section class="investment-scenarios investment-scenarios--paper" id="scenarios">
+  <section class="investment-scenarios" id="scenarios">
     <div class="section-container">
       <div class="section-header">
         <h2 class="k-title">Реальные <span class="k-title__mark">истории</span></h2>
@@ -315,6 +317,8 @@
     </div>
   </section>
 
+  <!-- Decor layer for keisFraudFlagsInvestment (moved inside section) -->
+
   <!-- TRUST -->
   <section class="trust-parallax" id="trust">
     <div class="trust-parallax-bg" aria-hidden="true"></div>
@@ -361,56 +365,53 @@
     </div>
   </section>
 
-  <!-- SIGNS -->
-  <section class="investment-signs" id="signs">
-    <div class="section-container">
-      <div class="section-header">
-        <h2 class="k-title">Признаки <span class="k-title__mark">обмана</span></h2>
-        <p class="k-subtitle">По этим признакам чаще всего распознаётся схема</p>
-      </div>
+  <!-- KEIS: New Fraud Flags (Investment) -->
+  <section id="keisFraudFlagsInvestment" class="kf-flags" aria-labelledby="keisFraudFlagsInvestment-title">
+    <div class="kf-flags__decor" aria-hidden="true">
+      <div class="kf-flags__bg" aria-hidden="true"></div>
+    </div>
+    <div class="kf-flags__inner section-container">
+      <header class="kf-flags__header">
+        <h2 id="keisFraudFlagsInvestment-title" class="kf-flags__title">Признаки обмана</h2>
+        <p class="kf-flags__subtitle">По этим признакам чаще всего распознаётся схема. Если совпадает 1–2 пункта — действуйте сразу.</p>
+      </header>
 
-      <div class="signs-layout">
-        <div class="signs-wall">
-          <div class="signs-grid">
-            <div class="sign-card">
-              <div class="sign-number">01</div>
-              <h3 class="sign-title">Нереальная доходность</h3>
-              <p class="sign-text">Обещают 20–50% годовых «без риска».</p>
-            </div>
+      <div class="kf-flags__grid">
+        <article class="kf-flag-card">
+          <div class="kf-flag-card__num">01</div>
+          <h3 class="kf-flag-card__head">Нереальная доходность</h3>
+          <p class="kf-flag-card__text">Обещают 20–50% годовых «без риска».</p>
+        </article>
 
-            <div class="sign-card">
-              <div class="sign-number">02</div>
-              <h3 class="sign-title">Проблемы с выводом</h3>
-              <p class="sign-text">Задержки. Требуют комиссии или оплату налога наперёд.</p>
-            </div>
+        <article class="kf-flag-card">
+          <div class="kf-flag-card__num">02</div>
+          <h3 class="kf-flag-card__head">Проблемы с выводом</h3>
+          <p class="kf-flag-card__text">Задержки, запросы внезапных комиссий, «налогов» и сборов перед выводом.</p>
+        </article>
 
-            <div class="sign-card">
-              <div class="sign-number">03</div>
-              <h3 class="sign-title">Нет договора</h3>
-              <p class="sign-text">Только устные обещания или «электронное соглашение».</p>
-            </div>
+        <article class="kf-flag-card">
+          <div class="kf-flag-card__num">03</div>
+          <h3 class="kf-flag-card__head">Нет лицензии / юрлица</h3>
+          <p class="kf-flag-card__text">Отсутствуют официальные документы, компания не публикует реквизитов.</p>
+        </article>
 
-            <div class="sign-card">
-              <div class="sign-number">04</div>
-              <h3 class="sign-title">Нет юрлица</h3>
-              <p class="sign-text">Компания зарегистрирована в офшоре или не находится.</p>
-            </div>
+        <article class="kf-flag-card">
+          <div class="kf-flag-card__num">04</div>
+          <h3 class="kf-flag-card__head">Комиссии/налоги «вперёд»</h3>
+          <p class="kf-flag-card__text">Просят оплатить комиссии или налоги до обработки вывода.</p>
+        </article>
 
-            <div class="sign-card">
-              <div class="sign-number">05</div>
-              <h3 class="sign-title">Давление и спешка</h3>
-              <p class="sign-text">Подталкивают к решению «только сегодня» и пугают последствиями.</p>
-            </div>
+        <article class="kf-flag-card">
+          <div class="kf-flag-card__num">05</div>
+          <h3 class="kf-flag-card__head">Давление и спешка</h3>
+          <p class="kf-flag-card__text">Подталкивают к быстрому решению, пугают последствиями.</p>
+        </article>
 
-            <div class="sign-card">
-              <div class="sign-number">06</div>
-              <h3 class="sign-title">Переводы на карты физлиц</h3>
-              <p class="sign-text">Деньги просят на счета «частных лиц» под любые предлоги.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="signs-figure" id="investment-figure"></div>
+        <article class="kf-flag-card">
+          <div class="kf-flag-card__num">06</div>
+          <h3 class="kf-flag-card__head">Переводы на карты физлиц</h3>
+          <p class="kf-flag-card__text">Требуют переводить деньги на личные карты/счета, а не на расчётный счёт юрлица.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -551,7 +552,7 @@
         </article>
 
         <article class="work-step">
-          <div class="work-step-media" style="background-image:url('/fraud/landing/assets/block/downspaces.png');" aria-hidden="true"></div>
+          <div class="work-step-media" style="background-image:url('/fraud/assets/block/downspaces.png');" aria-hidden="true"></div>
           <div class="work-step-body">
             <div class="work-step-kicker">03 шаг</div>
             <h3 class="work-step-title">Реализация и сопровождение</h3>
@@ -835,6 +836,8 @@
   </div>
 
   <script src="/fraud/script.js" defer></script>
-
+  
+  <!-- JivoChat -->
+  <script src="https://code.jivo.ru/widget/CgMP7mbMCA" async></script>
 </body>
 </html>

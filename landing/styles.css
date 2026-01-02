@@ -2153,9 +2153,14 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
 /* Desktop: уводим hero-контент левее (как в референсе) */
 @media (min-width:1100px){
   .hero-investment .section-container{
-    width:min(1400px, calc(100% - 64px));
-    margin-left:auto;
-    margin-right:auto;
+    /* Сделано full-bleed: контент начинается у левой границы viewport */
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(-50vw + 50%);
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
   }
 }
 
@@ -2300,21 +2305,8 @@ body.menu-open, body.menu-open-no-scroll{overflow:hidden}
   position:relative;
 }
 .hero-investment__title::before{
-  content:"";
-  position:absolute;
-  left:-0.08em;
-  top:2.28em;
-  width:22.5ch;
-  height:2.06em;
-  z-index:-1;
-  border-radius:14px;
-  transform:none;
-  background: linear-gradient(90deg, rgba(255,138,0,.92), rgba(255,106,0,.78));
-  box-shadow:
-    0 22px 54px rgba(0,0,0,.58),
-    inset 0 1px 0 rgba(255,255,255,.12),
-    inset 0 -1px 0 rgba(0,0,0,.25);
-  filter: saturate(1.06);
+  /* decorative orange highlight removed */
+  display: none;
 }
 
 @media (max-width:900px){

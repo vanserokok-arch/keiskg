@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordion();
   initFaqParallax();
   initTrustParallax();
+  initFormsUX();
 });
 
 /* ==========================================================
@@ -192,6 +193,107 @@ function initHeader() {
     // If the browser blocks submit due to validation, don't close the modal.
     if (!e.target.checkValidity || !e.target.checkValidity()) return;
     setTimeout(() => closeContactModal(), 0);
+  });
+}
+
+/* ==========================================================
+   FORMS UX: placeholder typing + synchronized fades (root)
+   ========================================================== */
+function initFormsUX(){
+  // Apply to all forms but only operate on forms that contain the expected
+  // fields. Forms may opt out with `data-no-ux` or `data-keis-ux="off"`.
+  const forms = document.querySelectorAll('form');
+  if(!forms || forms.length===0) return;
+
+  const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+  const typeText = async (el, text, speed=50) => {
+    if(!el) return;
+    if(document.activeElement === el || (el.value||'').trim() !== '') return;
+    el.classList.add('is-typing');
+    el.setAttribute('placeholder','');
+    for(let i=0;i<text.length;i++){
+      if(document.activeElement === el || (el.value||'').trim() !== '') break;
+      el.setAttribute('placeholder', text.slice(0, i+1));
+      await sleep(speed);
+    }
+    await sleep(360);
+    el.classList.remove('is-typing');
+  };
+
+  forms.forEach((form) => {
+    const nameEl = form.querySelector('input[name="name"]');
+    const phoneEl = form.querySelector('input[name="phone"]');
+    const msgEl = form.querySelector('textarea[name="message"]');
+
+    // skip explicit opt-out
+    if (form.hasAttribute('data-no-ux') || form.dataset.keisUx === 'off') return;
+
+    const initial = {
+      name: nameEl ? (nameEl.getAttribute('placeholder')||'Как к вам обращаться') : '',
+      phone: phoneEl ? (phoneEl.getAttribute('placeholder')||'+7 ___-___-__-__') : '',
+      message: msgEl ? (msgEl.getAttribute('placeholder')||'Опишите, что произошло') : ''
+    };
+
+    const samples = {
+      name: 'Иванов Иван',
+      phone: '+7 (987) 654-32-10',
+      message: 'Мне перечислили средства, потом перевели третьим лицам — нужна помощь с возвратом.'
+    };
+
+    // ensure initial placeholders set
+    if(nameEl && !(nameEl.getAttribute('placeholder')||'').trim()) nameEl.setAttribute('placeholder', initial.name);
+    if(phoneEl && !(phoneEl.getAttribute('placeholder')||'').trim()) phoneEl.setAttribute('placeholder', initial.phone);
+    if(msgEl && !(msgEl.getAttribute('placeholder')||'').trim()) msgEl.setAttribute('placeholder', initial.message);
+
+    let stop = false;
+
+    const reset = () => {
+      if(nameEl) nameEl.setAttribute('placeholder', initial.name);
+      if(phoneEl) phoneEl.setAttribute('placeholder', initial.phone);
+      if(msgEl) msgEl.setAttribute('placeholder', initial.message);
+    };
+
+    const runCycle = async () => {
+      while(!stop){
+        await sleep(1000);
+        if(stop) break;
+        if((nameEl && (document.activeElement === nameEl || (nameEl.value||'').trim() !== '')) ||
+           (phoneEl && (document.activeElement === phoneEl || (phoneEl.value||'').trim() !== '')) ||
+           (msgEl && (document.activeElement === msgEl || (msgEl.value||'').trim() !== '')) ){
+          await sleep(1200);
+          continue;
+        }
+
+        form.classList.add('placeholders-fading');
+        await sleep(180);
+        if(nameEl) nameEl.setAttribute('placeholder','');
+        if(phoneEl) phoneEl.setAttribute('placeholder','');
+        if(msgEl) msgEl.setAttribute('placeholder','');
+
+        if(nameEl) await typeText(nameEl, samples.name, 46);
+        await sleep(300);
+        if(phoneEl) await typeText(phoneEl, samples.phone, 32);
+        await sleep(260);
+        if(msgEl) await typeText(msgEl, samples.message, 20);
+
+        await sleep(700);
+        form.classList.add('placeholders-fading');
+        await sleep(200);
+        reset();
+        form.classList.remove('placeholders-fading');
+        await sleep(900 + Math.floor(Math.random()*400));
+      }
+    };
+
+    [nameEl, phoneEl, msgEl].forEach((el)=>{
+      if(!el) return;
+      el.addEventListener('focus', ()=>{ stop = true; el.classList.remove('is-typing'); });
+      el.addEventListener('input', ()=>{ stop = true; el.classList.remove('is-typing'); });
+      el.addEventListener('blur', ()=>{ stop = false; setTimeout(()=>{ if(!stop) runCycle(); }, 700); });
+    });
+
+    runCycle();
   });
 }
 
