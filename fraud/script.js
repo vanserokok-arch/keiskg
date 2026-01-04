@@ -24,38 +24,81 @@ function isDev() {
    FORMS UX: placeholder typing + subtle CTA pulse + pressed state
    ========================================================== */
 function initFormsUX() {
+  if (window.__keisFormsUXInitialized) return;
+  window.__keisFormsUXInitialized = true;
+  
+  // Global registry of all form controllers
+  window.__keisFormControllers = new Map();
+  
   // Apply to all forms on the page but only operate on forms that contain
   // the expected fields. This lets the UX reach forms that are not branded
   // as `hero-form` while avoiding unrelated forms.
   const forms = document.querySelectorAll('form');
   if (!forms.length) return;
-  // nicer sequential typing hints across name -> phone -> message
+  // Изначальные placeholder'ы (не жирные, читаемые)
   const initialPlaceholders = {
-    name: 'Как вас зовут',
-    phone: '+7 (___) ___-__-__',
-    message: 'Кратко опишите ваш вопрос'
+    name: 'Как вас зовут?',
+    phone: 'Ваш номер',
+    message: 'Опишите свой вопрос'
+  };
+  
+  // Placeholder'ы для разных страниц
+  const placeholdersByPage = {
+    'page-investment': {
+      name: 'Как вас зовут?',
+      phone: 'Ваш номер',
+      message: 'Опишите свой вопрос'
+    },
+    'page-influence': {
+      name: 'Как вас зовут?',
+      phone: 'Ваш номер',
+      message: 'Опишите свой вопрос'
+    },
+    'page-credit': {
+      name: 'Как вас зовут?',
+      phone: 'Ваш номер',
+      message: 'Опишите свой вопрос'
+    },
+    'page-main': {
+      name: 'Как вас зовут?',
+      phone: 'Ваш номер',
+      message: 'Опишите свой вопрос'
+    }
+  };
+  
+  const getPagePlaceholders = () => {
+    const body = document.body;
+    for (const cls of ['page-investment','page-influence','page-credit','page-main']) {
+      if (body.classList.contains(cls)) return placeholdersByPage[cls];
+    }
+    // fallback by pathname
+    const path = window.location.pathname;
+    if (path.includes('/investment')) return placeholdersByPage['page-investment'];
+    if (path.includes('/influence')) return placeholdersByPage['page-influence'];
+    if (path.includes('/credit')) return placeholdersByPage['page-credit'];
+    return placeholdersByPage['page-main'];
   };
 
   const samplesByPage = {
     'page-investment': {
-      name: 'Иванов Иван Иванович',
-      phone: '+7 (987) 654-32-10',
+      name: 'Иванов Алексей',
+      phone: '+7 (981) 654-32-10',
       message: 'Моё вложение в проект оказалось мошенничеством, помогите вернуть средства.'
     },
     'page-influence': {
       name: 'Петрова Мария',
-      phone: '+7 (912) 345-67-89',
+      phone: '+7 (981) 654-32-10',
       message: 'Меня убедили перевести деньги под давлением, нужны рекомендации и возврат.'
     },
     'page-credit': {
       name: 'Сидоров Алексей',
-      phone: '+7 (900) 111-22-33',
-      message: 'Кто-то оформил кредит на моё имя после взлома, нужна помощь с оспариванием.'
+      phone: '+7 (981) 654-32-10',
+      message: 'Меня обманули мошенники и украли все мои сбережения'
     },
     'page-main': {
-      name: 'Иван Петров',
-      phone: '+7 (901) 234-56-78',
-      message: 'Меня обманули мошенники — опишите, как вернуть деньги и какие шаги предпринять.'
+      name: 'Иванов Алексей',
+      phone: '+7 (981) 654-32-10',
+      message: 'Меня обманули мошенники и украли все мои сбережения'
     }
   };
 
@@ -74,20 +117,87 @@ function initFormsUX() {
 
   const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
-  const typeText = async (el, text, speed = 60) => {
+  // FIX 2: Печатание текста в placeholder (не в value - value принадлежит только пользователю)
+  const typeText = async (el, text, speed = 50) => {
     if (!el) return;
-    // if user focused or filled, abort
-    if (document.activeElement === el || (el.value || '').trim() !== '') return;
+    // если пользователь взаимодействует с полем, прерываем
+    if (document.activeElement === el) return;
     el.classList.add('is-typing');
-    // we'll type into the placeholder for visual effect
+    // Очищаем value если там что-то есть (но не трогаем placeholder)
+    if (el.value) el.value = '';
+    // Убираем placeholder перед началом печати
+    const originalPlaceholder = el.getAttribute('placeholder') || '';
     el.setAttribute('placeholder', '');
+    
+    // Печатаем в placeholder через data-атрибут и обновляем placeholder
+    let typedText = '';
     for (let i = 0; i < text.length; i++) {
-      if (document.activeElement === el || (el.value || '').trim() !== '') break;
-      el.setAttribute('placeholder', text.slice(0, i + 1));
+      // Прерываем, если пользователь начал взаимодействовать
+      if (document.activeElement === el) {
+        el.setAttribute('placeholder', originalPlaceholder);
+        el.classList.remove('is-typing');
+        return;
+      }
+      typedText = text.slice(0, i + 1);
+      el.setAttribute('placeholder', typedText);
       await sleep(speed);
     }
-    await sleep(400);
+    await sleep(150);
     el.classList.remove('is-typing');
+    // Оставляем placeholder как есть (он уже содержит полный текст)
+  };
+
+  // Анимация нажатия кнопки
+  const animateButtonPress = async (btn) => {
+    if (!btn) return;
+    btn.classList.add('is-pressing');
+    await sleep(200);
+    btn.classList.remove('is-pressing');
+    await sleep(100);
+  };
+
+  // Helper: Check if form is fully filled (considers required fields only)
+  const isFormFullyFilled = (formEl) => {
+    const fields = formEl.querySelectorAll('input[required], textarea[required]');
+    if (fields.length === 0) {
+      // If no required fields, check all visible inputs
+      const allFields = formEl.querySelectorAll('input:not([type="hidden"]):not([disabled]), textarea:not([disabled])');
+      return Array.from(allFields).every(f => f.value && f.value.trim());
+    }
+    return Array.from(fields).every(f => f.value && f.value.trim() && !f.disabled && !f.hidden);
+  };
+
+  // Helper: Clear field values only (no background changes)
+  const clearFormValuesOnly = (formEl) => {
+    const fields = formEl.querySelectorAll('input:not([type="hidden"]), textarea');
+    fields.forEach(f => {
+      if (f && !f.disabled && !f.hidden) {
+        f.value = '';
+        f.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
+      }
+    });
+  };
+
+  // Helper: Reset form to initial placeholders
+  const resetFormToInitialPlaceholders = (formEl, pagePlaceholders) => {
+    const nameEl = formEl.querySelector('input[name="name"], input[name="fullname"], input[name="your_name"]');
+    const phoneEl = formEl.querySelector('input[name="phone"], input[name="tel"], input[name="phone_number"]');
+    const msgEl = formEl.querySelector('textarea[name="message"], textarea[name="question"], textarea[name="text"], textarea[name="comment"], textarea[name="situation"], input[name="message"]');
+    
+    if (nameEl) nameEl.setAttribute('placeholder', pagePlaceholders.name);
+    if (phoneEl) phoneEl.setAttribute('placeholder', pagePlaceholders.phone);
+    if (msgEl) msgEl.setAttribute('placeholder', pagePlaceholders.message);
+  };
+
+  // Helper: Clear placeholder artifacts across ALL forms if any are typing
+  const clearAllTypingArtifacts = (exceptForm = null) => {
+    window.__keisFormControllers.forEach((controller, formEl) => {
+      if (formEl === exceptForm) return;
+      if (controller.typingState.isTyping) {
+        controller.stopTypewriter();
+        controller.clearPlaceholderArtifacts();
+      }
+    });
   };
 
   forms.forEach((form) => {
@@ -95,86 +205,323 @@ function initFormsUX() {
     const phoneEl = form.querySelector('input[name="phone"], input[name="tel"], input[name="phone_number"]');
     const msgEl = form.querySelector('textarea[name="message"], textarea[name="question"], textarea[name="text"], textarea[name="comment"], textarea[name="situation"], input[name="message"]');
 
-  // skip forms explicitly opted-out
-  if (form.hasAttribute('data-no-ux') || form.dataset.keisUx === 'off') return;
+    // skip forms explicitly opted-out
+    if (form.hasAttribute('data-no-ux') || form.dataset.keisUx === 'off') return;
 
-  // set initial placeholders only if empty
-    if (nameEl && !(nameEl.getAttribute('placeholder') || '').trim()) nameEl.setAttribute('placeholder', initialPlaceholders.name);
-    if (phoneEl && !(phoneEl.getAttribute('placeholder') || '').trim()) phoneEl.setAttribute('placeholder', initialPlaceholders.phone);
-    if (msgEl && !(msgEl.getAttribute('placeholder') || '').trim()) msgEl.setAttribute('placeholder', initialPlaceholders.message);
-
+  // set initial placeholders based on page
+    const pagePlaceholders = getPagePlaceholders();
     const samples = getPageSample();
+    if (nameEl && !(nameEl.getAttribute('placeholder') || '').trim()) nameEl.setAttribute('placeholder', pagePlaceholders.name);
+    if (phoneEl && !(phoneEl.getAttribute('placeholder') || '').trim()) phoneEl.setAttribute('placeholder', pagePlaceholders.phone);
+    if (msgEl && !(msgEl.getAttribute('placeholder') || '').trim()) msgEl.setAttribute('placeholder', pagePlaceholders.message);
 
-    let stop = false;
-
-    const resetPlaceholders = () => {
-      if (nameEl) nameEl.setAttribute('placeholder', initialPlaceholders.name);
-      if (phoneEl) phoneEl.setAttribute('placeholder', initialPlaceholders.phone);
-      if (msgEl) msgEl.setAttribute('placeholder', initialPlaceholders.message);
+    // Form controller object
+    const controller = {
+      form: form,
+      nameEl,
+      phoneEl,
+      msgEl,
+      fields: [nameEl, phoneEl, msgEl].filter(Boolean),
+      stop: false,
+      cycleRunning: false,
+      blurTimeoutId: null,
+      typingState: {
+        isTyping: false,
+        fieldIndex: 0,
+        charIndex: 0,
+        paused: false
+      },
+      initialPlaceholders: {
+        name: nameEl ? (nameEl.getAttribute('placeholder') || pagePlaceholders.name) : '',
+        phone: phoneEl ? (phoneEl.getAttribute('placeholder') || pagePlaceholders.phone) : '',
+        message: msgEl ? (msgEl.getAttribute('placeholder') || pagePlaceholders.message) : ''
+      },
+      
+      stopTypewriter() {
+        this.stop = true;
+        this.typingState.paused = true;
+        this.typingState.isTyping = false;
+      },
+      
+      clearPlaceholderArtifacts() {
+        // FIX 2: Очищаем placeholder artifacts (typewriter работает через placeholder)
+        const ph = this.initialPlaceholders;
+        if (this.nameEl) {
+          this.nameEl.value = ''; // Очищаем value только если пользователь что-то ввел
+          this.nameEl.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
+          this.nameEl.setAttribute('placeholder', ph.name);
+        }
+        if (this.phoneEl) {
+          this.phoneEl.value = '';
+          this.phoneEl.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
+          this.phoneEl.setAttribute('placeholder', ph.phone);
+        }
+        if (this.msgEl) {
+          this.msgEl.value = '';
+          this.msgEl.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
+          this.msgEl.setAttribute('placeholder', ph.message);
+        }
+      },
+      
+      isFormFullyFilled() {
+        return isFormFullyFilled(this.form);
+      }
     };
-    const runCycle = async () => {
-      while (!stop) {
-        // initial idle so native placeholders remain visible
-        await sleep(900);
-        if (stop) break;
 
-        // if user interacted, delay and continue
-        if ((nameEl && (document.activeElement === nameEl || (nameEl.value || '').trim() !== '')) ||
-            (phoneEl && (document.activeElement === phoneEl || (phoneEl.value || '').trim() !== '')) ||
-            (msgEl && (document.activeElement === msgEl || (msgEl.value || '').trim() !== '')) ) {
+    // Register controller globally
+    window.__keisFormControllers.set(form, controller);
+
+    const resetForm = () => {
+      resetFormToInitialPlaceholders(form, pagePlaceholders);
+    };
+
+    const runCycle = async () => {
+      if (controller.cycleRunning) return;
+      controller.cycleRunning = true;
+      controller.typingState.isTyping = true;
+      while (!controller.stop) {
+        // Изначальная пауза 3 секунды с placeholder'ами
+        await sleep(3000);
+        if (controller.stop) break;
+
+        // Проверяем, не взаимодействует ли пользователь (только если поле в фокусе)
+        if ((nameEl && document.activeElement === nameEl) ||
+            (phoneEl && document.activeElement === phoneEl) ||
+            (msgEl && document.activeElement === msgEl)) {
           await sleep(1000);
           continue;
         }
 
-        // begin synchronized fade: hide native placeholders (CSS handles transition)
-        form.classList.add('placeholders-fading');
-        await sleep(180);
+        // Сначала добавляем класс для плавного fade-out placeholder'ов
+        if (nameEl) nameEl.classList.add('placeholder-fade-out');
+        if (phoneEl) phoneEl.classList.add('placeholder-fade-out');
+        if (msgEl) msgEl.classList.add('placeholder-fade-out');
+        
+        // Ждём завершения fade-out анимации
+        await sleep(500);
+        if (controller.stop) break;
 
-        // prepare typed placeholders
-        if (nameEl) nameEl.setAttribute('placeholder', '');
-        if (phoneEl) phoneEl.setAttribute('placeholder', '');
-        if (msgEl) msgEl.setAttribute('placeholder', '');
+        // Только после fade-out убираем placeholder'ы и начинаем typing
+        if (nameEl) {
+          nameEl.setAttribute('placeholder', '');
+          nameEl.classList.remove('placeholder-fade-out');
+        }
+        if (phoneEl) {
+          phoneEl.setAttribute('placeholder', '');
+          phoneEl.classList.remove('placeholder-fade-out');
+        }
+        if (msgEl) {
+          msgEl.setAttribute('placeholder', '');
+          msgEl.classList.remove('placeholder-fade-out');
+        }
 
-        // name -> phone -> message
-        if (nameEl) await typeText(nameEl, samples.name, 46);
-        await sleep(320);
-        if (phoneEl) await typeText(phoneEl, samples.phone, 32);
+        // Печатаем в поле имени
+        if (nameEl) {
+          controller.typingState.fieldIndex = 0;
+          await typeText(nameEl, samples.name, 50);
+        }
+        await sleep(150); // Минимальная пауза между полями
+        if (controller.stop) break;
+
+        // Печатаем в поле телефона
+        if (phoneEl) {
+          controller.typingState.fieldIndex = 1;
+          await typeText(phoneEl, samples.phone, 40);
+        }
+        await sleep(150); // Минимальная пауза между полями
+        if (controller.stop) break;
+
+        // Печатаем в поле текста
+        if (msgEl) {
+          controller.typingState.fieldIndex = 2;
+          await typeText(msgEl, samples.message, 30);
+        }
+        await sleep(150);
+        if (controller.stop) break;
+
+        // FIX 2: СРАЗУ анимация нажатия кнопки с ripple (без автоклика)
+        const submitBtn = form.querySelector('button[type="submit"], .btn-primary, .challenges-cta__btn, .faq-ask-btn');
+        if (submitBtn) {
+          // Set ripple position for circle animation (reuse existing animation)
+          const btnRect = submitBtn.getBoundingClientRect();
+          const clickX = btnRect.width * 0.92;
+          const clickY = btnRect.height * 0.5;
+          submitBtn.style.setProperty('--ripple-x', `${clickX}px`);
+          submitBtn.style.setProperty('--ripple-y', `${clickY}px`);
+          submitBtn.classList.add('typing-complete');
+          await sleep(500);
+          submitBtn.classList.remove('typing-complete');
+        }
+        if (controller.stop) break;
+
+        // FIX 2: После кнопки - очищаем placeholder (typewriter работает через placeholder, не value)
         await sleep(300);
-        if (msgEl) await typeText(msgEl, samples.message, 20);
+        if (controller.stop) break;
 
-        // linger on final typed values
-        await sleep(640);
+        // Clear placeholder artifacts and restore initial placeholders
+        if (nameEl) {
+          nameEl.setAttribute('placeholder', controller.initialPlaceholders.name);
+          nameEl.classList.remove('is-typing');
+        }
+        if (phoneEl) {
+          phoneEl.setAttribute('placeholder', controller.initialPlaceholders.phone);
+          phoneEl.classList.remove('is-typing');
+        }
+        if (msgEl) {
+          msgEl.setAttribute('placeholder', controller.initialPlaceholders.message);
+          msgEl.classList.remove('is-typing');
+        }
+        await sleep(300);
 
-        // fade typed placeholders and restore initial set
-        form.classList.add('placeholders-fading');
-        await sleep(220);
-        resetPlaceholders();
-        form.classList.remove('placeholders-fading');
-
-        // short random pause to feel natural before next run
-        await sleep(900 + Math.floor(Math.random() * 600));
+        // Очищаем все поля и возвращаем placeholder'ы
+        resetForm();
+        await sleep(2500); // Пауза перед следующим циклом
       }
+      controller.cycleRunning = false;
+      controller.typingState.isTyping = false;
     };
 
-    // pause cycle while user focuses or types
-    [nameEl, phoneEl, msgEl].forEach((el) => {
+    // Set up event listeners for form fields
+    controller.fields.forEach((el) => {
       if (!el) return;
-      el.addEventListener('focus', () => { stop = true; el.classList.remove('is-typing'); });
-      el.addEventListener('input', () => { stop = true; el.classList.remove('is-typing'); });
-      el.addEventListener('blur', () => { stop = false; // restart cycle after small delay
-        setTimeout(() => { if (!stop) runCycle(); }, 700);
+      
+      el.addEventListener('focus', () => { 
+        // Stop this form's typewriter
+        controller.stopTypewriter();
+        
+        // Clear timeout if pending
+        if (controller.blurTimeoutId) {
+          clearTimeout(controller.blurTimeoutId);
+          controller.blurTimeoutId = null;
+        }
+        
+        // If typewriter was running in THIS form, clear artifacts in THIS form
+        // AND also clear artifacts in OTHER forms if they are typing
+        const wasTyping = controller.fields.some(f => f && f.classList.contains('is-typing'));
+        if (wasTyping) {
+          controller.clearPlaceholderArtifacts();
+          // Also clear artifacts in other forms that are currently typing
+          clearAllTypingArtifacts(form);
+        } else {
+          // Just clean up classes, don't touch placeholders
+          el.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
+        }
+      });
+      
+      el.addEventListener('input', () => { 
+        controller.stopTypewriter();
+        if (controller.blurTimeoutId) {
+          clearTimeout(controller.blurTimeoutId);
+          controller.blurTimeoutId = null;
+        }
+        el.classList.remove('is-typing');
+      });
+      
+      el.addEventListener('blur', () => {
+        // Use setTimeout to check actual focus state after browser handles autocomplete
+        setTimeout(() => {
+          const activeEl = document.activeElement;
+          const focusStillInForm = form.contains(activeEl);
+          
+          // If focus moved to another field in this form, do nothing
+          if (focusStillInForm) return;
+          
+          // If form is fully filled, do not clear or restart
+          if (controller.isFormFullyFilled()) return;
+          
+          // Clear any pending blur timeout
+          if (controller.blurTimeoutId) {
+            clearTimeout(controller.blurTimeoutId);
+            controller.blurTimeoutId = null;
+          }
+          
+          // Clear all field values (but not background colors)
+          clearFormValuesOnly(form);
+          
+          // After exactly 1000ms, restore placeholders and restart typewriter
+          controller.blurTimeoutId = setTimeout(() => {
+            controller.blurTimeoutId = null;
+            resetFormToInitialPlaceholders(form, pagePlaceholders);
+            
+            // Restart typewriter cycle after initial delay
+            controller.stop = false;
+            controller.typingState.paused = false;
+            controller.typingState.fieldIndex = 0;
+            if (!controller.cycleRunning) {
+              runCycle();
+            }
+          }, 1000);
+        }, 100); // Allow autocomplete to settle
       });
     });
 
-    // start cycle
-    runCycle();
+    // Устанавливаем изначальные placeholder'ы
+    resetForm();
 
-    const submitBtn = form.querySelector('button[type="submit"], .btn-primary');
+    // Рассинхронизация старта автопечати между формами
+    const getInitialDelay = () => {
+      if (form.classList.contains('hero-form--modal')) {
+        return 400; // Модальная форма
+      }
+      if (form.classList.contains('challenges-cta__form')) {
+        return 900; // Форма в блоке 5
+      }
+      // Hero форма (первая форма на странице)
+      return 0;
+    };
+
+    const initialDelay = getInitialDelay();
+    
+    // Запускаем цикл с задержкой
+    if (initialDelay > 0) {
+      setTimeout(() => {
+        if (!controller.cycleRunning) runCycle();
+      }, initialDelay);
+    } else {
+      runCycle();
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"], .btn-primary, .challenges-cta__btn, .faq-ask-btn');
     if (submitBtn) {
       submitBtn.classList.add('keis-cta-pulse');
 
-      submitBtn.addEventListener('pointerdown', () => {
+      // FIX 3: Helper: trigger ripple animation через span.ripple
+      const triggerRipple = (e) => {
+        const btnRect = submitBtn.getBoundingClientRect();
+        // Получаем координаты клика относительно кнопки
+        let clickX, clickY;
+        if (e && e.clientX && e.clientY) {
+          clickX = e.clientX - btnRect.left;
+          clickY = e.clientY - btnRect.top;
+        } else {
+          // Default: center-right (92% width, 50% height)
+          clickX = btnRect.width * 0.92;
+          clickY = btnRect.height * 0.5;
+        }
+        
+        // Удаляем существующий ripple если есть
+        const existingRipple = submitBtn.querySelector('.ripple');
+        if (existingRipple) {
+          existingRipple.remove();
+        }
+        
+        // Создаем новый ripple элемент
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        ripple.style.left = `${clickX}px`;
+        ripple.style.top = `${clickY}px`;
+        submitBtn.appendChild(ripple);
+        
+        // Удаляем ripple после анимации
+        setTimeout(() => {
+          ripple.remove();
+        }, 500);
+      };
+
+      // FIX 3: Ripple на pointerdown для ВСЕХ форм (особенно важно для popup)
+      submitBtn.addEventListener('pointerdown', (e) => {
         submitBtn.classList.add('is-pressed');
+        triggerRipple(e);
       });
 
       const clear = () => submitBtn.classList.remove('is-pressed');

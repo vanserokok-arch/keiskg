@@ -15,37 +15,6 @@ body.page-influence .investment-faq .faq-aside--visual {
   display: none; /* mobile / small screens: visual moves below content */
 }
 
-@media (min-width:1201px){
-  /* Make the investment-scenarios container visually full-bleed on large screens
-     so the carousel appears stretched edge-to-edge of the viewport while
-     preserving controlled inner padding. This keeps changes scoped to the
-     canonical block and avoids end-of-file overrides. */
-  .investment-scenarios .section-container{
-    /* Use the canonical desktop sizing: prefer a wide responsive clamp and
-       center the block. Avoid 100vw (which may cause overflow when scrollbars
-       or transforms are present). Keep box-sizing so padding is included in
-       the declared width. */
-   /* Expanded visual width to approximately 80% of the viewport to
-     increase presence while keeping a reasonable minimum/maximum. This
-     replaces the earlier 94vw value to meet design request (≈80% width). */
-   width: clamp(900px, 80vw, 1600px);
-    max-width: none;
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: clamp(12px, 1.2vw, 24px);
-    padding-right: clamp(12px, 1.2vw, 24px);
-  }
-
-  /* Ensure the band window doesn't add extra outer padding that could push
-     visual content past the container edge. Keep width constrained to 100%. */
-  .investment-scenarios .scenarios-band-window{
-    padding-left: clamp(6px, 1.2vw, 12px);
-    padding-right: clamp(6px, 1.2vw, 12px);
-    width: 100%;
-    box-sizing: border-box;
-  }
-}
 
 
 /* Removed page-scoped kf-flags overrides — replaced by an isolated, variable-driven
@@ -316,67 +285,148 @@ body.page-influence .investment-faq .faq-ask-panel::after {
   /* End of kf-flags block */
 
 /* ======================================================================
-   HERO: variable-driven contract for per-page backgrounds and overlays
-
-   - Uses CSS variables so each page can override a single value
-     (--hero-bg-image) without copying rules.
-   - Overlay is strictly inside hero and does not escape.
-   - Fallback image is provided; replace per-page via body.page-*.
+  HERO (source of truth)
+  Note: earlier “variable-driven contract” hero block was removed to avoid
+  conflicting definitions of `.hero-investment__bg` and overlay logic.
+  The canonical hero background/rendering is defined later in the HERO/OFFER
+  section (uses `--hero-offer` per page).
   ====================================================================== */
-
-.hero-investment{
-  position: relative;
-  overflow: hidden; /* overlay stays inside */
-  --hero-bg-image: url('/fraud/assets/head/hero-paper.png'); /* fallback — replace per page if you have specific art */
-  --hero-bg-pos: center top;
-  --hero-bg-size: cover;
-  /* overlay must ensure readable text; tweak per-page with body.page-* */
-  --hero-overlay: linear-gradient(180deg, rgba(6,8,10,0.46), rgba(6,8,10,0.12));
-}
-
-.hero-investment__bg{
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image: var(--hero-bg-image);
-  background-position: var(--hero-bg-pos);
-  background-size: var(--hero-bg-size);
-  background-repeat: no-repeat;
-  transform: translateZ(0); /* compositor hint */
-  pointer-events: none;
-}
-
-.hero-investment__overlay{
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: var(--hero-overlay);
-  pointer-events: none;
-}
-
-/* Ensure hero content sits above overlay */
-.hero-investment .section-container,
-.hero-investment__inner{ position: relative; z-index: 2; }
-
-/* Per-page overrides: change only the variable(s) here. If you have unique images,
-   set --hero-bg-image for that body class. If not — these leave the fallback image
-   but adjust overlay for better contrast per direction. */
-body.page-main .hero-investment{ --hero-bg-image: url('/fraud/assets/head/hero-paper.png'); --hero-overlay: linear-gradient(180deg, rgba(6,8,10,0.50), rgba(6,8,10,0.10)); }
-body.page-investment .hero-investment{ --hero-bg-image: url('/fraud/assets/head/hero-paper.png'); --hero-overlay: linear-gradient(180deg, rgba(6,8,10,0.46), rgba(6,8,10,0.12)); }
-body.page-influence .hero-investment{ --hero-bg-image: url('/fraud/assets/head/hero-paper.png'); --hero-overlay: linear-gradient(180deg, rgba(6,8,10,0.56), rgba(6,8,10,0.18)); }
-body.page-credit .hero-investment{ --hero-bg-image: url('/fraud/assets/head/hero-paper.png'); --hero-overlay: linear-gradient(180deg, rgba(6,8,10,0.42), rgba(6,8,10,0.08)); }
-
 
 body.page-investment .hero-investment .btn-primary,
 body.page-main .hero-investment .btn-primary,
 body.page-credit .hero-investment .btn-primary,
 body.page-influence .hero-investment .btn-primary {
-  height: 56px;
-  padding: 0 22px;
-  font-size: 1.02rem;
-  width: 100%; /* in form it should be full width */
-  border-radius: 12px; /* unify CTA corner radius */
+  width: 100%;
 }
+
+.hero-form button.typing-complete,
+.hero-investment .btn-primary.typing-complete,
+.hero-form--modal button.typing-complete,
+.challenges-cta__btn.typing-complete,
+.faq-ask-btn.typing-complete{
+  animation: keisButtonPress 0.4s ease forwards;
+  position: relative;
+  overflow: visible;
+  box-shadow:
+    0 0 0 0 rgba(255, 200, 120, 0),
+    0 0 0 0 rgba(255, 180, 100, 0);
+  animation: keisButtonPress 0.4s ease forwards, keisButtonGlow 0.6s ease forwards;
+}
+
+@keyframes keisButtonGlow{
+  0%{
+    box-shadow:
+      0 0 0 0 rgba(255, 200, 120, 0),
+      0 0 0 0 rgba(255, 180, 100, 0);
+  }
+  40%{
+    box-shadow:
+      0 0 2px 0.8px rgba(255, 200, 120, 0.4),
+      0 0 3.2px 1.2px rgba(255, 180, 100, 0.25);
+  }
+  100%{
+    box-shadow:
+      0 0 0 0 rgba(255, 200, 120, 0),
+      0 0 0 0 rgba(255, 180, 100, 0);
+  }
+}
+
+/* Кружочек клика (ripple) - только один элемент, без блика */
+.hero-form button.typing-complete::before,
+.hero-investment .btn-primary.typing-complete::before,
+.hero-form--modal button.typing-complete::before,
+.challenges-cta__btn.typing-complete::before,
+.faq-ask-btn.typing-complete::before,
+.hero-form button.click-ripple::before,
+.hero-investment .btn-primary.click-ripple::before,
+.hero-form--modal button.click-ripple::before,
+.challenges-cta__btn.click-ripple::before,
+.faq-ask-btn.click-ripple::before{
+  content: "";
+  position: absolute;
+  /* Позиция: правый угол кнопки (x = buttonWidth - buttonWidth*0.08 = 92% от ширины) */
+  left: var(--ripple-x, 92%);
+  top: var(--ripple-y, 50%);
+  /* Увеличен в 3 раза: было 8px, стало 24px */
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 200, 120, 0.75) 0%, rgba(255, 160, 80, 0.55) 50%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: keisButtonRipple1 0.5s ease forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* FIX 3: Ripple через span.ripple - стили для ripple элемента */
+button[type="submit"],
+.btn-primary,
+.challenges-cta__btn,
+.faq-ask-btn {
+  position: relative;
+  overflow: hidden; /* Скрываем overflow для ripple, но видим через z-index */
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 200, 120, 0.75) 0%, rgba(255, 160, 80, 0.55) 50%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+  animation: rippleAnimation 0.5s ease forwards;
+}
+
+@keyframes rippleAnimation {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  30% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.0);
+  }
+}
+
+/* Блик полностью удалён - ::after не используется */
+
+@keyframes keisButtonPress{
+  0%{
+    transform: scale(1);
+  }
+  35%{
+    transform: scale(0.96);
+  }
+  65%{
+    transform: scale(0.98);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
+@keyframes keisButtonRipple1{
+  0%{
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  30%{
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100%{
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.0);
+  }
+}
+
+/* Анимация keisButtonRipple2 удалена - блик больше не используется */
 
 /* === CHALLENGES CTA BUTTON — ultra glass + gold, FAQ style === */
 body.page-investment .investment-challenges .challenges-cta__btn,
@@ -500,10 +550,6 @@ body.page-influence .investment-challenges .challenges-cta__btn:hover::after {
 }
 
 /* premium rim + prism edge */
-body.page-investment .keis-header-cta::before,
-body.page-main .keis-header-cta::before,
-body.page-credit .keis-header-cta::before,
-body.page-influence .keis-header-cta::before,
 body.page-investment .hero-investment .btn-primary::before,
 body.page-main .hero-investment .btn-primary::before,
 body.page-credit .hero-investment .btn-primary::before,
@@ -537,10 +583,6 @@ body.page-influence .investment-challenges .challenges-cta__btn::before {
 }
 
 /* moving sheen */
-body.page-investment .keis-header-cta::after,
-body.page-main .keis-header-cta::after,
-body.page-credit .keis-header-cta::after,
-body.page-influence .keis-header-cta::after,
 body.page-investment .hero-investment .btn-primary::after,
 body.page-main .hero-investment .btn-primary::after,
 body.page-credit .hero-investment .btn-primary::after,
@@ -566,10 +608,6 @@ body.page-influence .investment-challenges .challenges-cta__btn::after {
 }
 
 @media (hover:hover){
-  body.page-investment .keis-header-cta:hover,
-body.page-main .keis-header-cta:hover,
-body.page-credit .keis-header-cta:hover,
-body.page-influence .keis-header-cta:hover,
   body.page-investment .hero-investment .btn-primary:hover,
 body.page-main .hero-investment .btn-primary:hover,
 body.page-credit .hero-investment .btn-primary:hover,
@@ -587,10 +625,6 @@ body.page-influence .investment-challenges .challenges-cta__btn:hover {
       inset 0 1px 0 rgba(255,255,255,.62);
   }
 
-  body.page-investment .keis-header-cta:hover::after,
-body.page-main .keis-header-cta:hover::after,
-body.page-credit .keis-header-cta:hover::after,
-body.page-influence .keis-header-cta:hover::after,
   body.page-investment .hero-investment .btn-primary:hover::after,
 body.page-main .hero-investment .btn-primary:hover::after,
 body.page-credit .hero-investment .btn-primary:hover::after,
@@ -610,10 +644,6 @@ body.page-influence .investment-challenges .challenges-cta__btn:hover::after {
   to{ transform: translateX(220%) rotate(14deg); }
 }
 
-body.page-investment .keis-header-cta:active,
-body.page-main .keis-header-cta:active,
-body.page-credit .keis-header-cta:active,
-body.page-influence .keis-header-cta:active,
 body.page-investment .hero-investment .btn-primary:active,
 body.page-main .hero-investment .btn-primary:active,
 body.page-credit .hero-investment .btn-primary:active,
@@ -626,75 +656,10 @@ body.page-influence .investment-challenges .challenges-cta__btn:active {
   filter: brightness(0.98);
 }
 
-/* --------------------------------------------------
-   Header CTA: neutralize decorative rim/sheen that creates
-   the orange border while preserving the original hover
-   behavior. We only disable the pseudo-element decorations
-   and their animation for `.keis-header-cta` (scoped).
-
-   NOTE: this is a targeted visual neutralizer (no HTML changes).
--------------------------------------------------- */
-.keis-header-cta::before,
-.keis-header-cta::after {
-  display: none !important;
-  content: none !important;
-  pointer-events: none !important;
-}
-
-/* Ensure any sheen animation on the CTA pseudo-element is disabled */
-.keis-header-cta:hover::after,
-.keis-header-cta:active::after {
-  opacity: 0 !important;
-  animation: none !important;
-}
-
-/* Make "Записаться" text a bit more distinctive (without breaking layout) */
-body.page-investment .keis-header-cta,
-body.page-main .keis-header-cta,
-body.page-credit .keis-header-cta,
-body.page-influence .keis-header-cta {
-  letter-spacing: .08em;
-}
-
-/* ------------------------------------------------------------------
-   TARGETED MINIMAL FIXES (DO NOT ADD NEW EFFECTS)
-   1) Disable any animation applied to the header CTA (restores previous
-      static visual and removes the periodic orange glow).
-   2) Ensure header container has no extraneous border/outline/box-shadow
-      or pseudo-elements that create a rim around the header.
-   These rules are intentionally scoped and use !important only as a
-   last-resort neutralizer so we do not edit markup or other components.
------------------------------------------------------------------- */
-
-/* Ensure the CTA does not run the borderGlowPulse or any other animation */
-.keis-header-cta {
-  animation: none !important;
-}
-
-/* Neutralize decorative pseudo-elements / glows on the header container */
-.keis-header,
-.keis-header-inner {
-  box-shadow: none !important;
-  border: none !important;
-  outline: none !important;
-  background-image: none !important;
-}
-
-/* Hide any ::before/::after that might be creating the orange rim on the header */
-.keis-header::before,
-.keis-header::after,
-.keis-header-inner::before,
-.keis-header-inner::after {
-  display: none !important;
-  content: none !important;
-  pointer-events: none !important;
-}
+/* Header CTA styles are defined in the main header section (line ~2624) */
 
 /* If any of these buttons contain an inline SVG/icon, make it match */
-body.page-investment .keis-header-cta svg,
-body.page-main .keis-header-cta svg,
-body.page-credit .keis-header-cta svg,
-body.page-influence .keis-header-cta svg,
+/* Header CTA svg имеет собственные стили в блоке HEADER — Source of Truth */
 body.page-investment .hero-investment .btn-primary svg,
 body.page-main .hero-investment .btn-primary svg,
 body.page-credit .hero-investment .btn-primary svg,
@@ -706,53 +671,7 @@ body.page-influence .investment-challenges .challenges-cta__btn svg {
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
 }
 
-/* =========================
-   ЗАДАЧА 2: Border glow animation every 3 seconds
-   ========================= */
-
-/* Animated border glow for "Записаться" button every 3 seconds */
-@keyframes borderGlowPulse {
-  0%, 100% {
-    box-shadow:
-      0 2px 4px rgba(255, 140, 0, .15),
-      0 8px 16px rgba(255, 120, 0, .25),
-      0 16px 32px rgba(255, 100, 0, .20),
-      0 24px 56px rgba(0,0,0,.45),
-      inset 0 1px 0 rgba(255,255,255,.55),
-      inset 0 -1px 0 rgba(120, 60, 0, .38);
-    border-color: rgba(255, 170, 90, .62);
-  }
-  10%, 20% {
-    box-shadow:
-      0 0 0 2px rgba(255, 170, 90, .85),
-      0 0 12px 3px rgba(255, 140, 0, .65),
-      0 2px 4px rgba(255, 140, 0, .15),
-      0 8px 16px rgba(255, 120, 0, .35),
-      0 16px 32px rgba(255, 100, 0, .28),
-      0 24px 56px rgba(0,0,0,.45),
-      inset 0 1px 0 rgba(255,255,255,.65),
-      inset 0 -1px 0 rgba(120, 60, 0, .48);
-    border-color: rgba(255, 200, 140, .95);
-  }
-}
-
-/* Apply animation to the header CTA button */
-body.page-investment .keis-header-cta,
-body.page-main .keis-header-cta,
-body.page-credit .keis-header-cta,
-body.page-influence .keis-header-cta {
-  animation: borderGlowPulse 3s ease-in-out infinite;
-}
-
-/* Disable animation for users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  body.page-investment .keis-header-cta,
-  body.page-main .keis-header-cta,
-  body.page-credit .keis-header-cta,
-  body.page-influence .keis-header-cta {
-    animation: none;
-  }
-}
+/* Border glow animation removed - no periodic animations for header CTA */
 
 /* =========================
    FAQ cards — ultra glass + prism icon (toggle)
@@ -2195,9 +2114,10 @@ body.page-main .investment-challenges .challenges-cta__subtitle,
 body.page-credit .investment-challenges .challenges-cta__subtitle,
 body.page-influence .investment-challenges .challenges-cta__subtitle {
   margin: 10px 0 0;
-  color: rgba(244,241,235,.80);
-  line-height: 1.55;
+  color: rgba(244,241,235,.82);
+  line-height: 1.60;
   font-size: 0.98rem;
+  font-weight: 600;
   max-width: 70ch;
 }
 
@@ -2244,7 +2164,7 @@ body.page-credit .investment-challenges .challenges-cta__field input,
 body.page-influence .investment-challenges .challenges-cta__field input {
   width: 100%;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--field-radius, 12px);
   border: 1px solid rgba(244,201,128,.22);
   background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.01)),
@@ -2255,12 +2175,19 @@ body.page-influence .investment-challenges .challenges-cta__field input {
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
 }
 
+/* FIX 1: Зафиксировать border-radius для challenges-cta формы */
 body.page-investment .investment-challenges .challenges-cta__field input:focus,
 body.page-main .investment-challenges .challenges-cta__field input:focus,
 body.page-credit .investment-challenges .challenges-cta__field input:focus,
-body.page-influence .investment-challenges .challenges-cta__field input:focus {
-  border-color: rgba(255,122,24,.78);
-  box-shadow: 0 0 0 2px rgba(255,122,24,.55);
+body.page-influence .investment-challenges .challenges-cta__field input:focus,
+body.page-investment .investment-challenges .challenges-cta__field input.is-typing,
+body.page-main .investment-challenges .challenges-cta__field input.is-typing,
+body.page-credit .investment-challenges .challenges-cta__field input.is-typing,
+body.page-influence .investment-challenges .challenges-cta__field input.is-typing {
+  outline: none;
+  border-color: inherit;
+  box-shadow: inherit;
+  border-radius: var(--field-radius, 12px) !important;
 }
 
 body.page-investment .investment-challenges .challenges-cta__btn,
@@ -2448,13 +2375,17 @@ body.page-influence .scenarios-trust-bridge {
   --glass:rgba(20,12,8,.70);
   --glass2:rgba(18,10,6,.86);
   --orange:#ff6a00;
-  --orange2:#ff8a00;
-  --gold:#ff8a00;
+  --orange2:#ff6a00;
+  --gold:#ff6a00;
   --amber:#ff5a00;
+  /* Единый насыщенный оранжевый для заголовков и формы */
+  --accent-orange: #ff6a00;
   --warmShadow:0 22px 60px rgba(0,0,0,.78);
   --shadow:0 18px 48px rgba(0,0,0,.60);
   --shadow2:0 26px 70px rgba(0,0,0,.72);
-  --header-h:74px;
+  --header-h: 72px;
+  --marquee-h: 48px;
+  --hero-form-scale: 1.06;
 }
 
 *{box-sizing:border-box}
@@ -2514,13 +2445,13 @@ button,input,textarea{font:inherit}
 .k-title__mark,
 .hero-title-mark {
   position: relative;
-  display: inline;
-  /* Мягкий градиент текста - элегантно и дорого */
+  display: inline-block;
+  /* Премиальный градиент текста - элегантно и дорого */
   background: linear-gradient(135deg, 
-    rgba(255, 200, 140, 0.95) 0%, 
-    rgba(255, 170, 90, 0.98) 35%,
-    rgba(255, 138, 0, 1) 65%,
-    rgba(255, 180, 110, 0.96) 100%);
+    rgba(255, 200, 140, 0.98) 0%, 
+    rgba(255, 160, 80, 0.98) 34%,
+    rgba(255, 106, 0, 1) 70%,
+    rgba(255, 180, 100, 0.98) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -2529,97 +2460,28 @@ button,input,textarea{font:inherit}
   letter-spacing: -0.01em;
   z-index: 1;
   /* Легкое свечение текста - очень сдержанное */
-  filter: drop-shadow(0 1px 2px rgba(255, 138, 0, 0.3));
+  text-shadow: 0 0 10px rgba(255, 106, 0, 0.12), 0 1px 1px rgba(0,0,0,0.20);
 }
 
-/* Элегантная градиентная линия подчеркивания */
-.k-title__mark::after,
-.hero-title-mark::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -2px;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, 
-    rgba(255, 138, 0, 0) 0%,
-    rgba(255, 180, 100, 0.6) 20%,
-    rgba(255, 138, 0, 0.85) 50%,
-    rgba(255, 180, 100, 0.6) 80%,
-    rgba(255, 138, 0, 0) 100%);
-  z-index: -1;
-  /* Мягкое свечение подчеркивания */
-  box-shadow: 
-    0 2px 8px rgba(255, 138, 0, 0.4),
-    0 0 12px rgba(255, 154, 60, 0.25);
-  opacity: 0.9;
-}
+/* Оранжевые выделители удалены */
+/* Полоса под последним словом (hero-title-mark) - см. правила ниже для body:not(.page-credit) */
 
-/* Дополнительный тонкий акцент сверху для глубины */
 .k-title__mark::before,
 .hero-title-mark::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -1px;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    rgba(255, 200, 140, 0.4) 50%,
-    transparent 100%);
-  z-index: -1;
-  opacity: 0.6;
+  display: none;
+  content: none;
 }
 
 /* Премиальный эффект при наведении - очень сдержанный */
 @media (hover: hover) {
   .k-title__mark:hover,
   .hero-title-mark:hover {
-    filter: drop-shadow(0 2px 4px rgba(255, 138, 0, 0.4)) 
+    filter: drop-shadow(0 2px 4px rgba(255, 106, 0, 0.35)) 
             brightness(1.05);
   }
   
-  .k-title__mark:hover::after,
-  .hero-title-mark:hover::after {
-    height: 4px;
-    opacity: 1;
-    box-shadow: 
-      0 3px 12px rgba(255, 138, 0, 0.5),
-      0 0 16px rgba(255, 154, 60, 0.35);
-    background: linear-gradient(90deg, 
-      rgba(255, 138, 0, 0) 0%,
-      rgba(255, 180, 100, 0.75) 20%,
-      rgba(255, 138, 0, 1) 50%,
-      rgba(255, 180, 100, 0.75) 80%,
-      rgba(255, 138, 0, 0) 100%);
-  }
-  
-  .k-title__mark:hover::before,
-  .hero-title-mark:hover::before {
-    opacity: 0.8;
-  }
 }
 
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-  .k-title__mark::after,
-  .hero-title-mark::after {
-    height: 2.5px;
-    bottom: -1.5px;
-    box-shadow: 
-      0 1px 6px rgba(255, 138, 0, 0.35),
-      0 0 10px rgba(255, 154, 60, 0.2);
-  }
-  
-  @media (hover: hover) {
-    .k-title__mark:hover::after,
-    .hero-title-mark:hover::after {
-      height: 3px;
-    }
-  }
-}
 
 .k-subtitle {
   margin: 12px 0 0;
@@ -2638,246 +2500,456 @@ button,input,textarea{font:inherit}
 }
 
 /* =========================
-   HEADER (fixed at top)
+   HEADER — SOURCE OF TRUTH
    ========================= */
 .keis-header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:9990;
-  background: linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.56));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom:1px solid rgba(255,255,255,.06);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9990;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.56));
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .keis-header-inner{
-  height:var(--header-h);
-  display:flex;
-  align-items:center;
-  gap:16px;
-  padding:0 16px;
+  height: var(--header-h, 72px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
-.keis-header-logo{display:inline-flex; align-items:center; text-decoration:none; flex:0 0 auto}
-.keis-header-logo img{height:36px; width:auto}
 
-.keis-header-nav{display:none}
-.keis-header-nav-list{list-style:none; margin:0; padding:0; display:flex; gap:20px; align-items:center}
-.keis-header-nav-list a{text-decoration:none; color:rgba(244,241,235,.92); font-weight:650}
-.keis-header-nav-list a:hover{color:var(--orange)}
+.keis-header-logo{
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+}
+.keis-header-logo img{
+  height: 36px;
+  width: auto;
+  display: block;
+}
 
-.keis-header-center{margin-left:auto; display:flex; align-items:center; gap:12px; min-width:0}
-.keis-header-contacts{display:none; align-items:center; gap:10px; color:rgba(244,241,235,.92); font-weight:800}
-.keis-header-icon{width:22px; height:29px; display:inline-block; opacity:.95}
-.keis-header-phone-text{font-size:1.06rem; line-height:1.1}
-.keis-header-phone-text:hover{color:var(--orange)}
+.keis-header-nav{
+  display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.keis-header-nav-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.keis-header-nav-list a{
+  text-decoration: none;
+  color: rgba(244,241,235,0.92);
+  font-weight: 650;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+}
+.keis-header-nav-list a:hover{
+  color: var(--orange);
+}
 
+.keis-header-center{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
+.keis-header-contacts{
+  display: none;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.keis-header-icon{
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  opacity: 0.95;
+  object-fit: contain;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+@media (hover: hover){
+  .keis-header-icon--telegram:hover,
+  .keis-header-icon--whats:hover{
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.keis-header-phone-text{
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: rgba(244,241,235,0.92);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+}
+.keis-header-phone-text:hover{
+  color: var(--orange);
+}
+
+/* ==========================================================
+   HEADER — Source of Truth
+   Единый блок стилей для header на всех страницах fraud/*
+   ========================================================== */
+
+/* Premium glass CTA button - single source of truth */
 .keis-header-cta{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  height:38px;
-  padding:0 16px;
-  border-radius:999px;
-  text-decoration:none;
-  font-weight:900;
-  color:#14110f;
-  background: linear-gradient(90deg, var(--orange2), var(--orange));
-  box-shadow:0 14px 30px rgba(0,0,0,.55), 0 10px 22px rgba(255,122,24,.22);
-  transition: transform .18s ease, filter .18s ease;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.94rem;
+  letter-spacing: 0.03em;
+  color: #fff;
+  /* Усиленный янтарно-оранжевый градиент */
+  background: 
+    radial-gradient(ellipse 120% 100% at 50% 50%, rgba(255, 180, 90, 0.18), transparent 70%),
+    linear-gradient(180deg, rgba(255,200,140,0.16), rgba(255,160,80,0.08)),
+    linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+  background-color: rgba(30,16,10,0.58);
+  border: 1px solid rgba(255,200,140,0.28);
+  box-shadow: 
+    0 16px 48px rgba(0,0,0,0.5),
+    0 8px 24px rgba(255,120,0,0.28),
+    0 0 16px rgba(255,160,80,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 0 20px rgba(255,180,100,0.08);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.14s ease, border-color 0.18s ease;
+  white-space: nowrap;
 }
-.keis-header-cta:hover{filter:brightness(1.04); transform:translateY(-1px)}
+
+/* Premium rim border via ::before - усиленный оранжевый акцент */
+.keis-header-cta::before{
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from 210deg,
+    rgba(255, 220, 160, 0.95),
+    rgba(255, 160, 80, 0.85),
+    rgba(255, 138, 0, 0.8),
+    rgba(255,255,255,0.6),
+    rgba(255, 190, 110, 0.85),
+    rgba(255, 220, 160, 0.95));
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.96;
+}
+
+/* Moving sheen via ::after - периодическая премиальная анимация (каждые 3 секунды) */
+.keis-header-cta::after{
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -70%;
+  width: 75%;
+  height: 230%;
+  background: linear-gradient(115deg,
+    rgba(255,230,190,0) 0%,
+    rgba(255,200,120,0.55) 35%,
+    rgba(255,180,90,0.75) 48%,
+    rgba(255,200,120,0.55) 62%,
+    rgba(255,230,190,0) 76%);
+  transform: translateX(-100%) rotate(14deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .keis-header-cta::after{
+    animation: keisHeaderShimmer 3s ease-in-out infinite;
+  }
+}
+
+@keyframes keisHeaderShimmer {
+  0%, 90%, 100% {
+    opacity: 0;
+    transform: translateX(-100%) rotate(14deg);
+  }
+  5% {
+    opacity: 0.25;
+    transform: translateX(-80%) rotate(14deg);
+  }
+  45% {
+    opacity: 0.85;
+    transform: translateX(200%) rotate(14deg);
+  }
+  50% {
+    opacity: 0.35;
+    transform: translateX(220%) rotate(14deg);
+  }
+  55% {
+    opacity: 0;
+    transform: translateX(240%) rotate(14deg);
+  }
+}
+
+@media (hover: hover){
+  .keis-header-cta:hover{
+    transform: translateY(-1px) scale(1.05);
+    filter: brightness(1.18) saturate(1.3);
+    border-color: rgba(255, 200, 140, 0.95);
+    box-shadow:
+      0 24px 72px rgba(255,120,0,0.42),
+      0 12px 32px rgba(0,0,0,0.55),
+      0 0 32px rgba(255,138,0,0.35),
+      0 0 0 2px rgba(255, 138, 0, 0.4),
+      inset 0 1px 0 rgba(255,255,255,0.18),
+      inset 0 0 24px rgba(255,180,100,0.12);
+  }
+  .keis-header-cta:hover::after{
+    opacity: 0.92;
+    transform: translateX(210%) rotate(14deg);
+    animation: none;
+  }
+}
+
+.keis-header-cta:active{
+  transform: translateY(0) scale(0.96);
+  filter: brightness(0.96);
+  box-shadow:
+    0 12px 32px rgba(0,0,0,0.45),
+    0 6px 16px rgba(255,120,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
 
 .keis-header-burger{
-  background:transparent;
-  border:none;
-  padding:8px;
-  border-radius:12px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: background 0.18s ease, transform 0.18s ease;
 }
-.keis-header-burger:hover{background:rgba(255,255,255,.06)}
-.keis-header-burger-img{width:22px; height:22px}
-
-@media (min-width:900px){
-  /* логотип — влево до края уже с 900px */
-  .keis-header-inner{padding-left:0}
+.keis-header-burger:hover{
+  background: rgba(255,255,255,0.06);
 }
-
-/* До 900px: логотип слева, всё остальное прижато вправо */
-@media (max-width:899px){
-  body.page-investment .keis-header-inner,
-body.page-main .keis-header-inner,
-body.page-credit .keis-header-inner,
-body.page-influence .keis-header-inner {
-    justify-content:flex-start;
-  }
-
-  body.page-investment .keis-header-center,
-body.page-main .keis-header-center,
-body.page-credit .keis-header-center,
-body.page-influence .keis-header-center {
-    margin-left:auto;
-  }
+.keis-header-burger.is-open{
+  transform: rotate(90deg);
+}
+.keis-header-burger-img{
+  width: 22px;
+  height: 22px;
+  display: block;
+  object-fit: contain;
 }
 
-/* PART 1: Header responsive fix for 901-999px range */
-@media (min-width: 901px) and (max-width: 999px){
+/* Desktop: logo flush left, nav centered, contacts+CTA right */
+@media (min-width: 900px){
   .keis-header-inner{
-    gap: 10px;
     padding-left: 0;
-    padding-right: 12px;
+    padding-right: 16px;
   }
-
-  .keis-header-nav{display:block; flex:1 1 auto; min-width:0}
-  .keis-header-contacts{display:flex}
-  .keis-header-burger{display:none}
-
-  /* Reduced font sizes and spacing for tight fit */
-  .keis-header-nav-list{
-    gap: 14px;
+  
+  .keis-header-nav{
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
   }
-
-  .keis-header-nav-list a{
-    font-size: 0.82rem;
-    letter-spacing: .01em;
-  }
-
-  .keis-header-phone-text{
-    font-size: 0.82rem;
-  }
-
-  .keis-header-icon{
-    width: 18px;
-    height: 18px;
-  }
-
+  
   .keis-header-contacts{
-    gap: 8px;
+    display: flex;
   }
-
-  .keis-header-cta{
-    padding: 0 14px;
-    font-size: 0.88rem;
-    white-space: nowrap;
+  
+  .keis-header-burger{
+    display: none;
+  }
+  
+  /* Navigation dropdown styles */
+  .keis-header-nav-list > li.has-children{
+    position: relative;
+  }
+  
+  .keis-header-nav-dropdown{
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 260px;
+    padding: 10px;
+    margin: 0;
+    list-style: none;
+    border-radius: 14px;
+    background: rgba(18,14,10,0.92);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 26px 90px rgba(0,0,0,0.62);
+    z-index: 9999;
+  }
+  
+  .keis-header-nav-dropdown a{
+    display: block;
+    padding: 10px 12px;
+    border-radius: 12px;
+    color: rgba(244,241,235,0.92);
+    text-decoration: none;
+    transition: background 0.18s ease;
+  }
+  
+  .keis-header-nav-dropdown a:hover{
+    background: rgba(255,138,0,0.12);
+  }
+  
+  .keis-header-nav-list > li.has-children.is-open > .keis-header-nav-dropdown{
+    display: block;
   }
 }
 
-@media (min-width:1000px) and (max-width: 1099px){
+/* Mobile: logo left, burger right, contacts+CTA hidden */
+@media (max-width: 899px){
+  .keis-header-inner{
+    justify-content: flex-start;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .keis-header-center{
+    margin-left: auto;
+  }
+  
+  .keis-header-nav{
+    display: none;
+  }
+  
+  .keis-header-contacts{
+    display: none;
+  }
+  
+  .keis-header-burger{
+    display: inline-flex;
+  }
+}
+
+/* Responsive adjustments for different desktop widths */
+@media (min-width: 900px) and (max-width: 1099px){
   .keis-header-inner{
     gap: 12px;
-    padding-left: 0;
-    padding-right: 14px;
   }
-
-  .keis-header-nav{display:block; flex:1 1 auto; min-width:0}
-  .keis-header-contacts{display:flex}
-  .keis-header-burger{display:none}
-
-  /* Slightly reduced sizes for 1000-1099px */
+  
   .keis-header-nav-list{
     gap: 16px;
   }
-
+  
   .keis-header-nav-list a{
     font-size: 0.86rem;
-    letter-spacing: .02em;
   }
-
-  .keis-header-phone-text{
-    font-size: 0.86rem;
-  }
-
-  .keis-header-icon{
-    width: 19px;
-    height: 19px;
-  }
-
-  .keis-header-contacts{
-    gap: 9px;
-  }
-
-  .keis-header-cta{
-    padding: 0 15px;
-    font-size: 0.9rem;
-    white-space: nowrap;
-  }
-
-  .keis-header-nav-list > li.has-children{position:relative}
-  .keis-header-nav-dropdown{
-    display:none;
-    position:absolute;
-    top:calc(100% + 10px);
-    left:0;
-    min-width:260px;
-    padding:10px;
-    margin:0;
-    list-style:none;
-    border-radius:14px;
-    background:rgba(12,8,6,.92);
-    border:1px solid rgba(255,255,255,.10);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: var(--shadow2);
-    z-index:9999;
-  }
-  .keis-header-nav-dropdown a{display:block; padding:10px 12px; border-radius:12px}
-  .keis-header-nav-dropdown a:hover{background:rgba(255,255,255,.06)}
-  .keis-header-nav-list > li.has-children.is-open > .keis-header-nav-dropdown{display:block}
-}
-
-@media (min-width:1100px){
-  /* 1100px+: включаем десктоп-навигацию (padding-left уже снят с 900px) */
-  .keis-header-inner{padding-left:0; padding-right:16px}
-
-  .keis-header-nav{display:block; flex:1 1 auto; min-width:0}
-  .keis-header-contacts{display:flex}
-  .keis-header-burger{display:none}
-
-  .keis-header-nav-list > li.has-children{position:relative}
-  .keis-header-nav-dropdown{
-    display:none;
-    position:absolute;
-    top:calc(100% + 10px);
-    left:0;
-    min-width:260px;
-    padding:10px;
-    margin:0;
-    list-style:none;
-    border-radius:14px;
-    background:rgba(12,8,6,.92);
-    border:1px solid rgba(255,255,255,.10);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: var(--shadow2);
-    z-index:9999;
-  }
-
-  /* Desktop (no burger): единый увеличенный размер текста пунктов меню и телефона,
-     иконки чуть больше базовых, но без «раздувания» шапки */
+  
   .keis-header-phone-text{
     font-size: 0.9rem;
   }
-
-  .keis-header-nav-list a{
-    font-size: 0.9rem;
-    letter-spacing: .03em;
-  }
-
+  
   .keis-header-icon{
     width: 20px;
     height: 20px;
   }
-
+  
   .keis-header-contacts{
     gap: 10px;
   }
+  
+  .keis-header-cta{
+    padding: 0 16px;
+    font-size: 0.9rem;
+    height: 40px;
+  }
+}
 
-  .keis-header-nav-dropdown a{display:block; padding:10px 12px; border-radius:12px}
-  .keis-header-nav-dropdown a:hover{background:rgba(255,255,255,.06)}
-  .keis-header-nav-list > li.has-children.is-open > .keis-header-nav-dropdown{display:block}
+@media (min-width: 1100px){
+  .keis-header-inner{
+    gap: 18px;
+  }
+  
+  .keis-header-nav-list{
+    gap: 20px;
+  }
+  
+  .keis-header-nav-list a{
+    font-size: 0.94rem;
+  }
+  
+  .keis-header-phone-text{
+    font-size: 1rem;
+  }
+  
+  .keis-header-icon{
+    width: 22px;
+    height: 22px;
+  }
+  
+  .keis-header-contacts{
+    gap: 12px;
+  }
+  
+  .keis-header-cta{
+    padding: 0 20px;
+    font-size: 0.94rem;
+    height: 42px;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 520px){
+  .keis-header-inner{
+    padding-left: 12px;
+    padding-right: 12px;
+    gap: 12px;
+  }
+  
+  .keis-header-logo img{
+    height: 32px;
+  }
+  
+  .keis-header-cta{
+    padding: 0 14px;
+    font-size: 0.86rem;
+    height: 38px;
+  }
+  
+  .keis-header-burger-img{
+    width: 20px;
+    height: 20px;
+  }
 }
 
 /* =========================
@@ -3016,17 +3088,26 @@ body.page-main .hero-investment::before,
 body.page-credit .hero-investment::before,
 body.page-influence .hero-investment::before { content:none; }
 
-/* HERO: добавляем высоту и «сцену» на широких экранах */
-@media (min-width: 1100px){
+/* FIX 4: Hero растягивается вниз так, чтобы бегущая строка была внизу viewport на всех страницах */
+/* Переопределяет базовое правило выше - это Source of Truth для hero высоты */
+.hero-investment{
+  min-height: calc(100vh - var(--keis-header-h, 80px)) !important;
+  padding-bottom: clamp(52px, 6vh, 68px) !important;
+  overflow: visible;
+  position: relative;
+}
+
+@media (min-width: 900px){
   .hero-investment{
-    /* чтобы первый экран выглядел «толще» и не обрывался, но marquee должна быть видна */
-    min-height: min(800px, calc(100vh - var(--keis-header-h, 86px)));
+    min-height: calc(100vh - var(--keis-header-h, 80px)) !important;
+    padding-bottom: clamp(56px, 6.5vh, 72px) !important;
   }
 }
 
-@media (min-width: 1400px){
+@media (max-width: 768px){
   .hero-investment{
-    min-height: min(860px, calc(100vh - var(--keis-header-h, 86px)));
+    min-height: calc(100vh - var(--keis-header-h, 80px)) !important;
+    padding-bottom: clamp(48px, 5.5vh, 62px) !important;
   }
 }
 .hero-investment__bg{
@@ -3071,28 +3152,12 @@ body.page-influence .hero-investment::before { content:none; }
 body.page-main { --hero-offer: url('/fraud/assets/block/offer5.jpeg'); }
 body.page-influence { --hero-offer: url('/fraud/assets/block/offer3.jpeg'); }
 body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
-/* Desktop: контент прижат к левому краю */
-@media (min-width:1100px){
-  .hero-investment .section-container{
-    width:min(1400px, calc(100% - 64px));
-    margin-left:32px;
-    margin-right:auto;
-    padding-left:0;
-  }
-}
+/* ======================================================================
+   HERO: CONSOLIDATED LAYOUT (SINGLE SOURCE OF TRUTH)
+   Exactly 3 breakpoints: Mobile ≤899px, Tablet 900-1199px, Desktop ≥1200px
+   ====================================================================== */
 
-@media (min-width:900px) and (max-width:1099px){
-  .hero-investment .section-container{
-    padding-left:0;
-  }
-}
-
-/* 901–1099px: зазор под шапкой = 0px (контент начинается строго от нижней границы header) */
-@media (min-width:901px) and (max-width:1099px){
-  .hero-investment__inner{
-    padding-top: 0;
-  }
-}
+/* Base grid structure */
 .hero-investment__grid{
   display:grid;
   gap:clamp(1.1rem, 2.6vw, 2.6rem);
@@ -3106,218 +3171,1072 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 
 .hero-investment__content{
   grid-area:content;
-  /* Контент прижимаем к левой границе */
   justify-self: start;
   max-width: 100%;
   text-align: left;
+  min-width: 0;
 }
 
-.hero-investment__form{grid-area:form}
-
-@media (min-width:900px) and (max-width:1199px){
-  .hero-investment__form{
-    justify-self:end;
-    margin:0;
-    width:100%;
-    max-width:520px;
-  }
-}
-
-@media (min-width:1200px){
-  .hero-investment__form{
-    justify-self:end;
-    margin:0;
-    width:100%;
-    max-width:560px;
-  }
+.hero-investment__form{
+  grid-area:form;
+  min-width: 0;
 }
 .hero-benefits{grid-area:benefits}
 
-/* 1200px+ — ДВЕ КОЛОНКИ (контент слева + форма справа) */
-@media (min-width:900px){
+/* Base container: безопасная ширина для всех брейкпоинтов */
+.hero-investment .section-container{
+  width: min(90%, 100%);
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* HERO FIX: На мобилке убираем overflow-x: clip чтобы тени не обрезались, но предотвращаем горизонтальный скролл через правильные размеры */
+@media (max-width:899px){
+  .hero-investment .section-container{
+    overflow-x: visible;
+    overflow-y: visible;
+    /* HERO FIX: Добавляем padding-right для компенсации тени формы справа */
+    padding-right: clamp(16px, 4vw, 32px);
+  }
+  
+  /* HERO FIX: Убеждаемся, что hero section не создает overflow */
+  .hero-investment{
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* ======================================================================
+   DESKTOP 1200-1499px (FIX: prevent overflow)
+   ====================================================================== */
+@media (min-width:1200px) and (max-width:1499px){
+  /* Container: ограничиваем ширину, добавляем padding, предотвращаем overflow */
+  .hero-investment .section-container{
+    width: min(90%, 100%);
+    max-width: 100%;
+    padding-inline: clamp(20px, 2.5vw, 40px);
+    box-sizing: border-box;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  /* Hero section: предотвращаем выезд вправо */
+  .hero-investment{
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Grid: 2 columns (no spacer to prevent overflow) */
   .hero-investment__grid{
-    grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);
-    column-gap: clamp(32px, 4vw, 56px);
+    grid-template-columns: 1fr minmax(360px, 460px);
+    column-gap: clamp(32px, 4vw, 64px);
     grid-template-areas:
       "content form"
       "benefits form";
     align-items:start;
-    /* Раздвигаем элементы из центра */
-    justify-items:start;
+    justify-items:stretch;
+    padding-bottom: clamp(80px, 10vh, 120px);
   }
-  
-  /* Контент прижимаем к левому краю */
+
   .hero-investment__content{
-    padding-left:0;
-    padding-right:0;
+    grid-area: content;
+    justify-self: start;
+    max-width: 100%;
+    width: auto;
+    min-width: 0;
   }
-  
-  /* Форму прижимаем к правому краю */
+
   .hero-investment__form{
-    justify-self:end;
+    grid-area: form;
+    justify-self: stretch;
+    margin-top: clamp(32px, 4.5vh, 56px);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    transform: translateY(clamp(24px, 6vh, 72px));
+    will-change: transform;
+    box-sizing: border-box;
+  }
+
+  .hero-form-card{
+    width: 100%;
+    min-width: 0;
+    transform: translateZ(0) scale(var(--hero-form-scale, 1.06));
+    transform-origin: left bottom;
+  }
+
+  /* Title width constraint - ограничено контейнером */
+  .hero-investment__title{
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    justify-self: start;
+  }
+
+  /* Benefits: compact width constraint */
+  .hero-benefits{
+    grid-area: benefits;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero-investment .hero-benefits-grid.hero-benefits-grid--intro{
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: clamp(12px, 1.2vw, 22px);
+  }
+
+  /* Form card: lighter glass effect (more transparent, reduced shadow) */
+  .hero-form-card{
+    background:
+      radial-gradient(120% 140% at 18% 0%, rgba(255,138,0,.06), transparent 58%),
+      radial-gradient(120% 140% at 110% 20%, rgba(255,106,0,.04), transparent 62%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+      rgba(10,6,4,.18);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:
+      0 12px 40px rgba(0,0,0,.45),
+      0 0 12px rgba(255,122,24,.06);
+    backdrop-filter: blur(14px) saturate(125%);
+    -webkit-backdrop-filter: blur(14px) saturate(125%);
+    transform: translateZ(0) scale(var(--hero-form-scale, 1.06));
+    transform-origin: left bottom;
+  }
+
+  /* Benefit cards: more transparent and lighter */
+  .hero-benefit-card.hero-benefit-card--intro{
+    background:
+      radial-gradient(
+        ellipse 180% 200% at -20% -10%,
+        rgba(255,180,120,0.08),
+        rgba(255,180,120,0.03) 35%,
+        rgba(255,180,120,0.02) 55%,
+        transparent 75%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08) 0%,
+        rgba(255,255,255,0.04) 40%,
+        rgba(255,255,255,0.02) 100%
+      ),
+      rgba(12,8,5,0.18);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.12),
+      inset 0 -1px 0 rgba(0,0,0,0.15);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(1) {
+    background:
+      radial-gradient(
+        ellipse 180% 200% at -20% -10%,
+        rgba(255,180,120,0.08),
+        rgba(255,180,120,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-left:2px solid rgba(255,180,120,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(2) {
+    background:
+      radial-gradient(
+        ellipse 160% 180% at 120% -15%,
+        rgba(255,154,60,0.08),
+        rgba(255,154,60,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-top:2px solid rgba(255,154,60,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(3) {
+    background:
+      radial-gradient(
+        ellipse 140% 190% at -15% 110%,
+        rgba(255,138,0,0.06),
+        rgba(255,138,0,0.02) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-right:2px solid rgba(255,138,0,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(4) {
+    background:
+      radial-gradient(
+        ellipse 170% 200% at 110% 110%,
+        rgba(255,200,140,0.08),
+        rgba(255,200,140,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-bottom:2px solid rgba(255,200,140,0.24);
   }
 }
-/* до 1199px — СТЕК */
-@media (max-width:899px){
-  .hero-investment__grid{grid-template-columns:1fr}
 
+/* ======================================================================
+   DESKTOP 1500-1599px (same gap as 1200-1499px)
+   ====================================================================== */
+@media (min-width:1500px) and (max-width:1599px){
+  /* HERO FIX: Container: same padding as 1200-1499px to maintain consistent right gap */
+  .hero-investment .section-container{
+    width: min(90%, 100%);
+    max-width: 100%;
+    padding-inline: clamp(20px, 2.5vw, 40px);
+    box-sizing: border-box;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  /* Hero section: предотвращаем выезд вправо */
+  .hero-investment{
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Grid: 2 columns (same as 1200-1499px) - HERO FIX: ограничиваем ширину правой колонки чтобы зазор справа был как в 1200-1499px */
+  .hero-investment__grid{
+    grid-template-columns: 1fr minmax(360px, 460px);
+    column-gap: clamp(32px, 4vw, 64px);
+    grid-template-areas:
+      "content form"
+      "benefits form";
+    align-items:start;
+    justify-items:stretch;
+    padding-bottom: clamp(80px, 10vh, 120px);
+    max-width: 100%;
+    /* HERO FIX: Ограничиваем общую ширину grid чтобы правый зазор был как в 1200-1499px */
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-investment__content{
+    grid-area: content;
+    justify-self: start;
+    max-width: 100%;
+    width: auto;
+    min-width: 0;
+  }
+
+  /* HERO FIX: Ограничиваем ширину формы чтобы правый зазор был как в 1200-1499px */
+  .hero-investment__form{
+    grid-area: form;
+    justify-self: stretch;
+    margin-top: clamp(32px, 4.5vh, 56px);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    transform: translateY(clamp(24px, 6vh, 72px));
+    will-change: transform;
+    box-sizing: border-box;
+  }
+
+  /* Title width constraint - ограничено контейнером */
+  .hero-investment__title{
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    justify-self: start;
+  }
+
+  /* Benefits: compact width constraint */
+  .hero-benefits{
+    grid-area: benefits;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero-investment .hero-benefits-grid.hero-benefits-grid--intro{
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: clamp(12px, 1.2vw, 22px);
+  }
+
+  /* Form card: lighter glass effect (more transparent, reduced shadow) */
+  .hero-form-card{
+    background:
+      radial-gradient(120% 140% at 18% 0%, rgba(255,138,0,.06), transparent 58%),
+      radial-gradient(120% 140% at 110% 20%, rgba(255,106,0,.04), transparent 62%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+      rgba(10,6,4,.18);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:
+      0 12px 40px rgba(0,0,0,.45),
+      0 0 12px rgba(255,122,24,.06);
+    backdrop-filter: blur(14px) saturate(125%);
+    -webkit-backdrop-filter: blur(14px) saturate(125%);
+    transform: translateZ(0) scale(var(--hero-form-scale, 1.06));
+    transform-origin: left bottom;
+  }
+
+  /* Benefit cards: more transparent and lighter */
+  .hero-benefit-card.hero-benefit-card--intro{
+    background:
+      radial-gradient(
+        ellipse 180% 200% at -20% -10%,
+        rgba(255,180,120,0.08),
+        rgba(255,180,120,0.03) 35%,
+        rgba(255,180,120,0.02) 55%,
+        transparent 75%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08) 0%,
+        rgba(255,255,255,0.04) 40%,
+        rgba(255,255,255,0.02) 100%
+      ),
+      rgba(12,8,5,0.18);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.12),
+      inset 0 -1px 0 rgba(0,0,0,0.15);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(1) {
+    background:
+      radial-gradient(
+        ellipse 180% 200% at -20% -10%,
+        rgba(255,180,120,0.08),
+        rgba(255,180,120,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-left:2px solid rgba(255,180,120,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(2) {
+    background:
+      radial-gradient(
+        ellipse 160% 180% at 120% -15%,
+        rgba(255,154,60,0.08),
+        rgba(255,154,60,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-top:2px solid rgba(255,154,60,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(3) {
+    background:
+      radial-gradient(
+        ellipse 140% 190% at -15% 110%,
+        rgba(255,138,0,0.06),
+        rgba(255,138,0,0.02) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-right:2px solid rgba(255,138,0,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(4) {
+    background:
+      radial-gradient(
+        ellipse 170% 200% at 110% 110%,
+        rgba(255,200,140,0.08),
+        rgba(255,200,140,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-bottom:2px solid rgba(255,200,140,0.24);
+  }
+}
+
+/* ======================================================================
+   DESKTOP ≥1600px
+   ====================================================================== */
+@media (min-width:1600px){
+  /* Container: предотвращаем обрезание формы при масштабировании */
+  .hero-investment .section-container{
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  /* Hero section: предотвращаем обрезание формы */
+  .hero-investment{
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  /* Grid: 3 columns with 30vw spacer between content and form */
+  .hero-investment__grid{
+    grid-template-columns: minmax(520px, 1fr) clamp(180px, 30vw, 520px) minmax(360px, 460px);
+    grid-template-areas:
+      "content spacer form"
+      "benefits spacer form";
+    align-items:start;
+    justify-items:stretch;
+    padding-bottom: clamp(80px, 10vh, 120px);
+  }
+
+  /* Content pinned to left */
+  .hero-investment__content{
+    grid-area: content;
+    justify-self: start;
+    max-width: none;
+    width: auto;
+    min-width: 0;
+  }
+
+  /* Form pinned to right */
+  .hero-investment__form{
+    grid-area: form;
+    justify-self: end;
+    margin-top: clamp(32px, 4.5vh, 56px);
+    max-width: none;
+    width: clamp(340px, 30vw, 460px);
+    min-width: 0;
+    transform: translateY(clamp(24px, 6vh, 72px));
+    will-change: transform;
+  }
+
+  .hero-form-card{
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Title width constraint */
+  .hero-investment__title{
+    width: 47vw;
+    max-width: 47vw;
+    min-width: 0;
+    justify-self: start;
+  }
+
+  /* Benefits: compact width constraint */
+  .hero-benefits{
+    grid-area: benefits;
+    max-width: clamp(560px, 46vw, 920px);
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero-investment .hero-benefits-grid.hero-benefits-grid--intro{
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: clamp(12px, 1.2vw, 22px);
+  }
+
+  /* Form card: lighter glass effect (more transparent, reduced shadow) */
+  .hero-form-card{
+    background:
+      radial-gradient(120% 140% at 18% 0%, rgba(255,138,0,.06), transparent 58%),
+      radial-gradient(120% 140% at 110% 20%, rgba(255,106,0,.04), transparent 62%),
+      linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+      rgba(10,6,4,.18);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:
+      0 12px 40px rgba(0,0,0,.45),
+      0 0 12px rgba(255,122,24,.06);
+    backdrop-filter: blur(14px) saturate(125%);
+    -webkit-backdrop-filter: blur(14px) saturate(125%);
+    transform: translateZ(0) scale(var(--hero-form-scale, 1.06));
+    transform-origin: left bottom;
+  }
+
+  /* Benefit cards: more transparent and lighter */
+  .hero-benefit-card.hero-benefit-card--intro{
+    background:
+      radial-gradient(
+        ellipse 180% 200% at -20% -10%,
+        rgba(255,180,120,0.08),
+        rgba(255,180,120,0.03) 35%,
+        rgba(255,180,120,0.02) 55%,
+        transparent 75%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08) 0%,
+        rgba(255,255,255,0.04) 40%,
+        rgba(255,255,255,0.02) 100%
+      ),
+      rgba(12,8,5,0.18);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.12),
+      inset 0 -1px 0 rgba(0,0,0,0.15);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(1) {
+    background:
+      radial-gradient(
+        ellipse 180% 200% at -20% -10%,
+        rgba(255,180,120,0.08),
+        rgba(255,180,120,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-left:2px solid rgba(255,180,120,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(2) {
+    background:
+      radial-gradient(
+        ellipse 160% 180% at 120% -15%,
+        rgba(255,154,60,0.08),
+        rgba(255,154,60,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-top:2px solid rgba(255,154,60,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(3) {
+    background:
+      radial-gradient(
+        ellipse 140% 190% at -15% 110%,
+        rgba(255,138,0,0.06),
+        rgba(255,138,0,0.02) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-right:2px solid rgba(255,138,0,0.24);
+  }
+
+  .hero-benefit-card.hero-benefit-card--intro:nth-child(4) {
+    background:
+      radial-gradient(
+        ellipse 170% 200% at 110% 110%,
+        rgba(255,200,140,0.08),
+        rgba(255,200,140,0.03) 35%,
+        transparent 65%
+      ),
+      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+      rgba(12,8,5,0.32);
+    border-bottom:2px solid rgba(255,200,140,0.24);
+  }
+}
+
+/* ======================================================================
+   TABLET NARROW 900-1100px (FIX: форма 45% ширины, стабильная сетка)
+   ====================================================================== */
+@media (min-width: 900px) and (max-width: 1100px){
+  /* Container: нормальный padding, чтобы контент не прижимался к краям */
+  /* HERO FIX: Убираем overflow-x: clip чтобы тень формы не обрезалась, добавляем padding-right для тени */
+  .hero-investment .section-container{
+    width: min(90%, 100%);
+    max-width: 100%;
+    padding-inline: clamp(16px, 2vw, 32px);
+    padding-right: clamp(24px, 3vw, 48px);
+    box-sizing: border-box;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  /* HERO FIX: Убеждаемся что hero section не обрезает тени */
+  .hero-investment{
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  .hero-investment__grid{
+    display: grid;
+    grid-template-columns: 55% 45%;
+    column-gap: clamp(16px, 2vw, 24px);
+    grid-template-areas:
+      "content form"
+      "benefits form";
+    align-items: start;
+    justify-items: stretch;
+    max-width: 100%;
+  }
+
+  .hero-investment__content{
+    grid-area: content;
+    justify-self: start;
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* HERO FIX: Опускаем форму ниже, убираем паразитную тень справа */
+  .hero-investment__form{
+    grid-area: form;
+    justify-self: stretch;
+    margin-top: clamp(48px, 6vh, 80px);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    transform: translateY(clamp(32px, 5vh, 64px));
+    will-change: transform;
+    box-sizing: border-box;
+  }
+
+  /* HERO FIX: Убираем scale и меняем transform-origin чтобы убрать паразитную тень справа, убираем box-shadow справа */
+  .hero-form-card{
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    transform: none;
+    transform-origin: center;
+    /* HERO FIX: Убираем правую тень - оставляем только нижнюю и внутренние */
+    box-shadow:
+      0 24px 80px rgba(0,0,0,.85),
+      0 0 24px rgba(255,122,24,.08),
+      inset 0 1px 0 rgba(255,255,255,0.18),
+      inset 0 -1px 0 rgba(0,0,0,0.22);
+  }
+}
+
+/* ======================================================================
+   TABLET 1100-1199px
+   ====================================================================== */
+@media (min-width:1100px) and (max-width:1199px){
+  /* Container: padding для нормальных отступов */
+  /* HERO FIX: Убираем overflow-x: clip чтобы тень формы не обрезалась, добавляем padding-right для тени */
+  .hero-investment .section-container{
+    width: min(90%, 100%);
+    max-width: 100%;
+    padding-inline: clamp(20px, 2.5vw, 36px);
+    padding-right: clamp(24px, 3vw, 48px);
+    box-sizing: border-box;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  /* HERO FIX: Убеждаемся что hero section не обрезает тени */
+  .hero-investment{
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  .hero-investment__grid{
+    grid-template-columns: minmax(520px, 1fr) minmax(360px, 460px);
+    column-gap: clamp(20px, 2.4vw, 32px);
+    grid-template-areas:
+      "content form"
+      "benefits form";
+    align-items:start;
+    justify-items:stretch;
+    max-width: 100%;
+  }
+
+  .hero-investment__content{
+    justify-self: start;
+    max-width: 100%;
+    width: auto;
+    min-width: 0;
+  }
+
+  /* HERO FIX: Опускаем форму ниже, убираем паразитную тень справа */
+  .hero-investment__form{
+    justify-self: stretch;
+    margin-top: clamp(48px, 6vh, 80px);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    transform: translateY(clamp(32px, 5vh, 64px));
+    will-change: transform;
+    box-sizing: border-box;
+  }
+
+  /* HERO FIX: Убираем scale и меняем transform-origin чтобы убрать паразитную тень справа, убираем box-shadow справа */
+  .hero-form-card{
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    transform: none;
+    transform-origin: center;
+    /* HERO FIX: Убираем правую тень - оставляем только нижнюю и внутренние */
+    box-shadow:
+      0 24px 80px rgba(0,0,0,.85),
+      0 0 24px rgba(255,122,24,.08),
+      inset 0 1px 0 rgba(255,255,255,0.18),
+      inset 0 -1px 0 rgba(0,0,0,0.22);
+  }
+}
+
+/* ======================================================================
+   MOBILE ≤899px
+   ====================================================================== */
+@media (max-width:899px){
+  /* HERO FIX: Убеждаемся что контейнер не создает overflow */
+  .hero-investment .section-container{
+    width: 100%;
+    max-width: 100%;
+    padding-left: clamp(16px, 4vw, 24px);
+    padding-right: clamp(16px, 4vw, 24px);
+    box-sizing: border-box;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
+  /* HERO FIX: Убеждаемся что hero section не создает overflow */
+  .hero-investment{
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
+  /* HERO FIX: Grid areas - форма перед карточками */
+  .hero-investment__grid{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "content"
+      "form"
+      "benefits";
+    gap: clamp(24px, 4vh, 40px); /* HERO FIX: вертикальный отступ между элементами */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* HERO FIX: Контент не создает overflow */
+  .hero-investment__content{
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* HERO FIX: Форма центрирована, отступ сверху чтобы не заезжала на подзаголовок */
   .hero-investment__form{
     justify-self:center;
     width:100%;
+    max-width: 100%;
+    min-width: 0;
+    transform: none;
+    will-change: auto;
+    margin-top: clamp(32px, 4vh, 48px); /* HERO FIX: увеличен отступ сверху */
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
   }
 
-  /* tablet+mobile: форма ~90% ширины контейнера */
+  /* HERO FIX: Ширина формы 70% с ограничениями, убрана левая тень */
   .hero-form-card{
-    width:90%;
-    max-width:720px;
+    width: 70%;
+    min-width: 280px; /* HERO FIX: минимальная ширина для узких экранов */
+    max-width: 520px; /* HERO FIX: максимальная ширина чтобы не разъезжалась */
     margin-left:auto;
     margin-right:auto;
+    box-sizing: border-box;
+    /* HERO FIX: убираем левую тень, оставляем только нижнюю и внутренние */
+    box-shadow:
+      0 24px 80px rgba(0,0,0,.85),
+      0 0 24px rgba(255,122,24,.08),
+      inset 0 1px 0 rgba(255,255,255,0.18),
+      inset 0 -1px 0 rgba(0,0,0,0.22);
+    /* HERO FIX: убираем transform: scale чтобы не создавать overflow */
+    transform: none;
+    transform-origin: center;
+  }
+
+  /* HERO FIX: Карточки ниже формы с отступом */
+  .hero-benefits{
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-top: clamp(24px, 3vh, 36px); /* HERO FIX: увеличен отступ */
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+  }
+
+  /* HERO FIX: Убеждаемся что grid карточек не создает overflow */
+  .hero-investment .hero-benefits-grid.hero-benefits-grid--intro{
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* HERO FIX: Для очень узких экранов форма немного шире */
+@media (max-width:699px){
+  .hero-form-card{
+    width:85%;
+    max-width: 480px;
+    min-width: 260px; /* HERO FIX: минимальная ширина для очень узких экранов */
+  }
+  
+  /* HERO FIX: Дополнительная защита от overflow на очень узких экранах */
+  .hero-investment .section-container{
+    padding-left: clamp(12px, 3vw, 20px);
+    padding-right: clamp(12px, 3vw, 20px);
   }
 }
 
 @media (max-width:420px){
   .hero-form-card{
     width:92%;
-    max-width:none;
+    max-width: none;
+    min-width: 260px;
   }
 }
 
-/* =========================
-   PREMIUM BADGES / CAPSULES
-   Элегантные капсулы в премиальном стиле
-   ========================= */
-.hero-investment__badges{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin:0 0 24px;
-  align-items:center;
-  justify-content:flex-start;
+/* ======================================================================
+   HERO-V2: CONTENT STYLING
+   ====================================================================== */
+
+/* Subtitle: remove vertical brackets */
+.hero-v2 .hero-investment__subtitle::before,
+.hero-v2 .hero-investment__subtitle::after{
+  display: none;
+  content: none;
 }
 
+.hero-v2 .hero-investment__subtitle{
+  margin-top: 10px;
+  padding-left: 0;
+  background: none;
+  color: rgba(255,255,255,0.88);
+  font-weight: 500;
+  font-size: clamp(1.06rem, 1.18vw, 1.22rem);
+  line-height: 1.62;
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.34);
+  max-width: 90ch;
+}
+
+/* Title accent underline: only on page-main and page-investment */
+.hero-v2 .hero-title-mark,
+.hero-v2 .hero-title-accent{
+  position: relative;
+  display: inline;
+  -webkit-text-stroke: 0 transparent;
+  filter: none;
+  background-image: linear-gradient(135deg,
+    rgba(255, 200, 140, 0.98) 0%,
+    rgba(255, 160, 80, 0.98) 34%,
+    rgba(255, 106, 0, 1) 70%,
+    rgba(255, 180, 100, 0.98) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(255, 106, 0, 0.12),
+    0 1px 1px rgba(0,0,0,0.20);
+}
+
+.hero-v2 .hero-title-mark::before,
+.hero-v2 .hero-title-accent::before{
+  display: none;
+  content: none;
+}
+
+.hero-v2 .hero-title-mark::after,
+.hero-v2 .hero-title-accent::after{
+  display: none;
+  content: none;
+}
+
+
+.hero-v2 .hero-investment__content{
+  max-width: none;
+  width: auto;
+}
+
+.hero-v2 .hero-investment__title{
+  text-shadow: 0 1px 2px rgba(0,0,0,0.46);
+}
+
+@media (max-width: 899px){
+  .hero-v2 .hero-investment__subtitle{ max-width: none; }
+}
+
+/* ======================================================================
+   PREMIUM BADGES / CAPSULES - REDESIGNED
+   ====================================================================== */
+.hero-investment__badges{
+  display:flex;
+  align-items:center;
+  gap: clamp(12px, 1.2vw, 18px);
+  margin:0 0 clamp(18px, 2.2vh, 30px);
+  flex-wrap:wrap;
+  transform: translateY(clamp(-2px, -0.25vh, -6px));
+  /* Предотвращаем обрезание при hover-scale */
+  overflow: visible;
+  padding: 4px 0;
+}
+
+/* Desktop: badges in one line if possible */
+@media (min-width:1200px){
+  .hero-investment__badges{
+    flex-wrap:nowrap;
+    white-space:nowrap;
+    overflow: visible;
+  }
+}
+
+/* Base badge styling - premium capsule design */
+/* FIX 5: Капсулы в glass стиле - переработано для "в систему" */
 .hero-investment__badge{
-  height:42px;
-  padding:0 20px;
-  border-radius:12px;
-  font-weight:800;
-  font-size:0.9rem;
-  line-height:1;
-  margin:0;
   position:relative;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   white-space:nowrap;
-  letter-spacing:0.02em;
+  margin:0;
+  line-height:1.3;
   
-  /* Премиальный стеклянный фон */
+  /* Геометрия */
+  height: clamp(40px, 4.5vh, 54px);
+  padding: 0 clamp(20px, 2vw, 28px);
+  border-radius: clamp(16px, 1.8vw, 22px);
+  font-size: clamp(13px, 1.1vw, 15.5px);
+  font-weight: 600; /* Нормальный вес, не жирный */
+  letter-spacing: 0.015em; /* Нормальная типографика */
+  max-width: clamp(220px, 24vw, 360px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  /* Glass стиль: мягкий blur, внутренний свет, прозрачность */
   background:
+    /* Внутренний свет */
+    radial-gradient(ellipse 180% 120% at 15% 35%, rgba(255, 240, 200, 0.25), transparent 65%),
+    /* Градиент стекла */
     linear-gradient(135deg, 
-      rgba(255,255,255,0.12) 0%, 
-      rgba(255,255,255,0.06) 50%,
-      rgba(255,255,255,0.08) 100%),
-    rgba(14,9,6,0.68);
-  border:1px solid rgba(255,255,255,0.14);
+      rgba(255,255,255,0.16) 0%, 
+      rgba(255,255,255,0.08) 50%,
+      rgba(255,255,255,0.12) 100%),
+    linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)),
+    /* База */
+    rgba(20,14,10,0.55);
+  
+  /* Мягкая рамка */
+  border: 1px solid rgba(255, 230, 180, 0.22);
+  
+  /* Мягкие тени и внутренний свет */
   box-shadow:
-    0 8px 24px rgba(0,0,0,0.65),
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(0,0,0,0.3);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  color: rgba(244,241,235,0.95);
-  transition: all 0.25s ease;
+    0 6px 20px rgba(0,0,0,0.32),
+    0 3px 10px rgba(0,0,0,0.20),
+    0 0 10px rgba(255, 200, 140, 0.10),
+    inset 0 1px 0 rgba(255,255,255,0.20),
+    inset 0 -1px 0 rgba(0,0,0,0.12);
+  
+  /* Blur для glass эффекта */
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  
+  /* Текст: нормальная читаемость */
+  color: rgba(255,248,240,0.94);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.28), 0 0 6px rgba(255,200,140,0.12);
+  transition: all 0.24s cubic-bezier(0.2, 0, 0.2, 1);
+  z-index: 1;
 }
 
-/* Элегантный блик сверху */
+/* FIX 5: Мягкий внутренний свет для glass эффекта */
 .hero-investment__badge::before{
   content:"";
   position:absolute;
   top:0;
   left:0;
-  right:0;
-  height:50%;
-  border-radius:12px 12px 50% 50%;
-  background: linear-gradient(180deg, 
-    rgba(255,255,255,0.2) 0%, 
-    rgba(255,255,255,0.05) 60%,
-    transparent 100%);
+  width: clamp(60px, 8vw, 100px);
+  height: clamp(40px, 5.5vh, 60px);
+  background: linear-gradient(135deg, 
+    rgba(255, 240, 200, 0.20) 0%, 
+    rgba(255, 220, 160, 0.10) 40%,
+    transparent 70%);
+  border-radius: 0 0 100% 0;
   pointer-events:none;
-  opacity:0.7;
+  z-index:0;
 }
 
-/* Тонкая градиентная обводка */
 .hero-investment__badge::after{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  border-radius:13px;
-  padding:1px;
-  background: linear-gradient(135deg, 
-    rgba(255,255,255,0.2) 0%,
-    rgba(255,255,255,0.05) 50%,
-    rgba(255,255,255,0.15) 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  z-index:-1;
-  opacity:0.6;
+  display:none;
+  content:none;
 }
 
-/* Акцентная капсула - оранжевая */
+/* FIX 5: Акцентная капсула - оранжевая glass */
+.hero-investment__badge:nth-child(2),
 .hero-investment__badge--accent{
-  color:#0d0a08;
-  background: linear-gradient(135deg, 
-    rgba(255,180,100,0.95) 0%, 
-    rgba(255,154,60,1) 35%,
-    rgba(255,138,0,1) 65%,
-    rgba(255,170,80,0.98) 100%);
-  border:1px solid rgba(255,200,120,0.4);
+  background:
+    /* Внутренний свет */
+    radial-gradient(ellipse 180% 120% at 15% 35%, rgba(255, 220, 160, 0.30), transparent 65%),
+    /* Оранжевый градиент */
+    linear-gradient(180deg, rgba(255,155,45,.92), rgba(255,115,10,.65));
+  border-color: rgba(255,200,100,.60);
   box-shadow:
-    0 12px 32px rgba(0,0,0,0.75),
-    0 0 24px rgba(255,138,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.3),
-    inset 0 -1px 0 rgba(0,0,0,0.2);
-  font-weight:900;
+    0 12px 36px rgba(255,130,0,.18),
+    0 6px 18px rgba(0,0,0,.32),
+    0 0 12px rgba(255,160,80,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.18);
+  color: rgba(255,255,255,0.96);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.30), 0 0 6px rgba(255,220,160,0.16);
 }
 
+.hero-investment__badge:nth-child(2)::before,
 .hero-investment__badge--accent::before{
-  background: linear-gradient(180deg, 
-    rgba(255,255,255,0.4) 0%, 
-    rgba(255,255,255,0.15) 50%,
-    transparent 100%);
-  opacity:0.8;
-}
-
-.hero-investment__badge--accent::after{
   background: linear-gradient(135deg, 
-    rgba(255,220,160,0.6) 0%,
-    rgba(255,180,100,0.4) 50%,
-    rgba(255,200,120,0.5) 100%);
-  opacity:0.8;
+    rgba(255, 220, 140, 0.38) 0%, 
+    rgba(255, 190, 100, 0.22) 40%,
+    transparent 72%);
 }
 
-/* Эффект при наведении */
-@media (hover: hover) {
-  .hero-investment__badge:hover {
-    transform: translateY(-2px);
+@media (hover:hover){
+  .hero-investment__badge:hover{
+    transform: translateY(-2px) scale(1.02);
+    border-color: rgba(255, 230, 180, 0.48);
     box-shadow:
-      0 12px 32px rgba(0,0,0,0.75),
-      inset 0 1px 0 rgba(255,255,255,0.16),
-      inset 0 -1px 0 rgba(0,0,0,0.3);
-    border-color: rgba(255,255,255,0.18);
+      0 12px 32px rgba(0,0,0,0.48),
+      0 6px 16px rgba(0,0,0,0.36),
+      0 0 24px rgba(255, 210, 150, 0.28),
+      inset 0 1px 0 rgba(255,255,255,0.28),
+      inset 0 -1px 0 rgba(0,0,0,0.18);
+    z-index: 2;
   }
-  
-  .hero-investment__badge--accent:hover {
-    transform: translateY(-2px);
+
+  .hero-investment__badge:nth-child(2):hover,
+  .hero-investment__badge--accent:hover{
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.15);
+    border-color: rgba(255,200,100,.88);
     box-shadow:
-      0 16px 40px rgba(0,0,0,0.8),
-      0 0 32px rgba(255,138,0,0.35),
-      inset 0 1px 0 rgba(255,255,255,0.35),
-      inset 0 -1px 0 rgba(0,0,0,0.2);
-    filter: brightness(1.08);
+      0 26px 64px rgba(255,130,0,.32),
+      0 14px 32px rgba(0,0,0,.52),
+      0 0 24px rgba(255,170,90,0.26),
+      inset 0 1px 0 rgba(255,255,255,0.32),
+      inset 0 -1px 0 rgba(0,0,0,0.28);
+    z-index: 2;
   }
 }
+
 
 .hero-investment__title{
   font-family:"Roboto Slab", serif;
@@ -3330,51 +4249,96 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   position:relative;
   text-align:left;
   max-width:100%;
-  /* Прижимаем к левой границе */
   margin-left:0;
   margin-right:auto;
+  overflow: visible;
 }
 .hero-investment__title::before{
-  content:"";
-  position:absolute;
-  left:-0.08em;
-  top:2.28em;
-  width:22.5ch;
-  height:2.06em;
-  z-index:-1;
-  border-radius:14px;
-  transform:none;
-  background: linear-gradient(90deg, rgba(255,138,0,.92), rgba(255,106,0,.78));
-  box-shadow:
-    0 22px 54px rgba(0,0,0,.58),
-    inset 0 1px 0 rgba(255,255,255,.12),
-    inset 0 -1px 0 rgba(0,0,0,.25);
-  filter: saturate(1.06);
+  display: none;
+  content: none;
+}
+
+/* Полоса под заголовком удалена - теперь используется полоса под последним словом */
+body:not(.page-credit) .hero-investment__title::after{
+  display: none;
+  content: none;
+}
+
+/* Полоса под последним словом: тонкая, заострённая, без неона, малый наклон */
+/* НОВЫЙ ЭЛЕМЕНТ: hero-title-accent-line - отдельная полоса под последним словом */
+body:not(.page-credit) .hero-title-accent-line{
+  position: relative;
+  display: inline-block;
+  /* Премиальный градиент текста - элегантно и дорого (восстановлен из .hero-title-mark) */
+  background: linear-gradient(135deg, 
+    rgba(255, 200, 140, 0.98) 0%, 
+    rgba(255, 160, 80, 0.98) 34%,
+    rgba(255, 106, 0, 1) 70%,
+    rgba(255, 180, 100, 0.98) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  z-index: 1;
+  /* Легкое свечение текста - очень сдержанное */
+  text-shadow: 0 0 10px rgba(255, 106, 0, 0.12), 0 1px 1px rgba(0,0,0,0.20);
+}
+
+/* Отключаем старую полосу под hero-title-mark, так как теперь используется hero-title-accent-line */
+body:not(.page-credit) .hero-title-mark::after{
+  display: none;
+  content: none;
+}
+
+body:not(.page-credit) .hero-title-accent-line::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  width: 100%;
+  height: clamp(2px, 0.25vw, 3px);
+  /* Оранжевый градиент, совпадающий по характеру с hero-title-mark */
+  background: linear-gradient(135deg, 
+    rgba(255, 200, 140, 0.95) 0%, 
+    rgba(255, 160, 80, 0.95) 34%,
+    rgba(255, 106, 0, 0.98) 70%,
+    rgba(255, 180, 100, 0.95) 100%);
+  /* Малый наклон: правая сторона чуть ниже левой */
+  transform: rotate(-3deg);
+  transform-origin: left center;
+  z-index: 5;
+  pointer-events: none;
+  /* Заострённые края через clip-path (игольчатые концы) */
+  clip-path: polygon(0 50%, 8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%);
+  /* Полностью убраны все эффекты свечения: нет box-shadow, text-shadow, filter, blur, drop-shadow, border, outline */
+}
+
+@media (max-width: 899px){
+  body:not(.page-credit) .hero-title-accent-line::after{
+    width: 100%;
+    height: clamp(2px, 0.25vw, 2.5px);
+    transform: rotate(-3deg);
+    top: calc(100% + 5px);
+    z-index: 5;
+    clip-path: polygon(0 50%, 6px 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 6px 100%);
+  }
+}
+
+@media (min-width: 1200px){
+  body:not(.page-credit) .hero-title-accent-line::after{
+    width: 100%;
+    height: clamp(2.5px, 0.3vw, 3px);
+    transform: rotate(-3deg);
+    top: calc(100% + 7px);
+    z-index: 5;
+    clip-path: polygon(0 50%, 10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%);
+  }
 }
 
 @media (max-width:900px){
   .hero-investment__title{max-width:none;display:block;}
-  .hero-investment__title::before{
-    top:1.15em;     /* ниже — под нужную строку */
-    width:22ch;     /* короче, чтобы не вылазила */
-    height:2.3em;   /* чуть ниже по высоте */
-  }
-}
-
-@media (min-width:901px) and (max-width:1100px){
-  .hero-investment__title::before{
-    top:1.15em;     /* ниже — под нужную строку */
-    width:32ch;     /* короче, чтобы не вылазила */
-    height:2.0em;   /* чуть ниже по высоте */
-  }
-}
-
-@media (min-width:1101px) and (max-width:1199px){
-  .hero-investment__title::before{
-    top:1.15em;     /* ниже — под нужную строку */
-    width:22ch;     /* короче, чтобы не вылазила */
-    height:2.0em;   /* чуть ниже по высоте */
-  }
 }
 
 .hero-investment__subtitle{
@@ -3397,21 +4361,22 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   padding:30px;
   position:relative;
 
-  /* больше «стекла» + воздушности */
+  /* больше «стекла» + воздушности (более прозрачное) */
   background:
-    radial-gradient(120% 140% at 18% 0%, rgba(255,138,0,.14), transparent 58%),
-    radial-gradient(120% 140% at 110% 20%, rgba(255,106,0,.10), transparent 62%),
-    linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
-    rgba(10,6,4,.62);
+    radial-gradient(120% 140% at 18% 0%, rgba(255,138,0,.04), transparent 58%),
+    radial-gradient(120% 140% at 110% 20%, rgba(255,106,0,.03), transparent 62%),
+    linear-gradient(145deg, rgba(255,255,255,.025), rgba(255,255,255,.008)),
+    rgba(10,6,4,.18);
 
-  border:1px solid rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.06);
   box-shadow:
-    0 34px 110px rgba(0,0,0,.90),
-    0 0 34px rgba(255,122,24,.14);
+    0 34px 110px rgba(0,0,0,.65),
+    0 0 34px rgba(255,122,24,.04);
 
-  backdrop-filter: blur(22px) saturate(140%);
-  -webkit-backdrop-filter: blur(22px) saturate(140%);
-  transform: translateZ(0);
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+  transform: translateZ(0) scale(var(--hero-form-scale, 1.06));
+  transform-origin: left bottom;
 }
 
 .hero-form-card::before{
@@ -3444,15 +4409,61 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   text-shadow:0 10px 28px rgba(0,0,0,.75);
   text-wrap: balance;
   padding:2px 0;
-
-  /* центр капсулы стабильно */
+  position: relative;
+  padding-bottom: clamp(10px, 1.2vw, 14px);
+  margin-bottom: clamp(10px, 1.2vw, 14px);
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
+.hero-form-title::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 180, 100, 0.35) 20%, 
+    rgba(255, 180, 100, 0.45) 50%, 
+    rgba(255, 180, 100, 0.35) 80%, 
+    transparent 100%);
+}
+
 
 /* новое выделение фразы "Свяжемся..." — как премиальный "label" (тонко, но богато) */
+.hero-form-title .hero-marker{
+  display: inline !important;
+  background: linear-gradient(135deg, 
+    rgba(255, 200, 140, 0.98) 0%, 
+    rgba(255, 160, 80, 0.98) 34%,
+    rgba(255, 106, 0, 1) 70%,
+    rgba(255, 180, 100, 0.98) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  margin: 0 !important;
+  font-weight: 900;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-shadow: 0 0 10px rgba(255, 106, 0, 0.12), 0 1px 1px rgba(0,0,0,0.20) !important;
+}
+
+.hero-form-title .hero-marker::before,
+.hero-form-title .hero-marker::after{
+  display: none !important;
+  content: none !important;
+}
+
 .hero-marker{
   position:relative;
   display:inline-flex;
@@ -3541,7 +4552,7 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 }
 
 .hero-form-subtitle{
-  margin:10px 0 14px;
+  margin: clamp(16px, 2.2vh, 28px) 0 clamp(18px, 2.4vh, 30px);
   max-width:44ch;
   margin-left:auto;
   margin-right:auto;
@@ -3551,6 +4562,25 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   text-align:center;
   text-shadow:0 10px 24px rgba(0,0,0,.62);
   text-wrap: pretty;
+  position: relative;
+}
+
+.hero-form-subtitle::after{
+  content: "";
+  position: absolute;
+  bottom: calc(-1 * clamp(18px, 2.4vh, 30px) / 2);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 180, 100, 0.35) 20%, 
+    rgba(255, 180, 100, 0.45) 50%, 
+    rgba(255, 180, 100, 0.35) 80%, 
+    transparent 100%);
+  border-radius: 1px;
 }
 
 /* тонкий разделитель (теперь между подзаголовком и полями) */
@@ -3588,18 +4618,66 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   margin:0 0 10px;
   font-weight:800;
 }
+/* FIX 1: Зафиксировать border-radius через переменную для всех состояний */
+:root {
+  --field-radius: 14px;
+}
+
+/* Универсальное правило для ВСЕХ input/textarea на всех страницах */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+textarea {
+  border-radius: var(--field-radius) !important;
+}
+
+input:focus,
+textarea:focus,
+input:focus-visible,
+textarea:focus-visible,
+input.is-typing,
+textarea.is-typing,
+input.is-typing:focus,
+textarea.is-typing:focus,
+input:active,
+textarea:active {
+  border-radius: var(--field-radius) !important;
+}
+
 .hero-form-group input,.hero-form-group textarea{
   width:100%;
-  border-radius:14px;
-  border:1px solid rgba(244,201,128,.22);
+  border-radius: var(--field-radius);
+  border:1px solid rgba(199, 138, 58, 0.55);
   background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.01)),
     rgba(8,4,2,.74);
-  color:var(--text);
-  padding:14px 14px;
+  /* Тёплый светлый цвет с оранжевым оттенком (не белый) */
+  color: rgba(255, 200, 150, 0.95) !important;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(13px, 1vw, 15px);
+  padding: clamp(12px, 1.2vw, 16px) clamp(14px, 1.4vw, 18px);
   outline:none;
   box-shadow:
     inset 0 0 0 1px rgba(255,255,255,.04);
+  transition: color 0.4s ease, opacity 0.4s ease, border-color 0.3s ease;
+  caret-color: rgba(199, 138, 58, 0.75);
+}
+
+/* FIX 1: Зафиксировать border-radius во всех состояниях focus */
+.hero-form-group input:focus,
+.hero-form-group textarea:focus,
+.hero-form-group input:focus-visible,
+.hero-form-group textarea:focus-visible,
+.hero-form-group input.is-typing,
+.hero-form-group textarea.is-typing,
+.hero-form-group input.is-typing:focus,
+.hero-form-group textarea.is-typing:focus {
+  outline: none;
+  border-color: inherit;
+  box-shadow: inherit;
+  border-radius: var(--field-radius) !important;
 }
 .hero-form-group textarea{
   resize:none;            /* убираем возможность растягивать */
@@ -3607,10 +4685,59 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 }
 .hero-form-group input::placeholder,
 .hero-form-group textarea::placeholder{
-  color: #ffffff;
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: clamp(12px, 0.95vw, 14px);
   line-height: 1.18;
-  font-weight: 700;
+  font-weight: 400;
+  font-style: normal;
+  opacity: 1 !important;
+  transition: opacity 0.4s ease, color 0.4s ease;
+}
+
+.hero-form-group input::-webkit-input-placeholder,
+.hero-form-group textarea::-webkit-input-placeholder{
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+}
+
+.hero-form-group input::-moz-placeholder,
+.hero-form-group textarea::-moz-placeholder{
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+  opacity: 1 !important;
+}
+
+.hero-form-group input:-ms-input-placeholder,
+.hero-form-group textarea:-ms-input-placeholder{
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+}
+
+.hero-form-group input::-ms-input-placeholder,
+.hero-form-group textarea::-ms-input-placeholder{
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+}
+
+.hero-form-group input:focus::placeholder,
+.hero-form-group textarea:focus::placeholder{
+  opacity: 0.4;
+}
+
+.hero-form-group input:not(:placeholder-shown),
+.hero-form-group textarea:not(:placeholder-shown){
+  /* Тёплый светлый цвет с оранжевым оттенком (не белый) */
+  color: rgba(255, 200, 150, 0.95) !important;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* When typing animation runs, make placeholder text more legible and branded */
@@ -3619,14 +4746,54 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
    weight and opacity consistent. */
 .hero-form-group input.is-typing::placeholder,
 .hero-form-group textarea.is-typing::placeholder{
-  color: #ffffff; /* match .hero-form-group input::placeholder */
-  opacity: 1;
+  color: rgba(255, 160, 100, 0.75) !important;
+  opacity: 1 !important;
+  transition: opacity 0.4s ease, color 0.4s ease;
+}
+
+.hero-form-group input.is-typing::-webkit-input-placeholder,
+.hero-form-group textarea.is-typing::-webkit-input-placeholder{
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
+}
+
+.hero-form-group input.is-typing::-moz-placeholder,
+.hero-form-group textarea.is-typing::-moz-placeholder{
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
+  opacity: 1 !important;
+}
+
+.hero-form-group input.is-typing:-ms-input-placeholder,
+.hero-form-group textarea.is-typing:-ms-input-placeholder{
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
+}
+
+.hero-form-group input.is-typing::-ms-input-placeholder,
+.hero-form-group textarea.is-typing::-ms-input-placeholder{
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
+}
+
+/* Цвет введённого текста во время typing - тёплый светлый с оранжевым оттенком */
+.hero-form-group input.is-typing,
+.hero-form-group textarea.is-typing{
+  color: rgba(255, 200, 150, 0.95) !important;
 }
 
 /* subtle caret effect for typing state (white caret to match placeholder) */
 .hero-form-group input.is-typing,
 .hero-form-group textarea.is-typing{
   position: relative;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.hero-form-group input.fade-out,
+.hero-form-group textarea.fade-out{
+  color: transparent !important;
+  transition: color 0.5s ease;
 }
 .hero-form-group input.is-typing::after,
 .hero-form-group textarea.is-typing::after{
@@ -3660,10 +4827,7 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
   }
 }
 
-.hero-form-group input:focus,.hero-form-group textarea:focus{
-  border-color: rgba(255,122,24,.78);
-  box-shadow:0 0 0 2px rgba(255,122,24,.55);
-}
+/* REMOVED: Это правило конфликтует с фиксированным border-radius - используем inherit вместо изменения border/box-shadow */
 
 /* Form-level placeholder fading: when form has class placeholders-fading placeholders become transparent */
 .hero-form.placeholders-fading .hero-form-group input::placeholder,
@@ -3671,14 +4835,32 @@ body.page-credit { --hero-offer: url('/fraud/assets/block/offer2.jpeg'); }
 .hero-form.placeholders-fading .hero-form-group input.is-typing::placeholder,
 .hero-form.placeholders-fading .hero-form-group textarea.is-typing::placeholder{
   color: transparent !important;
-  transition: color .28s ease;
+  opacity: 0 !important;
+  transition: color 0.4s ease, opacity 0.4s ease;
 }
 
-/* Ensure input text (user typed) is bold and white for contrast */
+/* Плавное исчезновение placeholder'ов перед typing анимацией */
+.hero-form-group input.placeholder-fade-out::placeholder,
+.hero-form-group textarea.placeholder-fade-out::placeholder,
+.hero-form-group input.placeholder-fade-out::-webkit-input-placeholder,
+.hero-form-group textarea.placeholder-fade-out::-webkit-input-placeholder,
+.hero-form-group input.placeholder-fade-out::-moz-placeholder,
+.hero-form-group textarea.placeholder-fade-out::-moz-placeholder,
+.hero-form-group input.placeholder-fade-out:-ms-input-placeholder,
+.hero-form-group textarea.placeholder-fade-out:-ms-input-placeholder,
+.hero-form-group input.placeholder-fade-out::-ms-input-placeholder,
+.hero-form-group textarea.placeholder-fade-out::-ms-input-placeholder{
+  color: rgba(255, 160, 100, 0.75) !important;
+  opacity: 0 !important;
+  transition: opacity 0.5s ease, color 0.5s ease;
+}
+
+/* Ensure input text (user typed) is normal weight and softer color */
 .hero-form-group input,
 .hero-form-group textarea{
-  color: #ffffff;
-  font-weight: 700;
+  /* Тёплый светлый цвет с оранжевым оттенком (не белый) */
+  color: rgba(255, 200, 150, 0.95) !important;
+  font-weight: 400;
 }
 
 /* Generic form styles: apply the same premium, bold-white input and
@@ -3690,10 +4872,115 @@ form.keis-form input::placeholder,
 form.keis-form textarea::placeholder,
 .keis-form-group input::placeholder,
 .keis-form-group textarea::placeholder {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.95rem;
   line-height: 1.18;
   font-weight: 700;
+}
+
+/* Placeholder color для модалки и формы 5-го блока - мягкий серый в статическом состоянии */
+.challenges-cta__form input::placeholder,
+.challenges-cta__form textarea::placeholder,
+.hero-form--modal input::placeholder,
+.hero-form--modal textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: clamp(12px, 0.95vw, 14px);
+  line-height: 1.18;
+  font-weight: 400;
+  font-style: normal;
+  opacity: 1 !important;
+  transition: opacity 0.4s ease, color 0.4s ease;
+}
+
+.challenges-cta__form input::-webkit-input-placeholder,
+.challenges-cta__form textarea::-webkit-input-placeholder,
+.hero-form--modal input::-webkit-input-placeholder,
+.hero-form--modal textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+}
+
+.challenges-cta__form input::-moz-placeholder,
+.challenges-cta__form textarea::-moz-placeholder,
+.hero-form--modal input::-moz-placeholder,
+.hero-form--modal textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+  opacity: 1 !important;
+}
+
+.challenges-cta__form input:-ms-input-placeholder,
+.challenges-cta__form textarea:-ms-input-placeholder,
+.hero-form--modal input:-ms-input-placeholder,
+.hero-form--modal textarea:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+}
+
+.challenges-cta__form input::-ms-input-placeholder,
+.challenges-cta__form textarea::-ms-input-placeholder,
+.hero-form--modal input::-ms-input-placeholder,
+.hero-form--modal textarea::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(12px, 0.95vw, 14px);
+}
+
+.challenges-cta__form input:focus::placeholder,
+.challenges-cta__form textarea:focus::placeholder,
+.hero-form--modal input:focus::placeholder,
+.hero-form--modal textarea:focus::placeholder {
+  opacity: 0.4;
+}
+
+/* Placeholder во время typing - бело-оранжевый как в hero-форме */
+.challenges-cta__form input.is-typing::placeholder,
+.challenges-cta__form textarea.is-typing::placeholder,
+.hero-form--modal input.is-typing::placeholder,
+.hero-form--modal textarea.is-typing::placeholder {
+  color: rgba(255, 160, 100, 0.75) !important;
+  opacity: 1 !important;
+  transition: opacity 0.4s ease, color 0.4s ease;
+}
+
+.challenges-cta__form input.is-typing::-webkit-input-placeholder,
+.challenges-cta__form textarea.is-typing::-webkit-input-placeholder,
+.hero-form--modal input.is-typing::-webkit-input-placeholder,
+.hero-form--modal textarea.is-typing::-webkit-input-placeholder {
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
+}
+
+.challenges-cta__form input.is-typing::-moz-placeholder,
+.challenges-cta__form textarea.is-typing::-moz-placeholder,
+.hero-form--modal input.is-typing::-moz-placeholder,
+.hero-form--modal textarea.is-typing::-moz-placeholder {
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
+  opacity: 1 !important;
+}
+
+.challenges-cta__form input.is-typing:-ms-input-placeholder,
+.challenges-cta__form textarea.is-typing:-ms-input-placeholder,
+.hero-form--modal input.is-typing:-ms-input-placeholder,
+.hero-form--modal textarea.is-typing:-ms-input-placeholder {
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
+}
+
+.challenges-cta__form input.is-typing::-ms-input-placeholder,
+.challenges-cta__form textarea.is-typing::-ms-input-placeholder,
+.hero-form--modal input.is-typing::-ms-input-placeholder,
+.hero-form--modal textarea.is-typing::-ms-input-placeholder {
+  color: rgba(255, 160, 100, 0.75) !important;
+  font-weight: 400;
 }
 
 .keis-form .keis-form-group input.is-typing::placeholder,
@@ -3702,7 +4989,7 @@ form.keis-form input.is-typing::placeholder,
 form.keis-form textarea.is-typing::placeholder,
 .keis-form-group input.is-typing::placeholder,
 .keis-form-group textarea.is-typing::placeholder {
-  color: #ffffff;
+  color: rgba(255, 160, 100, 0.75) !important;
   opacity: 1;
 }
 
@@ -3759,7 +5046,7 @@ form.keis-form textarea{
    unless they opt out. */
 form:not([data-no-ux]):not([data-keis-ux='off']) input::placeholder,
 form:not([data-no-ux]):not([data-keis-ux='off']) textarea::placeholder{
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 700;
   opacity: 1;
 }
@@ -3799,54 +5086,8 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
 
 /* Glassy premium button for hero form, header CTA and modal */
 .hero-form .btn-primary,
-.keis-header-cta,
-.hero-form--modal .btn-primary {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px 22px;
-  height: 56px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-  color: #fff;
-  font-weight: 700;
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow:
-    0 24px 60px rgba(0,0,0,0.56),
-    inset 0 1px 0 rgba(255,255,255,0.06);
-  backdrop-filter: blur(8px) saturate(140%);
-  -webkit-backdrop-filter: blur(8px) saturate(140%);
-  transition: transform .16s ease, box-shadow .18s ease, filter .12s ease;
-}
-
-@media (hover:hover){
-  .hero-form .btn-primary:hover,
-  .keis-header-cta:hover,
-  .hero-form--modal .btn-primary:hover{
-    transform: translateY(-3px);
-    filter: brightness(1.12) saturate(1.06);
-    box-shadow:
-      0 46px 140px rgba(0,0,0,0.62),
-      0 20px 44px rgba(255,120,0,0.18),
-      inset 0 1px 0 rgba(255,255,255,0.12);
-  }
-  .hero-form .btn-primary:active,
-  .keis-header-cta:active,
-  .hero-form--modal .btn-primary:active{ transform: translateY(0); }
-}
-
-/* make header CTA look glassy too */
-.keis-header-cta{
-  padding: 10px 16px;
-  border-radius: 12px;
-  color: #fff;
-  font-weight: 700;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  box-shadow: 0 18px 46px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
-}
+/* REMOVED: конфликтующий блок .keis-header-cta с .hero-form--modal .btn-primary
+   Header CTA имеет собственные стили выше (строки 2615-2704) */
 
 /* Центрирование основной кнопки формы для всех разрешений */
 .hero-form{
@@ -3893,7 +5134,6 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
    ==================================================================== */
 .keis-btn--glass,
 .btn-primary,
-.keis-header-cta,
 .faq-ask-btn,
 .challenges-cta__btn{
   position: relative;
@@ -3935,7 +5175,6 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
 
 .keis-btn--glass::before,
 .btn-primary::before,
-.keis-header-cta::before,
 .faq-ask-btn::before,
 .challenges-cta__btn::before{
   /* subtle warm rim/prism */
@@ -3955,7 +5194,6 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
 
 .keis-btn--glass::after,
 .btn-primary::after,
-.keis-header-cta::after,
 .faq-ask-btn::after,
 .challenges-cta__btn::after{
   /* warm, low-contrast sheen */
@@ -3975,7 +5213,6 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
 @media (hover:hover){
   .keis-btn--glass:hover,
   .btn-primary:hover,
-  .keis-header-cta:hover,
   .faq-ask-btn:hover,
   .challenges-cta__btn:hover{
     transform: translateY(-4px);
@@ -3984,7 +5221,6 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
   }
   .keis-btn--glass:hover::after,
   .btn-primary:hover::after,
-  .keis-header-cta:hover::after,
   .faq-ask-btn:hover::after,
   .challenges-cta__btn:hover::after{
     opacity: .42;
@@ -3994,7 +5230,6 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
 
 .keis-btn--glass:focus,
 .btn-primary:focus,
-.keis-header-cta:focus,
 .faq-ask-btn:focus,
 .challenges-cta__btn:focus{
   outline: none;
@@ -4002,7 +5237,27 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
 }
 
 /* Ensure hero form button keeps centered width but uses glass visuals */
-.hero-form .btn-primary{ color: #fff !important; background: transparent; border: none; width: 88%; max-width:420px; display:block; margin: 0 auto; }
+.hero-form .btn-primary{ 
+  color: transparent !important; 
+  background: transparent; 
+  border: none; 
+  width: 88%; 
+  max-width:420px; 
+  display:block; 
+  margin: 0 auto; 
+  /* Градиентный текст - тот же градиент, что в hero-title-mark (source of truth) */
+  background-image: linear-gradient(135deg, 
+    rgba(255, 200, 140, 0.98) 0%, 
+    rgba(255, 160, 80, 0.98) 34%,
+    rgba(255, 106, 0, 1) 70%,
+    rgba(255, 180, 100, 0.98) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Усиливаем контраст и заметность кнопки */
+  box-shadow: 0 20px 70px rgba(6,4,3,0.68), 0 8px 24px rgba(255,122,24,0.22), inset 0 1px 0 rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+}
 
 /* ====================================================================
    Sheen variants for quick visual A/B:
@@ -4168,89 +5423,89 @@ form:not([data-no-ux]):not([data-keis-ux='off']) textarea{
   width:100%;
   min-width:0;
 
-  /* Премиальный стеклянный фон с градиентными акцентами */
+  /* Премиальный стеклянный фон с градиентными акцентами (более прозрачный) */
   background:
     /* Яркий акцент слева-сверху (каждая карточка уникальна) */
     radial-gradient(
       ellipse 180% 200% at -20% -10%,
-      rgba(255,180,120,0.28),
-      rgba(255,180,120,0.12) 35%,
-      rgba(255,180,120,0.04) 55%,
+      rgba(255,180,120,0.12),
+      rgba(255,180,120,0.05) 35%,
+      rgba(255,180,120,0.02) 55%,
       transparent 75%
     ),
     /* Мягкий градиент сверху */
     linear-gradient(
       180deg,
-      rgba(255,255,255,0.16) 0%,
-      rgba(255,255,255,0.08) 40%,
-      rgba(255,255,255,0.02) 100%
+      rgba(255,255,255,0.08) 0%,
+      rgba(255,255,255,0.04) 40%,
+      rgba(255,255,255,0.01) 100%
     ),
-    /* Базовый темный фон */
-    rgba(12,8,5,0.72);
+    /* Базовый темный фон (более прозрачный) */
+    rgba(12,8,5,0.32);
 
-  border:1px solid rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.12);
   box-shadow:
-    0 20px 48px rgba(0,0,0,0.7),
-    inset 0 1px 0 rgba(255,255,255,0.24),
-    inset 0 -1px 0 rgba(0,0,0,0.3),
-    inset -1px 0 0 rgba(255,180,120,0.1);
+    0 20px 48px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    inset 0 -1px 0 rgba(0,0,0,0.2),
+    inset -1px 0 0 rgba(255,180,120,0.06);
 
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Уникальные акценты для каждой карточки */
+/* Уникальные акценты для каждой карточки (более прозрачные) */
 .hero-benefit-card.hero-benefit-card--intro:nth-child(1) {
   background:
     radial-gradient(
       ellipse 180% 200% at -20% -10%,
-      rgba(255,180,120,0.32),
-      rgba(255,180,120,0.14) 35%,
+      rgba(255,180,120,0.12),
+      rgba(255,180,120,0.05) 35%,
       transparent 65%
     ),
-    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
-    rgba(12,8,5,0.72);
-  border-left:2px solid rgba(255,180,120,0.3);
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+    rgba(12,8,5,0.32);
+  border-left:2px solid rgba(255,180,120,0.16);
 }
 
 .hero-benefit-card.hero-benefit-card--intro:nth-child(2) {
   background:
     radial-gradient(
       ellipse 160% 180% at 120% -15%,
-      rgba(255,154,60,0.28),
-      rgba(255,154,60,0.12) 35%,
+      rgba(255,154,60,0.12),
+      rgba(255,154,60,0.05) 35%,
       transparent 65%
     ),
-    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
-    rgba(12,8,5,0.72);
-  border-top:2px solid rgba(255,154,60,0.3);
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+    rgba(12,8,5,0.32);
+  border-top:2px solid rgba(255,154,60,0.16);
 }
 
 .hero-benefit-card.hero-benefit-card--intro:nth-child(3) {
   background:
     radial-gradient(
       ellipse 140% 190% at -15% 110%,
-      rgba(255,138,0,0.26),
-      rgba(255,138,0,0.10) 35%,
+      rgba(255,138,0,0.10),
+      rgba(255,138,0,0.04) 35%,
       transparent 65%
     ),
-    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
-    rgba(12,8,5,0.72);
-  border-right:2px solid rgba(255,138,0,0.3);
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+    rgba(12,8,5,0.32);
+  border-right:2px solid rgba(255,138,0,0.16);
 }
 
 .hero-benefit-card.hero-benefit-card--intro:nth-child(4) {
   background:
     radial-gradient(
       ellipse 170% 200% at 110% 110%,
-      rgba(255,200,140,0.30),
-      rgba(255,200,140,0.12) 35%,
+      rgba(255,200,140,0.12),
+      rgba(255,200,140,0.05) 35%,
       transparent 65%
     ),
-    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04)),
-    rgba(12,8,5,0.72);
-  border-bottom:2px solid rgba(255,200,140,0.3);
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+    rgba(12,8,5,0.32);
+  border-bottom:2px solid rgba(255,200,140,0.16);
 }
 
 /* Премиальный блик сверху */
@@ -4678,28 +5933,46 @@ body.page-influence .scenarios-trust-bridge{
   margin: 0 auto;
 }
 
+/* Mobile: ensure container doesn't create horizontal overflow */
+@media (max-width: 768px) {
+  .investment-scenarios .section-container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: clamp(16px, 4vw, 24px);
+    padding-right: clamp(16px, 4vw, 24px);
+    box-sizing: border-box;
+  }
+}
+
 /* Desktop tweak: when three cards are visible we want the scenarios
    container to be visually wider (reduce large side gutters) but still
    slightly narrower than full page width. This media rule targets
    wide viewports where the carousel shows 3 items. */
 @media (min-width: 1201px) {
   .investment-scenarios .section-container {
-    /* wider target for desktop: prefers viewport percentage but caps
-       at a larger max to avoid extremely wide cards on ultra-wide screens */
-    /* Increase desktop target so the scenarios window is visually wider
-       and removes large side gutters when 3 cards are visible. Use a
-       higher viewport fraction to meet visual/automated test thresholds. */
-   /* Slightly increase desktop visual target to compensate for the
-     lightweight gutters and ensure automated visual thresholds
-     (scenarios window width) remain above required values. */
-   width: clamp(1224px, 94vw, 1800px);
+    /* Expanded visual width to approximately 80% of the viewport to
+       increase presence while keeping a reasonable minimum/maximum.
+       This replaces the earlier 94vw value to meet design request (≈80% width). */
+    width: clamp(900px, 80vw, 1600px);
     max-width: none;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
     /* Restore light desktop side gutters so content breathes at the
        viewport edges while keeping the container visually wide.
        Using clamp keeps gutters between 12px and 24px depending on
        viewport size. */
     padding-left: clamp(12px, 1.2vw, 24px);
     padding-right: clamp(12px, 1.2vw, 24px);
+  }
+
+  /* Ensure the band window doesn't add extra outer padding that could push
+     visual content past the container edge. Keep width constrained to 100%. */
+  .investment-scenarios .scenarios-band-window{
+    padding-left: clamp(6px, 1.2vw, 12px);
+    padding-right: clamp(6px, 1.2vw, 12px);
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
@@ -5010,14 +6283,15 @@ body.page-influence .investment-scenarios > .section-container {
     --sc-visible: 1;
     --sc-gap: clamp(20px, 6vw, 32px);
 
-    /* карточка почти на всю ширину экрана */
-    width: 88%;
-    max-width: 88%;
-    margin-left: auto;
-    margin-right: auto;
+    /* карточка на всю ширину контейнера без overflow */
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
 
     /* больше воздуха, но без обрезки */
     padding: 16px 16px;
+    box-sizing: border-box;
   }
 
     /* сама карточка визуально крупнее и «планшетная» */
@@ -5821,25 +7095,17 @@ body.page-influence .tag {
   border:1px solid rgba(255,255,255,.12);
 }
 
-/* CTA — единый стиль */
+/* CTA — единый стиль (header CTA имеет собственные стили в блоке HEADER — Source of Truth) */
 body.page-investment .btn-primary,
 body.page-main .btn-primary,
 body.page-credit .btn-primary,
-body.page-influence .btn-primary,
-body.page-investment .keis-header-cta,
-body.page-main .keis-header-cta,
-body.page-credit .keis-header-cta,
-body.page-influence .keis-header-cta {
+body.page-influence .btn-primary {
   transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
 }
 body.page-investment .btn-primary:hover,
 body.page-main .btn-primary:hover,
 body.page-credit .btn-primary:hover,
-body.page-influence .btn-primary:hover,
-body.page-investment .keis-header-cta:hover,
-body.page-main .keis-header-cta:hover,
-body.page-credit .keis-header-cta:hover,
-body.page-influence .keis-header-cta:hover {
+body.page-influence .btn-primary:hover {
   transform: translateY(-1px);
   box-shadow: 0 18px 34px rgba(249,115,22,.35);
 }
@@ -5926,78 +7192,18 @@ body.page-influence .keis-header-cta:hover {
   }
 }
 
-/* ==================================================================
-   FORCE: Make first block (HERO) at 901-1199px behave like mobile ≤900px
-   Reason: user requested that all elements in the first block on widths
-   between 901px and 1199px use the same layout/stacking as on ≤900px.
-   This block intentionally mirrors the mobile rules (single-column
-   stacking, centered form card, adjusted title underline) but is
-   scoped to the hero so other sections remain untouched.
-   ================================================================== */
-@media (min-width: 901px) and (max-width: 1199px) {
-  /* Stack hero into single column (content → form → benefits) */
-  .hero-investment__grid {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "content"
-      "form"
-      "benefits";
-    column-gap: 0;
-  }
-
-  /* Center the form as on mobile */
-  .hero-investment__form{
-    justify-self: center;
+/* Переопределение для 900-1100px: форма внутри grid, не центрируется отдельно */
+@media (min-width: 900px) and (max-width: 1100px){
+  .hero-form,
+  .hero-investment__form,
+  .hero-form-wrapper,
+  .hero__form{
     width: 100%;
-    max-width: none;
-    margin: 0 auto;
-  }
-
-  /* Make the form card width match mobile sizing rules */
-  .hero-form-card{
-    width: 90%;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Title underline / mark: use mobile sizing so it doesn't overflow */
-  .hero-investment__title{
-    max-width: none;
-    display: block;
-  }
-
-  .hero-investment__title::before{
-    top: 1.15em;
-    width: 22ch;
-    height: 2.3em;
-  }
-
-  /* Slightly more compact hero paddings, like mobile */
-  .hero-investment{
-    padding: calc(var(--keis-header-h) - 28px) 0 30px;
-  }
-
-  /* Make badges / benefits behave like on mobile sizes */
-  .hero-benefits{
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-benefit-card.hero-benefit-card--intro{
-    min-height: 176px;
-    padding: 18px 16px 20px;
-    border-radius: 20px;
-  }
-
-  /* Ensure hero-form placeholder sizing matches mobile */
-  .hero-form-group input::placeholder,
-  .hero-form-group textarea::placeholder{
-    font-size: 0.86rem;
-    line-height: 1.2;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
+
 /* ==========================================================
    FIX: SCENARIOS orange bands must NOT overlap соседние секции
    (особенно 700–900px). Держим полосы внутри блока.
@@ -6301,390 +7507,7 @@ body.page-influence .investment-faq::before {
       );
   }
 }
-/* =========================
-   HEADER FIXES (Investment)
-   ========================= */
-
-body.page-investment .keis-header,
-body.page-main .keis-header,
-body.page-credit .keis-header,
-body.page-influence .keis-header {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-}
-
-/* make header layout breathe: nav closer to contacts, but with a clear gap */
-body.page-investment .keis-header-inner,
-body.page-main .keis-header-inner,
-body.page-credit .keis-header-inner,
-body.page-influence .keis-header-inner {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-/* Bigger logo, minimal top/bottom breathing room */
-body.page-investment .keis-header-logo,
-body.page-main .keis-header-logo,
-body.page-credit .keis-header-logo,
-body.page-influence .keis-header-logo {
-  display: inline-flex;
-  align-items: center;
-  padding: 0;
-  line-height: 0;
-}
-
-body.page-investment .keis-header-logo img,
-body.page-main .keis-header-logo img,
-body.page-credit .keis-header-logo img,
-body.page-influence .keis-header-logo img {
-  display: block;
-  height: 44px; /* larger than before */
-  width: auto;
-}
-
-@media (min-width: 900px){
-  body.page-investment .keis-header-logo img,
-body.page-main .keis-header-logo img,
-body.page-credit .keis-header-logo img,
-body.page-influence .keis-header-logo img { height: 52px; }
-}
-
-/* Move the nav to the right, closer to the contacts cluster */
-body.page-investment .keis-header-nav,
-body.page-main .keis-header-nav,
-body.page-credit .keis-header-nav,
-body.page-influence .keis-header-nav {
-  margin-left: auto;
-  margin-right: 34px; /* bigger air before phone/icons */
-}
-
-/* Keep right cluster tight */
-body.page-investment .keis-header-center,
-body.page-main .keis-header-center,
-body.page-credit .keis-header-center,
-body.page-influence .keis-header-center {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* Icons: базовый размер для investment-лендинга на планшетах/десктопах */
-body.page-investment .keis-header-icon,
-body.page-main .keis-header-icon,
-body.page-credit .keis-header-icon,
-body.page-influence .keis-header-icon {
-  width: 32px;
-  height: 32px;
-}
-
-body.page-investment .keis-header-icon--telegram,
-body.page-main .keis-header-icon--telegram,
-body.page-credit .keis-header-icon--telegram,
-body.page-influence .keis-header-icon--telegram,
-body.page-investment .keis-header-icon--whats,
-body.page-main .keis-header-icon--whats,
-body.page-credit .keis-header-icon--whats,
-body.page-influence .keis-header-icon--whats {
-  transition: transform .16s ease, filter .16s ease;
-  transform-origin: 50% 50%;
-}
-
-@media (hover:hover){
-  body.page-investment .keis-header-icon--telegram:hover,
-body.page-main .keis-header-icon--telegram:hover,
-body.page-credit .keis-header-icon--telegram:hover,
-body.page-influence .keis-header-icon--telegram:hover,
-  body.page-investment .keis-header-icon--whats:hover,
-body.page-main .keis-header-icon--whats:hover,
-body.page-credit .keis-header-icon--whats:hover,
-body.page-influence .keis-header-icon--whats:hover {
-    transform: scale(1.12);
-    filter: brightness(1.08);
-  }
-}
-
-/* Chevron next to Directions (desktop + mobile) */
-body.page-investment .keis-nav-chevron,
-body.page-main .keis-nav-chevron,
-body.page-credit .keis-nav-chevron,
-body.page-influence .keis-nav-chevron {
-  width: 14px;
-  height: 14px;
-  margin-left: 8px;
-  transform: rotate(0deg);
-  transition: transform .16s ease;
-  opacity: .9;
-}
-
-body.page-investment .keis-header-nav .has-children.is-open > a .keis-nav-chevron,
-body.page-main .keis-header-nav .has-children.is-open > a .keis-nav-chevron,
-body.page-credit .keis-header-nav .has-children.is-open > a .keis-nav-chevron,
-body.page-influence .keis-header-nav .has-children.is-open > a .keis-nav-chevron {
-  transform: rotate(180deg);
-}
-
-/* mobile submenu open state rotates chevron */
-body.page-investment .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron,
-body.page-main .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron,
-body.page-credit .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron,
-body.page-influence .keis-mobile-menu .mobile-has-submenu.submenu-open .keis-nav-chevron {
-  transform: rotate(180deg);
-}
-
-/* Burger rotates by 90deg when menu is open */
-body.page-investment .keis-header-burger,
-body.page-main .keis-header-burger,
-body.page-credit .keis-header-burger,
-body.page-influence .keis-header-burger {
-  transition: transform .16s ease;
-}
-
-body.page-investment .keis-header-burger.is-open,
-body.page-main .keis-header-burger.is-open,
-body.page-credit .keis-header-burger.is-open,
-body.page-influence .keis-header-burger.is-open {
-  transform: rotate(90deg);
-}
-
-/* Mobile menu should end nicely under the header, not full height */
-body.page-investment .keis-mobile-menu,
-body.page-main .keis-mobile-menu,
-body.page-credit .keis-mobile-menu,
-body.page-influence .keis-mobile-menu {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-}
-
-body.page-investment .keis-mobile-menu-panel,
-body.page-main .keis-mobile-menu-panel,
-body.page-credit .keis-mobile-menu-panel,
-body.page-influence .keis-mobile-menu-panel {
-  max-height: calc(100vh - 92px);
-  overflow: auto;
-  margin-top: 92px;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-}
-
-@media (max-width: 520px){
-  body.page-investment .keis-mobile-menu-panel,
-body.page-main .keis-mobile-menu-panel,
-body.page-credit .keis-mobile-menu-panel,
-body.page-influence .keis-mobile-menu-panel {
-    max-height: calc(100vh - 78px);
-    margin-top: 78px;
-  }
-}
-
-
-/* ==========================================================
-   HEADER + MENU (OVERRIDES)
-   Цели:
-   - логотип больше и ближе к краям шапки
-   - шапка всегда sticky при скролле
-   - десктоп: выпадающее меню "Направления" работает и не режется
-   - иконки (телефон/telegram/whats) крупнее (≈2.5x) + hover zoom для tg/wa
-   - chevron справа от "Направления" + поворот 180° при открытии
-   - бургер поворачивается на 90° при открытии
-   - мобайл/планшет: в шапке показываем телефон + tg/wa слева от кнопки
-   - мобайл-меню справа НЕ на всю высоту: заканчивается после "О нас"
-   ========================================================== */
-
-body.page-investment .keis-header,
-body.page-main .keis-header,
-body.page-credit .keis-header,
-body.page-influence .keis-header {
-  position: sticky;
-  top: 0;
-  z-index: 5000;
-  background: rgba(0,0,0,.56);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-  backdrop-filter: blur(12px) saturate(140%);
-  border-bottom: 1px solid rgba(255,255,255,.08);
-  overflow: visible;
-}
-
-
-
-/* Logo: bigger with minimal vertical gaps */
-body.page-investment .keis-header-logo,
-body.page-main .keis-header-logo,
-body.page-credit .keis-header-logo,
-body.page-influence .keis-header-logo {display:flex; align-items:center;}
-body.page-investment .keis-header-logo img,
-body.page-main .keis-header-logo img,
-body.page-credit .keis-header-logo img,
-body.page-influence .keis-header-logo img {
-  height: 46px;
-  width: auto;
-  display: block;
-  margin: 0;
-}
-
-/* Desktop nav */
-body.page-investment .keis-header-nav,
-body.page-main .keis-header-nav,
-body.page-credit .keis-header-nav,
-body.page-influence .keis-header-nav {display:block; overflow: visible;}
-body.page-investment .keis-header-nav-list,
-body.page-main .keis-header-nav-list,
-body.page-credit .keis-header-nav-list,
-body.page-influence .keis-header-nav-list {
-  display:flex;
-  align-items:center;
-  gap: 18px;
-  list-style:none;
-  margin: 0;
-  padding: 0;
-}
-
-body.page-investment .keis-header-nav-list a,
-body.page-main .keis-header-nav-list a,
-body.page-credit .keis-header-nav-list a,
-body.page-influence .keis-header-nav-list a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-
-/* Chevron */
-body.page-investment .keis-nav-chevron,
-body.page-main .keis-nav-chevron,
-body.page-credit .keis-nav-chevron,
-body.page-influence .keis-nav-chevron {
-  width: 14px;
-  height: 14px;
-  display: inline-block;
-  opacity: .9;
-  transform: translateY(1px);
-  transition: transform .22s ease, opacity .22s ease;
-}
-body.page-investment .keis-header-nav .has-children.is-open .keis-nav-chevron,
-body.page-main .keis-header-nav .has-children.is-open .keis-nav-chevron,
-body.page-credit .keis-header-nav .has-children.is-open .keis-nav-chevron,
-body.page-influence .keis-header-nav .has-children.is-open .keis-nav-chevron {
-  transform: translateY(1px) rotate(180deg);
-  opacity: 1;
-}
-
-/* Dropdown */
-body.page-investment .keis-header-nav .has-children,
-body.page-main .keis-header-nav .has-children,
-body.page-credit .keis-header-nav .has-children,
-body.page-influence .keis-header-nav .has-children {position:relative;}
-body.page-investment .keis-header-nav-dropdown,
-body.page-main .keis-header-nav-dropdown,
-body.page-credit .keis-header-nav-dropdown,
-body.page-influence .keis-header-nav-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  min-width: 280px;
-  padding: 10px;
-  border-radius: 16px;
-  background: rgba(18,14,10,.78);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
-  border: 1px solid rgba(255,255,255,.10);
-  box-shadow: 0 26px 90px rgba(0,0,0,.62);
-  display: none;
-  z-index: 9999;
-}
-body.page-investment .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
-body.page-main .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
-body.page-credit .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
-body.page-influence .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown {display:block;}
-body.page-investment .keis-header-nav-dropdown li,
-body.page-main .keis-header-nav-dropdown li,
-body.page-credit .keis-header-nav-dropdown li,
-body.page-influence .keis-header-nav-dropdown li {list-style:none;}
-body.page-investment .keis-header-nav-dropdown a,
-body.page-main .keis-header-nav-dropdown a,
-body.page-credit .keis-header-nav-dropdown a,
-body.page-influence .keis-header-nav-dropdown a {
-  display:flex;
-  width:100%;
-  padding: 10px 10px;
-  border-radius: 12px;
-}
-@media (hover:hover){
-  body.page-investment .keis-header-nav-dropdown a:hover,
-body.page-main .keis-header-nav-dropdown a:hover,
-body.page-credit .keis-header-nav-dropdown a:hover,
-body.page-influence .keis-header-nav-dropdown a:hover {
-    background: rgba(255,138,0,.10);
-  }
-}
-
-/* Right side cluster: move nav towards contacts but keep visible gap */
-body.page-investment .keis-header-center,
-body.page-main .keis-header-center,
-body.page-credit .keis-header-center,
-body.page-influence .keis-header-center {
-  margin-left: auto;
-  display:flex;
-  align-items:center;
-  gap: 14px;
-}
-body.page-investment .keis-header-nav,
-body.page-main .keis-header-nav,
-body.page-credit .keis-header-nav,
-body.page-influence .keis-header-nav {margin-right: 26px;}
-
-/* Contacts visible by default (we'll tune on breakpoints) */
-body.page-investment .keis-header-contacts,
-body.page-main .keis-header-contacts,
-body.page-credit .keis-header-contacts,
-body.page-influence .keis-header-contacts {
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  white-space: nowrap;
-}
-
-/* Icons: базовый размер для investment-лендинга на планшетах/десктопах */
-body.page-investment .keis-header-icon,
-body.page-main .keis-header-icon,
-body.page-credit .keis-header-icon,
-body.page-influence .keis-header-icon {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  opacity: .92;
-  transition: transform .18s ease, opacity .18s ease;
-}
-
-@media (hover:hover){
-  body.page-investment .keis-header-icon--telegram:hover,
-body.page-main .keis-header-icon--telegram:hover,
-body.page-credit .keis-header-icon--telegram:hover,
-body.page-influence .keis-header-icon--telegram:hover,
-  body.page-investment .keis-header-icon--whats:hover,
-body.page-main .keis-header-icon--whats:hover,
-body.page-credit .keis-header-icon--whats:hover,
-body.page-influence .keis-header-icon--whats:hover {
-    transform: scale(1.08);
-    opacity: 1;
-  }
-}
-
-/* Burger rotate 90° when open */
-body.page-investment .keis-header-burger-img,
-body.page-main .keis-header-burger-img,
-body.page-credit .keis-header-burger-img,
-body.page-influence .keis-header-burger-img {
-  transition: transform .22s ease;
-}
-body.page-investment .keis-header-burger.is-open .keis-header-burger-img,
-body.page-main .keis-header-burger.is-open .keis-header-burger-img,
-body.page-credit .keis-header-burger.is-open .keis-header-burger-img,
-body.page-influence .keis-header-burger.is-open .keis-header-burger-img {
-  transform: rotate(90deg);
-}
+/* Header fixes removed - using single source of truth in base header block (line ~2508) */
 
 /* ==========================================================
    SCENARIOS → TRUST: decorative bridge styles removed
@@ -6830,112 +7653,13 @@ body.page-credit .investment-scenarios .keis-divider--scenarios-seam.keis-divide
 body.page-influence .investment-scenarios .keis-divider--scenarios-seam.keis-divider--shards::after { height: 30px; }
 }
 
-/* =========================
-   HEADER FIXES
-   - Remove "Главная" handled in HTML
-   - Right-align everything after logo
-   - Normalize icon sizes across breakpoints
-   ========================= */
-
-body.page-investment .keis-header-inner,
-body.page-main .keis-header-inner,
-body.page-credit .keis-header-inner,
-body.page-influence .keis-header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-/* Push nav + contacts/CTA/burger to the right edge */
-body.page-investment .keis-header-nav,
-body.page-main .keis-header-nav,
-body.page-credit .keis-header-nav,
-body.page-influence .keis-header-nav {
-  margin-left: auto;
-}
-
-/* Make the nav items align to the right (not centered) */
-body.page-investment .keis-header-nav-list,
-body.page-main .keis-header-nav-list,
-body.page-credit .keis-header-nav-list,
-body.page-influence .keis-header-nav-list {
-  justify-content: flex-end;
-}
-
-/* Keep the right cluster tight to the right edge */
-body.page-investment .keis-header-center,
-body.page-main .keis-header-center,
-body.page-credit .keis-header-center,
-body.page-influence .keis-header-center {
-  margin-left: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-/* Normalize icons: prevent accidental upscaling on some widths */
-body.page-investment .keis-header-contacts,
-body.page-main .keis-header-contacts,
-body.page-credit .keis-header-contacts,
-body.page-influence .keis-header-contacts {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  flex: 0 0 auto;
-}
-
-/* Phone/icon sizes уже заданы выше через body.page-investment .keis-header-icon */
-
-/* Burger icon: keep compact on all sizes */
-body.page-investment .keis-header-burger-img,
-body.page-main .keis-header-burger-img,
-body.page-credit .keis-header-burger-img,
-body.page-influence .keis-header-burger-img {
-  width: clamp(18px, 2.0vw, 22px);
-  height: clamp(18px, 2.0vw, 22px);
-  object-fit: contain;
-  display: block;
-}
-
-/* Slightly tighter spacing on narrow widths so header doesn't feel "blown up" */
-@media (max-width: 900px){
-  body.page-investment .keis-header-center,
-body.page-main .keis-header-center,
-body.page-credit .keis-header-center,
-body.page-influence .keis-header-center { gap: 10px; }
-  body.page-investment .keis-header-contacts,
-body.page-main .keis-header-contacts,
-body.page-credit .keis-header-contacts,
-body.page-influence .keis-header-contacts { gap: 8px; }
-}
-
-@media (max-width: 520px){
-  body.page-investment .keis-header-center,
-body.page-main .keis-header-center,
-body.page-credit .keis-header-center,
-body.page-influence .keis-header-center { gap: 8px; margin-left: 10px; }
-  body.page-investment .keis-header-contacts,
-body.page-main .keis-header-contacts,
-body.page-credit .keis-header-contacts,
-body.page-influence .keis-header-contacts { gap: 7px; }
-}
 
 /* =========================
    HEADER — ABSOLUTE FIX
    ========================= */
 
-body.page-investment .keis-header,
-body.page-main .keis-header,
-body.page-credit .keis-header,
-body.page-influence .keis-header {
-  position: sticky;
-  top: 0;
-  z-index: 10000;
-  isolation: isolate; /* ломает влияние transform ниже */
-  transform: translateZ(0);
-  will-change: transform;
-}
+/* REMOVED: конфликтующий sticky override для header
+   Header использует position: fixed (определено в блоке HEADER — Source of Truth, строка 2508) */
 
 /* ниже шапки — ВСЁ всегда ниже */
 body.page-investment section,
@@ -6982,7 +7706,9 @@ body.page-investment .keis-marquee,
 body.page-main .keis-marquee,
 body.page-credit .keis-marquee,
 body.page-influence .keis-marquee {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   z-index: 20;
   width: 100%;
   margin-top: 0; /* убираем искусственный сдвиг, сливаемся с нижней границей HERO */
@@ -6999,16 +7725,21 @@ body.page-influence .keis-marquee {
   overflow: hidden;
 }
 
+/* FIX 5: Увеличить высоту бегущей строки и размер текста */
+/* FIX 4: Бегущая строка - увеличена высота, вертикальное выравнивание */
 body.page-investment .keis-marquee__inner,
 body.page-main .keis-marquee__inner,
 body.page-credit .keis-marquee__inner,
 body.page-influence .keis-marquee__inner {
   display: flex;
-  align-items: center;
+  align-items: center; /* Выровнено по центру вертикально */
+  justify-content: flex-start;
   gap: 0;
   white-space: nowrap;
-  padding: 10px 0; /* высота: чуть больше текста */
+  padding: clamp(16px, 1.8vh, 22px) 0; /* Увеличена высота для лучшей читаемости */
   will-change: transform;
+  min-height: clamp(52px, 6vh, 68px); /* Увеличена минимальная высота */
+  height: 100%; /* Заполняет доступную высоту */
 }
 
 /* тонкие «волоски» как у стекла (без дыма/шума) */
@@ -7037,6 +7768,8 @@ body.page-influence .keis-marquee__track {
   animation: keisMarqueeScroll 26s linear infinite;
 }
 
+/* FIX 5: Увеличить размер текста бегущей строки */
+/* FIX 4: Увеличен размер текста бегущей строки, улучшена читаемость */
 body.page-investment .keis-marquee__item,
 body.page-main .keis-marquee__item,
 body.page-credit .keis-marquee__item,
@@ -7045,10 +7778,12 @@ body.page-influence .keis-marquee__item {
   font-weight: 800;
   letter-spacing: .02em;
   text-transform: none;
-  font-size: 14px;
-  line-height: 1.15;
+  font-size: clamp(15.5px, 1.35vw, 18px); /* Увеличен размер текста */
+  line-height: 1.25; /* Улучшена читаемость и вертикальное выравнивание */
   color: rgba(12,7,6,.92);
   text-shadow: 0 1px 0 rgba(255,255,255,.22);
+  display: inline-flex;
+  align-items: center; /* Выровнено по центру вертикально */
 }
 
 body.page-investment .keis-marquee__sep,
@@ -7056,9 +7791,12 @@ body.page-main .keis-marquee__sep,
 body.page-credit .keis-marquee__sep,
 body.page-influence .keis-marquee__sep {
   font-weight: 900;
-  font-size: 14px;
+  font-size: clamp(15.5px, 1.35vw, 18px); /* Увеличен размер разделителя */
+  line-height: 1.25; /* Соответствует items */
   opacity: .75;
   color: rgba(12,7,6,.92);
+  display: inline-flex;
+  align-items: center; /* Выровнено по центру вертикально */
 }
 
 @keyframes keisMarqueeScroll{
@@ -7068,20 +7806,29 @@ body.page-influence .keis-marquee__sep {
 
 /* Убираем любые hover-эффекты — строка работает автономно */
 
-/* Responsive tuning */
+/* FIX 4: Responsive tuning - увеличенные размеры сохраняются на всех экранах */
 @media (max-width: 900px){
   body.page-investment .keis-marquee__inner,
 body.page-main .keis-marquee__inner,
 body.page-credit .keis-marquee__inner,
-body.page-influence .keis-marquee__inner { padding: 9px 0; }
+body.page-influence .keis-marquee__inner { 
+    padding: clamp(14px, 1.6vh, 18px) 0;
+    min-height: clamp(48px, 5.5vh, 62px);
+  }
   body.page-investment .keis-marquee__item,
 body.page-main .keis-marquee__item,
 body.page-credit .keis-marquee__item,
-body.page-influence .keis-marquee__item { font-size: 13px; }
+body.page-influence .keis-marquee__item { 
+    font-size: clamp(14.5px, 1.25vw, 16.5px);
+    line-height: 1.25;
+  }
   body.page-investment .keis-marquee__sep,
 body.page-main .keis-marquee__sep,
 body.page-credit .keis-marquee__sep,
-body.page-influence .keis-marquee__sep { font-size: 13px; }
+body.page-influence .keis-marquee__sep { 
+    font-size: clamp(14.5px, 1.25vw, 16.5px);
+    line-height: 1.25;
+  }
   body.page-investment .keis-marquee__track,
 body.page-main .keis-marquee__track,
 body.page-credit .keis-marquee__track,
@@ -7092,7 +7839,10 @@ body.page-influence .keis-marquee__track { animation-duration: 22s; }
   body.page-investment .keis-marquee__inner,
 body.page-main .keis-marquee__inner,
 body.page-credit .keis-marquee__inner,
-body.page-influence .keis-marquee__inner { padding: 8px 0; }
+body.page-influence .keis-marquee__inner { 
+    padding: clamp(13px, 1.5vh, 17px) 0;
+    min-height: clamp(46px, 5.2vh, 60px);
+  }
   body.page-investment .keis-marquee__track,
 body.page-main .keis-marquee__track,
 body.page-credit .keis-marquee__track,
@@ -7100,7 +7850,17 @@ body.page-influence .keis-marquee__track { gap: 14px; padding-right: 34px; }
   body.page-investment .keis-marquee__item,
 body.page-main .keis-marquee__item,
 body.page-credit .keis-marquee__item,
-body.page-influence .keis-marquee__item { font-size: 12.5px; }
+body.page-influence .keis-marquee__item { 
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.25;
+  }
+  body.page-investment .keis-marquee__sep,
+body.page-main .keis-marquee__sep,
+body.page-credit .keis-marquee__sep,
+body.page-influence .keis-marquee__sep { 
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.25;
+  }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -7376,39 +8136,20 @@ body.page-influence .scenarios-trust-bridge__text::before {
    truth avoids double contours and conflicting radii. */
 
 /* ==========================================================
-   FINAL OVERRIDES: header must stay on top (no sticky limits)
+   HEADER padding-top для body (чтобы контент не прятался под header)
    ========================================================== */
-:root { --keis-header-h: 86px; }
-
-body.page-investment, body.page-main, body.page-credit, body.page-influence {
-  padding-top: var(--keis-header-h);
-  scroll-padding-top: calc(var(--keis-header-h) + 12px);
+body.page-investment, 
+body.page-main, 
+body.page-credit, 
+body.page-influence {
+  padding-top: var(--header-h);
+  scroll-padding-top: calc(var(--header-h) + 12px);
   overflow-x: clip;
 }
 
-body.page-investment .keis-header,
-body.page-main .keis-header,
-body.page-credit .keis-header,
-body.page-influence .keis-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  z-index: 99999 !important;
-  transform: translateZ(0);
-}
-
-/* чтобы дропдаун “Направления” был поверх всего */
-body.page-investment .keis-header-nav-dropdown,
-body.page-main .keis-header-nav-dropdown,
-body.page-credit .keis-header-nav-dropdown,
-body.page-influence .keis-header-nav-dropdown {
-  z-index: 100000 !important;
-}
-
-@media (max-width: 899px){
-  :root { --keis-header-h: 74px; }
+/* Dropdown должен быть выше header */
+.keis-header-nav-dropdown {
+  z-index: 9991;
 }
 /* =========================
    MARQUEE (между HERO и SCENARIOS)
@@ -7419,37 +8160,8 @@ body.page-influence .keis-header-nav-dropdown {
    - бесшовная бегущая строка, пауза при hover
    ========================= */
 
-body.page-investment .keis-marquee,
-body.page-main .keis-marquee,
-body.page-credit .keis-marquee,
-body.page-influence .keis-marquee {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-
-  /* встык к HERO */
-  margin-top: -2px;
-
-  /* высота ленты */
-  height: clamp(34px, 3.2vw, 48px);
-
-  display: flex;
-  align-items: center;
-
-  /* яркий акцент, но без «кислоты» */
-  background:
-    linear-gradient(180deg, rgba(255, 138, 0, 0.92), rgba(255, 98, 0, 0.86));
-
-  /* тонкие стеклянные грани */
-  border-top: 1px solid rgba(255,255,255,.22);
-  border-bottom: 1px solid rgba(0,0,0,.35);
-
-  box-shadow:
-    0 18px 42px rgba(255, 120, 0, .22),
-    0 10px 26px rgba(0,0,0,.28);
-
-  z-index: 6;
-}
+/* REMOVED: This rule was making ticker viewport-fixed. Ticker should be static at hero bottom seam. */
+/* Use the earlier rule at line 7607 instead (position: absolute; bottom: 0; within hero section) */
 
 /* мягкая «сцепка» с фоном HERO/SCENARIOS (без дыма) */
 body.page-investment .keis-marquee::before,
@@ -7493,13 +8205,7 @@ body.page-influence .keis-marquee__track {
   will-change: transform;
 }
 
-/* пауза при наведении/фокусе */
-@media (hover:hover){
-  body.page-investment .keis-marquee:hover .keis-marquee__track,
-body.page-main .keis-marquee:hover .keis-marquee__track,
-body.page-credit .keis-marquee:hover .keis-marquee__track,
-body.page-influence .keis-marquee:hover .keis-marquee__track { animation-play-state: paused; }
-}
+/* TASK 4: Ticker must never pause on hover - removed pause behavior */
 
 body.page-investment .keis-marquee__item,
 body.page-main .keis-marquee__item,
@@ -7716,69 +8422,12 @@ body.page-influence .trust-parallax {
   position: relative;
   z-index: 1;
 }
-/* ==========================================================
-   HEADER FIX: never disappears on scroll (fixed header)
-   ========================================================== */
-
-body.page-investment, body.page-main, body.page-credit, body.page-influence{
-  padding-top: var(--keis-header-h, 84px);
-}
-
-body.page-investment .keis-header,
-body.page-main .keis-header,
-body.page-credit .keis-header,
-body.page-influence .keis-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-  transform: none;
-}
-
-/* Make sure no ancestor creates a sticky/scroll container effect for the header */
-body.page-investment,
-body.page-main,
-body.page-credit,
-body.page-influence {
-  overflow-x: hidden;
-}
+/* REMOVED: дублирующий блок header fix
+   Header уже определен в блоке HEADER — Source of Truth (строка 2508) */
 
 /* Desktop dropdown: ensure it actually shows when opened */
-body.page-investment .keis-header-nav .has-children,
-body.page-main .keis-header-nav .has-children,
-body.page-credit .keis-header-nav .has-children,
-body.page-influence .keis-header-nav .has-children {
-  position: relative;
-}
-
-body.page-investment .keis-header-nav-dropdown,
-body.page-main .keis-header-nav-dropdown,
-body.page-credit .keis-header-nav-dropdown,
-body.page-influence .keis-header-nav-dropdown {
-  display: none;
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  min-width: 280px;
-  z-index: 10000;
-}
-
-body.page-investment .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
-body.page-main .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
-body.page-credit .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown,
-body.page-influence .keis-header-nav .has-children.is-open > .keis-header-nav-dropdown {
-  display: block;
-}
-
-/* Chevron icon for “Направления” (desktop) */
-body.page-investment .keis-header-nav a[data-submenu-trigger],
-body.page-main .keis-header-nav a[data-submenu-trigger],
-body.page-credit .keis-header-nav a[data-submenu-trigger],
-body.page-influence .keis-header-nav a[data-submenu-trigger] {
-  position: relative;
-  padding-right: 22px;
-}
+/* REMOVED: дублирующие body.page-* переопределения dropdown
+   Dropdown уже определен в блоке HEADER — Source of Truth (строка 2761) */
 
 body.page-investment .keis-header-nav a[data-submenu-trigger]::after,
 body.page-main .keis-header-nav a[data-submenu-trigger]::after,
@@ -8166,18 +8815,66 @@ body.modal-open {
   font-weight: 900;
   font-size: clamp(20px, 2.2vw, 28px);
   line-height: 1.2;
-  color: rgba(244,241,235,.97);
-  text-shadow: 
-    0 2px 1px rgba(0,0,0,.35),
-    0 12px 28px rgba(0,0,0,.55);
+  text-align: center;
+  background: linear-gradient(135deg, 
+    rgba(255, 200, 140, 0.98) 0%, 
+    rgba(255, 160, 80, 0.98) 34%,
+    rgba(255, 106, 0, 1) 70%,
+    rgba(255, 180, 100, 0.98) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 0 10px rgba(255, 106, 0, 0.12), 0 1px 1px rgba(0,0,0,0.20);
+  position: relative;
+  padding-bottom: clamp(10px, 1.2vw, 14px);
+  margin-bottom: clamp(10px, 1.2vw, 14px);
+}
+
+.keis-modal__title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 180, 100, 0.35) 20%, 
+    rgba(255, 180, 100, 0.45) 50%, 
+    rgba(255, 180, 100, 0.35) 80%, 
+    transparent 100%);
 }
 
 .keis-modal__subtitle {
-  margin: 0;
+  margin: 0 0 clamp(18px, 2.4vh, 30px) 0;
   font-size: clamp(14px, 1.1vw, 16px);
-  line-height: 1.5;
-  color: rgba(244,241,235,.80);
+  line-height: 1.60;
+  color: rgba(244,241,235,.82);
+  font-weight: 600;
   text-shadow: 0 2px 10px rgba(0,0,0,.45);
+  text-align: center;
+  position: relative;
+  padding-bottom: calc(clamp(18px, 2.4vh, 30px) / 2);
+}
+
+.keis-modal__subtitle::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 180, 100, 0.35) 20%, 
+    rgba(255, 180, 100, 0.45) 50%, 
+    rgba(255, 180, 100, 0.35) 80%, 
+    transparent 100%);
+  border-radius: 1px;
 }
 
 /* Modal animations */
@@ -8224,14 +8921,37 @@ body.modal-open {
     0 48px 96px rgba(0,0,0,.25);
 }
 
-/* Clear input focus states */
+/* FIX 1: Зафиксировать border-radius для всех форм в модалке и hero */
+.hero-form input,
+.hero-form textarea,
+.hero-form--modal input,
+.hero-form--modal textarea,
+.challenges-cta__form input,
+.challenges-cta__form textarea,
+.keis-form input,
+.keis-form textarea {
+  border-radius: var(--field-radius) !important;
+}
+
+/* Clear input focus states - no border/outline changes */
 .hero-form input:focus,
-.hero-form textarea:focus{
+.hero-form textarea:focus,
+.hero-form input:focus-visible,
+.hero-form textarea:focus-visible,
+.hero-form input.is-typing,
+.hero-form textarea.is-typing,
+.hero-form--modal input:focus,
+.hero-form--modal textarea:focus,
+.hero-form--modal input.is-typing,
+.hero-form--modal textarea.is-typing,
+.challenges-cta__form input:focus,
+.challenges-cta__form textarea:focus,
+.challenges-cta__form input.is-typing,
+.challenges-cta__form textarea.is-typing {
   outline: none;
-  border-color: rgba(255,170,90,.75);
-  box-shadow: 
-    0 0 0 3px rgba(255,170,90,.18),
-    0 2px 8px rgba(0,0,0,.25);
+  border-color: inherit;
+  box-shadow: inherit;
+  border-radius: var(--field-radius) !important;
   /* keep background dark on focus so white text remains readable */
   background: rgba(20,16,15,0.98);
   transition: 
@@ -8251,38 +8971,10 @@ body.modal-open {
 
 /* Unified premium button appearance for all CTA locations (override duplicates) */
 .btn-primary,
-.keis-header-cta,
-.faq-ask-btn,
-.challenges-cta__btn{
-  color: #ffffff !important;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 28px 66px rgba(0,0,0,0.6), 0 10px 30px rgba(255,120,24,0.14), inset 0 1px 0 rgba(255,255,255,0.04);
-  border-radius: 12px;
-  transition: 
-    transform 0.18s cubic-bezier(0.4, 0.0, 0.2, 1),
-    filter 0.18s ease,
-    box-shadow 0.18s cubic-bezier(0.4, 0.0, 0.2, 1),
-    border-color 0.18s ease;
-}
-
-@media (hover:hover){
-  .btn-primary:hover,
-  .keis-header-cta:hover,
-  .faq-ask-btn:hover,
-  .challenges-cta__btn:hover{
-    transform: translateY(-3px);
-    filter: brightness(1.08) saturate(1.06);
-    box-shadow: 0 48px 120px rgba(0,0,0,0.68), 0 16px 40px rgba(255,140,40,0.18), inset 0 1px 0 rgba(255,255,255,0.08);
-  }
-  .btn-primary:active,
-  .keis-header-cta:active,
-  .faq-ask-btn:active{ transform: translateY(0); }
-}
+/* REMOVED: конфликтующий блок .keis-header-cta с .faq-ask-btn, .challenges-cta__btn
+   Header CTA имеет собственные стили в блоке HEADER — Source of Truth (строка 2615) */
 
 /* Ensure hero form primary keeps its layout but uses premium color */
-.hero-form .btn-primary{ color:#fff !important; }
-
 /* ==================================================
    Strong overrides for fraud pages to avoid conflicts
    This block is intentionally specific and placed late
@@ -8302,6 +8994,37 @@ body.page-influence .btn-primary,
   transition: transform .18s ease, box-shadow .18s ease, filter .14s ease !important;
 }
 
+/* Hero form button: градиентный текст + усиленная заметность (все 4 страницы) */
+body.page-investment .hero-form .btn-primary,
+body.page-main .hero-form .btn-primary,
+body.page-influence .hero-form .btn-primary,
+body.page-credit .hero-form .btn-primary {
+  color: transparent !important;
+  background: transparent !important;
+  /* Градиентный текст - тот же градиент, что в hero-title-mark (source of truth) */
+  background-image: linear-gradient(135deg, 
+    rgba(255, 200, 140, 0.98) 0%, 
+    rgba(255, 160, 80, 0.98) 34%,
+    rgba(255, 106, 0, 1) 70%,
+    rgba(255, 180, 100, 0.98) 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  /* Усиливаем контраст и заметность кнопки */
+  box-shadow: 0 20px 70px rgba(6,4,3,0.68), 0 8px 24px rgba(255,122,24,0.22), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  padding: 14px 24px !important;
+}
+
+body.page-investment .hero-form .btn-primary:hover,
+body.page-main .hero-form .btn-primary:hover,
+body.page-influence .hero-form .btn-primary:hover,
+body.page-credit .hero-form .btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 28px 90px rgba(6,4,3,0.72), 0 12px 32px rgba(255,122,24,0.28), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+  filter: brightness(1.08) saturate(1.1) !important;
+}
+
 /* ensure the hero-form keep centered block sizing but adopt visual overrides */
 body.page-investment .hero-form .btn-primary,
 body.page-main .hero-form .btn-primary,
@@ -8317,22 +9040,8 @@ body.page-influence .hero-form .btn-primary{
   border-radius: 12px !important;
 }
 
-/* Header CTA and other CTAs must follow the same premium look */
-.keis-header-cta,
-.faq-ask-btn,
-.challenges-cta__btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 16px;
-  height: 44px;
-  border-radius: 12px !important;
-  color: #ffffff !important;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)) !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04) !important;
-}
+/* REMOVED: дублирующий блок .keis-header-cta с !important
+   Header CTA имеет собственные стили в блоке HEADER — Source of Truth (строка 2615) */
 
 /* FAQ ask button specifics */
 .investment-faq .faq-ask-btn{
@@ -8343,18 +9052,7 @@ body.page-influence .hero-form .btn-primary{
   font-weight: 700;
 }
 
-@media (hover:hover){
-  .btn-primary:hover,
-  .keis-header-cta:hover,
-  .faq-ask-btn:hover,
-  .challenges-cta__btn:hover{
-    transform: translateY(-3px) !important;
-    filter: brightness(1.08) saturate(1.06) !important;
-    box-shadow: 0 48px 120px rgba(0,0,0,0.68), 0 16px 40px rgba(255,140,40,0.18) !important;
-  }
-}
-
-/* Ensure input focus does not become white (avoid white-on-white) anywhere in fraud pages */
+/* Ensure input focus does not become white (avoid white-on-white) anywhere in fraud pages - no border/outline changes */
 body.page-investment .hero-form input:focus,
 body.page-main .hero-form input:focus,
 body.page-credit .hero-form input:focus,
@@ -8362,11 +9060,21 @@ body.page-influence .hero-form input:focus,
 body.page-investment .hero-form textarea:focus,
 body.page-main .hero-form textarea:focus,
 body.page-credit .hero-form textarea:focus,
-body.page-influence .hero-form textarea:focus{
+body.page-influence .hero-form textarea:focus,
+body.page-investment .hero-form input.is-typing,
+body.page-main .hero-form input.is-typing,
+body.page-credit .hero-form input.is-typing,
+body.page-influence .hero-form input.is-typing,
+body.page-investment .hero-form textarea.is-typing,
+body.page-main .hero-form textarea.is-typing,
+body.page-credit .hero-form textarea.is-typing,
+body.page-influence .hero-form textarea.is-typing {
   background: rgba(20,16,15,0.98) !important;
   color: #ffffff !important;
-  border-color: rgba(255,170,90,.85) !important;
-  box-shadow: 0 0 0 3px rgba(255,170,90,.14) !important;
+  outline: none;
+  border-color: inherit !important;
+  box-shadow: inherit !important;
+  border-radius: var(--field-radius) !important;
 }
 
 
@@ -8453,12 +9161,12 @@ body.page-influence .hero-investment{
 
 /* Consistent container max-width for fraud pages only */
 /* Apply the consistent container max-width to sections EXCEPT the
-   specially-handled `.investment-scenarios` section (which manages
-   its own wide/full-bleed behavior in the canonical block above). */
-body.page-investment :not(.investment-scenarios) > .section-container,
-body.page-main :not(.investment-scenarios) > .section-container,
-body.page-credit :not(.investment-scenarios) > .section-container,
-body.page-influence :not(.investment-scenarios) > .section-container{
+   specially-handled `.investment-scenarios` and `.hero-investment` sections (which manages
+   their own wide/full-bleed behavior in the canonical block above). */
+body.page-investment :not(.investment-scenarios):not(.hero-investment) > .section-container,
+body.page-main :not(.investment-scenarios):not(.hero-investment) > .section-container,
+body.page-credit :not(.investment-scenarios):not(.hero-investment) > .section-container,
+body.page-influence :not(.investment-scenarios):not(.hero-investment) > .section-container{
   max-width: min(1320px, calc(100% - clamp(32px, 5vw, 80px)));
   margin-left: auto;
   margin-right: auto;
@@ -8491,11 +9199,12 @@ a {
 /* Premium focus states for accessibility */
 button:focus-visible,
 a:focus-visible,
+/* FIX 1: Зафиксировать border-radius для focus-visible */
 input:focus-visible,
 textarea:focus-visible {
   outline: 2px solid rgba(255, 138, 0, 0.6);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: var(--field-radius) !important;
 }
 
 /* Remove harsh default outlines */
@@ -8635,7 +9344,7 @@ img:not([loading="lazy"]) {
    Anchor offsets for sticky header
    ========================= */
 html{
-  scroll-padding-top: calc(var(--keis-header-h, 88px) + 14px);
+  scroll-padding-top: calc(var(--header-h, 72px) + 14px);
 }
 
 /* чтобы прыжки по якорям садились ниже sticky header */
@@ -8647,14 +9356,14 @@ body.page-main footer[id],
 body.page-investment footer[id],
 body.page-influence footer[id],
 body.page-credit footer[id]{
-  scroll-margin-top: calc(var(--keis-header-h, 88px) + 14px);
+  scroll-margin-top: calc(var(--header-h, 72px) + 14px);
 }
 
 /* =========================
    Anchor offsets for sticky header
    ========================= */
 html{
-  scroll-padding-top: calc(var(--keis-header-h, 88px) + 14px);
+  scroll-padding-top: calc(var(--header-h, 72px) + 14px);
 }
 
 body.page-main section[id],
@@ -8665,7 +9374,7 @@ body.page-main footer[id],
 body.page-investment footer[id],
 body.page-influence footer[id],
 body.page-credit footer[id]{
-  scroll-margin-top: calc(var(--keis-header-h, 88px) + 14px);
+  scroll-margin-top: calc(var(--header-h, 72px) + 14px);
 }
 /* ==========================================================
    PART 4: "Признаки обмана" — full-bleed фон + широкая сетка
@@ -8928,19 +9637,8 @@ body.page-influence .investment-scenarios::after {
 /* ------------------------------
    1. УБРАТЬ ЛЮБЫЕ РАМКИ / АНИМАЦИИ У КНОПКИ В ШАПКЕ
 --------------------------------*/
-.keis-header-cta,
-.keis-header-cta * {
-    box-shadow: none !important;
-    border: none !important;
-    outline: none !important;
-}
-
-.keis-header-cta::before,
-.keis-header-cta::after {
-    display: none !important;
-    content: none !important;
-    animation: none !important;
-}
+/* REMOVED: блок, который убивал стили .keis-header-cta
+   Header CTA имеет собственные стили в блоке HEADER — Source of Truth (строка 2615) */
 
 /* ------------------------------
    2. ФИКС КАРТОЧЕК "ПРИЗНАКИ ОБМАНА"
@@ -9051,3 +9749,10 @@ body.page-influence .investment-scenarios::after {
    block was removed. The project uses a single canonical implementation
    for .investment-scenarios (kept earlier in the file). See that block
    for the authoritative variables / layout / hover behavior. */
+/* ============================================
+   ПОЛНАЯ ПЕРЕРАБОТКА HERO БЛОКА - ПРЕМИАЛЬНЫЙ ВИЗУАЛ
+   Контейнер: 90% + max-width 1500px, центрирован - НЕ МЕНЯТЬ!
+   ============================================ */
+
+
+

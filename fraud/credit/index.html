@@ -103,7 +103,7 @@
   </div>
 
   <!-- HERO / OFFER -->
-  <section class="hero-investment" id="hero">
+  <section class="hero-investment hero-v2" id="hero">
     <div class="hero-investment__bg"></div>
 
     <div class="section-container hero-investment__inner">
@@ -139,18 +139,18 @@
               <div class="hero-form-row">
                 <div class="hero-form-group">
                   <label for="hero-name">Ваше имя</label>
-                  <input type="text" id="hero-name" name="name" placeholder="Как к вам обращаться" required>
+                  <input type="text" id="hero-name" name="name" placeholder="Фамилия Имя" required>
                 </div>
 
                 <div class="hero-form-group">
                   <label for="hero-phone">Телефон</label>
-                  <input type="tel" id="hero-phone" name="phone" inputmode="numeric" placeholder="+7 ___-___-__-__" maxlength="16" required>
+                  <input type="tel" id="hero-phone" name="phone" inputmode="numeric" placeholder="Ваш номер" maxlength="16" required>
                 </div>
               </div>
 
               <div class="hero-form-group">
                 <label for="hero-case">Кратко о ситуации</label>
-                <textarea id="hero-case" name="message" rows="4" placeholder="Опишите, что произошло и на каком этапе сейчас ваше дело" required></textarea>
+                <textarea id="hero-case" name="message" rows="4" placeholder="Опишите взлом аккаунта, оформление кредита или займа, действия МФО и что уже было сделано" required></textarea>
               </div>
 
               <button type="submit" class="btn-primary">Получить консультацию</button>
@@ -184,37 +184,37 @@
     </div>
 
     <div class="keis-divider keis-divider--shards keis-divider--scenarios-bottom" aria-hidden="true"></div>
-  </section>
 
-  <!-- MARQUEE -->
-  <div class="keis-marquee" role="region" aria-label="Ключевые преимущества">
-    <div class="keis-marquee__inner" aria-hidden="true">
-      <div class="keis-marquee__track">
-        <span class="keis-marquee__item">Использование уникальной методики возврата денежных средств</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">24/7</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">Работают только узкие специалисты, знающие внутреннюю систему госорганов и банков</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">Бесплатная первичная консультация с детальным правовым анализом</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">Находим нарушения даже там, где их не видят другие</span>
-        <span class="keis-marquee__sep">•</span>
-      </div>
-      <div class="keis-marquee__track" aria-hidden="true">
-        <span class="keis-marquee__item">Использование уникальной методики возврата денежных средств</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">24/7</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">Работают только узкие специалисты, знающие внутреннюю систему госорганов и банков</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">Бесплатная первичная консультация с детальным правовым анализом</span>
-        <span class="keis-marquee__sep">•</span>
-        <span class="keis-marquee__item">Находим нарушения даже там, где их не видят другие</span>
-        <span class="keis-marquee__sep">•</span>
+    <!-- MARQUEE -->
+    <div class="keis-marquee" role="region" aria-label="Ключевые преимущества">
+      <div class="keis-marquee__inner" aria-hidden="true">
+        <div class="keis-marquee__track">
+          <span class="keis-marquee__item">Использование уникальной методики возврата денежных средств</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">24/7</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Работают только узкие специалисты, знающие внутреннюю систему госорганов и банков</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Бесплатная первичная консультация с детальным правовым анализом</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Находим нарушения даже там, где их не видят другие</span>
+          <span class="keis-marquee__sep">•</span>
+        </div>
+        <div class="keis-marquee__track" aria-hidden="true">
+          <span class="keis-marquee__item">Использование уникальной методики возврата денежных средств</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">24/7</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Работают только узкие специалисты, знающие внутреннюю систему госорганов и банков</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Бесплатная первичная консультация с детальным правовым анализом</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Находим нарушения даже там, где их не видят другие</span>
+          <span class="keis-marquee__sep">•</span>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- SCENARIOS -->
   <section class="investment-scenarios" id="scenarios">
@@ -823,7 +823,7 @@
 
           <div class="hero-form-group">
             <label for="modal-phone">Телефон</label>
-            <input type="tel" id="modal-phone" name="phone" inputmode="numeric" placeholder="+7 ___-___-__-__" maxlength="16" required>
+            <input type="tel" id="modal-phone" name="phone" inputmode="numeric" placeholder="Ваш номер" maxlength="16" required>
           </div>
         </div>
 
