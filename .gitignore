@@ -17,3 +17,11 @@ yarn-error.log*
 *.backup
 
 /_trash/
+.DS_Store
+node_modules/
+.vscode/
+test-results/
+tests-screenshots/
+shot-*.png
+*.tgz
+*.VSIXPackage
