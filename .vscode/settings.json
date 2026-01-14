@@ -1,4 +1,14 @@
 {
-    "liveServer.settings.port": 5503,
-    "github.copilot.nextEditSuggestions.enabled": true
+  "liveServer.settings.port": 5506,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "chat.tools.terminal.autoApprove": {
+    "/^python3\\s+-m\\s+http\\.server(\\s+\\d+)?(\\s+--bind\\s+\\S+)?$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^node\\s+--check\\s+\\/Users\\/evgenijtazelnikov\\/Documents\\/kg\\/script\\.js$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
 }

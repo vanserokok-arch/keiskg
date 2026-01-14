@@ -11,8 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/fraud/styles.css" />
-  <!--#include virtual="/fraud/partials/metrika.html" -->
+  <link rel="stylesheet" href="../../styles.css" />
+  <script src="https://mc.yandex.ru/metrika/tag.js" async></script>
 </head>
 
 <body class="page-influence" id="top">
@@ -20,19 +20,25 @@
   <!-- HEADER -->
   <header class="keis-header" role="banner">
     <div class="keis-header-inner">
-      <a href="/fraud/" class="keis-header-logo" aria-label="Кейс — на главную">
-        <img src="/fraud/assets/head/head_logo.png" alt="Кейс — юридическая компания" />
+      <a href="../" class="keis-header-logo" aria-label="Кейс — на главную">
+        <img src="/assets/head/head_logo.png" alt="Кейс — юридическая компания" />
       </a>
 
       <nav class="keis-header-nav" aria-label="Главная навигация">
         <ul class="keis-header-nav-list">
 
           <li class="has-children">
-            <a href="#" data-submenu-trigger="directions" aria-haspopup="true" aria-expanded="false">Направления</a>
+            <a href="#" data-submenu-trigger="directions" aria-haspopup="true" aria-expanded="false">
+              Направления
+              <!-- TASK 4: New animated toggle icon -->
+              <svg class="keis-dropdown-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
             <ul class="keis-header-nav-dropdown">
-              <li><a href="/fraud/investment/">Инвестиционное мошенничество</a></li>
-              <li><a href="/fraud/influence/">Перевод под влиянием</a></li>
-              <li><a href="/fraud/credit/">Взлом и оформление кредита</a></li>
+              <li><a href="../investment/">Инвестиционное мошенничество</a></li>
+              <li><a href="./">Перевод под влиянием</a></li>
+              <li><a href="../credit/">Взлом и оформление кредита</a></li>
             </ul>
           </li>
 
@@ -44,11 +50,12 @@
 
         <div class="keis-header-center">
           <div class="keis-header-contacts" aria-hidden="false">
-            <img src="/fraud/assets/icons/phonee.png" alt="Телефон" class="keis-header-icon keis-header-icon--phone">
+            <img src="/assets/icons/phonee.png" alt="Телефон" class="keis-header-icon keis-header-icon--phone">
             <a href="tel:+79048085909" class="keis-header-phone-text">8&nbsp;904&nbsp;808-59-09</a>
-
-            <a href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
-              <img src="/fraud/assets/icons/telegramm.png" alt="Telegram" class="keis-header-icon keis-header-icon--telegram">
+            <span class="keis-header-contacts-divider" aria-hidden="true"></span>
+            <a href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" class="keis-header-telegram-link" aria-label="Написать в Telegram">
+              <img src="/assets/icons/telegramm.png" alt="Telegram" class="keis-header-icon keis-header-icon--telegram">
+              <span class="keis-header-telegram-text">написать в Telegram</span>
             </a>
           </div>
         </div>
@@ -56,7 +63,11 @@
         <a href="#" class="keis-header-cta" data-open-contact-modal>Записаться</a>
 
         <button type="button" class="keis-header-burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
-          <img src="/fraud/assets/icons/align.png" alt="" class="keis-header-burger-img">
+          <svg class="keis-header-burger-icon" width="28" height="28" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="keis-burger-line keis-burger-line--top" d="M3 6 L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--middle" d="M3 11 L19 11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--bottom" d="M3 16 L19 16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -67,42 +78,56 @@
     <div id="mobileMenuOverlay" class="keis-mobile-menu-overlay" aria-hidden="true"></div>
 
     <nav class="keis-mobile-menu-panel" role="navigation" aria-label="Мобильное меню">
-      <button id="mobileMenuClose" class="keis-mobile-menu-close" aria-label="Закрыть меню">Закрыть</button>
+      <div class="keis-mobile-menu-top">
+        <a href="#" class="keis-header-cta keis-mobile-menu-cta" data-open-contact-modal>Записаться</a>
+        <button id="mobileMenuClose" class="keis-mobile-menu-close keis-mobile-menu-close--icon" aria-label="Закрыть меню">
+          <svg class="keis-header-burger-icon" width="28" height="28" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="keis-burger-line keis-burger-line--top" d="M3 6 L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--middle" d="M3 11 L19 11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--bottom" d="M3 16 L19 16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
 
-      <ul class="keis-mobile-menu-list">
+<ul class="keis-mobile-menu-list">
 
         <li class="mobile-has-submenu">
-          <button class="mobile-submenu-toggle" aria-expanded="false">Направления</button>
+          <button class="mobile-submenu-toggle" aria-expanded="false">
+            Направления
+            <!-- TASK 3: Burger menu toggle icon -->
+            <svg class="keis-mobile-dropdown-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
           <ul class="mobile-submenu" aria-hidden="true">
-            <li><a href="/fraud/investment/">Инвестиционное мошенничество</a></li>
-            <li><a href="/fraud/influence/">Перевод под влиянием</a></li>
-            <li><a href="/fraud/credit/">Взлом и оформление кредита</a></li>
+            <li><a href="../investment/">Инвестиционное мошенничество</a></li>
+            <li><a href="./">Перевод под влиянием</a></li>
+            <li><a href="../credit/">Взлом и оформление кредита</a></li>
           </ul>
         </li>
 
         <li><a href="#cases">Практика</a></li>
         <li><a href="#contacts">Где мы</a></li>
         <li><a href="#about">О нас</a></li>
+
+        <li class="mobile-menu-contact-wrapper">
+          <div class="mobile-menu-contact-row mobile-menu-contact-row--stack">
+            <a href="tel:+79048085909" class="mobile-menu-contact-phone-link">
+              <img src="/assets/icons/phonee.png" alt="Телефон" class="mobile-menu-contact-icon">
+              <span class="mobile-menu-contact-text">8&nbsp;904&nbsp;808-59-09</span>
+            </a>
+            <a href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" class="mobile-menu-contact-tg-link" aria-label="Написать в Telegram">
+              <img src="/assets/icons/telegramm.png" alt="Telegram" class="mobile-menu-contact-icon">
+              <span class="mobile-menu-contact-text">написать в Telegram</span>
+            </a>
+          </div>
+        </li>
       </ul>
-
-      <div class="keis-mobile-menu-actions" aria-label="Контакты">
-        <a class="keis-mm-row keis-mm-row--phone" href="tel:+79048085909">
-          <img src="/fraud/assets/icons/phonee.png" alt="Телефон" class="keis-mm-icon">
-          <span class="keis-mm-text">8 904 808-59-09</span>
-        </a>
-
-        <a class="keis-mm-row keis-mm-row--tg" href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
-          <img src="/fraud/assets/icons/telegramm.png" alt="Telegram" class="keis-mm-icon">
-          <span class="keis-mm-text keis-mm-text--accent">написать в Telegram</span>
-        </a>
-
-        <div class="keis-mm-divider" aria-hidden="true"></div>
-      </div>
     </nav>
   </div>
 
   <!-- HERO / OFFER -->
-  <section class="hero-investment hero-v2" id="hero">
+  <section class="hero-investment hero-v2" id="hero" data-keis-block="1">
     <div class="hero-investment__bg"></div>
 
     <div class="section-container hero-investment__inner">
@@ -134,7 +159,7 @@
             </p>
             <div class="hero-form-divider" aria-hidden="true"></div>
 
-            <form class="hero-form" action="/fraud/api/telegram.php" method="POST">
+            <form class="hero-form" action="../api/telegram.php" method="POST">
               <div class="hero-form-row">
                 <div class="hero-form-group">
                   <label for="hero-name">Ваше имя</label>
@@ -165,7 +190,7 @@
         <div class="hero-benefits">
           <div class="hero-benefits-grid hero-benefits-grid--intro">
             <article class="hero-benefit-card hero-benefit-card--intro">
-              <strong>30+ лет опыта мы защищаем ваши законные права и интересы</strong>
+              <strong>30+ лет практики у каждого нашего юриста</strong>
             </article>
             <article class="hero-benefit-card hero-benefit-card--intro">
               <strong>Работаем по договору — оплата всегда только за честный результат</strong>
@@ -174,7 +199,9 @@
               <strong>Юрист на связи всегда — ответит на вопросы в выходные дни и вечером</strong>
             </article>
             <article class="hero-benefit-card hero-benefit-card--intro">
-              <strong>200 млн+ взыскано нашим клиентам в досудебном и судебном порядке</strong>
+              <div class="counter-block counter-block--400">
+                <span class="counter-number" data-target="400">0</span><span class="counter-suffix"> млн+</span> взыскано нашим клиентам в досудебном и судебном порядке
+              </div>
             </article>
           </div>
         </div>
@@ -216,11 +243,22 @@
   </section>
 
   <!-- SCENARIOS -->
-  <section class="investment-scenarios" id="scenarios">
+  <section class="investment-scenarios kg-scenarios-vignette-250105a" id="scenarios">
     <div class="section-container">
-      <div class="section-header">
-        <h2 class="k-title">Реальные <span class="k-title__mark">истории</span></h2>
-        <p class="k-subtitle">С какими проблемами к нам обращаются чаще всего</p>
+      <style>
+        /* Page-specific overrides: use exact scenario images for influence page */
+        body.page-influence .scenario-slide--angle-1 .scenario-slide-media{ background-image:url('/assets/scenarios/scp1.png'); }
+        body.page-influence .scenario-slide--angle-2 .scenario-slide-media{ background-image:url('/assets/scenarios/scp2.jpeg'); }
+        body.page-influence .scenario-slide--angle-3 .scenario-slide-media{ background-image:url('/assets/scenarios/sc_1.png'); }
+        body.page-influence .scenario-slide--angle-4 .scenario-slide-media{ background-image:url('/assets/scenarios/scp4.jpeg'); }
+        body.page-influence .scenario-slide--angle-5 .scenario-slide-media{ background-image:url('/assets/scenarios/scp5.jpeg'); }
+        body.page-influence .scenario-slide--angle-6 .scenario-slide-media{ background-image:url('/assets/scenarios/scp6.jpeg'); }
+      </style>
+      <div class="section-header k-header is-big">
+        <div class="k-header__box">
+          <h2 class="k-title">Реальные <span class="k-title__mark">истории</span></h2>
+          <p class="k-subtitle">С какими проблемами к нам обращаются чаще всего</p>
+        </div>
       </div>
 
       <div class="scenarios-band">
@@ -233,8 +271,8 @@
                   <div class="scenario-slide-media"></div>
                   <div class="scenario-slide-overlay"></div>
                   <div class="scenario-slide-body">
-                    <h3 class="scenario-slide-title">Звонок «из службы безопасности банка»</h3>
-                    <p class="scenario-slide-text">Представились сотрудниками банка, напугали «подозрительной операцией» и убедили срочно перевести деньги на «безопасный счёт». Средства ушли мошенникам за считанные минуты.</p>
+                    <h3 class="scenario-slide-title">Ложный звонок от «банка»</h3>
+                    <p class="scenario-slide-text">Звонят якобы из службы безопасности, пугают и просят перевести деньги «для проверки».</p>
                   </div>
                 </article>
 
@@ -242,8 +280,8 @@
                   <div class="scenario-slide-media"></div>
                   <div class="scenario-slide-overlay"></div>
                   <div class="scenario-slide-body">
-                    <h3 class="scenario-slide-title">Давление через страх и срочность</h3>
-                    <p class="scenario-slide-text">Угрожали блокировкой счетов, уголовной ответственностью или потерей всех средств. Не давали времени подумать — решение принималось под сильным психологическим давлением.</p>
+                    <h3 class="scenario-slide-title">Срочность и давление</h3>
+                    <p class="scenario-slide-text">Создают искусственную панику — «срочно переведите, иначе счёт заблокируют».</p>
                   </div>
                 </article>
 
@@ -251,8 +289,8 @@
                   <div class="scenario-slide-media"></div>
                   <div class="scenario-slide-overlay"></div>
                   <div class="scenario-slide-body">
-                    <h3 class="scenario-slide-title">Перевод «для отмены операции»</h3>
-                    <p class="scenario-slide-text">Сообщили, что перевод уже начался, и его можно остановить только встречным платежом. В результате клиент сам перевёл деньги мошенникам, считая, что спасает счёт.</p>
+                    <h3 class="scenario-slide-title">Платёж «для отмены операции»</h3>
+                    <p class="scenario-slide-text">Говорят, что предыдущую операцию можно «отменить» только встречным переводом — это уловка.</p>
                   </div>
                 </article>
 
@@ -260,8 +298,8 @@
                   <div class="scenario-slide-media"></div>
                   <div class="scenario-slide-overlay"></div>
                   <div class="scenario-slide-body">
-                    <h3 class="scenario-slide-title">Манипуляции через доверие и авторитет</h3>
-                    <p class="scenario-slide-text">Использовали уверенный тон, профессиональные термины и подменные номера телефонов. Создали ощущение официальности и полного контроля ситуации.</p>
+                    <h3 class="scenario-slide-title">Манипуляция через доверие</h3>
+                    <p class="scenario-slide-text">Используют авторитетный тон, подделывают документы и номера, чтобы вызвать доверие.</p>
                   </div>
                 </article>
 
@@ -269,8 +307,8 @@
                   <div class="scenario-slide-media"></div>
                   <div class="scenario-slide-overlay"></div>
                   <div class="scenario-slide-body">
-                    <h3 class="scenario-slide-title">Переводы на карты и СБП «по инструкции»</h3>
-                    <p class="scenario-slide-text">Диктовали реквизиты, настаивали на переводах через СБП или карты физлиц. Объясняли это «временной мерой» для защиты средств.</p>
+                    <h3 class="scenario-slide-title">Инструкция переводить на карту/СБП</h3>
+                    <p class="scenario-slide-text">Дают чёткую «инструкцию» — реквизиты, способ перевода, требования выполняются под давлением.</p>
                   </div>
                 </article>
 
@@ -278,8 +316,8 @@
                   <div class="scenario-slide-media"></div>
                   <div class="scenario-slide-overlay"></div>
                   <div class="scenario-slide-body">
-                    <h3 class="scenario-slide-title">Отказ банка после перевода</h3>
-                    <p class="scenario-slide-text">После обращения в банк клиент получил ответ: «перевод подтверждён лично». Без юридической позиции банк считает операцию добровольной и закрывает вопрос.</p>
+                    <h3 class="scenario-slide-title">Банк отказывает после перевода</h3>
+                    <p class="scenario-slide-text">Банк пишет, что клиент подтвердил платёж — без юридической позиции это мешает возврату.</p>
                   </div>
                 </article>
 
@@ -305,17 +343,14 @@
             </svg>
           </span>
         </button>
+
+        <div class="scenarios-swipe-hint" aria-hidden="true">
+          <div class="scenarios-swipe-hint__bar" aria-hidden="true"></div>
+        </div>
       </div>
 
     </div>
 
-    <div class="scenarios-trust-bridge" aria-hidden="true">
-      <div class="scenarios-trust-bridge__inner">
-        <p class="scenarios-trust-bridge__text">
-          Мы умеем возвращать деньги пострадавшим от мошенничества — потому что делаем это каждый день
-        </p>
-      </div>
-    </div>
   </section>
 
   <!-- Decor layer for keisFraudFlagsInfluence (moved inside section) -->
@@ -325,12 +360,14 @@
     <div class="trust-parallax-bg" aria-hidden="true"></div>
 
     <div class="section-container trust-parallax-inner">
-      <div class="trust-panel" role="group" aria-label="Почему нам доверяют">
-        <div class="trust-panel-head">
-          <h2 class="trust-panel-title">Почему нам доверяют</h2>
-          <p class="trust-panel-subtitle">Шесть сильных причин доверить нам сложные дела о финансовом мошенничестве и спорах с банками.</p>
+      <header class="trust-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Почему нам <span class="k-title_mark">доверяют</span></h2>
+          <p class="k-subtitle">Не обещаем невозможного — показываем, что реально можно сделать и как.</p>
         </div>
+      </header>
 
+      <div class="trust-panel" role="group" aria-label="Почему нам доверяют">
         <div class="trust-mini-grid" role="list">
           <article class="trust-mini" role="listitem">
             <h3 class="trust-mini-title">Специализация на переводах под влиянием</h3>
@@ -366,53 +403,86 @@
     </div>
   </section>
 
+  <!-- KEIS: Bridge block between Trust and Flags -->
+  <section class="keis-bridge" aria-hidden="false">
+    <div class="keis-bridge__inner section-container">
+      <div class="keis-bridge__metric" data-bridge-counter="money">
+        <div class="keis-bridge__metric-value" data-counter-value>1 млн</div>
+        <div class="keis-bridge__metric-label">Вернули нашим клиентам<br>в досудебном и судебном порядке</div>
+      </div>
+      <div class="keis-bridge__panel">
+        <p class="keis-bridge__quote">Мы знаем, как вернуть ваши деньги — потому что делаем это каждый день</p>
+      </div>
+    </div>
+  </section>
+
   <!-- KEIS: New Fraud Flags (Influence / Social engineering) -->
   <section id="keisFraudFlagsInfluence" class="kf-flags" aria-labelledby="keisFraudFlagsInfluence-title">
     <div class="kf-flags__decor" aria-hidden="true">
       <div class="kf-flags__bg" aria-hidden="true"></div>
     </div>
     <div class="kf-flags__inner section-container">
-      <header class="kf-flags__header">
-        <h2 id="keisFraudFlagsInfluence-title" class="kf-flags__title">Признаки обмана</h2>
-        <p class="kf-flags__subtitle">По этим признакам чаще всего распознаётся схема. Если совпадает 1–2 пункта — действуйте сразу.</p>
+      <header class="kf-flags__header k-header">
+        <div class="k-header__box">
+          <h2 id="keisFraudFlagsInfluence-title" class="k-title">Признаки <span class="k-title_mark">обмана</span></h2>
+          <p class="k-subtitle">По этим признакам чаще всего распознаётся схема. Если совпадает 1–2 пункта — действуйте сразу.</p>
+        </div>
       </header>
 
-      <div class="kf-flags__grid">
-        <article class="kf-flag-card">
-          <div class="kf-flag-card__num">01</div>
-          <h3 class="kf-flag-card__head">“Безопасный счёт” и срочный перевод</h3>
+      <div class="kf-flags__rows">
+        <div class="kf-flags__row">
+        <article class="kf-flag-card kf-flag kf-flag-card--p1">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">01</span>
+            <h3 class="kf-flag-card__head">"Безопасный счёт" и срочный перевод</h3>
+          </div>
           <p class="kf-flag-card__text">Призывают перевести деньги «на безопасный счёт» или немедленно перевести.</p>
         </article>
 
-        <article class="kf-flag-card">
-          <div class="kf-flag-card__num">02</div>
-          <h3 class="kf-flag-card__head">Действуют через страх/панику</h3>
+        <article class="kf-flag-card kf-flag kf-flag-card--p2">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">02</span>
+            <h3 class="kf-flag-card__head">Действуют через страх/панику</h3>
+          </div>
           <p class="kf-flag-card__text">Создают ощущение угрозы, чтобы заставить вас быстро перевести деньги.</p>
         </article>
+        </div>
 
-        <article class="kf-flag-card">
-          <div class="kf-flag-card__num">03</div>
-          <h3 class="kf-flag-card__head">Запрещают рассказывать близким</h3>
+        <div class="kf-flags__row">
+        <article class="kf-flag-card kf-flag kf-flag-card--p3">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">03</span>
+            <h3 class="kf-flag-card__head">Запрещают рассказывать близким</h3>
+          </div>
           <p class="kf-flag-card__text">Нацелены на изоляцию — просят не обсуждать ситуацию с родственниками.</p>
         </article>
 
-        <article class="kf-flag-card">
-          <div class="kf-flag-card__num">04</div>
-          <h3 class="kf-flag-card__head">Просят установить удалённый доступ</h3>
+        <article class="kf-flag-card kf-flag kf-flag-card--p4">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">04</span>
+            <h3 class="kf-flag-card__head">Просят установить удалённый доступ</h3>
+          </div>
           <p class="kf-flag-card__text">Требуют дать доступ к устройству или установить ПО.</p>
         </article>
+        </div>
 
-        <article class="kf-flag-card">
-          <div class="kf-flag-card__num">05</div>
-          <h3 class="kf-flag-card__head">Подмена номера/аккаунта</h3>
+        <div class="kf-flags__row">
+        <article class="kf-flag-card kf-flag kf-flag-card--p5">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">05</span>
+            <h3 class="kf-flag-card__head">Подмена номера/аккаунта</h3>
+          </div>
           <p class="kf-flag-card__text">Контакты выглядят как официальные, но отличаются одной-двумя цифрами/символами.</p>
         </article>
 
-        <article class="kf-flag-card">
-          <div class="kf-flag-card__num">06</div>
-          <h3 class="kf-flag-card__head">Требуют повторять переводы частями</h3>
+        <article class="kf-flag-card kf-flag kf-flag-card--p6">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">06</span>
+            <h3 class="kf-flag-card__head">Требуют повторять переводы частями</h3>
+          </div>
           <p class="kf-flag-card__text">Просят переводить деньги дробно — это способ увести следы.</p>
         </article>
+        </div>
       </div>
     </div>
   </section>
@@ -420,14 +490,13 @@
   <div class="keis-divider keis-divider--shards" aria-hidden="true"></div>
 
   <!-- CHALLENGES -->
-  <section class="investment-challenges" id="why-hard">
+  <section class="investment-challenges" id="why-hard" data-keis-block="5">
     <div class="section-container">
-      <div class="challenges-head">
-        <h2 class="k-title">Почему самостоятельно вернуть деньги <span class="k-title__mark">так сложно?</span></h2>
-        <div class="challenges-lead">
-          <p>
-            Мошенники действуют профессионально, используя социальную инженерию и давление.
-            Без специальных знаний шансы на возврат минимальны.
+      <div class="challenges-head k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Почему самостоятельно вернуть деньги <span class="k-title__mark">так сложно?</span></h2>
+          <p class="k-subtitle">
+            В таких делах решают сроки и правильная последовательность действий — ошибка в начале часто закрывает возврат.
           </p>
         </div>
       </div>
@@ -438,7 +507,7 @@
           <p>Каждый банк работает по своим правилам. Без базовых знаний процедур сложно понять, куда обращаться и какие документы нужно подготовить для запуска процесса.</p>
           <div class="challenge-foot">
             <span class="challenge-tag">НЕЯСНО, С ЧЕГО ВООБЩЕ НАЧАТЬ</span>
-            <span class="challenge-icon" aria-hidden="true"><img src="/fraud/assets/icons/s1.png" alt=""></span>
+            <span class="challenge-icon" aria-hidden="true"><img src="/assets/icons/s1.png" alt=""></span>
           </div>
         </article>
 
@@ -447,7 +516,7 @@
           <p>Банк не раскрывает информацию о движении средств без юридически корректного запроса — это сильно усложняет поиск конечного получателя и построение цепочки транзакций.</p>
           <div class="challenge-foot">
             <span class="challenge-tag">ЦЕПОЧКА ПЕРЕВОДА СКРЫТА ОТ КЛИЕНТА</span>
-            <span class="challenge-icon" aria-hidden="true"><img src="/fraud/assets/icons/s2.png" alt=""></span>
+            <span class="challenge-icon" aria-hidden="true"><img src="/assets/icons/s2.png" alt=""></span>
           </div>
         </article>
 
@@ -456,7 +525,7 @@
           <p>Если обязательные претензионные этапы пропущены, суд нередко отказывает в рассмотрении дела, ссылаясь на формальные нарушения процедуры.</p>
           <div class="challenge-foot">
             <span class="challenge-tag">СУД РАЗВОРАЧИВАЕТ ДЕЛО «ПО ФОРМЕ»</span>
-            <span class="challenge-icon" aria-hidden="true"><img src="/fraud/assets/icons/s3.png" alt=""></span>
+            <span class="challenge-icon" aria-hidden="true"><img src="/assets/icons/s3.png" alt=""></span>
           </div>
         </article>
 
@@ -465,7 +534,7 @@
           <p>Чтобы дело приняли всерьёз, нужны корректно оформленные подтверждения. Без надлежащих доказательств ситуация часто выглядит недоказанной — даже если мошенничество очевидно.</p>
           <div class="challenge-foot">
             <span class="challenge-tag">НЕТ БАЗЫ ДЛЯ СЕРЬЁЗНОГО РАССМОТРЕНИЯ</span>
-            <span class="challenge-icon" aria-hidden="true"><img src="/fraud/assets/icons/s4.png" alt=""></span>
+            <span class="challenge-icon" aria-hidden="true"><img src="/assets/icons/s4.png" alt=""></span>
           </div>
         </article>
 
@@ -474,7 +543,7 @@
           <p>Подтверждение операции трактуется как полное согласие клиента. Если позиция не выстроена юридически грамотно, банк считает проблему личной ошибкой клиента и отказывается проводить проверку.</p>
           <div class="challenge-foot">
             <span class="challenge-tag">ВСЮ ОТВЕТСТВЕННОСТЬ ВЕШАЮТ НА КЛИЕНТА</span>
-            <span class="challenge-icon" aria-hidden="true"><img src="/fraud/assets/icons/s5.png" alt=""></span>
+            <span class="challenge-icon" aria-hidden="true"><img src="/assets/icons/s5.png" alt=""></span>
           </div>
         </article>
 
@@ -483,7 +552,7 @@
           <p>Аргументы должны быть логично выстроены и подкреплены документами. Без этого банк и суд воспринимают ситуацию как «эмоциональную жалобу».</p>
           <div class="challenge-foot">
             <span class="challenge-tag">ЖАЛОБА ВЫГЛЯДИТ НЕСЕРЬЁЗНО ДЛЯ БАНКА И СУДА</span>
-            <span class="challenge-icon" aria-hidden="true"><img src="/fraud/assets/icons/s6.png" alt=""></span>
+            <span class="challenge-icon" aria-hidden="true"><img src="/assets/icons/s6.png" alt=""></span>
           </div>
         </article>
       </div>
@@ -492,13 +561,13 @@
         <div class="challenges-cta__inner">
           <div class="challenges-cta__text">
             <h3 class="challenges-cta__title">Мы подключаемся, когда сценарий кажется безвыходным</h3>
+            <div class="hero-form-divider" aria-hidden="true"></div>
             <p class="challenges-cta__subtitle">
-              Фиксируем давление, собираем доказательства, готовим юридически корректные требования и запускаем возврат средств
-              в правильной последовательности — чтобы не получить «автоматический отказ».
+              Фиксируем доказательства, готовим требования и подключаем банки/эквайеров. Двигаемся по шагам — так, чтобы не получить отказ.
             </p>
           </div>
 
-          <form class="challenges-cta__form" action="/fraud/#contact" method="POST">
+          <form class="challenges-cta__form" action="../api/telegram.php" method="POST">
             <div class="challenges-cta__fields">
               <label class="challenges-cta__field">
                 <span>Ваше имя</span>
@@ -521,20 +590,32 @@
     </div>
   </section>
 
-  <!-- ЗАДАЧА 8: Premium divider between Challenges (block 4) and Process (block 5) -->
-  <div class="keis-divider keis-divider--glass-ribbon" aria-hidden="true"></div>
+  <!-- KEIS: Motivational bridge block before Process -->
+  <section class="keis-bridge keis-bridge--process" aria-hidden="false">
+    <div class="keis-bridge__inner section-container">
+      <div class="keis-bridge__metric" data-bridge-counter="years">
+        <div class="keis-bridge__metric-value" data-counter-value>1</div>
+        <div class="keis-bridge__metric-label">Практики у каждого нашего юриста</div>
+      </div>
+      <div class="keis-bridge__panel">
+        <p class="keis-bridge__quote">Каждый день мы доказываем: вернуть деньги реально — нужно только знать, как действовать правильно</p>
+      </div>
+    </div>
+  </section>
 
   <!-- PROCESS -->
   <section class="investment-process" id="process">
     <div class="section-container">
-      <div class="section-header">
-        <h2 class="k-title">Как идёт <span class="k-title__mark">работа</span></h2>
-        <p class="k-subtitle section-subtitle--pill">Три основных этапа возврата средств</p>
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Как идёт<span class="k-title__mark">работа</span></h2>
+          <p class="k-subtitle">Три основных этапа возврата средств</p>
+        </div>
       </div>
 
       <div class="process-steps">
         <article class="work-step">
-          <div class="work-step-media" style="background-image:url('/fraud/assets/block/topspaces.png');" aria-hidden="true"></div>
+          <div class="work-step-media" aria-hidden="true"></div>
           <div class="work-step-body">
             <div class="work-step-kicker">01 шаг</div>
             <h3 class="work-step-title">Разбор ситуации и документов</h3>
@@ -545,7 +626,7 @@
         </article>
 
         <article class="work-step is-reverse">
-          <div class="work-step-media" style="background-image:url('/fraud/assets/block/mediumspaces.png');" aria-hidden="true"></div>
+          <div class="work-step-media" aria-hidden="true"></div>
           <div class="work-step-body">
             <div class="work-step-kicker">02 шаг</div>
             <h3 class="work-step-title">Стратегия и план</h3>
@@ -556,7 +637,7 @@
         </article>
 
         <article class="work-step">
-          <div class="work-step-media" style="background-image:url('/fraud/assets/block/downspaces.png');" aria-hidden="true"></div>
+          <div class="work-step-media" aria-hidden="true"></div>
           <div class="work-step-body">
             <div class="work-step-kicker">03 шаг</div>
             <h3 class="work-step-title">Реализация и сопровождение</h3>
@@ -572,9 +653,11 @@
   <!-- CASES -->
   <section class="investment-cases" id="cases">
     <div class="section-container">
-      <div class="section-header">
-        <h2 class="k-title">Наши <span class="k-title__mark">кейсы</span></h2>
-        <p class="k-subtitle">Показываем по-честному: что случилось, что сделали и какой результат получили</p>
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Наши <span class="k-title__mark">кейсы</span></h2>
+          <p class="k-subtitle">Показываем по-честному: что случилось, что сделали и какой результат получили</p>
+        </div>
       </div>
 
       <div class="cases-grid">
@@ -650,9 +733,11 @@
   <!-- FAQ -->
   <section class="investment-faq" id="faq">
     <div class="section-container">
-      <div class="section-header">
-        <h2 class="k-title">Частые <span class="k-title__mark">вопросы</span></h2>
-        <p class="k-subtitle">Коротко и по делу — без воды</p>
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Частые <span class="k-title__mark">вопросы</span></h2>
+          <p class="k-subtitle">Коротко и по делу — без воды</p>
+        </div>
       </div>
 
       <div class="faq-grid">
@@ -734,16 +819,20 @@
           </div>
 
         </div>
+        <div class="faq-aside--visual" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <!-- MAP + REVIEWS -->
   <section class="investment-find" id="contacts">
+    <div class="keis-parallax-bg" data-parallax data-parallax-speed="0.18" aria-hidden="true"></div>
     <div class="section-container">
-      <div class="section-header">
-        <h2 class="k-title">Где нас <span class="k-title__mark">найти</span></h2>
-        <p class="k-subtitle">Приезжайте на очную консультацию или свяжитесь удобным способом</p>
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Где нас <span class="k-title__mark">найти</span></h2>
+          <p class="k-subtitle">Приезжайте на очную консультацию или свяжитесь удобным способом</p>
+        </div>
       </div>
       
       <div class="find-grid">
@@ -781,6 +870,11 @@
 
     <div class="section-container investment-footer__inner">
       <div class="investment-footer__col investment-footer__col--about">
+        <div class="section-header k-header about-header">
+          <h2 class="k-title">О нашей <span class="k-title__mark">компании</span></h2>
+          <p class="k-subtitle">Работаем с делами, где стандартные юридические подходы не дают результата.</p>
+        </div>
+        <div class="about-body">
         <p class="investment-footer__lead">
           Мы работаем с делами о финансовом мошенничестве и спорных переводах ежедневно. Наша команда юристов и
           аналитиков выстраивает доказательственную базу так, чтобы банки, платёжные системы и суды слышали аргументы
@@ -790,12 +884,8 @@
           Репутация для нас важнее любой рекламной кампании, поэтому мы честно оцениваем перспективы дела,
           объясняем риски простым языком и сопровождаем клиента до результата, а не до формального закрытия обращения.
         </p>
-      </div>
-
-      <div class="investment-footer__col investment-footer__col--legal">
-        <h3 class="investment-footer__heading">Общество с ограниченной ответственностью «Креатор Групп»</h3>
-        <h3 class="investment-footer__heading">ИНН 7839122570</h3>
-        <dl class="investment-footer__dl"></dl>
+        <p class="investment-footer__legal">Общество с ограниченной ответственностью «Креатор Групп»<br>ИНН 7839122570</p>
+        </div>
       </div>
     </div>
   </footer>
@@ -814,7 +904,7 @@
 
       <div class="hero-form-divider" aria-hidden="true"></div>
 
-      <form class="hero-form hero-form--modal" action="/fraud/api/telegram.php" method="POST">
+      <form class="hero-form hero-form--modal" action="../api/telegram.php" method="POST">
         <div class="hero-form-row">
           <div class="hero-form-group">
             <label for="modal-name">Ваше имя</label>
@@ -841,8 +931,60 @@
     </div>
   </div>
 
-  <script src="/fraud/script.js" defer></script>
-  
+  <!-- SUCCESS MODAL -->
+  <div class="keis-success-modal" id="successModal" aria-hidden="true">
+    <div class="keis-success-modal__overlay" data-close-success-modal aria-hidden="true"></div>
+    <div class="keis-success-modal__panel" role="dialog" aria-modal="true" aria-label="Подтверждение отправки">
+      <button type="button" class="keis-success-modal__close" data-close-success-modal aria-label="Закрыть">×</button>
+      <div class="keis-success-modal__content">
+        <h3 class="keis-success-modal__title">Ваша заявка отправлена</h3>
+        <div class="hero-form-divider" aria-hidden="true"></div>
+        <p class="keis-success-modal__text">С вами свяжутся в течение 5 минут, ожидайте звонка, держите телефон при себе</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const runCounter = (el, steps=200) => {
+      const num = (el && el.classList && el.classList.contains('counter-number')) ? el : (el && el.querySelector && el.querySelector('.counter-number'));
+      const suffix = el.querySelector('.counter-suffix');
+      if(!num) return;
+      const target = +num.dataset.target;
+      let started=false;
+      const tick = () => {
+        const current = +num.innerText || 0;
+        const inc = Math.max(1, Math.ceil(target / steps));
+        if(current < target){
+          num.innerText = Math.min(target, current + inc);
+          requestAnimationFrame(tick);
+        } else {
+          num.innerText = target;
+          if(suffix) suffix.style.opacity='1';
+        }
+      };
+      const onVisible = () => { if(started) return; started=true; requestAnimationFrame(tick); };
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries, obs)=>{ entries.forEach(en=>{ if(en.isIntersecting){ onVisible(); obs.unobserve(en.target); }}); }, {threshold:0.4});
+        io.observe(el);
+      } else { document.addEventListener('DOMContentLoaded', onVisible); }
+    };
+    document.querySelectorAll('.counter-block').forEach(el=>runCounter(el,200));
+    document.querySelectorAll('.counter-action-block').forEach(el=>runCounter(el,300));
+    document.querySelectorAll('.counter-number').forEach(num => {
+      const root = num.closest('.counter-block') || num.closest('.counter-action-block') || num.closest('.keis-bridge__metric') || num.closest('.scenarios-trust-bridge__counter') || num;
+      if (root && !root.__counterAttached) { runCounter(root, root.classList && root.classList.contains('counter-action-block')?300:200); root.__counterAttached = true; }
+    });
+  })();
+  </script>
+  <style>
+  .counter-suffix{opacity:0;transition:opacity 0.8s ease-in;}
+  .counter-action-block{display:flex;justify-content:space-between;align-items:center;padding:28px;background:#f7f7f7;border-radius:10px;margin:28px 0;gap:20px}
+  @media (max-width:640px){.counter-action-block{flex-direction:column;text-align:center}}
+  </style>
+
+  <script src="../../script.js" defer></script>
+
   <!-- JivoChat -->
   <script src="https://code.jivo.ru/widget/CgMP7mbMCA" async></script>
 </body>

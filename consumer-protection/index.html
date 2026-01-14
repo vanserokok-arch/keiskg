@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <!-- Removed duplicate title -->
+  <meta name="description" content="Помогаем защитить права потребителя: брак товара, плохо оказанные услуги, ремонт с дефектами, споры с подрядчиками и навязанные страховки. Составим претензию, соберём документы, посчитаем сумму и при необходимости доведём дело до суда.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Защита прав потребителей — товары, услуги, ремонт | КЕЙС</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css" />
+  <script src="https://mc.yandex.ru/metrika/tag.js" async></script>
+</head>
+
+<body class="page-main" id="top" data-page="consumer-protection">
+
+  <!-- HEADER -->
+  <header class="keis-header" role="banner">
+    <div class="keis-header-inner">
+      <a href="./" class="keis-header-logo" aria-label="Кейс — на главную">
+        <img src="./assets/head/head_logo.png" alt="Кейс — юридическая компания" />
+      </a>
+
+      <nav class="keis-header-nav" aria-label="Главная навигация">
+        <ul class="keis-header-nav-list">
+
+          <li class="has-children">
+            <a href="#" data-submenu-trigger="directions" aria-haspopup="true" aria-expanded="false">
+              Сферы защиты
+              <!-- TASK 4: New animated toggle icon -->
+              <svg class="keis-dropdown-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="keis-header-nav-dropdown">
+              <li><a href="./medical-malpractice/">Медицинская ошибка</a></li>
+              <li><a href="./defective-apartment-renovation/">Некачественный ремонт</a></li>
+              <li><a href="./consumer-goods-refund/">Возврат товара</a></li>
+              <li><a href="./complaint-against-lawyer/">Жалоба на юриста</a></li>
+              <li><a href="./forced-insurance/">Навязанная страховка</a></li>
+              <li><a href="./furniture-defects/">Брак мебели</a></li>
+              <li><a href="./construction-contract/">Строительный договор</a></li>
+              <li><a href="./poor-quality-services/">Некачественные услуги</a></li>
+              <li><a href="./contractor-agreement/">Договор подряда</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#cases">Кейсы</a></li>
+          <li><a href="#contacts">Контакты</a></li>
+          <li><a href="#about">О компании</a></li>
+        </ul>
+      </nav>
+
+         <div class="keis-header-center">
+          <div class="keis-header-contacts" aria-hidden="false">
+            <img src="./assets/icons/phonee.png" alt="Телефон" class="keis-header-icon keis-header-icon--phone">
+            <a href="tel:+79048085909" class="keis-header-phone-text">8&nbsp;904&nbsp;808-59-09</a>
+            <span class="keis-header-contacts-divider" aria-hidden="true"></span>
+            <a href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" class="keis-header-telegram-link" aria-label="Написать в Telegram">
+              <img src="./assets/icons/telegramm.png" alt="Telegram" class="keis-header-icon keis-header-icon--telegram">
+              <span class="keis-header-telegram-text">написать в Telegram</span>
+            </a>
+          </div>
+        </div>
+
+        <a href="#" class="keis-header-cta" data-open-contact-modal>Запросить разбор</a>
+
+        <button type="button" class="keis-header-burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
+          <svg class="keis-header-burger-icon" width="28" height="28" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="keis-burger-line keis-burger-line--top" d="M3 6 L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--middle" d="M3 11 L19 11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--bottom" d="M3 16 L19 16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div id="mobileMenu" class="keis-mobile-menu" aria-hidden="true">
+    <div id="mobileMenuOverlay" class="keis-mobile-menu-overlay" aria-hidden="true"></div>
+
+    <nav class="keis-mobile-menu-panel" role="navigation" aria-label="Мобильное меню">
+      <div class="keis-mobile-menu-top">
+        <a href="#" class="keis-header-cta keis-mobile-menu-cta" data-open-contact-modal>Запросить разбор</a>
+        <button id="mobileMenuClose" class="keis-mobile-menu-close keis-mobile-menu-close--icon" aria-label="Закрыть меню">
+          <svg class="keis-header-burger-icon" width="28" height="28" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="keis-burger-line keis-burger-line--top" d="M3 6 L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--middle" d="M3 11 L19 11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="keis-burger-line keis-burger-line--bottom" d="M3 16 L19 16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <ul class="keis-mobile-menu-list">
+
+        <li class="mobile-has-submenu">
+          <button class="mobile-submenu-toggle" aria-expanded="false">
+            Сферы защиты
+            <!-- TASK 3: Burger menu toggle icon -->
+            <svg class="keis-mobile-dropdown-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <ul class="mobile-submenu" aria-hidden="true">
+            <li><a href="./medical-malpractice/">Медицинская ошибка</a></li>
+            <li><a href="./defective-apartment-renovation/">Некачественный ремонт</a></li>
+            <li><a href="./consumer-goods-refund/">Возврат товара</a></li>
+            <li><a href="./complaint-against-lawyer/">Жалоба на юриста</a></li>
+            <li><a href="./forced-insurance/">Навязанная страховка</a></li>
+            <li><a href="./furniture-defects/">Брак мебели</a></li>
+            <li><a href="./construction-contract/">Строительный договор</a></li>
+            <li><a href="./poor-quality-services/">Некачественные услуги</a></li>
+            <li><a href="./contractor-agreement/">Договор подряда</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#cases">Кейсы</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+        <li><a href="#about">О компании</a></li>
+
+        <li class="mobile-menu-contact-wrapper">
+          <div class="mobile-menu-contact-row mobile-menu-contact-row--stack">
+            <a href="tel:+79048085909" class="mobile-menu-contact-phone-link">
+              <img src="./assets/icons/phonee.png" alt="Телефон" class="mobile-menu-contact-icon">
+              <span class="mobile-menu-contact-text">8&nbsp;904&nbsp;808-59-09</span>
+            </a>
+            <a href="https://t.me/zhenyatyazh" target="_blank" rel="noopener noreferrer" class="mobile-menu-contact-tg-link" aria-label="Написать в Telegram">
+              <img src="./assets/icons/telegramm.png" alt="Telegram" class="mobile-menu-contact-icon">
+              <span class="mobile-menu-contact-text">написать в Telegram</span>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- HERO / OFFER -->
+  <section class="hero-investment hero-v2" id="hero" data-keis-block="1">
+    <div class="hero-investment__bg"></div>
+
+    <div class="section-container hero-investment__inner">
+      <div class="hero-investment__grid">
+        <div class="hero-investment__content">
+          <div class="hero-investment__badges">
+            <span class="hero-investment__badge">Защита прав потребителей</span>
+            <span class="hero-investment__badge hero-investment__badge--accent">Возврат денег и компенсации</span>
+          </div>
+
+          <h1 class="hero-investment__title">
+            Когда вам отвечают “не положено” и “ничего не сделаем” — <span class="hero-title-mark">помогаем <span class="hero-title-accent-line">добиться своего</span></span>
+          </h1>
+
+          <p class="hero-investment__subtitle">
+            Обычно всё начинается одинаково: продавец тянет время, мастер “пропадает”, сервис пишет отписки. Было так?
+            Чтобы вопрос сдвинулся, нужны документы, сроки и понятные требования: что просим и в какой сумме.
+            Мы помогаем собрать доказательства, составить претензию и добиться возврата денег и компенсации — по закону, без лишних слов.
+          </p>
+        </div>
+
+        <aside class="hero-investment__form">
+          <div class="hero-form-card">
+            <h3 class="hero-form-title">
+              <span class="hero-marker">Юрист свяжется с вами в течение 5 минут</span>
+            </h3>
+            <p class="hero-form-subtitle">
+              Разберёмся по документам и скажем, что делать дальше: какие бумаги нужны, куда писать и какие сроки учитывать
+            </p>
+            <div class="hero-form-divider" aria-hidden="true"></div>
+
+            <form class="hero-form" action="./api/telegram.php" method="POST">
+              <div class="hero-form-row">
+                <div class="hero-form-group">
+                  <label for="hero-name">Ваше имя</label>
+                  <input type="text" id="hero-name" name="name" placeholder="Иванов Алексей" required>
+                </div>
+
+                <div class="hero-form-group">
+                  <label for="hero-phone">Телефон</label>
+                  <input type="tel" id="hero-phone" name="phone" inputmode="numeric" placeholder="Ваш номер" maxlength="16" required>
+                </div>
+              </div>
+
+              <div class="hero-form-group">
+                <label for="hero-case">Кратко о ситуации</label>
+                <textarea id="hero-case" name="message" rows="4" placeholder="Коротко опишите ситуацию: товар/услуга/ремонт, сумма, есть ли договор/чек и что уже сделал продавец/исполнитель" required></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary">Получить разбор</button>
+
+              <p class="hero-form-disclaimer">
+                Отправляя форму, вы соглашаетесь с политикой конфиденциальности и обработкой персональных данных.
+              </p>
+            </form>
+          </div>
+        </aside>
+
+        <!-- BENEFITS (4 cards) -->
+        <div class="hero-benefits">
+          <div class="hero-benefits-grid hero-benefits-grid--intro">
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>Опытные юристы: такие споры ведём каждый день</strong>
+            </article>
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>Работаем по договору — условия понятны заранее, без “сюрпризов”</strong>
+            </article>
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>На связи по делу: объясним простыми словами, что происходит и что делать</strong>
+            </article>
+            <article class="hero-benefit-card hero-benefit-card--intro">
+              <strong>Большая практика по взысканиям: от претензии до исполнения решения</strong>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="keis-divider keis-divider--shards keis-divider--scenarios-bottom" aria-hidden="true"></div>
+
+    <!-- Decor layer for keisFraudFlagsMain (moved inside section) -->
+
+    <!-- MARQUEE -->
+    <div class="keis-marquee" role="region" aria-label="Ключевые преимущества">
+      <div class="keis-marquee__inner" aria-hidden="true">
+        <div class="keis-marquee__track">
+          <span class="keis-marquee__item">Берём в работу споры с продавцами, сервисами, подрядчиками и страховщиками — чтобы дело не “висело” месяцами</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Сразу говорим по делу: какие сроки, какие требования, какие документы нужны, где могут “зацепиться”</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Фиксируем нарушения по-человечески и по правилам: фото/акты/переписка, чтобы это работало, а не “просто слова”</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Идём по шагам: претензия → переговоры → экспертиза (если нужна) → суд → исполнение</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Сопровождаем до понятного финала: возврат денег, компенсации, расходы — что положено по ситуации</span>
+          <span class="keis-marquee__sep">•</span>
+        </div>
+        <div class="keis-marquee__track" aria-hidden="true">
+          <span class="keis-marquee__item">Берём в работу споры с продавцами, сервисами, подрядчиками и страховщиками — чтобы дело не “висело” месяцами</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Сразу говорим по делу: какие сроки, какие требования, какие документы нужны, где могут “зацепиться”</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Фиксируем нарушения по-человечески и по правилам: фото/акты/переписка, чтобы это работало, а не “просто слова”</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Идём по шагам: претензия → переговоры → экспертиза (если нужна) → суд → исполнение</span>
+          <span class="keis-marquee__sep">•</span>
+          <span class="keis-marquee__item">Сопровождаем до понятного финала: возврат денег, компенсации, расходы — что положено по ситуации</span>
+          <span class="keis-marquee__sep">•</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (legacy swipe hint removed; canonical hint will be injected inside `.investment-scenarios` in site pages) -->
+
+  <!-- SCENARIOS -->
+  <section class="investment-scenarios kg-scenarios-vignette-250105a" id="scenarios">
+    <div class="section-container">
+      <div class="section-header k-header is-big">
+        <div class="k-header__box">
+          <h2 class="k-title">Частые <span class="k-title__mark">ситуации</span></h2>
+          <p class="k-subtitle">Выберите, что ближе вашей истории — подскажем, с чего начать и как обычно действуют</p>
+        </div>
+      </div>
+
+      <div class="scenarios-band">
+        <div class="scenarios-tilt">
+          <div class="scenarios-band-window">
+            <div class="scenarios-band-rotator">
+              <div class="scenarios-band-track">
+
+                <a class="scenario-slide scenario-slide--angle-1" href="./medical-malpractice/" aria-label="Перейти: Медицинская ошибка">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Проблемы после лечения</h3>
+                    <p class="scenario-slide-text">Стало хуже, пошли расходы — в ответ “так бывает” и “докажите”.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-2" href="./defective-apartment-renovation/" aria-label="Перейти: Некачественный ремонт">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Ремонт с дефектами</h3>
+                    <p class="scenario-slide-text">Трещины, перекосы, сроки сорваны — а вам предлагают “подождать ещё чуть-чуть”.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-3" href="./consumer-goods-refund/" aria-label="Перейти: Возврат товара">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Бракованный товар</h3>
+                    <p class="scenario-slide-text">Говорят “это вы сами”, затягивают проверку, а потом выдают отказ по шаблону.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-4" href="./complaint-against-lawyer/" aria-label="Перейти: Жалоба на юриста">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Исполнитель “не работает”</h3>
+                    <p class="scenario-slide-text">Обещали помочь, взяли деньги — а дальше тишина, сроки сорваны, документов нет.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-5" href="./forced-insurance/" aria-label="Перейти: Навязанная страховка">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Навязанная страховка</h3>
+                    <p class="scenario-slide-text">Оформили “пакетом”, выбора толком не было — можно пробовать вернуть оплату.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-6" href="./furniture-defects/" aria-label="Перейти: Брак мебели">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Мебель с браком</h3>
+                    <p class="scenario-slide-text">Привезли с царапинами/сколами или не то, что заказывали — начинаются “переносы” и отговорки.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-1" href="./construction-contract/" aria-label="Перейти: Строительный договор">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Стройка и подряд</h3>
+                    <p class="scenario-slide-text">Сроки плывут, смета растёт, качество спорное — важно вовремя всё зафиксировать.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-2" href="./poor-quality-services/" aria-label="Перейти: Некачественные услуги">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Плохая услуга</h3>
+                    <p class="scenario-slide-text">Заплатили, а сделали “как-нибудь” — вернуть деньги можно, если действовать правильно.</p>
+                  </div>
+                </a>
+
+                <a class="scenario-slide scenario-slide--angle-3" href="./contractor-agreement/" aria-label="Перейти: Договор подряда">
+                  <div class="scenario-slide-media"></div>
+                  <div class="scenario-slide-overlay"></div>
+                  <div class="scenario-slide-body">
+                    <h3 class="scenario-slide-title">Аванс взяли — работ нет</h3>
+                    <p class="scenario-slide-text">Оплатили, а потом начали тянуть время. Здесь важны сроки и письма, а не разговоры.</p>
+                  </div>
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scenarios-band-controls scenarios-band-controls--center">
+        <button class="scenarios-navbtn scenarios-navbtn--prev" type="button" aria-label="Назад">
+          <span class="scenarios-navbtn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.5 5.5L8 12l6.5 6.5" stroke="rgba(255,255,255,0.92)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+
+        <button class="scenarios-navbtn scenarios-navbtn--next" type="button" aria-label="Вперёд">
+          <span class="scenarios-navbtn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.5 5.5L16 12l-6.5 6.5" stroke="rgba(255,255,255,0.92)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+
+        <div class="scenarios-swipe-hint" aria-hidden="true">
+          <div class="scenarios-swipe-hint__bar" aria-hidden="true"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TRUST -->
+  <section class="trust-parallax" id="trust">
+    <div class="trust-parallax-bg" aria-hidden="true"></div>
+
+    <div class="section-container trust-parallax-inner">
+      <header class="trust-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Почему нам <span class="k-title_mark">верят</span></h2>
+          <p class="k-subtitle">Без громких обещаний. Объясняем, что можно требовать по закону и что для этого нужно собрать.</p>
+        </div>
+      </header>
+
+      <div class="trust-panel" role="group" aria-label="Почему нам доверяют">
+        <div class="trust-mini-grid" role="list">
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Понятный порядок действий</h3>
+            <p class="trust-mini-text">Фиксируем проблему → пишем претензию → ждём ответ по срокам → дальше по ситуации.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Опора на факты</h3>
+            <p class="trust-mini-text">Чеки, договор, переписка, фото, акты — собираем и оформляем так, чтобы это принимали.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Знаем, как “отфутболивают”</h3>
+            <p class="trust-mini-text">“Срок прошёл”, “сам виноват”, “ничего не должны” — разбираем и отвечаем по закону.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Фиксируем так, как надо</h3>
+            <p class="trust-mini-text">Не “в чатике пожаловались”, а оформили замечания письменно и с доказательствами.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Сроки и расчёты</h3>
+            <p class="trust-mini-text">Считаем сумму требований и следим за сроками, чтобы потом не было “поздно”.</p>
+          </article>
+
+          <article class="trust-mini" role="listitem">
+            <h3 class="trust-mini-title">Не бросаем на полпути</h3>
+            <p class="trust-mini-text">Если дошло до суда — сопровождаем дальше, включая исполнение решения.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEIS: New aurum divider (custom) - counter to 400 млн+ -->
+  <section class="keis-bridge keis-bridge--aurum" aria-hidden="false">
+    <div class="keis-bridge__inner section-container">
+      <div class="keis-bridge__metric" data-bridge-counter="money" data-target="400">
+        <div class="keis-bridge__metric-value" data-counter-value>
+          <span class="keis-bridge__metric-number">0</span>
+          <span class="keis-bridge__metric-suffix keis-bridge__suffix">млн+</span>
+        </div>
+        <div class="keis-bridge__metric-sublabel keis-bridge__label">Вернули нашим клиентам<br>в досудебном и судебном порядке</div>
+      </div>
+
+      <div class="keis-bridge__panel">
+        <div class="keis-bridge__panel-quote">
+          <div class="keis-bridge__push-wrap">
+            <p class="keis-bridge__quote keis-bridge__quote--push">Мы знаем, как вернуть ваши деньги — потому что делаем это каждый день</p>
+            <div class="keis-bridge__accent" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEIS: New Fraud Flags (Main / Overview) -->
+  <section id="keisFraudFlagsMain" class="kf-flags" aria-labelledby="keisFraudFlagsMain-title">
+    <div class="kf-flags__decor" aria-hidden="true">
+      <div class="kf-flags__bg" aria-hidden="true"></div>
+    </div>
+    <div class="kf-flags__inner section-container">
+      <header class="kf-flags__header k-header">
+        <div class="k-header__box">
+          <h2 id="keisFraudFlagsMain-title" class="k-title">Сигналы <span class="k-title_mark">нарушения</span></h2>
+          <p class="k-subtitle">Узнали свою ситуацию? Не откладывайте: сохраните переписку, сделайте фото и начните действовать письменно.</p>
+        </div>
+      </header>
+
+      <div class="kf-flags__rows">
+        <div class="kf-flags__row">
+        <a class="kf-flag-card kf-flag kf-flag-card--p1" href="./medical-malpractice/" aria-label="Медицинская ошибка">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">01</span>
+            <h3 class="kf-flag-card__head">После лечения стало хуже</h3>
+          </div>
+          <p class="kf-flag-card__text">Появились осложнения, расходы выросли — а вам говорят: “это нормально, такое бывает”.</p>
+        </a>
+
+        <a class="kf-flag-card kf-flag kf-flag-card--p2" href="./defective-apartment-renovation/" aria-label="Некачественный ремонт">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">02</span>
+            <h3 class="kf-flag-card__head">Ремонт сделали с браком</h3>
+          </div>
+          <p class="kf-flag-card__text">Вылезли дефекты, сроки сорваны, а исправлять не спешат: “давайте потом, по-хорошему”.</p>
+        </a>
+        </div>
+
+        <div class="kf-flags__row">
+        <a class="kf-flag-card kf-flag kf-flag-card--p3" href="./forced-insurance/" aria-label="Навязанная страховка">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">03</span>
+            <h3 class="kf-flag-card__head">Навязали допуслугу</h3>
+          </div>
+          <p class="kf-flag-card__text">В договоре внезапно “вшито” лишнее, выбора толком не было, цену показали мелким шрифтом.</p>
+        </a>
+
+        <a class="kf-flag-card kf-flag kf-flag-card--p4" href="#contactModal" data-open-contact-modal aria-label="Услуги/товары">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">04</span>
+            <h3 class="kf-flag-card__head">Отвечают отпиской</h3>
+          </div>
+          <p class="kf-flag-card__text">“Не подлежит”, “акт подписан”, “срок прошёл” — или вообще молчат и делают вид, что вас нет.</p>
+        </a>
+        </div>
+
+        <div class="kf-flags__row">
+        <a class="kf-flag-card kf-flag kf-flag-card--p5" href="./consumer-goods-refund/" aria-label="Возврат товара">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">05</span>
+            <h3 class="kf-flag-card__head">Товар оказался с дефектом</h3>
+          </div>
+          <p class="kf-flag-card__text">Поломка очевидна, но проверку тянут и пытаются переложить вину: “вы сами”.</p>
+        </a>
+
+        <a class="kf-flag-card kf-flag kf-flag-card--p6" href="./poor-quality-services/" aria-label="Некачественная услуга">
+          <div class="kf-flag-card__top">
+            <span class="kf-flag-card__num">06</span>
+            <h3 class="kf-flag-card__head">Услугу сделали плохо</h3>
+          </div>
+          <p class="kf-flag-card__text">Заплатили, а сделали кое-как или не сделали вовсе. На претензии не отвечают — ждут, что вы махнёте рукой.</p>
+        </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="keis-divider keis-divider--shards" aria-hidden="true"></div>
+
+  <!-- CHALLENGES -->
+  <section class="investment-challenges" id="why-hard" data-keis-block="5">
+    <div class="section-container">
+      <div class="challenges-head k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Почему в одиночку <span class="k-title__mark">тяжело?</span></h2>
+          <p class="k-subtitle">
+            Часто дело не в “правде”, а в бумагах и сроках. Один промах — и вам спокойно ответят формально, а время уйдёт.
+          </p>
+        </div>
+      </div>
+
+      <div class="challenges-grid" role="list">
+        <article class="challenge-card" role="listitem">
+          <h3>Тянут время</h3>
+          <p>“Рассмотрим”, “проверим”, “ждите” — а по факту ничего не меняется, пока всё не оформлено письменно.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">ВРЕМЯ ИДЁТ — ДОКАЗЫВАТЬ СЛОЖНЕЕ</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="./assets/icons/s1.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Неясно, что просить</h3>
+          <p>Возврат? Переделка? Компенсация? Если требования “размытые”, вам проще отказать.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">НУЖНЫ ЧЁТКИЕ ТРЕБОВАНИЯ</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="./assets/icons/s2.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Нужно собрать доказательства</h3>
+          <p>Фото, акты, переписка, чеки — всё это важно оформить правильно, иначе скажут: “ничего не подтверждено”.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">ДОКУМЕНТЫ ДОЛЖНЫ РАБОТАТЬ</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="./assets/icons/s3.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Ставят “формальные” стенки</h3>
+          <p>Любят фразы вроде “акт подписан” или “сам виноват”. На них тоже есть ответы — по закону и по договору.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">НУЖЕН ОТВЕТ НА ОТКАЗ</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="./assets/icons/s4.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Сумму легко “срежут”</h3>
+          <p>Если нет расчёта и подтверждений, сумму обычно уменьшают. А вам нужны реальные деньги, а не “примерно”.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">НУЖЕН РАСЧЁТ И ПОДТВЕРЖДЕНИЕ</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="./assets/icons/s5.png" alt=""></span>
+          </div>
+        </article>
+
+        <article class="challenge-card" role="listitem">
+          <h3>Суд — не “волшебная кнопка”</h3>
+          <p>Без претензии, расчёта и доказательств суд часто не помогает. Сначала нужно сделать всё по порядку.</p>
+          <div class="challenge-foot">
+            <span class="challenge-tag">ВАЖЕН ПРАВИЛЬНЫЙ ПОРЯДОК</span>
+            <span class="challenge-icon" aria-hidden="true"><img src="./assets/icons/s6.png" alt=""></span>
+          </div>
+        </article>
+      </div>
+
+      <div class="challenges-cta" id="challenges-cta">
+        <div class="challenges-cta__inner">
+          <div class="challenges-cta__text">
+            <h3 class="challenges-cta__title">Мы подключаемся, когда вас “кормят” формальными ответами</h3>
+            <div class="hero-form-divider" aria-hidden="true"></div>
+            <p class="challenges-cta__subtitle">
+              Помогаем собрать документы, посчитать сумму и написать претензию так, чтобы её было сложно “отмахнуть”. Если не реагируют — готовим следующий шаг.
+            </p>
+          </div>
+
+          <form class="challenges-cta__form" action="./api/telegram.php" method="POST">
+            <div class="challenges-cta__fields">
+              <label class="challenges-cta__field">
+                <span>Ваше имя</span>
+                <input type="text" name="name" placeholder="Введите имя" required>
+              </label>
+
+              <label class="challenges-cta__field">
+                <span>Телефон</span>
+                <input type="tel" name="phone" inputmode="numeric" placeholder="Введите телефон" required>
+              </label>
+            </div>
+
+            <button type="submit" class="challenges-cta__btn faq-ask-btn">
+              <span class="faq-ask-btn__text">Получить разбор</span>
+              <span class="faq-ask-btn__icon" aria-hidden="true">→</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEIS: Motivational bridge block before Process -->
+  <section class="keis-bridge keis-bridge--process" aria-hidden="false">
+    <div class="keis-bridge__inner section-container">
+      <div class="keis-bridge__metric" data-bridge-counter="years" data-target="30">
+        <div class="keis-bridge__metric-value" data-counter-value>
+          <span class="keis-bridge__metric-number">0</span>
+          <span class="keis-bridge__metric-suffix keis-bridge__suffix">лет+</span>
+        </div>
+        <div class="keis-bridge__metric-label keis-bridge__label">Практики у каждого<br>юриста нашей компании</div>
+      </div>
+      <div class="keis-bridge__panel">
+        <p class="keis-bridge__quote">Имеем опыт, который позволяет действовать уверенно даже в сложных и спорных ситуациях.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="investment-process" id="process">
+    <div class="section-container">
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Как идёт <span class="k-title__mark">работа</span></h2>
+          <p class="k-subtitle">Три шага, чтобы сдвинуть дело с места и довести до решения</p>
+        </div>
+      </div>
+
+      <div class="process-steps">
+        <article class="work-step">
+          <div class="work-step-media" aria-hidden="true"></div>
+          <div class="work-step-body">
+            <div class="work-step-kicker">01 шаг</div>
+            <h3 class="work-step-title">Разбор фактов и документов</h3>
+            <p class="work-step-text">
+              Смотрим договор/чеки/переписку, уточняем детали и сразу говорим, какие документы нужны ещё. Фиксируем нарушения и считаем сумму.
+            </p>
+          </div>
+        </article>
+
+        <article class="work-step is-reverse">
+          <div class="work-step-media" aria-hidden="true"></div>
+          <div class="work-step-body">
+            <div class="work-step-kicker">02 шаг</div>
+            <h3 class="work-step-title">Стратегия и требования</h3>
+            <p class="work-step-text">
+              Готовим претензию простыми словами, но “по делу”: что требуем, в какой срок и на какие документы опираемся. Дальше — переговоры и письма. Если без экспертизы не обойтись (например, по ремонту или браку) — подскажем, как её провести правильно.
+            </p>
+          </div>
+        </article>
+
+        <article class="work-step">
+          <div class="work-step-media" aria-hidden="true"></div>
+          <div class="work-step-body">
+            <div class="work-step-kicker">03 шаг</div>
+            <h3 class="work-step-title">Доведение до исполнения</h3>
+            <p class="work-step-text">
+              Если добровольно не решают — идём дальше: готовим иск, представляем ваши интересы и следим за исполнением решения. Наша задача — чтобы история закончилась не “бумагой”, а понятным итогом.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section class="investment-cases" id="cases">
+    <div class="section-container">
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Наши <span class="k-title__mark">кейсы</span></h2>
+          <p class="k-subtitle">Без героизма и пафоса: что произошло,<br>что сделали и чем закончилось</p>
+        </div>
+      </div>
+
+      <div class="cases-grid">
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Товар</span>
+            <span class="case-tag case-tag--muted">Дефект</span>
+          </div>
+          <h3 class="case-title">Сломалась техника на гарантии — продавец тянул “проверку”</h3>
+          <p class="case-text">Ситуация: покупка вышла из строя, в магазине говорили “ждите, мы разберёмся”, сроки переносили. Сумма: <strong>85 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: собрали документы, оформили претензию с конкретными сроками и требованиями, зафиксировали переписку и добились решения в пользу клиента.</p>
+          <div class="case-result">Вернули: <strong>85 000 ₽</strong> + компенсация расходов</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Услуги</span>
+            <span class="case-tag case-tag--muted">Срыв</span>
+          </div>
+          <h3 class="case-title">Заплатили за услугу, а дальше — “завтра” и тишина</h3>
+          <p class="case-text">Ситуация: договорились о работах, оплатили, но сроки сорвали, на звонки отвечали через раз. Сумма: <strong>120 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: оформили претензию, посчитали сумму требований и закрепили всё письменно. После этого удалось договориться о возврате без суда.</p>
+          <div class="case-result">Вернули: <strong>120 000 ₽</strong> (досудебно)</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Ремонт</span>
+            <span class="case-tag case-tag--muted">Переделка</span>
+          </div>
+          <h3 class="case-title">Ремонт “сдали”, а потом пошли трещины и перекосы</h3>
+          <p class="case-text">Ситуация: после окончания работ появились дефекты, подрядчик говорил “это мелочи” и не приезжал. Сумма: <strong>240 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: зафиксировали недостатки, подготовили расчёт стоимости исправления и претензию. Добились компенсации на устранение дефектов.</p>
+          <div class="case-result">Добились выплаты: <strong>180 000 ₽</strong></div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Страховка</span>
+            <span class="case-tag case-tag--muted">Навязали</span>
+          </div>
+          <h3 class="case-title">К договору “прицепили” страховку — человек узнал не сразу</h3>
+          <p class="case-text">Ситуация: при оформлении покупки добавили страховку “пакетом”, внятно не объяснили, возвратом не занимались. Сумма: <strong>от 35 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: разобрали документы, подготовили требования и направили обращение. В итоге часть суммы удалось вернуть.</p>
+          <div class="case-result">Вернули: <strong>до 35 000 ₽</strong> (частично)</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Мебель</span>
+            <span class="case-tag case-tag--muted">Несоответствие</span>
+          </div>
+          <h3 class="case-title">Привезли мебель с браком — магазин предлагал “ждать мастера”</h3>
+          <p class="case-text">Ситуация: на доставке обнаружили повреждения, сроки замены переносили, ответы были в духе “это не к нам”. Сумма: <strong>160 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: оформили претензию, зафиксировали дефекты и добились возврата денег и части расходов.</p>
+          <div class="case-result">Вернули: <strong>160 000 ₽</strong> + расходы</div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-top">
+            <span class="case-tag">Подряд</span>
+            <span class="case-tag case-tag--muted">Аванс</span>
+          </div>
+          <h3 class="case-title">Взяли аванс и начали тянуть время</h3>
+          <p class="case-text">Ситуация: аванс внесли, сроки сдвигали “на словах”, обещали выйти “на следующей неделе”. Сумма: <strong>300 000 ₽</strong>.</p>
+          <p class="case-text case-text--small">Что сделали: зафиксировали переписку, направили претензию и подготовили документы для суда. В итоге сумму аванса удалось взыскать.</p>
+          <div class="case-result">Взыскали: <strong>300 000 ₽</strong></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bridge with cases counter: 1700 дел+ -->
+  <section class="keis-bridge keis-bridge--cases" aria-hidden="false">
+    <div class="keis-bridge__inner section-container">
+      <div class="keis-bridge__metric" data-bridge-counter="cases" data-target="1700">
+        <div class="keis-bridge__metric-value" data-counter-value>
+          <span class="keis-bridge__metric-number">0</span>
+          <span class="keis-bridge__metric-suffix keis-bridge__suffix">дел+</span>
+        </div>
+        <div class="keis-bridge__metric-sublabel keis-bridge__label">Успешно разрешенных ситуаций<br>нашим клиентам</div>
+      </div>
+      <div class="keis-bridge__panel">
+        <p class="keis-bridge__quote">Это не статистика. Это решения, которые вернули людям деньги и уверенность.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="investment-faq" id="faq">
+    <div class="section-container">
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Частые <span class="k-title__mark">вопросы</span></h2>
+          <p class="k-subtitle">Коротко и по-человечески — что обычно спрашивают</p>
+        </div>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-list">
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Можно ли вернуть деньги за товар, если чек не сохранился?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Часто можно. Подойдут другие подтверждения покупки: гарантийный талон, запись в личном кабинете, упаковка, переписка с магазином.
+Главное — спокойно собрать всё, что есть, и написать требование в правильной форме.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              С чего начать, если услугу сделали плохо или вообще не сделали?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Начните с простого: соберите договор, чеки, переписку, сделайте фото/видео результата (или его отсутствия).
+Дальше — претензия: что именно требуете и в какой срок. По ситуации подскажем, нужна ли экспертиза.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Когда нужна экспертиза и кто за неё платит?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Экспертиза нужна, когда спорят о причине дефекта или о качестве работ — “кто виноват” и “что надо переделать”.
+Кто оплачивает и когда её лучше делать — зависит от документов. Мы объясним на вашем примере.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Можно ли вернуть навязанную страховку по договору?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Во многих случаях — да. Сначала смотрим договор и сроки, потом готовим обращение с понятными требованиями.
+Если ответа нет или приходит отказ — выбираем следующий шаг: претензия, жалоба, суд.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Что можно требовать кроме возврата денег?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Бывает, что можно требовать не только возврат: неустойку, штраф, расходы (например, на экспертизу), иногда — компенсацию морального вреда.
+Мы помогаем посчитать сумму и оформить требования так, чтобы они выглядели убедительно.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              Сколько стоят ваши услуги и как это оформляется?
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer">
+              Стоимость зависит от ситуации и этапа: иногда хватает одной претензии, иногда нужен суд и экспертиза.
+Всё фиксируем в договоре, без “мелкого шрифта” и неожиданных доплат.
+            </div>
+          </div>
+
+          <div class="faq-spacer" aria-hidden="true"></div>
+          <div class="faq-ask">
+            <div class="faq-ask-panel" role="group" aria-label="Задать вопрос">
+              <div class="faq-ask-copy">
+                <div class="faq-ask-title">Хотите, чтобы мы посмотрели вашу ситуацию?</div>
+              </div>
+              <button type="button" class="faq-ask-btn" data-open-contact-modal>
+                <span class="faq-ask-btn__text">Получить разбор</span>
+                <span class="faq-ask-btn__icon" aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div class="faq-aside--visual" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP + REVIEWS -->
+  <section class="investment-find" id="contacts">
+    <div class="keis-parallax-bg" data-parallax data-parallax-speed="0.18" aria-hidden="true"></div>
+    <div class="section-container">
+      <div class="section-header k-header">
+        <div class="k-header__box">
+          <h2 class="k-title">Как с нами <span class="k-title__mark">связаться</span></h2>
+          <p class="k-subtitle">Приезжайте на встречу<br>или напишите удобным способом</p>
+        </div>
+      </div>
+      
+      <div class="find-grid">
+
+        <div class="find-map">
+          <h3 class="find-title">Офис и маршрут</h3>
+          <div class="map-widget">
+            <iframe
+              src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=64216225429"
+              frameborder="0"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="find-reviews">
+          <h3 class="find-title">Отзывы клиентов</h3>
+          <div class="reviews-widget">
+            <iframe
+              src="https://yandex.ru/maps-reviews-widget/64216225429?comments"
+              frameborder="0"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="investment-footer" id="about">
+    <div id="bottom-cta" aria-hidden="true"></div>
+
+    <div class="section-container investment-footer__inner">
+      <div class="investment-footer__col investment-footer__col--about">
+        <div class="section-header k-header about-header">
+          <div class="k-header__box">
+            <h2 class="k-title">О нашей <span class="k-title__mark">компании</span></h2>
+            <p class="k-subtitle">Помогаем, когда продавец или исполнитель “делает вид”, что проблемы нет.</p>
+          </div>
+        </div>
+        <div class="about-body">
+        <p class="investment-footer__lead">
+          Мы занимаемся потребительскими спорами: возврат денег за товар, спор по качеству услуги, ремонт с дефектами, подряд и навязанные допуслуги.
+          Часто людям отвечают “по шаблону” или просто тянут время — и кажется, что ничего не добиться. На практике добиться можно, если действовать спокойно и по порядку.
+        </p>
+        <p class="investment-footer__lead">
+          Мы объясняем всё простыми словами: что собрать, что написать, какие сроки важны и где чаще всего “спотыкаются”.
+          Если дело доходит до суда — берём на себя документы и представительство. Если решается раньше — тем лучше для вас.
+        </p>
+        <p class="investment-footer__legal">Общество с ограниченной ответственностью «Креатор Групп»<br>ИНН 7839122570</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CONTACT MODAL -->
+  <div class="keis-modal" id="contactModal" aria-hidden="true">
+    <div class="keis-modal__overlay" data-close-contact-modal aria-hidden="true"></div>
+
+    <div class="keis-modal__panel" role="dialog" aria-modal="true" aria-label="Форма обратной связи">
+      <button type="button" class="keis-modal__close" data-close-contact-modal aria-label="Закрыть">×</button>
+
+      <div class="keis-modal__head">
+        <h3 class="keis-modal__title">Запросить разбор</h3>
+        <p class="keis-modal__subtitle">Перезвоним в течение 5 минут и подскажем, с чего начать по вашей ситуации.</p>
+      </div>
+
+      <div class="hero-form-divider" aria-hidden="true"></div>
+
+      <form class="hero-form hero-form--modal" action="./api/telegram.php" method="POST">
+        <div class="hero-form-row">
+          <div class="hero-form-group">
+            <label for="modal-name">Ваше имя</label>
+            <input type="text" id="modal-name" name="name" placeholder="Как к вам обращаться" required>
+          </div>
+
+          <div class="hero-form-group">
+            <label for="modal-phone">Телефон</label>
+            <input type="tel" id="modal-phone" name="phone" inputmode="numeric" placeholder="Ваш номер" maxlength="16" required>
+          </div>
+        </div>
+
+        <div class="hero-form-group">
+          <label for="modal-case">Кратко о ситуации</label>
+          <textarea id="modal-case" name="message" rows="4" placeholder="Опишите в двух словах: что купили/заказали, сколько заплатили, какие документы есть и что вам ответили" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Получить разбор</button>
+
+        <p class="hero-form-disclaimer">
+          Отправляя форму, вы соглашаетесь с политикой конфиденциальности и обработкой персональных данных.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="keis-success-modal" id="successModal" aria-hidden="true">
+    <div class="keis-success-modal__overlay" data-close-success-modal aria-hidden="true"></div>
+    <div class="keis-success-modal__panel" role="dialog" aria-modal="true" aria-label="Подтверждение отправки">
+      <button type="button" class="keis-success-modal__close" data-close-success-modal aria-label="Закрыть">×</button>
+      <div class="keis-success-modal__content">
+        <h3 class="keis-success-modal__title">Ваша заявка отправлена</h3>
+        <div class="hero-form-divider" aria-hidden="true"></div>
+        <p class="keis-success-modal__text">С вами свяжутся в течение 5 минут, ожидайте звонка, держите телефон при себе</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../script.js" defer></script>
+  
+  <!-- JivoChat -->
+  <script src="https://code.jivo.ru/widget/CgMP7mbMCA" async></script>
+</body>
+</html>
