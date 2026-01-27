@@ -1,3 +1,31 @@
+(function initViewportVariable() {
+  const rootEl = document.documentElement;
+  if (!rootEl) return;
+
+  const applyViewport = () => {
+    const height = window.innerHeight || rootEl.clientHeight;
+    if (height > 0) {
+      const vhUnit = height * 0.01;
+      rootEl.style.setProperty('--app-vh', `${vhUnit}px`);
+      rootEl.style.setProperty('--app-viewport', `${height}px`);
+    }
+  };
+
+  let pendingFrame = null;
+  const schedule = () => {
+    if (pendingFrame) cancelAnimationFrame(pendingFrame);
+    pendingFrame = requestAnimationFrame(() => {
+      pendingFrame = null;
+      applyViewport();
+    });
+  };
+
+  applyViewport();
+  window.addEventListener('resize', schedule, { passive: true });
+  window.addEventListener('orientationchange', schedule, { passive: true });
+  window.addEventListener('pageshow', schedule, { passive: true });
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   initYandexMetrika();
   initHeader();
@@ -7,10 +35,23 @@ document.addEventListener('DOMContentLoaded', () => {
   initTrustParallax();
   initFindParallax();
   initTelegramLeads();
-  initFormsUX();
+  try {
+    initFormsUX();
+    if (isDev()) console.log('[formsUX] started / placeholders cycle started');
+  } catch (e) {
+    if (isDev()) console.warn('[formsUX] error', e);
+  }
   initCounterAnimation();
   initBridgeCounters();
+  initTicker();
+  try {
+    initStripeTicker();
+    if (isDev()) console.log('[stripeTicker] initialized');
+  } catch (e) {
+    if (isDev()) console.warn('[stripeTicker] init error', e);
+  }
   initSuccessModal();
+  initLeftStickyAsk();
 
   if (isDev()) {
     console.log('[script.js] All initialization functions completed');
@@ -25,589 +66,848 @@ function isDev() {
   return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 }
 
+function isLocalPreview() {
+  return isDev() || window.location.protocol === 'file:';
+}
+
+function guardInit(key) {
+  if (!key) return false;
+  if (!window.__kgInitFlags) {
+    window.__kgInitFlags = new Set();
+  }
+  if (window.__kgInitFlags.has(key)) return false;
+  window.__kgInitFlags.add(key);
+  return true;
+}
+
+/* keis-ticker removed: canonical items and population logic deleted */
+
+// No-op placeholder for legacy initTicker() (keeps existing init flow stable)
+function initTicker() {
+  // intentionally left blank per user request
+}
+
+// Injects a lightweight running stripe ticker into the orange stripe area
+function initStripeTicker() {
+  if (!guardInit('stripe-ticker')) return;
+  try {
+    const path = window.location.pathname || '';
+    const isConsumer = path.includes('/consumer-protection/');
+    const isFraud = path.includes('/fraud/');
+    // only on the requested sections
+    if (!isConsumer && !isFraud) return;
+
+    const firstSection = document.querySelector('body > section:first-of-type');
+    if (!firstSection) return;
+    if (firstSection.querySelector('.kg-stripe-ticker')) return; // already added
+
+    const items = [
+      'Узкопрофильные специалисты',
+      'Представление интересов до реального результата',
+      'Оплата за честный результат',
+      'Знание различных схем и способов достижений поставленных целей',
+      'Юрист на связи всегда',
+      'Быстрая подготовка и подача первичных документов',
+      'Более 30 лет опыта имеет каждый юрист компании',
+      'Гибкие условия оплаты'
+    ];
+
+    const ticker = document.createElement('div');
+    ticker.className = 'kg-stripe-ticker';
+    ticker.setAttribute('aria-hidden', 'true');
+
+    const track = document.createElement('div');
+    track.className = 'kg-stripe-track';
+
+    // build a long sequence by repeating the items several times (improves smooth loop)
+    for (let r = 0; r < 10; r++) {
+      items.forEach((txt, idx) => {
+        const span = document.createElement('span');
+        span.className = 'kg-stripe-item';
+        span.textContent = txt;
+        track.appendChild(span);
+
+        // add separator except after last item of the sequence
+        const sep = document.createElement('span');
+        // use an unusual name for the separator to avoid conflicts
+        sep.className = 'kg-onyx-sigil';
+        track.appendChild(sep);
+      });
+    }
+
+    // duplicate the track contents to enable a seamless loop (content duplicated once)
+    track.innerHTML += track.innerHTML;
+
+    ticker.appendChild(track);
+    // ensure the ticker is a child so absolute positioning sits over the stripe
+    firstSection.appendChild(ticker);
+
+    // Replace CSS animation with requestAnimationFrame driven animation for pixel-perfect smoothness
+    let rafId = null;
+    let lastTime = null;
+    let offset = 0;
+    let contentWidth = 0; // full scrollWidth
+    let loopWidth = 0; // half of contentWidth (since duplicated)
+    let pxPerSec = 100; // default fallback
+    let displayedOffset = 0; // for smoothing (lerp)
+
+    const recalc = () => {
+      contentWidth = track.scrollWidth || 0;
+      loopWidth = contentWidth / 2 || contentWidth;
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 1200;
+      // base duration between 12s and 36s for one loop (loopWidth distance) — use floats for smoothness
+      let baseDuration = (loopWidth / viewportWidth) * 18 || 18;
+      baseDuration = Math.max(12, Math.min(36, baseDuration));
+      const speedFactor = (isConsumer || isFraud) ? 6.0 : 1.0;
+      let duration = baseDuration * speedFactor;
+      duration = Math.min(240, duration);
+      // px to move per second = loopWidth / duration (duration in seconds)
+      pxPerSec = (loopWidth > 0) ? (loopWidth / duration) : 100;
+      // defensive reset of offset to stay in valid range
+      if (loopWidth > 0) offset = offset % loopWidth;
+    };
+
+    const step = (ts) => {
+      if (lastTime === null) lastTime = ts;
+      const dt = (ts - lastTime) / 1000;
+      lastTime = ts;
+      offset += pxPerSec * dt;
+      if (loopWidth > 0 && offset >= loopWidth) offset -= loopWidth;
+      // smooth displayed offset with a small lerp to remove micro-jitter
+      // choose factor small enough for responsiveness but large enough for smoothing
+      const lerpFactor = 0.12;
+      displayedOffset += (offset - displayedOffset) * lerpFactor;
+      // apply transform using fractional pixels for subpixel-smooth movement
+      track.style.transform = `translate3d(${-displayedOffset}px,0,0)`;
+      rafId = requestAnimationFrame(step);
+    };
+
+    const start = () => {
+      cancel();
+      recalc();
+      lastTime = null;
+      rafId = requestAnimationFrame(step);
+    };
+
+    const cancel = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    };
+
+    // Start the ticker only when it is visible (IO) and when the page is visible.
+    // This avoids continuous rAF when the ticker is offscreen and reduces paint churn.
+    let isIntersecting = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== ticker) return;
+        isIntersecting = entry.isIntersecting && entry.intersectionRatio > 0;
+        if (isIntersecting && !document.hidden) {
+          start();
+          if (isDev()) console.log('[stripeTicker] started');
+        } else {
+          cancel();
+          if (isDev()) console.log('[stripeTicker] paused');
+        }
+      });
+    }, { root: null, threshold: 0 });
+
+    // Observe ticker visibility and compute metrics once now
+    try { recalc(); } catch (e) {}
+    io.observe(ticker);
+
+    window.addEventListener('resize', () => { recalc(); }, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancel();
+        if (isDev()) console.log('[stripeTicker] paused');
+      } else {
+        // resume only if currently intersecting the viewport
+        if (isIntersecting) {
+          start();
+          if (isDev()) console.log('[stripeTicker] resumed');
+        }
+      }
+    });
+  } catch (e) {
+    // silent fail to avoid breaking page
+    console.warn('initStripeTicker error', e);
+  }
+}
+
+const HERO_HAND_LAYER_DATA_KEY = '__keisHeroHandLayer';
+
+function ensureHandLayer(container) {
+  if (!container || !(container instanceof Element)) return null;
+  container.classList.add('hero-hand-layer-container');
+  const existing = container[HERO_HAND_LAYER_DATA_KEY];
+  if (existing && existing.isConnected) return existing;
+  const layer = document.createElement('div');
+  layer.className = 'hero-hand-layer';
+  layer.setAttribute('aria-hidden', 'true');
+  container.appendChild(layer);
+  container[HERO_HAND_LAYER_DATA_KEY] = layer;
+  return layer;
+}
+
+function ensureHandTarget(button) {
+  if (!button || !(button instanceof Element)) return null;
+  button.classList.add('hero-hand-target');
+  return button;
+}
+
+// Legacy hand hint + ripple logic (kept intact)
+const animateButtonPress = async (btn) => {
+  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+  if (!btn) return;
+  btn.classList.add('is-pressing');
+  await sleep(200);
+  btn.classList.remove('is-pressing');
+  await sleep(100);
+};
+
+const triggerBlockFiveLight = (btn, x, y) => {
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const container = btn.closest('form');
+  const containerRect = container ? container.getBoundingClientRect() : null;
+  const fallbackX = rect.width ? rect.width * 0.62 : 0;
+  const fallbackY = rect.height ? rect.height * 0.56 : 0;
+  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+  let fx = fallbackX;
+  let fy = fallbackY;
+
+  if (typeof x === 'number' && typeof y === 'number') {
+    if (containerRect) {
+      fx = x - (rect.left - containerRect.left);
+      fy = y - (rect.top - containerRect.top);
+    } else {
+      fx = x;
+      fy = y;
+    }
+  }
+
+  fx = clamp(fx, 6, Math.max(rect.width - 6, 6));
+  fy = clamp(fy, 6, Math.max(rect.height - 6, 6));
+  btn.classList.remove('kg-block5-light');
+  void btn.offsetWidth;
+  btn.style.setProperty('--hand-light-x', `${Math.round(fx)}px`);
+  btn.style.setProperty('--hand-light-y', `${Math.round(fy)}px`);
+  btn.classList.add('kg-block5-light');
+};
+
+function initHeroFormHandClickHint() {
+  if (window.__heroHandHintController) return window.__heroHandHintController;
+
+  let heroForm = document.querySelector('.hero-investment .hero-form') ||
+    document.querySelector('section:first-of-type .hero-form') ||
+    document.querySelector('.hero-form');
+  if (!heroForm) return null;
+  ensureHandLayer(heroForm);
+
+  const buttonSelector = 'button[type="submit"], .btn-primary, .challenges-cta__btn, .faq-ask-btn';
+  let heroButton = heroForm.querySelector(buttonSelector);
+  if (!heroButton) return null;
+
+  const ensureRipples = (btn) => {
+    if (!btn) return;
+    if (!btn.querySelector('.hero-hand-ripple--large')) {
+      const large = document.createElement('span');
+      large.className = 'hero-hand-ripple hero-hand-ripple--large';
+      large.setAttribute('aria-hidden', 'true');
+      btn.appendChild(large);
+    }
+    if (!btn.querySelector('.hero-hand-ripple--small')) {
+      const small = document.createElement('span');
+      small.className = 'hero-hand-ripple hero-hand-ripple--small';
+      small.setAttribute('aria-hidden', 'true');
+      btn.appendChild(small);
+    }
+  };
+
+  ensureRipples(heroButton);
+
+  const normalizePlayArgs = (btnOrOptions, opts = {}) => {
+    const isElement = typeof Element !== 'undefined' && btnOrOptions instanceof Element;
+    if (btnOrOptions && typeof btnOrOptions === 'object' && !isElement) {
+      return btnOrOptions;
+    }
+    return { button: btnOrOptions, ...opts };
+  };
+
+  const handEl = document.createElement('div');
+  handEl.className = 'hero-hand-hint hero-hand-hint--fixed';
+  handEl.setAttribute('aria-hidden', 'true');
+
+  const handImg = document.createElement('img');
+  handImg.src = '/assets/icons/hand_s.png';
+  handImg.alt = '';
+  handEl.appendChild(handImg);
+
+  document.body.appendChild(handEl);
+
+  const prefersReducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  const moveDuration = prefersReducedMotion ? 0 : 380; // align with CSS transition (~360ms) to avoid early tap
+  const tapDuration = prefersReducedMotion ? 0 : 160;
+  const fadeDuration = prefersReducedMotion ? 120 : 260;
+
+  const state = { timeouts: [], activeButton: null };
+
+  const clearTimers = () => {
+    state.timeouts.forEach((id) => clearTimeout(id));
+    state.timeouts.length = 0;
+    if (state.activeButton) {
+      state.activeButton.classList.remove('is-pressed');
+      state.activeButton.classList.remove('hero-hand-press');
+      state.activeButton = null;
+    }
+  };
+
+  const schedule = (cb, delay) => {
+    const id = window.setTimeout(() => {
+      state.timeouts = state.timeouts.filter((storedId) => storedId !== id);
+      cb();
+    }, delay);
+    state.timeouts.push(id);
+    return id;
+  };
+
+  const resolveButton = () => {
+    if (heroButton && heroButton.isConnected) {
+      ensureRipples(heroButton);
+      return heroButton;
+    }
+    heroButton = heroForm.querySelector(buttonSelector);
+    ensureRipples(heroButton);
+    return heroButton;
+  };
+
+  const play = (targetBtnOrOptions, opts = {}) => new Promise((resolve) => {
+    let settled = false;
+    let fallbackId = null;
+    const settle = () => {
+      if (settled) return;
+      settled = true;
+      if (fallbackId) window.clearTimeout(fallbackId);
+      resolve();
+    };
+    const playOptions = normalizePlayArgs(targetBtnOrOptions, opts) || {};
+    let btn = null;
+    if (playOptions && playOptions.button) {
+      btn = playOptions.button;
+    } else {
+      btn = resolveButton();
+    }
+    if (!btn) {
+      resolve();
+      return;
+    }
+    btn = ensureHandTarget(btn) || btn;
+
+    const isModalBtn = !!btn.closest('.hero-form--modal');
+    if (isModalBtn) {
+      handEl.classList.add('hero-hand-hint--modal');
+    } else {
+      handEl.classList.remove('hero-hand-hint--modal');
+    }
+
+    const targetXPct = typeof playOptions.targetXPct === 'number' ? playOptions.targetXPct : 0.85;
+    const targetYPct = typeof playOptions.targetYPct === 'number' ? playOptions.targetYPct : 0.55;
+    const startOffsetX = typeof playOptions.startOffsetX === 'number' ? playOptions.startOffsetX : 26;
+    const startOffsetY = typeof playOptions.startOffsetY === 'number' ? playOptions.startOffsetY : 18;
+    const visibleOpacity = typeof playOptions.visibleOpacity === 'number' ? playOptions.visibleOpacity : null;
+    if (visibleOpacity !== null) {
+      handEl.style.setProperty('--hero-hand-opacity', String(visibleOpacity));
+    } else {
+      handEl.style.removeProperty('--hero-hand-opacity');
+    }
+
+    try { ensureRipples(btn); } catch (e) {}
+
+    clearTimers();
+    handEl.classList.remove('is-visible');
+    handEl.classList.remove('is-tap');
+    state.activeButton = null;
+
+    const rect = btn.getBoundingClientRect();
+    if (!rect.width || !rect.height) {
+      resolve();
+      return;
+    }
+
+    const overlayTarget = document.body;
+    if (!overlayTarget) {
+      resolve();
+      return;
+    }
+
+    if (handEl.parentElement !== overlayTarget) {
+      handEl.style.position = 'fixed';
+      handEl.classList.add('hero-hand-hint--fixed');
+      overlayTarget.appendChild(handEl);
+    } else {
+      handEl.style.position = 'fixed';
+      handEl.classList.add('hero-hand-hint--fixed');
+    }
+
+    const viewportTargetX = rect.left + rect.width * targetXPct;
+    const viewportTargetY = rect.top + rect.height * targetYPct;
+    const HAND_SHIFT_X = 8;
+    const targetX = Math.round(viewportTargetX + HAND_SHIFT_X);
+    const targetY = Math.round(viewportTargetY);
+    const startX = Math.round(viewportTargetX + startOffsetX + HAND_SHIFT_X);
+    const startY = Math.round(viewportTargetY + startOffsetY);
+
+    handEl.style.opacity = '0';
+    handEl.classList.add('is-start');
+
+    const prevTransition = handEl.style.transition || '';
+    handEl.style.transition = 'none';
+
+    handEl.style.left = `${startX}px`;
+    handEl.style.top = `${startY}px`;
+
+    void handEl.offsetWidth;
+
+    requestAnimationFrame(() => {
+      handEl.style.transition = prevTransition || '';
+      handEl.classList.add('is-visible');
+      handEl.classList.remove('is-start');
+      handEl.style.left = `${targetX}px`;
+      handEl.style.top = `${targetY}px`;
+      handEl.style.opacity = '';
+      state.activeButton = btn;
+
+      schedule(() => {
+        handEl.classList.add('is-tap');
+        btn.classList.add('is-pressed');
+        btn.classList.add('hero-hand-press');
+
+        if (typeof playOptions.onTap === 'function') {
+          try {
+            playOptions.onTap({ button: btn, targetX, targetY });
+          } catch (e) {}
+        }
+
+        const isModal = !!btn.closest('.hero-form--modal') || !!(btn.closest('form') && btn.closest('form').classList && btn.closest('form').classList.contains('hero-form--modal'));
+        if (isModal) {
+          try {
+            const bRect = btn.getBoundingClientRect();
+            const rx = Math.round(bRect.width * 0.85);
+            const ry = Math.round(bRect.height * 0.55);
+            btn.style.setProperty('--ripple-x', `${rx}px`);
+            btn.style.setProperty('--ripple-y', `${ry}px`);
+            btn.classList.add('typing-complete');
+          } catch (e) {}
+        }
+
+        schedule(() => {
+          handEl.classList.remove('is-tap');
+          btn.classList.remove('is-pressed');
+          btn.classList.remove('hero-hand-press');
+          state.activeButton = null;
+          handEl.classList.remove('is-visible');
+          handEl.style.removeProperty('--hero-hand-opacity');
+            handEl.classList.remove('hero-hand-hint--modal');
+
+          if (btn.classList.contains('typing-complete')) {
+            btn.classList.remove('typing-complete');
+          }
+
+          schedule(() => {
+            settle();
+          }, fadeDuration);
+        }, tapDuration);
+      }, moveDuration);
+    });
+
+    const fallbackMs = Math.max(moveDuration + tapDuration + fadeDuration + 180, 900);
+    fallbackId = window.setTimeout(() => {
+      if (settled) return;
+      try {
+        btn.classList.add('is-pressed');
+        btn.classList.add('hero-hand-press');
+      } catch (e) {}
+      settle();
+    }, fallbackMs);
+  });
+
+  const controller = { form: heroForm, play };
+  window.__heroHandHintController = controller;
+  controller.playTestSequence = async () => {
+    const seq = [];
+    const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+    try {
+      const heroBtn = heroForm ? heroForm.querySelector('button[type="submit"], .btn-primary') : null;
+      if (heroBtn) seq.push(() => play(heroBtn));
+    } catch (e) {}
+    try {
+      const modalForm = document.querySelector('.hero-form--modal');
+      if (modalForm) {
+        const mBtn = modalForm.querySelector('button[type="submit"], .btn-primary, .challenges-cta__btn');
+        if (mBtn) seq.push(() => play(mBtn));
+      }
+    } catch (e) {}
+    try {
+      const blockForm = document.querySelector('.challenges-cta__form');
+      if (blockForm) {
+        const bBtn = blockForm.querySelector('button[type="submit"], .challenges-cta__btn');
+        if (bBtn) seq.push(() => play(bBtn));
+      }
+    } catch (e) {}
+
+    for (let fn of seq) {
+      await sleep(350);
+      await fn();
+    }
+  };
+  return controller;
+}
+
 /* ==========================================================
    FORMS UX: placeholder typing + subtle CTA pulse + pressed state
    ========================================================== */
 function initFormsUX() {
-  if (window.__keisFormsUXInitialized) return;
-  window.__keisFormsUXInitialized = true;
-  
-  // Global registry of all form controllers
-  window.__keisFormControllers = new Map();
-  
-  // Apply to all forms on the page but only operate on forms that contain
-  // the expected fields. This lets the UX reach forms that are not branded
-  // as `hero-form` while avoiding unrelated forms.
-  const forms = document.querySelectorAll('form');
-  if (!forms.length) return;
-  // Изначальные placeholder'ы (не жирные, читаемые)
-  const initialPlaceholders = {
+  if (!guardInit('forms-ux')) return;
+  const BASE_PLACEHOLDERS = {
     name: 'Как вас зовут?',
     phone: 'Ваш номер',
-    message: 'Опишите свой вопрос'
-  };
-  
-  // Placeholder'ы для разных страниц
-  const placeholdersByPage = {
-    'page-investment': {
-      name: 'Как вас зовут?',
-      phone: 'Ваш номер',
-      message: 'Опишите свой вопрос'
-    },
-    'page-influence': {
-      name: 'Как вас зовут?',
-      phone: 'Ваш номер',
-      message: 'Опишите свой вопрос'
-    },
-    'page-credit': {
-      name: 'Как вас зовут?',
-      phone: 'Ваш номер',
-      message: 'Опишите свой вопрос'
-    },
-    'page-main': {
-      name: 'Как вас зовут?',
-      phone: 'Ваш номер',
-      message: 'Опишите свой вопрос'
-    }
+    message: 'Опишите кратко свою ситуацию'
   };
 
-  // Consumer protection: override by subfolder (do not depend on body classes)
-  const consumerProtectionPlaceholders = {
-    name: 'Как к вам обращаться?',
-    phone: 'Ваш телефон',
-    message: 'Коротко опишите, что случилось'
-  };
-
-  const consumerProtectionPlaceholdersByFolder = {
-    'forced-insurance': consumerProtectionPlaceholders,
-    'consumer-goods-refund': consumerProtectionPlaceholders,
-    'furniture-defects': consumerProtectionPlaceholders,
-    'construction-contract': consumerProtectionPlaceholders,
-    'poor-quality-services': consumerProtectionPlaceholders,
-    'contractor-agreement': consumerProtectionPlaceholders,
-    'medical-malpractice': consumerProtectionPlaceholders,
-    'defective-apartment-renovation': consumerProtectionPlaceholders,
-    'complaint-against-lawyer': consumerProtectionPlaceholders
-  };
-
-  const consumerProtectionSamplesByFolder = {
-    'forced-insurance': {
-      name: 'Иванов Алексей',
-      phone: '+7 (981) 654-32-10',
-      message: 'Навязали страховку, хочу вернуть деньги по договору.'
-    },
-    'consumer-goods-refund': {
-      name: 'Петрова Мария',
-      phone: '+7 (981) 654-32-10',
-      message: 'Купил товар с браком, продавец не принимает обратно.'
-    },
-    'furniture-defects': {
-      name: 'Сидоров Алексей',
-      phone: '+7 (981) 654-32-10',
-      message: 'Мебель пришла с дефектами, обещают, но не исправляют.'
-    },
-    'construction-contract': {
-      name: 'Иванова Ольга',
-      phone: '+7 (981) 654-32-10',
-      message: 'Подрядчик сорвал сроки и сделал с нарушениями.'
+  const COMMON_PHONE_TEXT = '+7 987 654 32 10';
+  const TYPING_SETS = {
+    'medical-malpractice': {
+      name: ['Ирина Власова'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['После лечения стало хуже, нужна помощь разобраться с врачом']
     },
     'poor-quality-services': {
-      name: 'Петров Алексей',
-      phone: '+7 (981) 654-32-10',
-      message: 'Услугу оказали плохо, деньги возвращать не хотят.'
+      name: ['Алексей Синицын'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Услугу оказали плохо, хочу вернуть деньги и исправить ситуацию']
     },
-    'contractor-agreement': {
-      name: 'Смирнова Анна',
-      phone: '+7 (981) 654-32-10',
-      message: 'Взяли аванс и пропали/тянут, работу не заканчивают.'
+    'forced-insurance': {
+      name: ['Мария Руднева'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Навязали страховку при оформлении, хочу её отменить']
     },
-    'medical-malpractice': {
-      name: 'Кузнецов Дмитрий',
-      phone: '+7 (981) 654-32-10',
-      message: 'После лечения стало хуже, нужна проверка документов и действий.'
+    'furniture-defects': {
+      name: ['Владислав Крылов'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Мебель пришла с дефектами, продавец не решает вопрос']
     },
     'defective-apartment-renovation': {
-      name: 'Соколова Ирина',
-      phone: '+7 (981) 654-32-10',
-      message: 'Ремонт сделали криво, переделывать отказываются.'
+      name: ['Ольга Зуева'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Ремонт сделали плохо, нужен возврат и переделка']
+    },
+    'consumer-goods-refund': {
+      name: ['Сергей Козлов'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Купил товар с браком, магазин отказывается вернуть деньги']
+    },
+    'construction-contract': {
+      name: ['Дмитрий Орлов'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Подрядчик сорвал сроки и качество работ, нужен возврат']
     },
     'complaint-against-lawyer': {
-      name: 'Морозов Павел',
-      phone: '+7 (981) 654-32-10',
-      message: 'Заплатил за услуги, результата нет, хочу жалобу и возврат.'
-    }
-  };
-
-  const getConsumerProtectionFolder = (path) => {
-    const m = String(path || '').match(/\/consumer-protection\/([^/]+)(\/|$)/);
-    return m ? m[1] : null;
-  };
-  
-  const getPagePlaceholders = () => {
-    // consumer-protection/** must not inherit fraud placeholders via body class
-    const path = window.location.pathname;
-    if (path.includes('/consumer-protection/')) {
-      const folder = getConsumerProtectionFolder(path);
-      if (folder && consumerProtectionPlaceholdersByFolder[folder]) return consumerProtectionPlaceholdersByFolder[folder];
-      return consumerProtectionPlaceholders;
-    }
-    const body = document.body;
-    for (const cls of ['page-investment','page-influence','page-credit','page-main']) {
-      if (body.classList.contains(cls)) return placeholdersByPage[cls];
-    }
-    // fallback by pathname
-    if (path.includes('/investment')) return placeholdersByPage['page-investment'];
-    if (path.includes('/influence')) return placeholdersByPage['page-influence'];
-    if (path.includes('/credit')) return placeholdersByPage['page-credit'];
-    return placeholdersByPage['page-main'];
-  };
-
-  const samplesByPage = {
-    'page-investment': {
-      name: 'Иванов Алексей',
-      phone: '+7 (981) 654-32-10',
-      message: 'Моё вложение в проект оказалось мошенничеством, помогите вернуть средства.'
+      name: ['Наталья Лебедева'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Заплатила юристу, результата нет, хочу подать жалобу']
     },
-    'page-influence': {
-      name: 'Петрова Мария',
-      phone: '+7 (981) 654-32-10',
-      message: 'Меня убедили перевести деньги под давлением, нужны рекомендации и возврат.'
-    },
-    'page-credit': {
-      name: 'Сидоров Алексей',
-      phone: '+7 (981) 654-32-10',
-      message: 'Меня обманули мошенники и украли все мои сбережения'
-    },
-    'page-main': {
-      name: 'Иванов Алексей',
-      phone: '+7 (981) 654-32-10',
-      message: 'Меня обманули мошенники и украли все мои сбережения'
+    default: {
+      name: ['Антон Смирнов'],
+      phone: [COMMON_PHONE_TEXT],
+      message: ['Коротко опишите вашу ситуацию']
     }
   };
 
-  const getPageSample = () => {
-    // consumer-protection/** must not inherit fraud samples via body class
-    const path = window.location.pathname;
-    if (path.includes('/consumer-protection/')) {
-      const folder = getConsumerProtectionFolder(path);
-      if (folder && consumerProtectionSamplesByFolder[folder]) return consumerProtectionSamplesByFolder[folder];
-      // safe fallback: pick any defined sample if folder is missing
-      return consumerProtectionSamplesByFolder['forced-insurance'];
-    }
-    const body = document.body;
-    for (const cls of ['page-investment','page-influence','page-credit','page-main']) {
-      if (body.classList.contains(cls)) return samplesByPage[cls];
-    }
-    // fallback by pathname
-    if (path.includes('/investment')) return samplesByPage['page-investment'];
-    if (path.includes('/influence')) return samplesByPage['page-influence'];
-    if (path.includes('/credit')) return samplesByPage['page-credit'];
-    return samplesByPage['page-main'];
-  };
+  initHeroFormHandClickHint();
 
+  if (!window.__keisFormControllers || !(window.__keisFormControllers instanceof WeakMap)) {
+    window.__keisFormControllers = new WeakMap();
+  }
+
+  const controllers = window.__keisFormControllers;
+  const randomBetween = (min, max) => min + Math.random() * (max - min);
   const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
-  // FIX 2: Печатание текста в placeholder (не в value - value принадлежит только пользователю)
-  // TASK 2: Keep is-typing class during typing, don't remove it here (cycle will manage it)
-  const typeText = async (el, text, speed = 50) => {
-    if (!el) return;
-    // если пользователь взаимодействует с полем, прерываем
-    if (document.activeElement === el) return;
-    el.classList.add('is-typing');
-    // Очищаем value если там что-то есть (но не трогаем placeholder)
-    if (el.value) el.value = '';
-    // Убираем placeholder перед началом печати
-    const originalPlaceholder = el.getAttribute('placeholder') || '';
-    el.setAttribute('placeholder', '');
-    
-    // Печатаем в placeholder через data-атрибут и обновляем placeholder
-    let typedText = '';
-    for (let i = 0; i < text.length; i++) {
-      // Прерываем, если пользователь начал взаимодействовать
-      if (document.activeElement === el) {
-        el.setAttribute('placeholder', originalPlaceholder);
-        el.classList.remove('is-typing');
-        return;
-      }
-      typedText = text.slice(0, i + 1);
-      el.setAttribute('placeholder', typedText);
-      await sleep(speed);
-    }
-    await sleep(150);
-    // TASK 2: Do NOT remove is-typing here - keep it until cycle completes
-    // Оставляем placeholder как есть (он уже содержит полный текст)
+  const pageKey = (document.body && document.body.dataset && document.body.dataset.page) || 'default';
+  const pageTexts = TYPING_SETS[pageKey] || TYPING_SETS.default;
+  const defaultTexts = TYPING_SETS.default;
+
+  const resolveFieldKey = (el) => {
+    const nameAttr = (el.getAttribute('name') || '').toLowerCase();
+    if (/name|fullname|your_name/.test(nameAttr)) return 'name';
+    if (/phone|tel|phone_number/.test(nameAttr)) return 'phone';
+    return 'message';
   };
 
-  // Анимация нажатия кнопки
-  const animateButtonPress = async (btn) => {
-    if (!btn) return;
-    btn.classList.add('is-pressing');
-    await sleep(200);
-    btn.classList.remove('is-pressing');
-    await sleep(100);
+  const getTexts = (key) => {
+    const current = pageTexts[key];
+    if (Array.isArray(current) && current.length) return current;
+    return Array.isArray(defaultTexts[key]) ? defaultTexts[key] : [];
   };
 
-  // Helper: Check if form is fully filled (considers required fields only)
-  const isFormFullyFilled = (formEl) => {
-    const fields = formEl.querySelectorAll('input[required], textarea[required]');
-    if (fields.length === 0) {
-      // If no required fields, check all visible inputs
-      const allFields = formEl.querySelectorAll('input:not([type="hidden"]):not([disabled]), textarea:not([disabled])');
-      return Array.from(allFields).every(f => f.value && f.value.trim());
-    }
-    return Array.from(fields).every(f => f.value && f.value.trim() && !f.disabled && !f.hidden);
-  };
+  const heroSection = document.querySelector('body > section:first-of-type');
+  const allForms = Array.from(document.querySelectorAll('form'));
+  const eligibleForms = allForms
+    .map((form) => {
+      const fields = Array.from(form.querySelectorAll('input[type="text"], input[type="tel"], textarea'))
+        .filter((el) => {
+          const type = (el.getAttribute('type') || '').toLowerCase();
+          if (type === 'hidden' || type === 'submit' || type === 'checkbox' || type === 'radio') return false;
+          return !el.disabled && !el.hidden;
+        });
+      const submit = form.querySelector('button[type="submit"], input[type="submit"]');
+      const isHero = !!heroSection && (heroSection.contains(form) || form.classList.contains('hero-form'));
+      return { form, fields, submit, isHero };
+    })
+    .filter(({ fields, submit }) => fields.length >= 2 && !!submit)
+    .sort((a, b) => Number(b.isHero) - Number(a.isHero));
 
-  // Helper: Clear field values only (no background changes)
-  const clearFormValuesOnly = (formEl) => {
-    const fields = formEl.querySelectorAll('input:not([type="hidden"]), textarea');
-    fields.forEach(f => {
-      if (f && !f.disabled && !f.hidden) {
-        f.value = '';
-        f.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
-      }
+  if (!eligibleForms.length) return;
+
+  eligibleForms.forEach(({ form, fields, submit, isHero }) => {
+    if (controllers.has(form)) return;
+
+    const fieldStates = fields.map((el) => ({
+      el,
+      key: resolveFieldKey(el),
+      idx: -1
+    }));
+
+    fieldStates.forEach((fs) => {
+      const baseText = BASE_PLACEHOLDERS[fs.key] || '';
+      fs.el.setAttribute('placeholder', baseText);
     });
-  };
 
-  // Helper: Reset form to initial placeholders
-  const resetFormToInitialPlaceholders = (formEl, pagePlaceholders) => {
-    const nameEl = formEl.querySelector('input[name="name"], input[name="fullname"], input[name="your_name"]');
-    const phoneEl = formEl.querySelector('input[name="phone"], input[name="tel"], input[name="phone_number"]');
-    const msgEl = formEl.querySelector('textarea[name="message"], textarea[name="question"], textarea[name="text"], textarea[name="comment"], textarea[name="situation"], input[name="message"]');
-    
-    if (nameEl) nameEl.setAttribute('placeholder', pagePlaceholders.name);
-    if (phoneEl) phoneEl.setAttribute('placeholder', pagePlaceholders.phone);
-    if (msgEl) msgEl.setAttribute('placeholder', pagePlaceholders.message);
-  };
+    const submitButton = submit || form.querySelector('button[type="submit"], .btn-primary, .challenges-cta__btn, .faq-ask-btn');
 
-  // Helper: Clear placeholder artifacts across ALL forms if any are typing
-  const clearAllTypingArtifacts = (exceptForm = null) => {
-    window.__keisFormControllers.forEach((controller, formEl) => {
-      if (formEl === exceptForm) return;
-      if (controller.typingState.isTyping) {
-        controller.stopTypewriter();
-        controller.clearPlaceholderArtifacts();
-      }
-    });
-  };
+    const state = {
+      running: false,
+      stopped: false,
+      userInteracted: false,
+      restartTimer: null
+    };
 
-  forms.forEach((form) => {
-    const nameEl = form.querySelector('input[name="name"], input[name="fullname"], input[name="your_name"]');
-    const phoneEl = form.querySelector('input[name="phone"], input[name="tel"], input[name="phone_number"]');
-    const msgEl = form.querySelector('textarea[name="message"], textarea[name="question"], textarea[name="text"], textarea[name="comment"], textarea[name="situation"], input[name="message"]');
+    const gateByViewport = form.classList.contains('challenges-cta__form') || !!form.closest('.challenges-cta__form') || form.classList.contains('kg-glass__form');
+    let isIntersecting = !gateByViewport;
 
-    // skip forms explicitly opted-out
-    if (form.hasAttribute('data-no-ux') || form.dataset.keisUx === 'off') return;
-
-  // set initial placeholders based on page
-    const pagePlaceholders = getPagePlaceholders();
-    const samples = getPageSample();
-    if (nameEl && !(nameEl.getAttribute('placeholder') || '').trim()) nameEl.setAttribute('placeholder', pagePlaceholders.name);
-    if (phoneEl && !(phoneEl.getAttribute('placeholder') || '').trim()) phoneEl.setAttribute('placeholder', pagePlaceholders.phone);
-    if (msgEl && !(msgEl.getAttribute('placeholder') || '').trim()) msgEl.setAttribute('placeholder', pagePlaceholders.message);
-
-    // Form controller object
-    const controller = {
-      form: form,
-      nameEl,
-      phoneEl,
-      msgEl,
-      fields: [nameEl, phoneEl, msgEl].filter(Boolean),
-      stop: false,
-      cycleRunning: false,
-      blurTimeoutId: null,
-      typingState: {
-        isTyping: false,
-        fieldIndex: 0,
-        charIndex: 0,
-        paused: false
-      },
-      initialPlaceholders: {
-        name: nameEl ? (nameEl.getAttribute('placeholder') || pagePlaceholders.name) : '',
-        phone: phoneEl ? (phoneEl.getAttribute('placeholder') || pagePlaceholders.phone) : '',
-        message: msgEl ? (msgEl.getAttribute('placeholder') || pagePlaceholders.message) : ''
-      },
-      runCycle: null, // TASK 2: Will be set to the runCycle function
-      
-      stopTypewriter() {
-        this.stop = true;
-        this.typingState.paused = true;
-        this.typingState.isTyping = false;
-        // TASK 2: Remove form-level typing class when stopped
-        this.form.classList.remove('form-typing-active');
-      },
-      
-      clearPlaceholderArtifacts() {
-        // FIX 2: Очищаем placeholder artifacts (typewriter работает через placeholder)
-        // TASK 2: Use base placeholders (same as initialPlaceholders, but explicit)
-        const ph = this.initialPlaceholders; // These are already set from pagePlaceholders at init
-        if (this.nameEl) {
-          this.nameEl.value = ''; // Очищаем value только если пользователь что-то ввел
-          this.nameEl.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
-          this.nameEl.setAttribute('placeholder', ph.name);
-        }
-        if (this.phoneEl) {
-          this.phoneEl.value = '';
-          this.phoneEl.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
-          this.phoneEl.setAttribute('placeholder', ph.phone);
-        }
-        if (this.msgEl) {
-          this.msgEl.value = '';
-          this.msgEl.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
-          this.msgEl.setAttribute('placeholder', ph.message);
-        }
-        // TASK 2: Remove form-level typing class
-        this.form.classList.remove('form-typing-active');
-      },
-      
-      isFormFullyFilled() {
-        return isFormFullyFilled(this.form);
+    const tapSubmit = async () => {
+      if (!submitButton) return;
+      if (state.stopped || state.userInteracted) return;
+      const hero = window.__heroHandHintController;
+      if (hero && typeof hero.play === 'function') {
+        const failSafe = sleep(1200).then(() => animateButtonPress(submitButton));
+        await Promise.race([hero.play(submitButton), failSafe]);
+      } else {
+        await animateButtonPress(submitButton);
       }
     };
 
-    // Register controller globally
-    window.__keisFormControllers.set(form, controller);
+    const resetPlaceholdersAnimated = async () => {
+      const emptyFields = fieldStates.map((fs) => fs.el).filter((el) => el && !(el.value && String(el.value).trim()));
+      if (!emptyFields.length) return;
+      emptyFields.forEach((el) => {
+        el.classList.remove('ux-typing');
+        el.classList.add('ux-resetting');
+      });
+      await sleep(140);
+      emptyFields.forEach((el) => {
+        const key = resolveFieldKey(el);
+        const base = BASE_PLACEHOLDERS[key] || '';
+        el.setAttribute('placeholder', base);
+      });
+      await new Promise(requestAnimationFrame);
+      emptyFields.forEach((el) => {
+        el.classList.remove('ux-resetting');
+      });
+    };
 
-    const resetForm = () => {
-      resetFormToInitialPlaceholders(form, pagePlaceholders);
+    const enforceBasePlaceholders = () => {
+      fieldStates.forEach((fs) => {
+        if (!fs.el) return;
+        const key = resolveFieldKey(fs.el);
+        const base = BASE_PLACEHOLDERS[key] || '';
+        if (!fs.el.value || !String(fs.el.value).trim()) {
+          fs.el.setAttribute('placeholder', base);
+        }
+      });
+    };
+
+    const stopTyping = () => {
+      state.stopped = true;
+      state.userInteracted = true;
+      clearTimeout(state.restartTimer);
+      form.classList.remove('ux-typing-active');
+      fieldStates.forEach((fs) => fs.el.classList.remove('ux-typing'));
+    };
+
+    const nextText = (fs) => {
+      const texts = getTexts(fs.key);
+      if (!texts.length) return '';
+      fs.idx = (fs.idx + 1) % texts.length;
+      return texts[fs.idx];
+    };
+
+    const typePlaceholder = async (fs) => {
+      const el = fs.el;
+      if (!el || state.stopped) return false;
+      if (el.value && String(el.value).trim()) return false;
+      const text = nextText(fs);
+      if (!text) return false;
+
+      el.classList.add('ux-typing');
+      el.setAttribute('placeholder', '');
+
+      for (let i = 0; i < text.length; i++) {
+        if (state.stopped || state.userInteracted) break;
+        if (el.value && String(el.value).trim()) break;
+        el.setAttribute('placeholder', text.slice(0, i + 1));
+        await sleep(randomBetween(35, 60));
+      }
+
+      el.classList.remove('ux-typing');
+      return true;
     };
 
     const runCycle = async () => {
-      if (controller.cycleRunning) return;
-      controller.cycleRunning = true;
-      controller.typingState.isTyping = true;
-      // TASK 2: Add form-level class to keep typing color persistent
-      form.classList.add('form-typing-active');
-      while (!controller.stop) {
-        // Изначальная пауза 3 секунды с placeholder'ами
-        await sleep(3000);
-        if (controller.stop) break;
+      if (state.running) return;
+      state.running = true;
+      state.stopped = false;
+      enforceBasePlaceholders();
 
-        // Проверяем, не взаимодействует ли пользователь (только если поле в фокусе)
-        if ((nameEl && document.activeElement === nameEl) ||
-            (phoneEl && document.activeElement === phoneEl) ||
-            (msgEl && document.activeElement === msgEl)) {
-          await sleep(1000);
+      while (!state.stopped) {
+        form.classList.add('ux-typing-active');
+
+        let lastAnimated = null;
+
+        for (const fs of fieldStates) {
+          if (state.stopped) break;
+          if (fs.el.value && String(fs.el.value).trim()) continue;
+          if (state.userInteracted) {
+            state.stopped = true;
+            break;
+          }
+          const didType = await typePlaceholder(fs);
+          if (didType) lastAnimated = fs;
+          if (state.stopped) break;
+          await sleep(randomBetween(240, 420));
+        }
+
+        if (!state.stopped && !state.userInteracted && lastAnimated) {
+          await sleep(randomBetween(260, 480));
+          await tapSubmit();
+          await resetPlaceholdersAnimated();
+          enforceBasePlaceholders();
+          form.classList.remove('ux-typing-active');
+          if (state.stopped || state.userInteracted) break;
+          await sleep(randomBetween(2000, 2600));
           continue;
         }
 
-        // Сначала добавляем класс для плавного fade-out placeholder'ов
-        if (nameEl) nameEl.classList.add('placeholder-fade-out');
-        if (phoneEl) phoneEl.classList.add('placeholder-fade-out');
-        if (msgEl) msgEl.classList.add('placeholder-fade-out');
-        
-        // Ждём завершения fade-out анимации
-        await sleep(500);
-        if (controller.stop) break;
-
-        // Только после fade-out убираем placeholder'ы и начинаем typing
-        if (nameEl) {
-          nameEl.setAttribute('placeholder', '');
-          nameEl.classList.remove('placeholder-fade-out');
-        }
-        if (phoneEl) {
-          phoneEl.setAttribute('placeholder', '');
-          phoneEl.classList.remove('placeholder-fade-out');
-        }
-        if (msgEl) {
-          msgEl.setAttribute('placeholder', '');
-          msgEl.classList.remove('placeholder-fade-out');
-        }
-
-        // Печатаем в поле имени
-        if (nameEl) {
-          controller.typingState.fieldIndex = 0;
-          await typeText(nameEl, samples.name, 50);
-        }
-        await sleep(150); // Минимальная пауза между полями
-        if (controller.stop) break;
-
-        // Печатаем в поле телефона
-        if (phoneEl) {
-          controller.typingState.fieldIndex = 1;
-          await typeText(phoneEl, samples.phone, 40);
-        }
-        await sleep(150); // Минимальная пауза между полями
-        if (controller.stop) break;
-
-        // Печатаем в поле текста
-        if (msgEl) {
-          controller.typingState.fieldIndex = 2;
-          await typeText(msgEl, samples.message, 30);
-        }
-        await sleep(150);
-        if (controller.stop) break;
-
-        // TASK 2: Button press animation with ripple on RIGHT side (already at 92%)
-        const submitBtn = form.querySelector('button[type="submit"], .btn-primary, .challenges-cta__btn, .faq-ask-btn');
-        if (submitBtn) {
-          // Set ripple position for circle animation (RIGHT side: 92% width, 50% height)
-          const btnRect = submitBtn.getBoundingClientRect();
-          const clickX = btnRect.width * 0.92; // RIGHT side
-          const clickY = btnRect.height * 0.5;
-          submitBtn.style.setProperty('--ripple-x', `${clickX}px`);
-          submitBtn.style.setProperty('--ripple-y', `${clickY}px`);
-          submitBtn.classList.add('typing-complete');
-          await sleep(500); // Wait for button press animation
-          submitBtn.classList.remove('typing-complete');
-        }
-        if (controller.stop) break;
-
-        // TASK 2: After button press completes, remove typing classes and reset to base placeholders
-        await sleep(300);
-        if (controller.stop) break;
-
-        // Remove typing classes from all fields (typing color was persistent until now)
-        if (nameEl) {
-          nameEl.classList.remove('is-typing');
-        }
-        if (phoneEl) {
-          phoneEl.classList.remove('is-typing');
-        }
-        if (msgEl) {
-          msgEl.classList.remove('is-typing');
-        }
-        // Remove form-level typing class
-        form.classList.remove('form-typing-active');
-
-        // TASK 2: Reset to base placeholders after cycle completes
-        if (nameEl) {
-          nameEl.setAttribute('placeholder', pagePlaceholders.name);
-        }
-        if (phoneEl) {
-          phoneEl.setAttribute('placeholder', pagePlaceholders.phone);
-        }
-        if (msgEl) {
-          msgEl.setAttribute('placeholder', pagePlaceholders.message);
-        }
-        await sleep(300);
-
-        // Очищаем все поля и возвращаем placeholder'ы
-        resetForm();
-        await sleep(2500); // Пауза перед следующим циклом
+        form.classList.remove('ux-typing-active');
+        if (state.stopped || state.userInteracted) break;
+        await sleep(randomBetween(1500, 2500));
       }
-      controller.cycleRunning = false;
-      controller.typingState.isTyping = false;
-      // TASK 2: Ensure form-level class is removed when cycle stops
-      form.classList.remove('form-typing-active');
+
+      form.classList.remove('ux-typing-active');
+      await resetPlaceholdersAnimated();
+      enforceBasePlaceholders();
+      state.running = false;
+      if (!state.userInteracted) {
+        scheduleStart(2200);
+      }
     };
 
-    // TASK 2: Store runCycle reference in controller for popup restart
-    controller.runCycle = runCycle;
+    const scheduleStart = (delayMs) => {
+      clearTimeout(state.restartTimer);
+      state.restartTimer = setTimeout(() => {
+        if (!state.running && !state.userInteracted) {
+          if (gateByViewport && !isIntersecting) return;
+          runCycle();
+        }
+      }, delayMs);
+    };
 
-    // Set up event listeners for form fields
-    controller.fields.forEach((el) => {
-      if (!el) return;
-      
-      el.addEventListener('focus', () => { 
-        // Stop this form's typewriter
-        controller.stopTypewriter();
-        
-        // Clear timeout if pending
-        if (controller.blurTimeoutId) {
-          clearTimeout(controller.blurTimeoutId);
-          controller.blurTimeoutId = null;
-        }
-        
-        // If typewriter was running in THIS form, clear artifacts in THIS form
-        // AND also clear artifacts in OTHER forms if they are typing
-        const wasTyping = controller.fields.some(f => f && f.classList.contains('is-typing'));
-        if (wasTyping) {
-          controller.clearPlaceholderArtifacts();
-          // Also clear artifacts in other forms that are currently typing
-          clearAllTypingArtifacts(form);
-        } else {
-          // Just clean up classes, don't touch placeholders
-          el.classList.remove('is-typing', 'placeholder-fade-out', 'fade-out');
-        }
+    fieldStates.forEach((fs) => {
+      const el = fs.el;
+
+      const interruptAndReset = async () => {
+        stopTyping();
+        await resetPlaceholdersAnimated();
+      };
+
+      el.addEventListener('pointerdown', () => {
+        interruptAndReset();
       });
-      
-      el.addEventListener('input', () => { 
-        controller.stopTypewriter();
-        if (controller.blurTimeoutId) {
-          clearTimeout(controller.blurTimeoutId);
-          controller.blurTimeoutId = null;
-        }
-        el.classList.remove('is-typing');
+
+      el.addEventListener('focus', () => {
+        interruptAndReset();
       });
-      
+
+      el.addEventListener('input', (e) => {
+        if (e && !e.isTrusted) return;
+        stopTyping();
+      });
+
       el.addEventListener('blur', () => {
-        // Use setTimeout to check actual focus state after browser handles autocomplete
-        setTimeout(() => {
-          const activeEl = document.activeElement;
-          const focusStillInForm = form.contains(activeEl);
-          
-          // If focus moved to another field in this form, do nothing
-          if (focusStillInForm) return;
-          
-          // If form is fully filled, do not clear or restart
-          if (controller.isFormFullyFilled()) return;
-          
-          // Clear any pending blur timeout
-          if (controller.blurTimeoutId) {
-            clearTimeout(controller.blurTimeoutId);
-            controller.blurTimeoutId = null;
-          }
-          
-          // Clear all field values (but not background colors)
-          clearFormValuesOnly(form);
-          
-          // After exactly 1000ms, restore placeholders and restart typewriter
-          controller.blurTimeoutId = setTimeout(() => {
-            controller.blurTimeoutId = null;
-            resetFormToInitialPlaceholders(form, pagePlaceholders);
-            
-            // Restart typewriter cycle after initial delay
-            controller.stop = false;
-            controller.typingState.paused = false;
-            controller.typingState.fieldIndex = 0;
-            if (!controller.cycleRunning) {
-              runCycle();
-            }
-          }, 1000);
-        }, 100); // Allow autocomplete to settle
+        clearTimeout(state.restartTimer);
+        const focusInside = form.contains(document.activeElement);
+        if (focusInside) return;
+        const hasValue = fieldStates.some((f) => f.el.value && String(f.el.value).trim());
+        if (hasValue) return;
+        state.stopped = false;
+        state.userInteracted = false;
+        scheduleStart(2000);
       });
     });
 
-    // Устанавливаем изначальные placeholder'ы
-    resetForm();
-
-    // Рассинхронизация старта автопечати между формами
-    const getInitialDelay = () => {
-      if (form.classList.contains('hero-form--modal')) {
-        return 400; // Модальная форма
-      }
-      if (form.classList.contains('challenges-cta__form')) {
-        return 900; // Форма в блоке 5
-      }
-      // Hero форма (первая форма на странице)
-      return 0;
+    const controller = {
+      form,
+      fields: fieldStates.map((fs) => fs.el),
+      start: () => {
+        state.stopped = false;
+        state.userInteracted = false;
+        if (!state.running) runCycle();
+      },
+      stop: stopTyping
     };
 
-    const initialDelay = getInitialDelay();
-    
-    // Запускаем цикл с задержкой
-    if (initialDelay > 0) {
+    controllers.set(form, controller);
+
+    const initialDelay = gateByViewport ? null : 3200;
+    if (initialDelay !== null) scheduleStart(initialDelay);
+
+    // Fail-safe: ensure hero form cycles start even if timers were canceled or skipped
+    if (isHero) {
       setTimeout(() => {
-        if (!controller.cycleRunning) runCycle();
-      }, initialDelay);
-    } else {
-      runCycle();
+        if (state.running || state.userInteracted) return;
+        if (gateByViewport && !isIntersecting) return;
+        runCycle();
+      }, gateByViewport ? 5200 : 4200);
     }
 
-    const submitBtn = form.querySelector('button[type="submit"], .btn-primary, .challenges-cta__btn, .faq-ask-btn');
-    if (submitBtn) {
-      submitBtn.classList.add('keis-cta-pulse');
-
-      // On pointerdown we only add the pressed visual state; ripple DOM element removed.
-      submitBtn.addEventListener('pointerdown', (e) => {
-        submitBtn.classList.add('is-pressed');
-      });
-
-      const clear = () => submitBtn.classList.remove('is-pressed');
-      submitBtn.addEventListener('pointerup', clear);
-      submitBtn.addEventListener('pointercancel', clear);
-      submitBtn.addEventListener('mouseleave', clear);
+    if (gateByViewport && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          isIntersecting = entry.isIntersecting;
+          if (!entry.isIntersecting || state.userInteracted) return;
+          state.stopped = false;
+          state.userInteracted = false;
+          clearTimeout(state.restartTimer);
+          resetPlaceholdersAnimated().then(() => scheduleStart(3200));
+        });
+      }, { threshold: 0.35 });
+      io.observe(form);
+    } else if (gateByViewport) {
+      isIntersecting = true;
+      scheduleStart(3200);
     }
   });
 }
@@ -616,6 +916,7 @@ function initFormsUX() {
    ========================================================== */
 function initHeader() {
   if (window.__headerInitialized) return;
+  if (!guardInit('header')) return;
   window.__headerInitialized = true;
 
   // Make header truly sticky (fixed) and reserve space so it never "slides away"
@@ -789,20 +1090,28 @@ function initHeader() {
     const modalForm = contactModal.querySelector('form.hero-form--modal');
     if (modalForm && window.__keisFormControllers) {
       const controller = window.__keisFormControllers.get(modalForm);
-      if (controller) {
-        // Reset stop flag to allow cycle to run
-        controller.stop = false;
-        controller.typingState.paused = false;
-        // If cycle is not running, restart it
-        if (!controller.cycleRunning && controller.runCycle) {
-          // Small delay to let modal animation complete
+      if (controller && typeof controller.start === 'function') {
+        setTimeout(() => controller.start(), 120);
+      }
+    }
+
+    // Also trigger hero-hand hint animation for the modal submit button
+    // Only trigger here when the form controller is NOT present — otherwise
+    // the controller restart will handle user guidance itself.
+    try {
+      const heroController = window.__heroHandHintController;
+      if (heroController && modalForm) {
+        const modalBtn = modalForm.querySelector('button[type="submit"], .btn-primary, .challenges-cta__btn, .faq-ask-btn');
+        const hasController = window.__keisFormControllers && window.__keisFormControllers.get && window.__keisFormControllers.get(modalForm);
+        if (modalBtn && !hasController) {
+          // small delay to allow modal open animation and layout to settle
           setTimeout(() => {
-            if (!controller.cycleRunning) {
-              controller.runCycle();
-            }
-          }, 100);
+            try { heroController.play(modalBtn); } catch (e) { /* noop */ }
+          }, 240);
         }
       }
+    } catch (e) {
+      // noop
     }
 
     const first = contactModal.querySelector('input, textarea, button');
@@ -825,6 +1134,10 @@ function initHeader() {
     // Restore smooth scrolling for the rest of the page interactions
     document.documentElement.classList.remove('no-smooth-scroll');
   };
+
+  window.__keisOpenContactModal = openContactModal;
+  window.__keisCloseContactModal = closeContactModal;
+  window.__keisIsContactModalOpen = isModalOpen;
 
   openers.forEach((el) => {
     el.addEventListener('click', (e) => {
@@ -864,6 +1177,8 @@ function initScenariosSlider() {
     return;
   }
 
+  // Slider enabled: autoplay + pause on hover/focus, looped.
+
   const windowEl = root.querySelector('.scenarios-band-window');
   const track = root.querySelector('.scenarios-band-track');
   const prevBtn = root.querySelector('.scenarios-navbtn--prev') || document.querySelector('.investment-scenarios .scenarios-navbtn--prev');
@@ -900,6 +1215,8 @@ const applyBgByRealIndex = (slideEl, realIdx) => {
 };
 
 const mod = (n, m) => ((n % m) + m) % m;
+
+  const mobileMedia = window.matchMedia('(max-width: 980px)');
 
   let currentIndex = 0;
 
@@ -959,6 +1276,10 @@ const mod = (n, m) => ((n % m) + m) % m;
     originalTemplates.forEach((n) => track.appendChild(n.cloneNode(true)));
     head.forEach((n) => track.appendChild(n));
     slidesAll = [...track.children];
+    slidesAll.forEach((slideEl, idxAll) => {
+      const realIdx = mod(idxAll - cloneCount, totalSlides);
+      applyBgByRealIndex(slideEl, realIdx);
+    });
     calcMetrics();
     currentIndex = cloneCount;
     setTranslateNoAnim(currentIndex);
@@ -1014,13 +1335,26 @@ const mod = (n, m) => ((n % m) + m) % m;
   function pauseAutoplay() { isPaused = true; }
   function resumeAutoplay() { isPaused = false; }
 
+  let hoverResumeTimeout = null;
+  const scheduleResume = (delayMs = 900) => {
+    if (hoverResumeTimeout) {
+      clearTimeout(hoverResumeTimeout);
+      hoverResumeTimeout = null;
+    }
+    hoverResumeTimeout = setTimeout(() => {
+      hoverResumeTimeout = null;
+      resumeAutoplay();
+      startAutoplay();
+    }, delayMs);
+  };
+
   track.addEventListener('transitionend', (e) => {
     if (e.propertyName !== 'transform') return;
     isAnimating = false;
     normalizeAfterTransition();
   });
 
-  prevBtn?.addEventListener('click', () => {
+  const goToPrev = () => {
     stopAutoplay();
     if (isAnimating) return;
     currentIndex -= 1;
@@ -1031,15 +1365,18 @@ const mod = (n, m) => ((n % m) + m) % m;
     });
     isPaused = false;
     startAutoplay();
-  });
+  };
 
-  nextBtn?.addEventListener('click', () => {
+  const goToNext = () => {
     stopAutoplay();
     if (isAnimating) return;
     currentIndex += 1;
     setTranslate(currentIndex);
     startAutoplay();
-  });
+  };
+
+  prevBtn?.addEventListener('click', goToPrev);
+  nextBtn?.addEventListener('click', goToNext);
 
   let lastVisible = readVisibleFromCSS();
   const onResize = () => {
@@ -1063,103 +1400,32 @@ const mod = (n, m) => ((n % m) + m) % m;
   setTranslateNoAnim(currentIndex);
   isAnimating = false;
 
-  windowEl.addEventListener('pointerenter', pauseAutoplay, { passive: true });
-  windowEl.addEventListener('pointerleave', resumeAutoplay, { passive: true });
-  windowEl.addEventListener('pointerdown', pauseAutoplay, { passive: true });
-  windowEl.addEventListener('pointerup', resumeAutoplay, { passive: true });
-  windowEl.addEventListener('pointercancel', resumeAutoplay, { passive: true });
-
-  root.addEventListener('focusin', pauseAutoplay);
-  root.addEventListener('focusout', resumeAutoplay);
-
-  // Mobile swipe support (<899px)
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchEndX = 0;
-  let touchEndY = 0;
-  let isTouching = false;
-  let resumeTimeout = null;
-
-  const handleTouchStart = (e) => {
-    if (window.innerWidth > 899) return;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    isTouching = true;
+  windowEl.addEventListener('pointerenter', () => {
+    if (hoverResumeTimeout) {
+      clearTimeout(hoverResumeTimeout);
+      hoverResumeTimeout = null;
+    }
     pauseAutoplay();
-    if (resumeTimeout) {
-      clearTimeout(resumeTimeout);
-      resumeTimeout = null;
+  }, { passive: true });
+  windowEl.addEventListener('pointerleave', () => scheduleResume(900), { passive: true });
+  windowEl.addEventListener('pointerdown', () => {
+    if (hoverResumeTimeout) {
+      clearTimeout(hoverResumeTimeout);
+      hoverResumeTimeout = null;
     }
-  };
+    pauseAutoplay();
+  }, { passive: true });
+  windowEl.addEventListener('pointerup', () => scheduleResume(900), { passive: true });
+  windowEl.addEventListener('pointercancel', () => scheduleResume(900), { passive: true });
 
-  const handleTouchMove = (e) => {
-    if (!isTouching || window.innerWidth > 899) return;
-    touchEndX = e.touches[0].clientX;
-    touchEndY = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = () => {
-    if (!isTouching || window.innerWidth > 899) return;
-    isTouching = false;
-    
-    const deltaX = touchEndX - touchStartX;
-    const deltaY = touchEndY - touchStartY;
-    const absDeltaX = Math.abs(deltaX);
-    const absDeltaY = Math.abs(deltaY);
-    
-    // Swipe threshold: 40px horizontal, and horizontal movement should be greater than vertical
-    if (absDeltaX > 40 && absDeltaX > absDeltaY) {
-      if (deltaX > 0) {
-        // Swipe right - go to previous
-        stopAutoplay();
-        if (!isAnimating) {
-          currentIndex -= 1;
-          setTranslate(currentIndex);
-          slidesAll.forEach((slideEl, idxAll) => {
-            const realIdx = mod(idxAll - cloneCount, totalSlides);
-            applyBgByRealIndex(slideEl, realIdx);
-          });
-        }
-      } else {
-        // Swipe left - go to next
-        stopAutoplay();
-        if (!isAnimating) {
-          currentIndex += 1;
-          setTranslate(currentIndex);
-        }
-      }
-      isPaused = false;
-      startAutoplay();
+  root.addEventListener('focusin', () => {
+    if (hoverResumeTimeout) {
+      clearTimeout(hoverResumeTimeout);
+      hoverResumeTimeout = null;
     }
-    
-    // Resume autoplay after delay (800-1200ms)
-    resumeTimeout = setTimeout(() => {
-      resumeAutoplay();
-      startAutoplay();
-      resumeTimeout = null;
-    }, 1000);
-  };
-
-  // Add touch event listeners only on mobile
-  if (window.innerWidth <= 899) {
-    windowEl.addEventListener('touchstart', handleTouchStart, { passive: true });
-    windowEl.addEventListener('touchmove', handleTouchMove, { passive: true });
-    windowEl.addEventListener('touchend', handleTouchEnd, { passive: true });
-    windowEl.addEventListener('touchcancel', handleTouchEnd, { passive: true });
-  }
-
-  // Re-check on resize
-  window.addEventListener('resize', () => {
-    if (window.innerWidth <= 899) {
-      if (!windowEl.hasAttribute('data-touch-bound')) {
-        windowEl.setAttribute('data-touch-bound', '1');
-        windowEl.addEventListener('touchstart', handleTouchStart, { passive: true });
-        windowEl.addEventListener('touchmove', handleTouchMove, { passive: true });
-        windowEl.addEventListener('touchend', handleTouchEnd, { passive: true });
-        windowEl.addEventListener('touchcancel', handleTouchEnd, { passive: true });
-      }
-    }
+    pauseAutoplay();
   });
+  root.addEventListener('focusout', () => scheduleResume(900));
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) pauseAutoplay();
@@ -1167,6 +1433,263 @@ const mod = (n, m) => ((n % m) + m) % m;
   });
 
   startAutoplay();
+
+  const addMqChangeListener = (mq, handler) => {
+    if (!mq || typeof handler !== 'function') return;
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', handler);
+      return;
+    }
+    if (typeof mq.addListener === 'function') {
+      mq.addListener(handler);
+    }
+  };
+
+  // --- Swipe gestures for <=980px ---
+  const swipeState = {
+    active: false,
+    locked: false,
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    deltaX: 0,
+  };
+  let swipeHandlersAttached = false;
+
+  const resetSwipeState = () => {
+    swipeState.active = false;
+    swipeState.locked = false;
+    swipeState.pointerId = null;
+    swipeState.startX = 0;
+    swipeState.startY = 0;
+    swipeState.deltaX = 0;
+  };
+
+  const onSwipePointerDown = (event) => {
+    if (!mobileMedia.matches) return;
+    if (!event.isPrimary) return;
+    if (swipeState.active) return;
+    if (event.pointerType === 'mouse' && event.buttons !== 1) return;
+
+    swipeState.active = true;
+    swipeState.pointerId = event.pointerId;
+    swipeState.startX = event.clientX;
+    swipeState.startY = event.clientY;
+    swipeState.deltaX = 0;
+  };
+
+  const onSwipePointerMove = (event) => {
+    if (!swipeState.active) return;
+    if (event.pointerId !== swipeState.pointerId) return;
+
+    const dx = event.clientX - swipeState.startX;
+    const dy = event.clientY - swipeState.startY;
+
+    if (!swipeState.locked) {
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+      if (absDy > absDx && absDy > 18) {
+        resetSwipeState();
+        return;
+      }
+      if (absDx > 18 && absDx > absDy * 1.2) {
+        swipeState.locked = true;
+      }
+    }
+
+    if (swipeState.locked) {
+      event.preventDefault();
+      swipeState.deltaX = dx;
+    }
+  };
+
+  const finishSwipe = () => {
+    if (!swipeState.locked) {
+      resetSwipeState();
+      return;
+    }
+
+    if (swipeState.deltaX <= -40) {
+      goToNext();
+    } else if (swipeState.deltaX >= 40) {
+      goToPrev();
+    }
+
+    resetSwipeState();
+  };
+
+  const onSwipePointerUp = (event) => {
+    if (!swipeState.active) return;
+    if (event.pointerId !== swipeState.pointerId) return;
+    finishSwipe();
+  };
+
+  const onSwipePointerCancel = (event) => {
+    if (!swipeState.active) return;
+    if (event.pointerId !== swipeState.pointerId) return;
+    resetSwipeState();
+  };
+
+  const attachSwipeHandlers = () => {
+    if (swipeHandlersAttached) return;
+    windowEl.addEventListener('pointerdown', onSwipePointerDown, { passive: false });
+    window.addEventListener('pointermove', onSwipePointerMove, { passive: false });
+    window.addEventListener('pointerup', onSwipePointerUp);
+    window.addEventListener('pointercancel', onSwipePointerCancel);
+    swipeHandlersAttached = true;
+  };
+
+  const detachSwipeHandlers = () => {
+    if (!swipeHandlersAttached) return;
+    windowEl.removeEventListener('pointerdown', onSwipePointerDown, { passive: false });
+    window.removeEventListener('pointermove', onSwipePointerMove, { passive: false });
+    window.removeEventListener('pointerup', onSwipePointerUp);
+    window.removeEventListener('pointercancel', onSwipePointerCancel);
+    swipeHandlersAttached = false;
+    resetSwipeState();
+  };
+
+  const evaluateSwipeSupport = () => {
+    if (mobileMedia.matches) attachSwipeHandlers();
+    else detachSwipeHandlers();
+  };
+
+  evaluateSwipeSupport();
+  addMqChangeListener(mobileMedia, evaluateSwipeSupport);
+
+  // --- Swipe hint overlay ---
+  const hintState = {
+    container: null,
+    timeouts: [],
+    isRunning: false,
+    observer: null,
+  };
+  let isHintTargetVisible = false;
+  const HINT_LEFT_DURATION = 900;
+  const HINT_RIGHT_DURATION = 900;
+  const HINT_SHORT_PAUSE = 1000;
+  const HINT_LONG_PAUSE = 3000;
+
+  const ensureHintElements = () => {
+    if (hintState.container) return hintState.container;
+    const controls = root.querySelector('.scenarios-band-controls');
+    if (!controls) return null;
+
+    const hintEl = document.createElement('div');
+    hintEl.className = 'sc-swipe-hint';
+    hintEl.setAttribute('aria-hidden', 'true');
+
+    const orangeLine = document.createElement('div');
+    orangeLine.className = 'sc-swipe-line sc-swipe-line--orange';
+
+    const lightLine = document.createElement('div');
+    lightLine.className = 'sc-swipe-line sc-swipe-line--light';
+
+    const hand = document.createElement('img');
+    hand.className = 'sc-swipe-hand';
+    hand.src = '/assets/icons/hand_s.png';
+    hand.alt = '';
+    hand.loading = 'lazy';
+    hand.decoding = 'async';
+    hand.draggable = false;
+
+    hintEl.append(orangeLine, lightLine, hand);
+    controls.appendChild(hintEl);
+
+    hintState.container = hintEl;
+    return hintEl;
+  };
+
+  const clearHintTimeouts = () => {
+    hintState.timeouts.forEach((id) => clearTimeout(id));
+    hintState.timeouts.length = 0;
+  };
+
+  const setHintPhase = (phase) => {
+    if (!hintState.container) return;
+    hintState.container.classList.remove('is-orange', 'is-light');
+    if (phase === 'orange') {
+      hintState.container.classList.add('is-orange');
+    } else if (phase === 'light') {
+      hintState.container.classList.add('is-light');
+    }
+  };
+
+  const scheduleHintTimeout = (cb, delay) => {
+    const id = window.setTimeout(() => {
+      hintState.timeouts = hintState.timeouts.filter((storedId) => storedId !== id);
+      cb();
+    }, delay);
+    hintState.timeouts.push(id);
+  };
+
+  const runHintSequence = () => {
+    if (!hintState.isRunning) return;
+    if (!mobileMedia.matches) {
+      stopHintLoop();
+      return;
+    }
+
+    setHintPhase('orange');
+    scheduleHintTimeout(() => {
+      setHintPhase(null);
+      scheduleHintTimeout(() => {
+        if (!hintState.isRunning) return;
+        setHintPhase('light');
+        scheduleHintTimeout(() => {
+          setHintPhase(null);
+          scheduleHintTimeout(() => {
+            runHintSequence();
+          }, HINT_LONG_PAUSE);
+        }, HINT_RIGHT_DURATION);
+      }, HINT_SHORT_PAUSE);
+    }, HINT_LEFT_DURATION);
+  };
+
+  const startHintLoop = () => {
+    if (hintState.isRunning) return;
+    if (!mobileMedia.matches) return;
+    const container = ensureHintElements();
+    if (!container) return;
+    container.classList.add('is-mounted');
+    hintState.isRunning = true;
+    runHintSequence();
+  };
+
+  const stopHintLoop = () => {
+    if (!hintState.isRunning && !hintState.container) return;
+    clearHintTimeouts();
+    hintState.isRunning = false;
+    setHintPhase(null);
+    hintState.container?.classList.remove('is-mounted');
+  };
+
+  const evaluateHintForViewport = () => {
+    if (isHintTargetVisible && mobileMedia.matches) startHintLoop();
+    else stopHintLoop();
+  };
+
+  const handleHintVisibility = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.target !== root) return;
+      isHintTargetVisible = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+      evaluateHintForViewport();
+    });
+  };
+
+  if ('IntersectionObserver' in window) {
+    hintState.observer = new IntersectionObserver(handleHintVisibility, {
+      threshold: [0.25, 0.35, 0.5],
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+    });
+    hintState.observer.observe(root);
+  } else {
+    isHintTargetVisible = true;
+    evaluateHintForViewport();
+  }
+
+  addMqChangeListener(mobileMedia, evaluateHintForViewport);
 }
 
 /* ==========================================================
@@ -1471,6 +1994,9 @@ function initFaqParallax() {
     return;
   }
 
+  section.style.setProperty('--faq-parallax-y', '0px');
+  return;
+
   const update = () => {
     const vh = window.innerHeight;
     const anchorPxFromTop = 260;
@@ -1500,6 +2026,10 @@ function initTrustParallax() {
     if (isDev()) console.warn('[initTrustParallax] .trust-parallax section not found on this page');
     return;
   }
+
+  section.style.setProperty('--trust-parallax-y', '0px');
+  section.style.setProperty('--trust-panel-y', '0px');
+  return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) {
@@ -1547,14 +2077,20 @@ function initFindParallax() {
     return;
   }
 
+  const parallaxElements = section.querySelectorAll('[data-parallax]');
+  parallaxElements.forEach((el) => {
+    el.style.transform = '';
+  });
+  return;
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) {
     return;
   }
 
   // Find all parallax elements with data-parallax attribute
-  const parallaxElements = section.querySelectorAll('[data-parallax]');
-  if (!parallaxElements.length) {
+  const parallaxElementsLive = section.querySelectorAll('[data-parallax]');
+  if (!parallaxElementsLive.length) {
     if (isDev()) console.warn('[initFindParallax] No [data-parallax] elements found');
     return;
   }
@@ -1566,7 +2102,7 @@ function initFindParallax() {
     const vh = window.innerHeight;
     const scrollY = window.scrollY || window.pageYOffset;
     
-    parallaxElements.forEach((el) => {
+    parallaxElementsLive.forEach((el) => {
       const speed = parseFloat(el.dataset.parallaxSpeed || '0.18');
       const elRect = el.getBoundingClientRect();
       
@@ -1600,23 +2136,32 @@ function initTelegramLeads() {
   if (window.__telegramLeadsInitialized) return;
   window.__telegramLeadsInitialized = true;
 
-  // Endpoint relative to current page. Works from both root and subdirectories.
-  // Determine base path: if we're in a subdirectory (investment/, influence/, credit/), go up one level
-  const pathParts = window.location.pathname.split('/').filter(Boolean);
-  const isSubdirectory = pathParts.length > 1 && ['investment', 'influence', 'credit'].includes(pathParts[pathParts.length - 2]);
-  const ENDPOINT = isSubdirectory ? '../api/telegram.php' : './api/telegram.php';
+  // Endpoint relative to current page. Works for all fraud/* and consumer-protection/* depth levels.
+  const pathParts = window.location.pathname
+    .split('/')
+    .filter(Boolean);
+  if (pathParts.length && pathParts[pathParts.length - 1].endsWith('.html')) {
+    pathParts.pop();
+  }
+
+  const sections = new Set(['fraud', 'consumer-protection']);
+  const sectionIndex = pathParts.findIndex((part) => sections.has(part));
+  let ENDPOINT = './api/telegram.php';
+  if (sectionIndex !== -1) {
+    const depthInsideSection = Math.max(0, pathParts.length - (sectionIndex + 1));
+    const prefix = depthInsideSection === 0 ? './' : '../'.repeat(depthInsideSection);
+    ENDPOINT = `${prefix}api/telegram.php`;
+  }
 
   const forms = new Set();
-
-  // 1) Contact modal form
-  const contactModal = document.getElementById('contactModal');
-  const contactForm = contactModal?.querySelector('form');
-  if (contactForm) forms.add(contactForm);
-
-  // 2) Hero / page forms (best-effort selectors)
-  document
-    .querySelectorAll('form.hero-form, form.keis-form, form[data-tg-lead], .hero-form form, form.challenges-cta__form')
-    .forEach((f) => forms.add(f));
+  document.querySelectorAll('form').forEach((form) => {
+    const action = (form.getAttribute('action') || '').toLowerCase();
+    const isTelegramForm =
+      action.includes('api/telegram.php') ||
+      form.hasAttribute('data-tg-lead') ||
+      form.hasAttribute('data-keis-lead');
+    if (isTelegramForm) forms.add(form);
+  });
 
   if (!forms.size) {
     if (isDev()) console.warn('[initTelegramLeads] No forms found for Telegram submit hook');
@@ -1673,20 +2218,72 @@ function initTelegramLeads() {
     if (form.dataset.tgBound === '1') return;
     form.dataset.tgBound = '1';
 
-    form.addEventListener('submit', async (e) => {
+    const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+    const clearFormFields = () => {
+      const allFields = form.querySelectorAll('input:not([type="hidden"]), textarea');
+      allFields.forEach((field) => {
+        if (field && 'value' in field) field.value = '';
+      });
+    };
+
+    const runSuccessFlow = () => {
+      setBtnState(submitBtn, 'success');
+      clearFormFields();
+      openSuccessModal();
+    };
+
+    const tryMockSuccess = (reason, extra) => {
+      if (!isLocalPreview()) return false;
+      if (isDev()) {
+        console.warn('[initTelegramLeads] mock success (local preview):', reason, extra ?? '');
+      }
+      runSuccessFlow();
+      return true;
+    };
+
+    let fallbackTriggered = false;
+    const fallbackToNativeSubmit = () => {
+      if (fallbackTriggered) return;
+      fallbackTriggered = true;
+      form.removeEventListener('submit', onSubmit);
+      form.submit();
+    };
+
+    const onSubmit = async (e) => {
       // Let browser validation run
       if (typeof form.checkValidity === 'function' && !form.checkValidity()) return;
 
       e.preventDefault();
 
-      const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+      if (!lastSuccessClickCoords) {
+        if (submitBtn) {
+          const rect = submitBtn.getBoundingClientRect();
+          lastSuccessClickCoords = {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+          };
+        } else {
+          const vw = window.innerWidth || document.documentElement.clientWidth || 0;
+          const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+          lastSuccessClickCoords = {
+            x: vw / 2,
+            y: vh / 2,
+          };
+        }
+      }
+
       setBtnState(submitBtn, 'loading');
+
+      const endpoint = form.getAttribute('action') || ENDPOINT;
 
       try {
         const fd = toFormData(form);
+        const debugPayload = isDev() ? Object.fromEntries(Array.from(fd.entries())) : null;
 
-        // prefer explicit form action if present (safer for subpath deployments)
-        const endpoint = form.getAttribute('action') || ENDPOINT;
+        if (isDev()) {
+          console.log('[initTelegramLeads] POST', endpoint, debugPayload);
+        }
+
         const res = await fetch(endpoint, {
           method: 'POST',
           body: fd,
@@ -1694,38 +2291,28 @@ function initTelegramLeads() {
 
         const json = await res.json().catch(() => ({}));
 
+        if (isDev()) {
+          console.log('[initTelegramLeads] response', endpoint, res.status, json);
+        }
+
         if (!res.ok || !json.ok) {
           if (isDev()) console.error('[initTelegramLeads] send failed', res.status, json);
+          if (tryMockSuccess(`POST ${endpoint} failed`, { status: res.status, json })) return;
           setBtnState(submitBtn, 'idle');
+          fallbackToNativeSubmit();
           return;
         }
 
-        setBtnState(submitBtn, 'success');
-        // Clear all form fields after successful submission
-        const allFields = form.querySelectorAll('input:not([type="hidden"]), textarea');
-        allFields.forEach((field) => {
-          if (field && 'value' in field) field.value = '';
-        });
-
-        // If contact modal is open, close it after success
-        const modal = document.getElementById('contactModal');
-        if (modal?.classList.contains('is-open')) {
-          setTimeout(() => {
-            modal.classList.remove('is-open');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('modal-open');
-          }, 650);
-        }
-
-        // Show success modal
-        setTimeout(() => {
-          openSuccessModal();
-        }, 700);
+        runSuccessFlow();
       } catch (err) {
         if (isDev()) console.error('[initTelegramLeads] exception', err);
+        if (tryMockSuccess(`POST ${endpoint} threw`, err instanceof Error ? err.message : err)) return;
         setBtnState(submitBtn, 'idle');
+        fallbackToNativeSubmit();
       }
-    });
+    };
+
+    form.addEventListener('submit', onSubmit);
   });
 }
 
@@ -1734,23 +2321,121 @@ function initTelegramLeads() {
    ========================================================== */
 // ЗАДАЧА 2: Сохраняем scrollY для success modal
 let savedSuccessScrollY = 0;
+let savedSuccessScrollX = 0;
+let lastSuccessClickCoords = null;
+const SUCCESS_MODAL_VIEWPORT_GAP = 24;
+const SUBMIT_POINTER_EVENT = 'PointerEvent' in window ? 'pointerdown' : 'mousedown';
 
-function openSuccessModal() {
+const captureSubmitPointer = (evt) => {
+  const target = evt.target;
+  if (!(target instanceof Element)) return;
+  const submitEl = target.closest('button[type="submit"], input[type="submit"], [data-keis-submit]');
+  if (!submitEl) return;
+  if (!submitEl.closest('form')) return;
+  lastSuccessClickCoords = {
+    x: typeof evt.clientX === 'number' ? evt.clientX : window.innerWidth / 2,
+    y: typeof evt.clientY === 'number' ? evt.clientY : window.innerHeight / 2,
+  };
+};
+
+if (!window.__keisSubmitPointerTrackerInitialized) {
+  document.addEventListener(SUBMIT_POINTER_EVENT, captureSubmitPointer, { passive: true });
+  window.__keisSubmitPointerTrackerInitialized = true;
+}
+
+const restoreInstantScroll = (x, y) => {
+  const docEl = document.documentElement;
+  const body = document.body;
+  const prevDocBehavior = docEl.style.scrollBehavior;
+  const prevBodyBehavior = body.style.scrollBehavior;
+  docEl.style.scrollBehavior = 'auto';
+  body.style.scrollBehavior = 'auto';
+  window.scrollTo(x, y);
+  if (prevDocBehavior) {
+    docEl.style.scrollBehavior = prevDocBehavior;
+  } else {
+    docEl.style.removeProperty('scroll-behavior');
+  }
+  if (prevBodyBehavior) {
+    body.style.scrollBehavior = prevBodyBehavior;
+  } else {
+    body.style.removeProperty('scroll-behavior');
+  }
+};
+
+function openSuccessModal(options = {}) {
+  const { forceCenter = false } = options;
   const successModal = document.getElementById('successModal');
   if (!successModal) return;
-  
+
+  const clampValue = (value, min, max) => Math.min(Math.max(value, min), max);
+  const viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || 0;
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+
+  const desiredPosition = forceCenter
+    ? { x: viewportWidth / 2, y: viewportHeight / 2 }
+    : (lastSuccessClickCoords || { x: viewportWidth / 2, y: viewportHeight / 2 });
+
+  const initialX = clampValue(
+    desiredPosition.x,
+    SUCCESS_MODAL_VIEWPORT_GAP,
+    Math.max(SUCCESS_MODAL_VIEWPORT_GAP, viewportWidth - SUCCESS_MODAL_VIEWPORT_GAP)
+  );
+  const initialY = clampValue(
+    desiredPosition.y,
+    SUCCESS_MODAL_VIEWPORT_GAP,
+    Math.max(SUCCESS_MODAL_VIEWPORT_GAP, viewportHeight - SUCCESS_MODAL_VIEWPORT_GAP)
+  );
+
+  successModal.style.setProperty('--success-modal-left', `${initialX}px`);
+  successModal.style.setProperty('--success-modal-top', `${initialY}px`);
+
   // Сохраняем текущую позицию скролла
-  savedSuccessScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+  savedSuccessScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+  savedSuccessScrollX = window.scrollX || window.pageXOffset || document.documentElement.scrollLeft || 0;
   
   successModal.classList.add('is-open');
   successModal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('modal-open');
+  document.documentElement.classList.add('success-modal-open');
   
   // Блокируем скролл фона (iOS-safe)
   document.body.style.position = 'fixed';
   document.body.style.top = `-${savedSuccessScrollY}px`;
   document.body.style.width = '100%';
+
+  const panel = successModal.querySelector('.keis-success-modal__panel');
+  if (panel) {
+    const schedule = (window.requestAnimationFrame && window.requestAnimationFrame.bind(window)) || ((cb) => setTimeout(cb, 0));
+    const ensureWithinViewport = () => {
+      const rect = panel.getBoundingClientRect();
+      const halfWidth = rect.width / 2;
+      const halfHeight = rect.height / 2;
+      const clampWithHalfSize = (value, halfSize, viewportSize) => {
+        const min = halfSize + SUCCESS_MODAL_VIEWPORT_GAP;
+        const max = viewportSize - halfSize - SUCCESS_MODAL_VIEWPORT_GAP;
+        if (max <= min) {
+          return viewportSize / 2;
+        }
+        return clampValue(value, min, max);
+      };
+      const safeX = clampWithHalfSize(desiredPosition.x, halfWidth, viewportWidth);
+      const safeY = clampWithHalfSize(desiredPosition.y, halfHeight, viewportHeight);
+      successModal.style.setProperty('--success-modal-left', `${safeX}px`);
+      successModal.style.setProperty('--success-modal-top', `${safeY}px`);
+    };
+    schedule(ensureWithinViewport);
+  }
+
+  lastSuccessClickCoords = null;
 }
+
+window.keisShowConfirmAt = (x, y) => {
+  if (typeof x === 'number' && typeof y === 'number') {
+    lastSuccessClickCoords = { x, y };
+  }
+  openSuccessModal();
+};
 
 function closeSuccessModal() {
   const successModal = document.getElementById('successModal');
@@ -1759,13 +2444,15 @@ function closeSuccessModal() {
   successModal.classList.remove('is-open');
   successModal.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('modal-open');
+  document.documentElement.classList.remove('success-modal-open');
   
   // ЗАДАЧА 2: Восстанавливаем scrollY без анимации
   document.body.style.position = '';
   document.body.style.top = '';
   document.body.style.width = '';
-  window.scrollTo(0, savedSuccessScrollY);
+  restoreInstantScroll(savedSuccessScrollX, savedSuccessScrollY);
   savedSuccessScrollY = 0;
+  savedSuccessScrollX = 0;
 }
 /* ==========================================================
    COUNTER ANIMATION для scenarios-trust-bridge
@@ -2040,6 +2727,275 @@ function initYandexMetrika() {
     });
   } catch (_) {
     // no-op (blocked by browser/extension)
+  }
+}
+
+
+/* ==========================================================
+   TICKER: lightweight initTicker() — clones content for seamless scroll
+   - stores original HTML in data-original
+   - duplicates until width >= viewport*2
+   - debounced resize via requestAnimationFrame
+   - sets data-anim to enable CSS animation
+   ========================================================== */
+/* initTicker removed — running ticker disabled per request */
+
+/* =========================
+   Left sticky ask (desktop)
+   ========================= */
+function initLeftStickyAsk() {
+  try {
+    if (window.__kgObsidianDriftInitialized) return;
+    window.__kgObsidianDriftInitialized = true;
+
+    const path = window.location.pathname || '';
+    const isTargetPage = /\/(fraud|consumer-protection)\//.test(path);
+    if (!isTargetPage) return;
+
+    const viewportBlock = window.matchMedia('(max-width: 980px)');
+    if (viewportBlock.matches) return;
+
+    const isDismissed = () => false; // show on every load (no session persistence)
+
+    const rawSections = Array.from(document.querySelectorAll('main section, body > section, section'));
+    if (!rawSections.length) return;
+
+    const techSelectors = ['.keis-mobile-menu', '.modal', '.overlay', '.popup', '.tg-widget', '.drawer'];
+    const seen = new Set();
+    const contentSections = rawSections.filter((section) => {
+      if (!(section instanceof HTMLElement)) return false;
+      if (seen.has(section)) return false;
+      seen.add(section);
+      if (section.closest('[aria-hidden="true"]')) return false;
+      if (techSelectors.some((sel) => section.closest(sel) || section.matches(sel))) return false;
+      const style = window.getComputedStyle(section);
+      if (!style) return false;
+      if (style.display === 'none') return false;
+      if (style.visibility === 'hidden') return false;
+      if (style.position === 'fixed' || style.position === 'absolute') return false;
+      return true;
+    });
+
+    const thirdSection = contentSections[2];
+    if (!thirdSection || !document.body) return;
+
+    let wrap = document.querySelector('.kg-obsidian-drift');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      document.body.appendChild(wrap);
+    }
+    wrap.className = 'kg-obsidian-drift is-hidden';
+    wrap.setAttribute('aria-hidden', 'true');
+    wrap.innerHTML = '';
+
+    const panel = document.createElement('div');
+    panel.className = 'kg-obsidian-drift__panel';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'kg-obsidian-drift__close';
+    closeBtn.setAttribute('aria-label', 'Закрыть блок');
+
+    const eyebrow = document.createElement('div');
+    eyebrow.className = 'kg-obsidian-drift__eyebrow';
+    eyebrow.textContent = '';
+
+    const title = document.createElement('p');
+    title.className = 'kg-obsidian-drift__title';
+    title.textContent = 'За 10 минут общения с нашим юристом Вы узнаете больше, чем за 5 дней поиска в интернете';
+
+    const actions = document.createElement('div');
+    actions.className = 'kg-obsidian-drift__actions';
+
+    const askBtn = document.createElement('button');
+    askBtn.type = 'button';
+    askBtn.className = 'kg-obsidian-drift__btn';
+    askBtn.textContent = 'консультация';
+
+    actions.appendChild(askBtn);
+    panel.append(closeBtn, eyebrow, title, actions);
+    wrap.appendChild(panel);
+
+    const state = {
+      hasShown: false,
+      dismissed: false,
+      autoHidden: false,
+    };
+    let autoFrame = null;
+
+    const setAriaVisible = (visible) => wrap.setAttribute('aria-hidden', visible ? 'false' : 'true');
+
+    const hide = ({ persist = false, reason = 'manual', immediate = false, markAuto = false } = {}) => {
+      if (persist && state.dismissed) return;
+      if (markAuto && state.autoHidden) return;
+      // ensure transition always plays when hiding
+      wrap.classList.remove('is-hidden');
+      // force reflow so the transform/opacity transition runs
+      void wrap.offsetWidth;
+      wrap.classList.remove('is-visible');
+      wrap.classList.add('is-hiding');
+      setAriaVisible(false);
+      if (markAuto) state.autoHidden = true;
+      if (persist) {
+        state.dismissed = true;
+      }
+      const finalizeHide = () => {
+        wrap.classList.remove('is-hiding');
+        wrap.classList.add('is-hidden');
+      };
+      if (immediate) {
+        finalizeHide();
+        return;
+      }
+      const onTransitionEnd = (event) => {
+        if (event.target !== wrap || (event.propertyName !== 'transform' && event.propertyName !== 'opacity')) return;
+        wrap.removeEventListener('transitionend', onTransitionEnd);
+        finalizeHide();
+      };
+      wrap.addEventListener('transitionend', onTransitionEnd);
+      if (isDev()) console.debug('[obsidian-drift] hide', reason);
+    };
+
+    const show = () => {
+      if (state.dismissed || state.hasShown || viewportBlock.matches) return;
+      state.hasShown = true;
+      wrap.classList.remove('is-hidden', 'is-hiding');
+      wrap.classList.add('is-visible');
+      setAriaVisible(true);
+      scheduleAutoCheck();
+    };
+
+    const checkAutoClose = () => {
+      if (!state.hasShown || state.dismissed) return;
+      const target = contentSections[8];
+      if (!target) return;
+      const rect = target.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      const midpoint = viewportHeight * 0.55;
+      if (rect.top < midpoint && rect.bottom > midpoint) {
+        hide({ reason: 'auto-9th', markAuto: true });
+      }
+    };
+
+    const scheduleAutoCheck = () => {
+      if (autoFrame) return;
+      autoFrame = requestAnimationFrame(() => {
+        autoFrame = null;
+        checkAutoClose();
+      });
+    };
+
+    const sentinel = document.createElement('div');
+    sentinel.className = 'kg-obsidian-drift__sentinel';
+    sentinel.setAttribute('aria-hidden', 'true');
+    sentinel.style.cssText = 'display:block;width:100%;height:2px;margin-top:2px;pointer-events:none;';
+    thirdSection.appendChild(sentinel);
+
+    let revealObserver = null;
+    const triggerReveal = () => {
+      if (state.hasShown || state.dismissed || viewportBlock.matches) return;
+      const rect = sentinel.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      if (rect.bottom <= viewportHeight) {
+        show();
+        if (revealObserver) revealObserver.disconnect();
+      }
+    };
+
+    if ('IntersectionObserver' in window) {
+      revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.target !== sentinel) return;
+          if (entry.isIntersecting) {
+            show();
+            revealObserver.disconnect();
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -1px 0px' });
+      revealObserver.observe(sentinel);
+    } else {
+      triggerReveal();
+      window.addEventListener('scroll', triggerReveal, { passive: true });
+    }
+
+    const openContactModal = () => {
+      if (typeof window.__keisOpenContactModal === 'function') {
+        window.__keisOpenContactModal();
+        return;
+      }
+      document.querySelector('[data-open-contact-modal]')?.click();
+    };
+
+    closeBtn.addEventListener('click', () => hide({ persist: true, reason: 'manual' }));
+    askBtn.addEventListener('click', () => {
+      hide({ persist: true, reason: 'cta' });
+      setTimeout(openContactModal, 120);
+    });
+
+    const applyViewportBlock = (e) => {
+      if (!viewportBlock.matches) return;
+      hide({ immediate: true, reason: e ? 'resize' : 'init', markAuto: true });
+      if (revealObserver) revealObserver.disconnect();
+    };
+    applyViewportBlock();
+    if (typeof viewportBlock.addEventListener === 'function') {
+      viewportBlock.addEventListener('change', applyViewportBlock);
+    } else if (typeof viewportBlock.addListener === 'function') {
+      viewportBlock.addListener(applyViewportBlock);
+    }
+
+    const swipeState = {
+      active: false,
+      pointerId: null,
+      startX: 0,
+      startY: 0,
+    };
+
+    const resetSwipe = () => {
+      swipeState.active = false;
+      swipeState.pointerId = null;
+      swipeState.startX = 0;
+      swipeState.startY = 0;
+    };
+
+    panel.addEventListener('pointerdown', (event) => {
+      if (state.dismissed || viewportBlock.matches) return;
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      swipeState.active = true;
+      swipeState.pointerId = event.pointerId;
+      swipeState.startX = event.clientX;
+      swipeState.startY = event.clientY;
+    }, { passive: true });
+
+    panel.addEventListener('pointermove', (event) => {
+      if (!swipeState.active || event.pointerId !== swipeState.pointerId) return;
+      const dx = event.clientX - swipeState.startX;
+      const dy = event.clientY - swipeState.startY;
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 24) {
+        resetSwipe();
+        return;
+      }
+      if (dx <= -60 && Math.abs(dx) > Math.abs(dy)) {
+        resetSwipe();
+        hide({ persist: true, reason: 'swipe' });
+      }
+    }, { passive: true });
+
+    window.addEventListener('scroll', scheduleAutoCheck, { passive: true });
+    window.addEventListener('resize', scheduleAutoCheck, { passive: true });
+    window.addEventListener('orientationchange', scheduleAutoCheck, { passive: true });
+
+    panel.addEventListener('pointerup', (event) => {
+      if (event.pointerId === swipeState.pointerId) resetSwipe();
+    }, { passive: true });
+    panel.addEventListener('pointercancel', (event) => {
+      if (event.pointerId === swipeState.pointerId) resetSwipe();
+    }, { passive: true });
+
+    // Auto-hide strictly on the 9th visible content section; no extra anchors.
+
+  } catch (e) {
+    console.warn('[initLeftStickyAsk] failed:', e);
   }
 }
 

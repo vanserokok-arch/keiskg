@@ -4,7 +4,7 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 // Allow same-origin XHR/fetch; adjust if you need a stricter policy.
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 // Preflight (in case some clients use fetch)
@@ -17,6 +17,15 @@ function respond(int $code, array $payload): void {
   http_response_code($code);
   echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
   exit;
+}
+
+$method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
+
+if ($method === 'GET') {
+  respond(200, [
+    'ok' => true,
+    'message' => 'Telegram endpoint is ready. Submit the form via POST.',
+  ]);
 }
 
 /* =======================
@@ -32,7 +41,7 @@ $CHAT_ID   = getenv('TG_CHAT_ID') ?: '-5274673635'; // группа/канал: 
 $DEBUG = getenv('TG_DEBUG') === '1';
 /* ======================= */
 
-if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+if ($method !== 'POST') {
   respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 }
 

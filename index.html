@@ -1,10 +1,14 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta name="description" content="Юридическая помощь при мошенничестве: переводы под давлением, фейковые брокеры, кредиты. Анализ ситуации, защита прав и сопровождение до результата.">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Вернём ваши деньги от мошенников | КЕЙС</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <title>КЕЙС — юридическая компания</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,98 +18,53 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
-<body class="page-main" id="top">
-
-  <!-- HEADER (kept for navigation / brand) -->
-  <header class="keis-header" role="banner">
-    <div class="keis-header-inner">
-      <a href="./" class="keis-header-logo" aria-label="Кейс — на главную">
-        <img src="/assets/head/head_logo.png" alt="Кейс — юридическая компания" />
-      </a>
-
-      <nav class="keis-header-nav" aria-label="Главная навигация">
-        <ul class="keis-header-nav-list">
-          <li><a href="./fraud/">Мошенничество</a></li>
-          <li><a href="./consumer-protection/">Защита прав потребителей</a></li>
-        </ul>
-      </nav>
-
-      <div class="keis-header-center">
-        <div class="keis-header-contacts" aria-hidden="false">
-          <img src="/assets/icons/phonee.png" alt="Телефон" class="keis-header-icon keis-header-icon--phone">
-          <a href="tel:+79048085909" class="keis-header-phone-text">8&nbsp;904&nbsp;808-59-09</a>
+<body class="page-home" data-page="home">
+  <main class="kg-home">
+    <section class="kg-home__section">
+      <div class="kg-home__container">
+        <div class="kg-home__top">
+          <div class="kg-home__brand">
+            <img class="kg-home__logo" src="./assets/head/head_logo.png" alt="КЕЙС — юридическая компания" />
+          </div>
+          <div class="kg-home__lead">
+            <h1 class="kg-home__title">Юридическая защита по ключевым направлениям</h1>
+            <p class="kg-home__subtitle">Выберите направление — откроется отдельная посадочная страница с кейсами, сценариями и формой связи.</p>
+          </div>
         </div>
 
-        <a href="./fraud/#contact" class="keis-header-cta keis-btn--premium">Записаться</a>
-
-        <button type="button" class="keis-header-burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
-          <img src="/assets/icons/align.png" alt="" class="keis-header-burger-img">
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- MOBILE MENU (simple) -->
-  <div id="mobileMenu" class="keis-mobile-menu" aria-hidden="true">
-    <div id="mobileMenuOverlay" class="keis-mobile-menu-overlay" aria-hidden="true"></div>
-
-    <nav class="keis-mobile-menu-panel" role="navigation" aria-label="Мобильное меню">
-      <button id="mobileMenuClose" class="keis-mobile-menu-close" aria-label="Закрыть меню">Закрыть</button>
-
-      <ul class="keis-mobile-menu-list">
-        <li><a href="./fraud/">Мошенничество</a></li>
-        <li><a href="./consumer-protection/">Защита прав потребителей</a></li>
-      </ul>
-
-      <div class="keis-mobile-menu-social" aria-label="Мессенджеры">
-        <a class="keis-mobile-menu-social__link" href="tel:+79048085909" aria-label="Позвонить">
-          <img src="/assets/icons/phonee.png" alt="" class="keis-mobile-menu-social__icon">
-        </a>
-        <a class="keis-mobile-menu-social__link" href="https://t.me/" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-          <img src="/assets/icons/telegramm.png" alt="" class="keis-mobile-menu-social__icon">
-        </a>
-      </div>
-    </nav>
-  </div>
-
-  <!-- HERO HUB (full screen) -->
-  <section class="hub-hero" id="hero">
-    <div class="hub-hero__bg" aria-hidden="true"></div>
-
-    <div class="hub-hero__inner section-container">
-      <div class="hub-hero__content">
-        <div class="hero-investment__badges">
-          <span class="hero-investment__badge">Юридическая компания</span>
-          <span class="hero-investment__badge hero-investment__badge--accent">КЕЙС</span>
-        </div>
-
-        <h1 class="hub-hero__title">Выберите направление и перейдите на нужную страницу</h1>
-        <p class="hub-hero__subtitle">
-          Два самостоятельных раздела сайта: помощь пострадавшим от мошенничества и защита прав потребителей.
-        </p>
-
-        <div class="hub-hero__cards" role="list">
-          <a class="hub-card hub-card--fraud" href="./fraud/" role="listitem" aria-label="Перейти в раздел: Мошенничество">
-            <div class="hub-card__overlay" aria-hidden="true"></div>
-            <div class="hub-card__body">
-              <h2 class="hub-card__title">Мошенничество</h2>
-              <p class="hub-card__text">Инвестиционные схемы, переводы под влиянием, взломы и кредиты — готовые страницы и сценарии.</p>
-              <span class="hub-card__cta">Открыть →</span>
+        <div class="kg-home__grid">
+          <a class="kg-home__card" href="./fraud/" style="--card-bg: url('./assets/block/offer5.jpeg');">
+            <div class="kg-home__card-inner">
+              <h2 class="kg-home__card-title">Мошенничество</h2>
+              <p class="kg-home__card-text">Инвестиции, давление, взлом, кредиты — возвращаем деньги и фиксируем нарушения.</p>
+              <span class="kg-home__card-cta">Перейти →</span>
             </div>
           </a>
 
-          <a class="hub-card hub-card--consumer" href="./consumer-protection/" role="listitem" aria-label="Перейти в раздел: Защита прав потребителей">
-            <div class="hub-card__overlay" aria-hidden="true"></div>
-            <div class="hub-card__body">
-              <h2 class="hub-card__title">Защита прав потребителей</h2>
-              <p class="hub-card__text">Услуги, товары, подрядчики, навязанные страховки — отдельный раздел с 9 направлениями.</p>
-              <span class="hub-card__cta">Открыть →</span>
+          <a class="kg-home__card" href="./consumer-protection/" style="--card-bg: url('./assets/block/zpp6.png');">
+            <div class="kg-home__card-inner">
+              <h2 class="kg-home__card-title">Защита прав потребителей</h2>
+              <p class="kg-home__card-text">Споры по услугам, ремонту, товарам, страхованию и договорным отношениям.</p>
+              <span class="kg-home__card-cta">Перейти →</span>
+            </div>
+          </a>
+
+          <a class="kg-home__card" href="./auto-lawyer/dkp-termination/" style="--card-bg: url('./assets/block/auto1.jpeg');">
+            <div class="kg-home__card-inner">
+              <h2 class="kg-home__card-title">Автоюрист</h2>
+              <p class="kg-home__card-text">ДТП, авто-кредиты, навязанные услуги, расторжение ДКП — доводим до результата.</p>
+              <span class="kg-home__card-cta">Перейти →</span>
             </div>
           </a>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <script src="./script.js" defer></script>
+        <div class="kg-home__bottom">
+          <p class="kg-home__note">© КЕЙС. Консультация и анализ ситуации — по документам.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
 </body>
+</html>

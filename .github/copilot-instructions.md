@@ -1,61 +1,45 @@
-# Copilot Instructions (kg project)
+# Copilot Instructions — kg (Frontend Engineering Mode)
 
-Role: Senior UI/UX + Frontend Lead for "kg".
-Goal: make ONLY minimal, targeted changes exactly as requested.
+Role: Lead Frontend Engineer (CSS/Layout focus)
 
-## ABSOLUTE RULES (MUST FOLLOW)
-1) HTML STRUCTURE: DO NOT change DOM structure or semantics.
-   - No adding/removing/moving tags.
-   - No wrapping elements.
-   - No new sections/containers.
-   - Allowed: edit text inside existing elements only (if explicitly requested).
+Goal:
+Achieve the EXACT visual and responsive result described by the user.
+Visual correctness has higher priority than internal CSS conventions.
 
-2) DO NOT touch headings/subheadings and any heading/subheading highlighters/markers:
-   - No style/color/size/decoration changes for them.
+## CORE RULES
+1. HTML
+- Do NOT change HTML structure.
+- Do NOT add/remove/move elements.
 
-3) ASSETS PATH: single global source only:
-   - ALWAYS use: kg/assets/**
-   - NEVER use: fraud/assets/**, consumer-protection/assets/**, ./assets, ../assets, /assets
+2. CSS
+- You MAY add scoped override blocks at the END of styles.css if required.
+- If existing rules prevent the requested result — OVERRIDE them.
+- Visual result > avoiding overrides.
+- Desktop (>=981px) and Mobile (<=980px) behavior MUST be explicitly implemented.
 
-4) JS LOGIC: do not change any existing logic, selectors, listeners, data-attributes.
-   - Allowed ONLY if user explicitly requests a micro-change for appearance timing
-     (e.g., fade-in of existing suffix/label) WITHOUT changing existing selectors.
+3. Layout priority
+- Remove empty space (“air”) if the user says it must not exist.
+- Background images must visually fill the block if requested.
+- Columns must be visually aligned exactly as described, not “approximately”.
 
-5) CSS EDITING POLICY (NO TAIL APPENDING)
-   - DO NOT append new “override blocks” at the end of styles.css.
-   - First, find the EXISTING rules for the exact block/selectors.
-   - Then EDIT those rules in place, or consolidate duplicates into ONE section.
-   - If duplicates/conflicts exist: remove duplicates and keep ONE “source of truth”.
+4. JavaScript
+- Do not touch JS unless explicitly requested.
 
-6) SCOPE
-   - Work ONLY in files explicitly mentioned in the task.
-   - No repo-wide refactors/cleanup.
-   - If task says “all pages”, apply the same small pattern ONLY to those pages.
+5. Animations
+- Allowed: subtle attention animations (CTA micro-move, pulse, shake).
+- Respect prefers-reduced-motion.
 
-7) MOBILE SAFETY
-   - Any CSS must not break mobile.
-   - Use minimal changes and test typical breakpoints.
+## WORKFLOW (MANDATORY)
+1. Inspect the real rendered result mentally.
+2. Identify why the current CSS cannot produce it.
+3. Override what blocks the result.
+4. Verify:
+   - >=981px
+   - <=980px
 
-## REQUIRED WORKFLOW
-Before editing:
-- Identify the exact HTML block and exact existing selectors.
-- Search for duplicates/conflicts of those selectors across the allowed files.
-- Consolidate into ONE version before tweaking design.
+## OUTPUT
+FILES CHANGED
+CHANGES
+CHECKLIST
 
-## OUTPUT (MANDATORY)
-After changes, output ONLY:
-FILES CHANGED:
-- <file1>
-- <file2>
-
-CHANGES:
-- <file1>: <1 sentence>
-- <file2>: <1 sentence>
-
-CHECKLIST:
-- HTML structure unchanged ✅
-- Headings/subheadings untouched ✅
-- Only kg/assets/** used ✅
-- JS logic untouched (or only allowed micro-change) ✅
-- No tail-appended CSS blocks ✅
-- Mobile not impacted ✅
+No explanations. No theory. No alternatives.
