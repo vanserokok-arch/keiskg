@@ -25,3 +25,5 @@ tests-screenshots/
 shot-*.png
 *.tgz
 *.VSIXPackage
+
+auto-lawyer.zip
