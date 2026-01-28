@@ -7984,6 +7984,14 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
     justify-self: start;
   }
   
+  .investment-faq .section-header {
+    padding-left: clamp(20px, 2.4vw, 24px);
+  }
+  
+  .investment-faq .faq-list {
+    padding-left: clamp(20px, 2.4vw, 24px);
+  }
+  
   .investment-faq .faq-item, .investment-faq .faq-question {
     width: 100%;
     max-width: inherit;
@@ -8070,6 +8078,14 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
     max-width: clamp(620px, 52vw, 760px);
     margin-left: 0;
     margin-right: auto;
+  }
+  
+  .investment-faq .section-header {
+    padding-left: clamp(20px, 2.4vw, 24px);
+  }
+  
+  .investment-faq .faq-list {
+    padding-left: clamp(20px, 2.4vw, 24px);
   }
 
   /* Glass block: Restore two-column layout for CTA */
@@ -9763,6 +9779,14 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
     margin-right: auto;
     width: 100%;
     max-width: clamp(620px, 52vw, 760px);
+  }
+  
+  .investment-faq .section-header {
+    padding-left: clamp(20px, 2.4vw, 24px);
+  }
+  
+  .investment-faq .faq-list {
+    padding-left: clamp(20px, 2.4vw, 24px);
   }
   
   .investment-faq .faq-item, .investment-faq .faq-question {
