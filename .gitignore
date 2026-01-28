@@ -27,3 +27,6 @@ shot-*.png
 *.VSIXPackage
 
 auto-lawyer.zip
+
+# local backups
+.stylelintrc.json.bak
