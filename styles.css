@@ -4836,6 +4836,24 @@ section:not(.hero-investment):not(.hero-v2):not(.investment-hero):not(.investmen
   height: 38px;
 }
 
+}@media (max-width: 390px){
+
+.keis-header-inner {
+  padding-left: 8px;
+  padding-right: 8px;
+  gap: 8px;
+}
+
+.keis-header-logo img {
+  height: 38px;
+}
+
+.keis-header-cta {
+  padding: 0 12px;
+  font-size: 0.82rem;
+  height: 36px;
+}
+
 }@media (min-width: 900px){
 
 .keis-mobile-menu {
@@ -5411,12 +5429,12 @@ body.page-investment:not([data-page]) {
 }
 
 .hero-investment .section-container {
-  width: min(90%, 100%);
-  max-width: 100%;
+  width: 100%;
+  max-width: min(1360px, calc(100% - 48px));
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 24px;
+  padding-right: 24px;
   box-sizing: border-box;
   overflow: visible;
 }
@@ -5431,11 +5449,11 @@ body.page-investment:not([data-page]) {
   }
 
   .hero-investment .section-container {
-    width: min(92%, 720px);
-    max-width: 100%;
+    width: 100%;
+    max-width: min(720px, calc(100% - 32px));
     margin: 0 auto;
-    padding-left: clamp(16px, 4vw, 24px);
-    padding-right: clamp(16px, 4vw, 24px);
+    padding-left: 16px;
+    padding-right: 16px;
     box-sizing: border-box;
     overflow: visible;
   }
@@ -5533,19 +5551,16 @@ body.page-investment:not([data-page]) {
 }@media (min-width:1200px) and (max-width:1499px){
 
 .hero-investment .section-container {
-  width: min(90%, 100%);
-  max-width: 100%;
+  width: 100%;
+  max-width: min(1360px, calc(100% - 48px));
   padding-inline: clamp(20px, 2.5vw, 40px);
   box-sizing: border-box;
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .hero-investment {
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
   width: 100%;
-  max-width: 100%;
 }
 
 .hero-investment__grid {
@@ -5675,19 +5690,16 @@ body.page-investment:not([data-page]) {
 }@media (min-width:1500px) and (max-width:1599px){
 
 .hero-investment .section-container {
-  width: min(90%, 100%);
-  max-width: 100%;
+  width: 100%;
+  max-width: min(1360px, calc(100% - 48px));
   padding-inline: clamp(20px, 2.5vw, 40px);
   box-sizing: border-box;
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .hero-investment {
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
   width: 100%;
-  max-width: 100%;
 }
 
 .hero-investment__grid {
@@ -5771,13 +5783,13 @@ body.page-investment:not([data-page]) {
 }@media (min-width:1600px){
 
 .hero-investment .section-container {
-  overflow-x: visible;
-  overflow-y: visible;
+  width: 100%;
+  max-width: min(1360px, calc(100% - 48px));
+  overflow: visible;
 }
 
 .hero-investment {
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .hero-investment__grid {
@@ -5856,18 +5868,16 @@ body.page-investment:not([data-page]) {
 }@media (min-width: 981px) and (max-width: 1100px){
 
 .hero-investment .section-container {
-  width: min(90%, 100%);
-  max-width: 100%;
+  width: 100%;
+  max-width: min(1360px, calc(100% - 32px));
   padding-inline: clamp(16px, 2vw, 32px);
   padding-right: clamp(24px, 3vw, 48px);
   box-sizing: border-box;
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .hero-investment {
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .hero-investment__grid {
@@ -5904,18 +5914,16 @@ body.page-investment:not([data-page]) {
 }@media (min-width:1100px) and (max-width:1199px){
 
 .hero-investment .section-container {
-  width: min(90%, 100%);
-  max-width: 100%;
+  width: 100%;
+  max-width: min(1360px, calc(100% - 48px));
   padding-inline: clamp(20px, 2.5vw, 36px);
   padding-right: clamp(24px, 3vw, 48px);
   box-sizing: border-box;
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .hero-investment {
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .hero-investment__grid {
@@ -5959,23 +5967,37 @@ body.page-investment:not([data-page]) {
   padding-right: clamp(12px, 3vw, 20px);
 }
 
+}@media (max-width: 390px){
+
+.hero-investment .section-container {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.hero-form-card {
+  width: 90%;
+  max-width: 100%;
+  min-width: 240px;
+  padding: 32px 20px;
+}
+
 }@media (min-width: 900px){
 
 }@media (min-width: 560px) and (max-width: 700px){
 
   .hero-investment .section-container {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    width: min(92%, 720px) !important;
-    max-width: 720px !important;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: min(720px, calc(100% - 32px));
   }
 
   .hero-investment__grid {
-    width: 100% !important;
-    max-width: 720px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    justify-items: center !important;
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-items: center;
   }
 
   .hero-investment__content,
