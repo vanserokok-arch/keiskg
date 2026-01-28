@@ -7978,10 +7978,15 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
 
   .investment-faq .section-header, .investment-faq .faq-main, .investment-faq .faq-list {
     width: 100%;
-    max-width: 720px;
+    max-width: clamp(620px, 52vw, 760px);
     margin-left: 0;
     margin-right: auto;
     justify-self: start;
+  }
+  
+  .investment-faq .faq-item, .investment-faq .faq-question {
+    width: 100%;
+    max-width: inherit;
   }
 
   .investment-faq .faq-item, .investment-faq .faq-question {
@@ -8061,7 +8066,10 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
   }
 
   .investment-faq .section-header, .investment-faq .faq-main, .investment-faq .faq-list {
-    max-width: 100%;
+    width: 100%;
+    max-width: clamp(620px, 52vw, 760px);
+    margin-left: 0;
+    margin-right: auto;
   }
 
   /* Glass block: Restore two-column layout for CTA */
@@ -9752,9 +9760,14 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
   .investment-faq .faq-main, .investment-faq .faq-list {
     justify-self: start;
     margin-left: 0;
-    margin-right: 0;
+    margin-right: auto;
     width: 100%;
-    max-width: 100%;
+    max-width: clamp(620px, 52vw, 760px);
+  }
+  
+  .investment-faq .faq-item, .investment-faq .faq-question {
+    width: 100%;
+    max-width: inherit;
   }
 
   body > section:first-of-type::after {
@@ -9804,11 +9817,11 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
 
   body[data-page^="consumer-protection"] section.investment-faq#faq .faq-list, body[data-page^="fraud"] section.investment-faq#faq .faq-list, body.page-credit section.investment-faq#faq .faq-list, body.page-main section.investment-faq#faq .faq-list {
     margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-right: auto !important;
     justify-self: start !important;
     align-self: start !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: clamp(620px, 52vw, 760px) !important;
   }
 
   body[data-page^="consumer-protection"] section.investment-faq#faq .faq-grid, body[data-page^="fraud"] section.investment-faq#faq .faq-grid, body.page-credit section.investment-faq#faq .faq-grid, body.page-main section.investment-faq#faq .faq-grid {
