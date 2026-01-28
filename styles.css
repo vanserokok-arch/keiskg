@@ -7914,6 +7914,10 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
 
 @media (min-width: 981px) and (max-width: 1150px) {
 
+  .investment-faq {
+    --faq-pad: clamp(20px, 2.4vw, 24px);
+  }
+
   .kf-flags {
     --kf-gap-x: clamp(14px, 2.2vw, 28px);
     --kf-gap-y: clamp(14px, 1.8vw, 24px);
@@ -7979,17 +7983,9 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
   .investment-faq .section-header, .investment-faq .faq-main, .investment-faq .faq-list {
     width: 100%;
     max-width: clamp(620px, 52vw, 760px);
-    margin-left: 0;
+    margin-left: var(--faq-pad, 0);
     margin-right: auto;
     justify-self: start;
-  }
-  
-  .investment-faq .section-header {
-    padding-left: clamp(20px, 2.4vw, 24px);
-  }
-  
-  .investment-faq .faq-list {
-    padding-left: clamp(20px, 2.4vw, 24px);
   }
   
   .investment-faq .faq-item, .investment-faq .faq-question {
@@ -8063,6 +8059,10 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
 
 @media (min-width: 1151px) and (max-width: 1199px) {
 
+  .investment-faq {
+    --faq-pad: clamp(20px, 2.4vw, 24px);
+  }
+
   /* FAQ: Reset from tablet single-column to desktop two-column layout */
   .investment-faq .faq-grid {
     grid-template-columns: 40% 1fr;
@@ -8076,16 +8076,8 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
   .investment-faq .section-header, .investment-faq .faq-main, .investment-faq .faq-list {
     width: 100%;
     max-width: clamp(620px, 52vw, 760px);
-    margin-left: 0;
+    margin-left: var(--faq-pad, 0);
     margin-right: auto;
-  }
-  
-  .investment-faq .section-header {
-    padding-left: clamp(20px, 2.4vw, 24px);
-  }
-  
-  .investment-faq .faq-list {
-    padding-left: clamp(20px, 2.4vw, 24px);
   }
 
   /* Glass block: Restore two-column layout for CTA */
@@ -9596,6 +9588,10 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
 /* Desktop (≥ 981px) */
 @media (min-width: 981px) {
 
+  .investment-faq {
+    --faq-pad: clamp(20px, 2.4vw, 24px);
+  }
+
   body.page-investment .investment-find .map-widget, body.page-main .investment-find .map-widget, body.page-credit .investment-find .map-widget, body.page-influence .investment-find .map-widget, body.page-investment .investment-find .reviews-widget, body.page-main .investment-find .reviews-widget, body.page-credit .investment-find .reviews-widget, body.page-influence .investment-find .reviews-widget {
     min-height: 360px;
   }
@@ -9775,18 +9771,14 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
 
   .investment-faq .faq-main, .investment-faq .faq-list {
     justify-self: start;
-    margin-left: 0;
+    margin-left: var(--faq-pad, 0);
     margin-right: auto;
     width: 100%;
     max-width: clamp(620px, 52vw, 760px);
   }
   
   .investment-faq .section-header {
-    padding-left: clamp(20px, 2.4vw, 24px);
-  }
-  
-  .investment-faq .faq-list {
-    padding-left: clamp(20px, 2.4vw, 24px);
+    margin-left: var(--faq-pad, 0);
   }
   
   .investment-faq .faq-item, .investment-faq .faq-question {
