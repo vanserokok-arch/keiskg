@@ -115,9 +115,34 @@ function initStripeTicker() {
     const ticker = document.createElement('div');
     ticker.className = 'kg-stripe-ticker';
     ticker.setAttribute('aria-hidden', 'true');
+    // Inline guardrails to keep ticker single-line and fixed height even if CSS fails to load
+    const root = document.documentElement;
+    const tickerH = (window.innerWidth || 1200) <= 980 ? 26 : 32;
+    if (root) root.style.setProperty('--stripe-ticker-h', `${tickerH}px`);
+    ticker.style.position = 'absolute';
+    ticker.style.left = '0';
+    ticker.style.right = '0';
+    ticker.style.bottom = '0';
+    ticker.style.height = 'var(--stripe-ticker-h, 32px)';
+    ticker.style.minHeight = 'var(--stripe-ticker-h, 32px)';
+    ticker.style.maxHeight = 'var(--stripe-ticker-h, 32px)';
+    ticker.style.display = 'flex';
+    ticker.style.alignItems = 'center';
+    ticker.style.overflow = 'hidden';
+    ticker.style.padding = '0 14px';
+    ticker.style.boxSizing = 'border-box';
+    ticker.style.pointerEvents = 'none';
+    ticker.style.transform = 'translateZ(0)';
 
     const track = document.createElement('div');
     track.className = 'kg-stripe-track';
+    track.style.display = 'flex';
+    track.style.flexWrap = 'nowrap';
+    track.style.whiteSpace = 'nowrap';
+    track.style.alignItems = 'center';
+    track.style.gap = '14px';
+    track.style.lineHeight = 'var(--stripe-ticker-h, 32px)';
+    track.style.height = '100%';
 
     // build a long sequence by repeating the items several times (improves smooth loop)
     for (let r = 0; r < 10; r++) {
@@ -921,19 +946,35 @@ function initHeader() {
 
   // Make header truly sticky (fixed) and reserve space so it never "slides away"
   const header = document.querySelector('.keis-header');
-  const applyHeaderOffset = () => {
+  const syncHeaderToken = () => {
     if (!header) return;
-    const h = Math.round(header.getBoundingClientRect().height);
-    document.documentElement.style.setProperty('--keis-header-h', `${h}px`);
+    const declared = getComputedStyle(header).getPropertyValue('--keis-header-h').trim();
+    if (declared) {
+      document.documentElement.style.setProperty('--keis-header-h', declared);
+    }
   };
-  applyHeaderOffset();
-  window.addEventListener('resize', applyHeaderOffset);
+  syncHeaderToken();
   const burger = document.getElementById('burgerBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   const overlay = document.getElementById('mobileMenuOverlay');
   const closeBtn = document.getElementById('mobileMenuClose');
 
   const body = document.body;
+
+  const isBurgerVisible = () => {
+    if (!burger) return false;
+    const styles = window.getComputedStyle(burger);
+    if (styles.display === 'none' || styles.visibility === 'hidden' || styles.opacity === '0') {
+      return false;
+    }
+    return burger.offsetParent !== null;
+  };
+
+  const setMenuA11y = (isOpen) => {
+    if (mobileMenu) mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+    if (overlay) overlay.setAttribute('aria-hidden', String(!isOpen));
+    if (burger) burger.setAttribute('aria-expanded', String(isOpen));
+  };
 
   // TASK 5: Removed scroll lock - page must be scrollable when burger menu is open
   const lockScroll = (state) => {
@@ -943,10 +984,9 @@ function initHeader() {
   };
 
   const openMobile = () => {
-    if (!mobileMenu) return;
+    if (!mobileMenu || !isBurgerVisible()) return;
     mobileMenu.classList.add('is-open');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    burger?.setAttribute('aria-expanded', 'true');
+    setMenuA11y(true);
     burger?.classList.add('is-open');
     lockScroll(true);
   };
@@ -954,8 +994,7 @@ function initHeader() {
   const closeMobile = () => {
     if (!mobileMenu) return;
     mobileMenu.classList.remove('is-open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    burger?.setAttribute('aria-expanded', 'false');
+    setMenuA11y(false);
     burger?.classList.remove('is-open');
     lockScroll(false);
 
@@ -974,9 +1013,18 @@ function initHeader() {
       });
   };
 
+  setMenuA11y(false);
+
+  const desktopMq = window.matchMedia('(min-width: 1100px)');
+  const handleDesktopSwitch = () => {
+    if (desktopMq.matches) closeMobile();
+  };
+  handleDesktopSwitch();
+  desktopMq.addEventListener('change', handleDesktopSwitch);
+
   burger?.addEventListener('click', (e) => {
     e.preventDefault();
-    if (!mobileMenu) return;
+    if (!mobileMenu || !isBurgerVisible()) return;
     mobileMenu.classList.contains('is-open') ? closeMobile() : openMobile();
   });
 
