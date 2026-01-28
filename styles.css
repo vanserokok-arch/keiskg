@@ -8022,6 +8022,73 @@ body[data-page="medical-malpractice"] section.investment-faq#faq .keis-parallax-
 }
 
 
+/* ===== MOBILE-TABLET TRANSITION (981px) ===== */
+/* Ensures smooth transition from mobile to tablet */
+
+@media (min-width: 981px) {
+
+  /* Glass block: Reset mobile-specific width constraints */
+  section#kg-glass .kg-glass__panel, section.kg-glass .kg-glass__panel, section#kg-glass .kg-glass-panel, section.kg-glass .kg-glass-panel {
+    width: auto;
+    max-width: 100%;
+  }
+
+  #kg-glass .kg-glass__cta-inner {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    justify-items: stretch;
+    text-align: left;
+  }
+
+}
+
+
+/* ===== TABLET-DESKTOP BRIDGE (1151px - 1199px) ===== */
+/* Fixes visual regression gaps between tablet and desktop breakpoints */
+
+@media (min-width: 1151px) and (max-width: 1199px) {
+
+  /* FAQ: Reset from tablet single-column to desktop two-column layout */
+  .investment-faq .faq-grid {
+    grid-template-columns: 40% 1fr;
+    gap: clamp(24px, 3vw, 36px);
+  }
+
+  .investment-faq .faq-aside {
+    display: block;
+  }
+
+  .investment-faq .section-header, .investment-faq .faq-main, .investment-faq .faq-list {
+    max-width: 100%;
+  }
+
+  /* Glass block: Restore two-column layout for CTA */
+  .kg-glass__cta-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: clamp(24px, 3vw, 36px);
+  }
+
+  /* Header: Reset contact sizing from tablet constraints */
+  .keis-header-contacts {
+    flex: 0 1 auto;
+    max-width: none;
+  }
+
+  .keis-header-telegram-text {
+    max-width: none;
+    overflow: visible;
+  }
+
+  /* Hero: Ensure desktop-like spacing */
+  .hero-investment__grid {
+    gap: clamp(28px, 4vw, 48px);
+  }
+
+}
+
+
 /* ===== MOBILE RESPONSIVE STYLES ===== */
 
 /* MOBILE (≤ 980px) */
