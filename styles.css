@@ -5430,7 +5430,7 @@ body.page-investment:not([data-page]) {
 
 .hero-investment .section-container {
   width: 100%;
-  max-width: min(1360px, calc(100% - 48px));
+  max-width: 1360px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 24px;
@@ -5450,7 +5450,7 @@ body.page-investment:not([data-page]) {
 
   .hero-investment .section-container {
     width: 100%;
-    max-width: min(720px, calc(100% - 32px));
+    max-width: 720px;
     margin: 0 auto;
     padding-left: 16px;
     padding-right: 16px;
@@ -5552,7 +5552,7 @@ body.page-investment:not([data-page]) {
 
 .hero-investment .section-container {
   width: 100%;
-  max-width: min(1360px, calc(100% - 48px));
+  max-width: 1360px;
   padding-inline: clamp(20px, 2.5vw, 40px);
   box-sizing: border-box;
   overflow: visible;
@@ -5561,6 +5561,7 @@ body.page-investment:not([data-page]) {
 .hero-investment {
   overflow: visible;
   width: 100%;
+  max-width: 100%;
 }
 
 .hero-investment__grid {
@@ -5691,7 +5692,7 @@ body.page-investment:not([data-page]) {
 
 .hero-investment .section-container {
   width: 100%;
-  max-width: min(1360px, calc(100% - 48px));
+  max-width: 1360px;
   padding-inline: clamp(20px, 2.5vw, 40px);
   box-sizing: border-box;
   overflow: visible;
@@ -5700,6 +5701,7 @@ body.page-investment:not([data-page]) {
 .hero-investment {
   overflow: visible;
   width: 100%;
+  max-width: 100%;
 }
 
 .hero-investment__grid {
@@ -5784,7 +5786,8 @@ body.page-investment:not([data-page]) {
 
 .hero-investment .section-container {
   width: 100%;
-  max-width: min(1360px, calc(100% - 48px));
+  max-width: 1360px;
+  padding-inline: clamp(20px, 2.5vw, 40px);
   overflow: visible;
 }
 
@@ -5869,7 +5872,7 @@ body.page-investment:not([data-page]) {
 
 .hero-investment .section-container {
   width: 100%;
-  max-width: min(1360px, calc(100% - 32px));
+  max-width: 1360px;
   padding-inline: clamp(16px, 2vw, 32px);
   padding-right: clamp(24px, 3vw, 48px);
   box-sizing: border-box;
@@ -5915,7 +5918,7 @@ body.page-investment:not([data-page]) {
 
 .hero-investment .section-container {
   width: 100%;
-  max-width: min(1360px, calc(100% - 48px));
+  max-width: 1360px;
   padding-inline: clamp(20px, 2.5vw, 36px);
   padding-right: clamp(24px, 3vw, 48px);
   box-sizing: border-box;
@@ -5994,7 +5997,7 @@ body.page-investment:not([data-page]) {
 
   .hero-investment__grid {
     width: 100%;
-    max-width: 100%;
+    max-width: 720px;
     margin-left: auto;
     margin-right: auto;
     justify-items: center;
