@@ -1,0 +1,20 @@
+[
+  {
+    "headerHeight": 78,
+    "headerTop": 0,
+    "heroTop": 0,
+    "heroPaddingTop": 0,
+    "tickerTop": 1051.5,
+    "tickerHeight": 560,
+    "navWrapped": false,
+    "contactsWrapped": false,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "keisHeaderVar": "78px",
+    "route": "/fraud/investment/",
+    "viewportLabel": "1920x1080",
+    "timestamp": 1769614048989
+  }
+]

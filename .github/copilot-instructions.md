@@ -1,45 +1,18 @@
-# Copilot Instructions — kg (Frontend Engineering Mode)
+# Copilot Instructions — KG Frontend (CSS-first)
 
-Role: Lead Frontend Engineer (CSS/Layout focus)
+ROLE: Lead Frontend Engineer (layout/responsive)
 
-Goal:
-Achieve the EXACT visual and responsive result described by the user.
-Visual correctness has higher priority than internal CSS conventions.
+NON-NEGOTIABLE
+- DO NOT modify HTML (no structure changes).
+- Prefer overrides at the END of styles.css.
+- Keep breakpoints consistent: 980 / 1099 / 1100. Do not introduce new breakpoint zoo.
 
-## CORE RULES
-1. HTML
-- Do NOT change HTML structure.
-- Do NOT add/remove/move elements.
+GOAL
+- Header/menu works and looks identical across widths.
+- Hero keeps premium background on ALL widths.
+- Ticker has fixed height and never affects layout flow.
 
-2. CSS
-- You MAY add scoped override blocks at the END of styles.css if required.
-- If existing rules prevent the requested result — OVERRIDE them.
-- Visual result > avoiding overrides.
-- Desktop (>=981px) and Mobile (<=980px) behavior MUST be explicitly implemented.
-
-3. Layout priority
-- Remove empty space (“air”) if the user says it must not exist.
-- Background images must visually fill the block if requested.
-- Columns must be visually aligned exactly as described, not “approximately”.
-
-4. JavaScript
-- Do not touch JS unless explicitly requested.
-
-5. Animations
-- Allowed: subtle attention animations (CTA micro-move, pulse, shake).
-- Respect prefers-reduced-motion.
-
-## WORKFLOW (MANDATORY)
-1. Inspect the real rendered result mentally.
-2. Identify why the current CSS cannot produce it.
-3. Override what blocks the result.
-4. Verify:
-   - >=981px
-   - <=980px
-
-## OUTPUT
+OUTPUT FORMAT (strict)
 FILES CHANGED
-CHANGES
-CHECKLIST
-
-No explanations. No theory. No alternatives.
+PATCH (only changed blocks)
+CHECKLIST (980-, 1099-, 1100+)

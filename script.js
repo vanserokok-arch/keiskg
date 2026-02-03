@@ -115,34 +115,9 @@ function initStripeTicker() {
     const ticker = document.createElement('div');
     ticker.className = 'kg-stripe-ticker';
     ticker.setAttribute('aria-hidden', 'true');
-    // Inline guardrails to keep ticker single-line and fixed height even if CSS fails to load
-    const root = document.documentElement;
-    const tickerH = (window.innerWidth || 1200) <= 980 ? 26 : 32;
-    if (root) root.style.setProperty('--stripe-ticker-h', `${tickerH}px`);
-    ticker.style.position = 'absolute';
-    ticker.style.left = '0';
-    ticker.style.right = '0';
-    ticker.style.bottom = '0';
-    ticker.style.height = 'var(--stripe-ticker-h, 32px)';
-    ticker.style.minHeight = 'var(--stripe-ticker-h, 32px)';
-    ticker.style.maxHeight = 'var(--stripe-ticker-h, 32px)';
-    ticker.style.display = 'flex';
-    ticker.style.alignItems = 'center';
-    ticker.style.overflow = 'hidden';
-    ticker.style.padding = '0 14px';
-    ticker.style.boxSizing = 'border-box';
-    ticker.style.pointerEvents = 'none';
-    ticker.style.transform = 'translateZ(0)';
 
     const track = document.createElement('div');
     track.className = 'kg-stripe-track';
-    track.style.display = 'flex';
-    track.style.flexWrap = 'nowrap';
-    track.style.whiteSpace = 'nowrap';
-    track.style.alignItems = 'center';
-    track.style.gap = '14px';
-    track.style.lineHeight = 'var(--stripe-ticker-h, 32px)';
-    track.style.height = '100%';
 
     // build a long sequence by repeating the items several times (improves smooth loop)
     for (let r = 0; r < 10; r++) {
@@ -944,37 +919,32 @@ function initHeader() {
   if (!guardInit('header')) return;
   window.__headerInitialized = true;
 
-  // Make header truly sticky (fixed) and reserve space so it never "slides away"
+  // Measure header height and expose it via CSS var
   const header = document.querySelector('.keis-header');
-  const syncHeaderToken = () => {
+  let headerMeasureRaf = null;
+  const measureHeaderHeight = () => {
     if (!header) return;
-    const declared = getComputedStyle(header).getPropertyValue('--keis-header-h').trim();
-    if (declared) {
-      document.documentElement.style.setProperty('--keis-header-h', declared);
+    const h = Math.round(header.offsetHeight || header.getBoundingClientRect().height || 0);
+    if (h > 0) {
+      document.documentElement.style.setProperty('--keis-header-h', `${h}px`);
     }
   };
-  syncHeaderToken();
+  const scheduleHeaderMeasure = () => {
+    if (headerMeasureRaf) cancelAnimationFrame(headerMeasureRaf);
+    headerMeasureRaf = requestAnimationFrame(() => {
+      headerMeasureRaf = null;
+      measureHeaderHeight();
+    });
+  };
+  measureHeaderHeight();
+  window.addEventListener('resize', scheduleHeaderMeasure, { passive: true });
+  window.addEventListener('orientationchange', scheduleHeaderMeasure, { passive: true });
   const burger = document.getElementById('burgerBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   const overlay = document.getElementById('mobileMenuOverlay');
   const closeBtn = document.getElementById('mobileMenuClose');
 
   const body = document.body;
-
-  const isBurgerVisible = () => {
-    if (!burger) return false;
-    const styles = window.getComputedStyle(burger);
-    if (styles.display === 'none' || styles.visibility === 'hidden' || styles.opacity === '0') {
-      return false;
-    }
-    return burger.offsetParent !== null;
-  };
-
-  const setMenuA11y = (isOpen) => {
-    if (mobileMenu) mobileMenu.setAttribute('aria-hidden', String(!isOpen));
-    if (overlay) overlay.setAttribute('aria-hidden', String(!isOpen));
-    if (burger) burger.setAttribute('aria-expanded', String(isOpen));
-  };
 
   // TASK 5: Removed scroll lock - page must be scrollable when burger menu is open
   const lockScroll = (state) => {
@@ -984,19 +954,23 @@ function initHeader() {
   };
 
   const openMobile = () => {
-    if (!mobileMenu || !isBurgerVisible()) return;
+    if (!mobileMenu) return;
     mobileMenu.classList.add('is-open');
-    setMenuA11y(true);
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    burger?.setAttribute('aria-expanded', 'true');
     burger?.classList.add('is-open');
     lockScroll(true);
+    scheduleHeaderMeasure();
   };
 
   const closeMobile = () => {
     if (!mobileMenu) return;
     mobileMenu.classList.remove('is-open');
-    setMenuA11y(false);
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    burger?.setAttribute('aria-expanded', 'false');
     burger?.classList.remove('is-open');
     lockScroll(false);
+    scheduleHeaderMeasure();
 
     // reset submenus
     mobileMenu
@@ -1013,18 +987,9 @@ function initHeader() {
       });
   };
 
-  setMenuA11y(false);
-
-  const desktopMq = window.matchMedia('(min-width: 1100px)');
-  const handleDesktopSwitch = () => {
-    if (desktopMq.matches) closeMobile();
-  };
-  handleDesktopSwitch();
-  desktopMq.addEventListener('change', handleDesktopSwitch);
-
   burger?.addEventListener('click', (e) => {
     e.preventDefault();
-    if (!mobileMenu || !isBurgerVisible()) return;
+    if (!mobileMenu) return;
     mobileMenu.classList.contains('is-open') ? closeMobile() : openMobile();
   });
 
@@ -2052,7 +2017,7 @@ function initFaqParallax() {
     const viewportCenterY = window.scrollY + vh / 2;
 
     const progress = (viewportCenterY - anchorY) / (vh / 2);
-    const y = Math.max(-1, Math.min(1, progress)) * 18;
+    const y = Math.round(Math.max(-1, Math.min(1, progress)) * 18);
 
     section.style.setProperty('--faq-parallax-y', `${y}px`);
   };
@@ -2093,12 +2058,12 @@ function initTrustParallax() {
     const vh = window.innerHeight;
 
     const progress = (rect.top + rect.height / 2 - vh / 2) / (vh / 2);
-    const y = Math.max(-1, Math.min(1, -progress)) * 62;
+    const y = Math.round(Math.max(-1, Math.min(1, -progress)) * 62);
     // Ограничиваем движение фона: не позволяем подниматься выше верхней границы секции (минимум 0)
     const clampedY = Math.max(0, y);
     section.style.setProperty('--trust-parallax-y', `${clampedY}px`);
 
-    const py = Math.max(-1, Math.min(1, -progress)) * -18;
+    const py = Math.round(Math.max(-1, Math.min(1, -progress)) * -18);
     section.style.setProperty('--trust-panel-y', `${py}px`);
   };
 
@@ -2158,9 +2123,9 @@ function initFindParallax() {
       const elementCenter = elRect.top + elRect.height / 2;
       const viewportCenter = vh / 2;
       const distance = elementCenter - viewportCenter;
-      const offset = Math.max(-35, Math.min(35, distance * speed));
-      
-      // Use transform for better performance (especially on iOS)
+      const offset = Math.round(Math.max(-35, Math.min(35, distance * speed)));
+
+      // Use transform for better performance (especially on iOS); integer px reduces flicker
       el.style.transform = `translate3d(0, ${offset}px, 0) scale(1.10)`;
     });
   };
@@ -2959,7 +2924,7 @@ function initLeftStickyAsk() {
             revealObserver.disconnect();
           }
         });
-      }, { threshold: 0, rootMargin: '0px 0px -1px 0px' });
+      }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
       revealObserver.observe(sentinel);
     } else {
       triggerReveal();
